@@ -1,4 +1,4 @@
-# Automate Time-series Outlie Detection System
+# Automated Time-series Outlie Detection System
 This is a time-seried outlier detection system with automate machin learning.
 
 ## Axolotl
