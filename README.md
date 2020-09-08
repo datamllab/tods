@@ -1,5 +1,5 @@
-# TODS
-This is a time-seried outlier detection system.
+# Automate Time-series Outlie Detection System
+This is a time-seried outlier detection system with automate machin learning.
 
 ## Axolotl
 Running pre-defined pipeline
