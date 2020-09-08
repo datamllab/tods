@@ -1,0 +1,10 @@
+*.pyc
+__pycache__
+.DS_Store
+.ipynb_checkpoints
+.cache
+.idea
+*.egg-info
+.mypy_cache
+dist
+build

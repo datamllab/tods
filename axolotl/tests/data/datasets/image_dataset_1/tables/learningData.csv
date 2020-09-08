@@ -1,0 +1,6 @@
+d3mIndex,image_file,class
+0,mnist_0_2.png,mnist
+1,mnist_1_1.png,mnist
+2,001_HandPhoto_left_01.jpg,handgeometry
+3,cifar10_bird_1.png,cifar
+4,cifar10_bird_2.png,cifar

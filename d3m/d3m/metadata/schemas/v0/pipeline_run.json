@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline_run.json",
+  "title": "Pipeline run description",
+  "description": "Schema for a description of one run of a pipeline. Pipeline outputs and scores are recorded. It includes references to input dataset(s), a problem, and a pipeline.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/schema"
+    },
+    "id": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/hash_id"
+    },
+    "problem": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/problem_or_problem_reference"
+    },
+    "datasets": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/datasets"
+    },
+    "pipeline": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_or_pipeline_reference"
+    },
+    "steps": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_run_steps"
+    },
+    "status": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/status"
+    },
+    "start": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_run_start"
+    },
+    "end": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_run_end"
+    },
+    "run": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_run"
+    },
+    "context": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/context"
+    },
+    "previous_pipeline_run": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/previous_pipeline_run"
+    },
+    "users": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/users"
+    },
+    "environment": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/runtime_environment"
+    },
+    "random_seed": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_random_seed"
+    }
+  },
+  "$comment": "TODO: Make \"start\", \"end\", and \"random_seed\" required when the next version of this schema is released.",
+  "required": [
+    "schema",
+    "id",
+    "datasets",
+    "pipeline",
+    "status",
+    "run",
+    "context",
+    "environment"
+  ],
+  "additionalProperties": true
+}

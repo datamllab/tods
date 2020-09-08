@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+  "title": "Pipeline description",
+  "description": "Schema for a description of a pipeline.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/schema"
+    },
+    "id": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/id"
+    },
+    "digest": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/digest"
+    },
+    "source": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/source"
+    },
+    "created": {
+      "allOf": [{"$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/timestamp"}],
+      "description": "A timestamp when was the pipeline was created."
+    },
+    "name": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/name"
+    },
+    "other_names": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/other_names"
+    },
+    "description": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/description"
+    },
+    "users": {
+      "allOf": [{"$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/users"}],
+      "description": "A list of users who are associated with the creation of this pipeline."
+    },
+    "inputs": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_inputs"
+    },
+    "outputs": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_outputs"
+    },
+    "steps": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pipeline_steps"
+    }
+  },
+  "required": [
+    "id",
+    "schema",
+    "created",
+    "inputs",
+    "outputs",
+    "steps"
+  ],
+  "additionalProperties": true
+}

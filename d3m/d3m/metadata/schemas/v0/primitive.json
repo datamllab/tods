@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "https://metadata.datadrivendiscovery.org/schemas/v0/primitive.json",
+  "title": "Primitive metadata",
+  "description": "Schema for metadata for primitives.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/schema"
+    },
+    "id": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/id"
+    },
+    "version": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/version"
+    },
+    "digest": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/digest"
+    },
+    "name": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/name"
+    },
+    "other_names": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/other_names"
+    },
+    "description": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/description"
+    },
+    "python_path": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/python_path"
+    },
+    "original_python_path": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/original_python_path"
+    },
+    "keywords": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/keywords"
+    },
+    "source": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/source"
+    },
+    "installation": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/installation"
+    },
+    "primitive_code": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/primitive_code"
+    },
+    "structural_type": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/structural_type"
+    },
+    "location_uris": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/location_uris"
+    },
+    "algorithm_types": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/algorithm_types"
+    },
+    "primitive_family": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/primitive_family"
+    },
+    "preconditions": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/preconditions"
+    },
+    "effects": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/effects"
+    },
+    "hyperparams_to_tune": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/hyperparams_to_tune"
+    },
+    "supported_media_types": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/supported_media_types"
+    },
+    "model_features": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/model_features"
+    },
+    "pure_primitive": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/pure_primitive"
+    },
+    "can_use_gpus": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/can_use_gpus"
+    }
+  },
+  "required": [
+    "algorithm_types",
+    "id",
+    "name",
+    "original_python_path",
+    "primitive_code",
+    "primitive_family",
+    "python_path",
+    "schema",
+    "structural_type",
+    "version"
+  ],
+  "additionalProperties": true
+}

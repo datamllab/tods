@@ -1,0 +1,37 @@
+{
+  "about": {
+    "problemID": "database_problem_4",
+    "problemName": "Database problem of type HAS_USER_MADE_COMMENT_ON_POST",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "classification",
+      "binary"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "database_dataset_4",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 3,
+            "colName": "made_comment"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "f1",
+        "posLabel": "yes"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

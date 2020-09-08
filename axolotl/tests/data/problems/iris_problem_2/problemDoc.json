@@ -1,0 +1,36 @@
+{
+  "about": {
+    "problemID": "iris_problem_2",
+    "problemName": "Distinguish Iris flowers",
+    "problemDescription": "Distinguish Iris flowers of three related species, without datasetID in targets.",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "classification",
+      "multiClass"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 5,
+            "colName": "species"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "accuracy"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

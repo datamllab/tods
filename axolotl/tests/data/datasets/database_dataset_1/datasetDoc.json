@@ -1,0 +1,200 @@
+{
+  "about": {
+    "datasetID": "database_dataset_1",
+    "datasetName": "A dataset simulating a database dump",
+    "description": "A synthetic dataset trying to be similar to a database dump, with tables with different relations between them.",
+    "license": "CC",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "044b0c8724c80f672fb5a6e233b154d3342e4528de9a0245df77066f770c3d8f"
+  },
+  "dataResources": [
+    {
+      "resID": "codes",
+      "resPath": "tables/codes.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "code",
+          "colType": "categorical",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "name",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "author",
+          "colType": "integer",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "authors",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "resID": "authors",
+      "resPath": "tables/authors.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 2,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "name",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ]
+        }
+      ]
+    },
+    {
+      "resID": "values",
+      "resPath": "tables/values.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 4,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "code",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "codes",
+            "resObject": {
+              "columnName": "code"
+            }
+          }
+        },
+        {
+          "colIndex": 1,
+          "colName": "key",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "year",
+          "colType": "dateTime",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "value",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        }
+      ]
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 5,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "code",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "codes",
+            "resObject": {
+              "columnName": "code"
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "key",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "year",
+          "colType": "dateTime",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "value",
+          "colType": "real",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

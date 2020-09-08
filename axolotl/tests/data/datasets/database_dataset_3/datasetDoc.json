@@ -1,0 +1,188 @@
+{
+  "about": {
+    "datasetSchemaVersion": "4.0.0",
+    "datasetID": "database_dataset_3",
+    "datasetName": "Database dataset of type COMMENTS_PER_POST",
+    "description": "Database dataset of type COMMENTS_PER_POST, size 100, random seed 0",
+    "digest": "7dc0973f7fcb22fe487fe37fdaa8c269589074504c53b9728b5a5ec85e2ebb9b",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "users",
+      "isCollection": false,
+      "columnsCount": 2,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/users.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "name",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "posts",
+      "isCollection": false,
+      "columnsCount": 3,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/posts.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "author_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "users",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "post",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "comments",
+      "isCollection": false,
+      "columnsCount": 4,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/comments.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "post_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "posts",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "author_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "users",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 3,
+          "colName": "comment",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "learningData",
+      "isCollection": false,
+      "columnsCount": 3,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/learningData.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "post_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "posts",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "comments_count",
+          "role": [
+            "suggestedTarget"
+          ],
+          "colType": "integer"
+        }
+      ]
+    }
+  ]
+}

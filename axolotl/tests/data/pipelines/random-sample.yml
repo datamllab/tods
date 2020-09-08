@@ -1,0 +1,32 @@
+id: 30e8be4b-3aec-447b-9c36-f9a37c81c3ed
+schema: https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json
+created: "2018-07-27T15:40:34.012397Z"
+inputs:
+  - name: indices
+outputs:
+  - data: steps.1.produce
+steps:
+  - type: PRIMITIVE
+    primitive:
+      id: df3153a1-4411-47e2-bbc0-9d5e9925ad79
+      version: 0.1.0
+      python_path: d3m.primitives.data_generation.random.Test
+      name: Random Samples
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: inputs.0
+    outputs:
+      - id: produce
+  - type: PRIMITIVE
+    primitive:
+      id: 5c9d5acf-7754-420f-a49f-90f4d9d0d694
+      version: 0.1.0
+      python_path: d3m.primitives.operator.increment.Test
+      name: Increment Values
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: steps.0.produce
+    outputs:
+      - id: produce

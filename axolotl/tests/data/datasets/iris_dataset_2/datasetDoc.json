@@ -1,0 +1,25 @@
+{
+  "about": {
+    "datasetID": "iris_dataset_2",
+    "datasetName": "Iris Dataset without metadata and d3mIndex",
+    "humanSubjectsResearch": false,
+    "license": "CC",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "digest": "54421aba799c789ad19b7f244aad168da3f5ea4cdb6bfdc7d0dae473f45898f9",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false
+    }
+  ]
+}

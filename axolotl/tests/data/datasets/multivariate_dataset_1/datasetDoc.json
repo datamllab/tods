@@ -1,0 +1,93 @@
+{
+  "about": {
+    "datasetID": "multivariate_dataset_1",
+    "datasetName": "A test dataset based on Synthetic Gaussian Process dataset",
+    "license": "Unknown",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "882a669722722e907af0c6cd61922e2b8ce92fb6fdcdaf3c1f6ca33dc25dfcd3"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "tables/gp_data_tables/",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": true,
+      "columnsCount": 2,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "x",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "y",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        }
+      ]
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 4,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "gpDataFile",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "amplitude",
+          "colType": "real",
+          "role": [
+            "suggestedTarget"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "lengthscale",
+          "colType": "real",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

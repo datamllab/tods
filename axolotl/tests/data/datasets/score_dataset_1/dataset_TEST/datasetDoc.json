@@ -1,0 +1,82 @@
+{
+  "about": {
+    "datasetID": "object_dataset_1_TEST",
+    "datasetName": "NULL",
+    "license": "CC0",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": true,
+    "datasetVersion": "4.0.0",
+    "digest": "cc76f9b93e81a7129c24565f258f5b5483714e2063af970fdda067723b2c29cb"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "media/",
+      "resType": "image",
+      "resFormat": {
+        "image/png": [
+          "png"
+        ]
+      },
+      "isCollection": true
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 4,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "multiIndex"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "image",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "color_not_class",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "bounding_polygon_area",
+          "colType": "realVector",
+          "role": [
+            "suggestedTarget",
+            "boundaryIndicator",
+            "boundingPolygon"
+          ],
+          "refersTo": {
+            "resID": "learningData",
+            "resObject": {
+              "columnName": "image"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

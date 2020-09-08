@@ -1,0 +1,65 @@
+{
+    "about": {
+        "problemID": "yahoo_sub_5_problem",
+        "problemName": "yahoo_sub_5_problem",
+        "problemDescription": "Anomaly detection",
+        "problemVersion": "4.0.0",
+        "problemSchemaVersion": "4.0.0",
+        "taskKeywords": [
+            "classification",
+            "binary",
+            "tabular"
+        ]
+    },
+    "inputs": {
+        "data": [
+            {
+                "datasetID": "yahoo_sub_5_dataset",
+                "targets": [
+                    {
+                        "targetIndex": 0,
+                        "resID": "learningData",
+                        "colIndex": 7,
+                        "colName": "ground_truth"
+                    }
+                ]
+            }
+        ],
+        "dataSplits": {
+            "method": "holdOut",
+            "testSize": 0.2,
+            "stratified": true,
+            "numRepeats": 0,
+            "randomSeed": 42,
+            "splitsFile": "dataSplits.csv",
+            "datasetViewMaps": {
+                "train": [
+                    {
+                        "from": "yahoo_sub_5_dataset",
+                        "to": "yahoo_sub_5_dataset_TRAIN"
+                    }
+                ],
+                "test": [
+                    {
+                        "from": "yahoo_sub_5_dataset",
+                        "to": "yahoo_sub_5_dataset_TEST"
+                    }
+                ],
+                "score": [
+                    {
+                        "from": "yahoo_sub_5_dataset",
+                        "to": "yahoo_sub_5_dataset_SCORE"
+                    }
+                ]
+            }
+        },
+        "performanceMetrics": [
+            {
+                "metric": "f1Macro"
+            }
+        ]
+    },
+    "expectedOutputs": {
+        "predictionsFile": "predictions.csv"
+    }
+}

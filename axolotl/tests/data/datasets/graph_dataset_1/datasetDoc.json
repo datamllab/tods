@@ -1,0 +1,68 @@
+{
+  "about": {
+    "datasetID": "graph_dataset_1",
+    "datasetName": "Test graph dataset in GML format",
+    "description": "Based on LL1_net_nomination_seed_dataset",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "fcca6f975627035daa978a24e93aa74861aa93bb885eb8d782d24e5f46376f14"
+  },
+  "dataResources": [
+    {
+      "resID": "G1",
+      "resPath": "graphs/G1.gml",
+      "resType": "graph",
+      "resFormat": {
+        "text/vnd.gml": [
+          "gml"
+        ]
+      },
+      "isCollection": false
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "G1.nodeID",
+          "colType": "integer",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "G1",
+            "resObject": {
+              "nodeAttribute": "nodeID"
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "classLabel",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

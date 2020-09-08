@@ -1,0 +1,52 @@
+{
+"about": 
+  {
+  "datasetID": "image_dataset_1",
+  "datasetName":"Sample Image Dataset",
+  "humanSubjectsResearch": false,
+  "license":"CC",
+  "datasetSchemaVersion":"3.0",
+  "redacted":false
+  },
+"dataResources":
+  [
+    {
+      "resID": "0",
+      "resPath": "media/",
+      "resType": "image",
+      "resFormat": ["img/png"],
+      "isCollection": true, 
+    },
+    {
+      "resID": "1",
+      "resPath": "tables/learningDoc.csv",
+      "resType": "table",
+      "resFormat": ["text/csv"],
+      "isCollection": false,
+      "columns":[
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": ["index"]
+        },
+        {
+          "colIndex": 1,
+          "colName": "image",
+          "colType": "string",
+          "role": ["attribute"],
+          "refersTo":{
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "label",
+          "colType": "categorical",
+          "role": ["suggestedTarget"]
+        }
+      ]
+    }
+  ]
+}

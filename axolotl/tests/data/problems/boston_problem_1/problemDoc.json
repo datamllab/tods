@@ -1,0 +1,36 @@
+{
+  "about": {
+    "problemID": "boston_problem_1",
+    "problemName": "Predict median value of a home",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "regression",
+      "univariate"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "boston_dataset_1",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 14,
+            "colName": "MEDV"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "rSquared"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

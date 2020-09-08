@@ -1,0 +1,59 @@
+{
+"about": 
+  {
+  "datasetID": "iris_dataset_1",
+  "datasetName":"Iris Dataset",
+  "humanSubjectsResearch": false,
+  "license":"CC",
+  "datasetSchemaVersion":"3.0",
+  "redacted":false
+  },
+"dataResources":
+  [
+    {
+      "resID": "0",
+      "resPath": "tables/learningDoc.csv",
+      "resType": "table",
+      "resFormat": ["text/csv"],
+      "isCollection": false,
+      "columns":[
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": ["index"]
+        },
+        {
+          "colIndex": 1,
+          "colName": "sepalLength",
+          "colType": "real",
+          "role": ["attribute"]
+        },
+        {
+          "colIndex": 2,
+          "colName": "sepalWidth",
+          "colType": "real",
+          "role": ["attribute"]
+        },
+        {
+          "colIndex": 3,
+          "colName": "petalLength",
+          "colType": "real",
+          "role": ["attribute"]
+        },
+        {
+          "colIndex": 4,
+          "colName": "petalWidth",
+          "colType": "real",
+          "role": ["attribute"]
+        },
+        {
+          "colIndex": 5,
+          "colName": "species",
+          "colType": "categorical",
+          "role": ["suggestedTarget"]
+        }
+      ]
+    }
+  ]
+}

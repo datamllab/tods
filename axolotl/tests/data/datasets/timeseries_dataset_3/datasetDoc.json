@@ -1,0 +1,74 @@
+{
+  "about": {
+    "datasetID": "timeseries_dataset_3",
+    "datasetName": "A test dataset with timeseries data",
+    "description": "Historical stock market closing data. This dataset is similar to the timeseries_dataset_1. The only difference is that the year part of the date column has been removed and to get a full date, the year column must be combined with the date column.",
+    "source": "Kaggle",
+    "sourceURI": "https://www.kaggle.com/borismarjanovic/price-volume-data-for-all-us-stocks-etfs",
+    "datasetSchemaVersion": "4.0.0",
+    "license": "CC0",
+    "redacted": false,
+    "digest": "cca8504382cc80bf4c45c17830cff278c54c38a17b7a9de94c66d43f3df08ad3",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 5,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "Company",
+          "colType": "categorical",
+          "role": [
+            "attribute",
+            "suggestedGroupingKey"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "Year",
+          "colType": "integer",
+          "role": [
+            "attribute",
+            "timeIndicator",
+            "suggestedGroupingKey"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "Date",
+          "colType": "dateTime",
+          "role": [
+            "attribute",
+            "timeIndicator"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "Close",
+          "colType": "real",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

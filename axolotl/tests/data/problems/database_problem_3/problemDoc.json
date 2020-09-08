@@ -1,0 +1,36 @@
+{
+  "about": {
+    "problemID": "database_problem_3",
+    "problemName": "Database problem of type COMMENTS_PER_POST",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "regression",
+      "univariate"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "database_dataset_3",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 2,
+            "colName": "comments_count"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "rootMeanSquaredError"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

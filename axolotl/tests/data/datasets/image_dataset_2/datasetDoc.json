@@ -1,0 +1,66 @@
+{
+  "about": {
+    "datasetID": "image_dataset_2",
+    "datasetName": "Multiclass image classification",
+    "description": "Image recognition dataset consisting of 100 28x28 images of 10 handwritten digits. Based on 124_120_mnist_dataset.",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "526025607f71120946878fecc3351898ed6f9ef4dbafec1346af3248d52f5010"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "media/",
+      "resType": "image",
+      "resFormat": {
+        "image/png": [
+          "png"
+        ]
+      },
+      "isCollection": true
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "image",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "label",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

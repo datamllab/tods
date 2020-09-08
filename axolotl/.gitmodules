@@ -1,0 +1,3 @@
+[submodule "tests/data"]
+	path = tests/data
+	url = https://gitlab.com/datadrivendiscovery/tests-data.git

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "https://metadata.datadrivendiscovery.org/schemas/v0/problem.json",
+  "title": "Problem description",
+  "description": "Schema for problem description.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/id"
+    },
+    "version": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/version"
+    },
+    "name": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/name"
+    },
+    "other_names": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/other_names"
+    },
+    "description": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/description"
+    },
+    "digest": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/digest"
+    },
+    "schema": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/schema"
+    },
+    "source": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/source"
+    },
+    "problem": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/problem"
+    },
+    "inputs": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/problem_inputs"
+    },
+    "data_augmentation": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/data_augmentation"
+    },
+    "location_uris": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/location_uris"
+    }
+  },
+  "required": [
+    "id",
+    "schema"
+  ],
+  "additionalProperties": true
+}
