@@ -1,0 +1,146 @@
+{
+  "id": "b9cc24a0-30ce-4fe2-adde-77af46987f60",
+  "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+  "created": "2020-06-26T02:36:34.125148Z",
+  "inputs": [
+    {
+      "name": "inputs"
+    }
+  ],
+  "outputs": [
+    {
+      "data": "steps.4.produce",
+      "name": "output predictions"
+    }
+  ],
+  "steps": [
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "4b42ce1e-9b98-4a25-b68e-fad13311eb65",
+        "version": "0.3.0",
+        "python_path": "d3m.primitives.data_transformation.dataset_to_dataframe.Common",
+        "name": "Extract a DataFrame from a Dataset"
+      },
+      "arguments": {
+        "inputs": {
+          "type": "CONTAINER",
+          "data": "inputs.0"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "d510cb7a-1782-4f51-b44c-58f0236e47c7",
+        "version": "0.6.0",
+        "python_path": "d3m.primitives.data_transformation.column_parser.Common",
+        "name": "Parses strings into their types"
+      },
+      "arguments": {
+        "inputs": {
+          "type": "CONTAINER",
+          "data": "steps.0.produce"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "d016df89-de62-3c53-87ed-c06bb6a23cde",
+        "version": "2020.6.24",
+        "python_path": "d3m.primitives.data_cleaning.imputer.SKlearn",
+        "name": "sklearn.impute.SimpleImputer"
+      },
+      "arguments": {
+        "inputs": {
+          "type": "CONTAINER",
+          "data": "steps.1.produce"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ],
+      "hyperparams": {
+        "use_semantic_types": {
+          "type": "VALUE",
+          "data": true
+        },
+        "return_result": {
+          "type": "VALUE",
+          "data": "replace"
+        }
+      }
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "b9c81b40-8ed1-3b23-80cf-0d6fe6863962",
+        "version": "2020.6.24",
+        "python_path": "d3m.primitives.classification.logistic_regression.SKlearn",
+        "name": "sklearn.linear_model.logistic.LogisticRegression"
+      },
+      "arguments": {
+        "inputs": {
+          "type": "CONTAINER",
+          "data": "steps.2.produce"
+        },
+        "outputs": {
+          "type": "CONTAINER",
+          "data": "steps.2.produce"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ],
+      "hyperparams": {
+        "use_semantic_types": {
+          "type": "VALUE",
+          "data": true
+        },
+        "add_index_columns": {
+          "type": "VALUE",
+          "data": true
+        }
+      }
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "8d38b340-f83f-4877-baaa-162f8e551736",
+        "version": "0.3.0",
+        "python_path": "d3m.primitives.data_transformation.construct_predictions.Common",
+        "name": "Construct pipeline predictions output"
+      },
+      "arguments": {
+        "inputs": {
+          "type": "CONTAINER",
+          "data": "steps.3.produce"
+        },
+        "reference": {
+          "type": "CONTAINER",
+          "data": "steps.0.produce"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    }
+  ]
+}

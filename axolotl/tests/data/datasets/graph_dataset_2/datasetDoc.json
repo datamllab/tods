@@ -1,0 +1,118 @@
+{
+  "about": {
+    "datasetID": "graph_dataset_2",
+    "datasetName": "Test graph dataset in edgelist format",
+    "description": "Based on LL1_EDGELIST_net_nomination_seed_dataset",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "ef138e993861a11f1d09a8b3662179eb0661c85a4e38d572be8555e32da712f1"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 5,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "nodeID",
+          "colType": "integer",
+          "role": [
+            "attribute",
+            "key"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "attr1",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "attr2",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "classLabel",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    },
+    {
+      "resID": "edgeList",
+      "resPath": "tables/edgeList.csv",
+      "resType": "edgeList",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "source",
+          "colType": "integer",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "learningData",
+            "resObject": {
+              "columnName": "nodeID"
+            }
+          }
+        },
+        {
+          "colIndex": 1,
+          "colName": "target",
+          "colType": "integer",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "learningData",
+            "resObject": {
+              "columnName": "nodeID"
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "edge_weight",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        }
+      ]
+    }
+  ]
+}

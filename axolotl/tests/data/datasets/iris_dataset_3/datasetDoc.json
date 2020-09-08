@@ -1,0 +1,36 @@
+{
+  "about": {
+    "datasetID": "iris_dataset_3",
+    "datasetName": "Iris Dataset with minimal metadata",
+    "humanSubjectsResearch": false,
+    "license": "CC",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "digest": "4a0b43c5e5a76919b42b2066015ba0962512beb8600919dfffa4e2ad604e446d",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 6,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        }
+      ]
+    }
+  ]
+}

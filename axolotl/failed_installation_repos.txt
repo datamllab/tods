@@ -1,0 +1,11 @@
+Repository Name: dsbox-primitives
+Package URI: git+https://github.com/usc-isi-i2/dsbox-primitives@390595a708a8702cd6b7b388661127fcf63e4605#egg=dsbox-primitives
+Error: "AttributeError: module 'tensorflow' has no attribute 'get_default_graph'"
+
+Repository Name: distil-primitives
+Package URI: git+https://github.com/uncharted-distil/distil-primitives.git@08065c3e867401e444d8e25177c779fcc3ad5af7#egg=distil-primitives
+Error: "Cannnot be install due to hard dependency on tensorflow-gpu"
+
+Repository Name: kf-d3m-primitives
+Package URI: git+https://github.com/kungfuai/d3m-primitives.git@17ca6cd4e9ca00e09e2cf91e1cb9f18562645821#egg=kf-d3m-primitives
+Error: "Cannnot be install due to hard dependency on tensorflow-gpu"

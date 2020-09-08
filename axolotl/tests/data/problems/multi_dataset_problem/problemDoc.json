@@ -1,0 +1,48 @@
+{
+  "about": {
+    "problemID": "multi_input_problem",
+    "problemName": "Problem associate with multiple dataset",
+    "problemDescription": "Distinguish Iris flowers of three related species.",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "classification",
+      "multiClass"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "iris_dataset_1",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 5,
+            "colName": "species"
+          }
+        ]
+      },
+      {
+        "datasetID": "boston_dataset_1",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 14,
+            "colName": "MEDV"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "accuracy"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

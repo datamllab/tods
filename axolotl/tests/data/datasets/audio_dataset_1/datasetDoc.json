@@ -1,0 +1,82 @@
+{
+  "about": {
+    "datasetID": "audio_dataset_1",
+    "datasetName": "Audio dataset to be used for tests",
+    "license": "CC0",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "4eaa4ee8ce18dc066d400d756105aab1ce92895593d09c8be23e08fdd89640e1"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "media/",
+      "resType": "audio",
+      "resFormat": {
+        "audio/mpeg": [
+          "mp3"
+        ]
+      },
+      "isCollection": true
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 5,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "audio_file",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "start",
+          "colType": "real",
+          "role": [
+            "boundaryIndicator"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "end",
+          "colType": "real",
+          "role": [
+            "boundaryIndicator"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "class",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

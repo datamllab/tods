@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "https://metadata.datadrivendiscovery.org/schemas/v0/container.json",
+  "title": "Container metadata",
+  "description": "Schema for metadata for the container (value passed between primitives).",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/schema"
+    },
+    "id": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/id"
+    },
+    "version": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/version"
+    },
+    "digest": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/digest"
+    },
+    "name": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/name"
+    },
+    "other_names": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/other_names"
+    },
+    "description": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/description"
+    },
+    "keywords": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/keywords"
+    },
+    "source": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/source"
+    },
+    "structural_type": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/structural_type"
+    },
+    "stored_size": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/stored_size"
+    },
+    "approximate_stored_size": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/approximate_stored_size"
+    },
+    "semantic_types": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/semantic_types"
+    },
+    "dimension": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/dimension"
+    },
+    "location_uris": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/location_uris"
+    },
+    "data_metafeatures": {
+      "$ref": "https://metadata.datadrivendiscovery.org/schemas/v0/definitions.json#/definitions/data_metafeatures"
+    }
+  },
+  "required": [
+    "schema",
+    "structural_type"
+  ],
+  "additionalProperties": true
+}

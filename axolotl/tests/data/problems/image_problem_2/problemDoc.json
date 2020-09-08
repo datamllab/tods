@@ -1,0 +1,36 @@
+{
+  "about": {
+    "problemID": "image_problem_2",
+    "problemName": "Multiclass image classification",
+    "problemDescription": "Multiclass image classification problem. Each image belongs to one of 10 classes. Based on 124_120_mnist_problem.",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "classification",
+      "multiClass"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "image_dataset_2",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 2,
+            "colName": "label"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "accuracy"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv"
+  }
+}

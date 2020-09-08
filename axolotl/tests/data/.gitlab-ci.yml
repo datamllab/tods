@@ -1,0 +1,42 @@
+build_summing_image:
+  stage: build
+
+  image: docker:stable
+
+  services:
+    - docker:dind
+
+  before_script:
+    - docker info
+
+  script:
+    - docker login -u gitlab-ci-token -p "$CI_JOB_TOKEN" "$CI_REGISTRY"
+    - docker build --cache-from="$CI_REGISTRY_IMAGE/summing:latest" -t "$CI_REGISTRY_IMAGE/summing:latest" docker/summing
+    - docker push "$CI_REGISTRY_IMAGE/summing:latest"
+
+  only:
+    - master
+
+style_check:
+  stage: build
+
+  image: registry.gitlab.com/datadrivendiscovery/images/testing:ubuntu-bionic-python36
+
+  script:
+    - pycodestyle primitives/test_primitives
+
+type_check:
+  stage: build
+
+  image: registry.gitlab.com/datadrivendiscovery/images/testing:ubuntu-bionic-python36
+
+  variables:
+    DEPENDENCY_REF: devel
+
+  script:
+    - cd primitives
+    - git clone https://gitlab.com/datadrivendiscovery/d3m.git
+    - cd d3m
+    - git checkout ${DEPENDENCY_REF}
+    - cd ..
+    - MYPYPATH=d3m mypy test_primitives

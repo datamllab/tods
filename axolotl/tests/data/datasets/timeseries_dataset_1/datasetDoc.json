@@ -1,0 +1,71 @@
+{
+  "about": {
+    "datasetID": "timeseries_dataset_1",
+    "datasetName": "A test dataset with timeseries data",
+    "description": "Historical stock market closing data",
+    "source": "Kaggle",
+    "sourceURI": "https://www.kaggle.com/borismarjanovic/price-volume-data-for-all-us-stocks-etfs",
+    "datasetSchemaVersion": "4.0.0",
+    "license": "CC0",
+    "redacted": false,
+    "digest": "819ececf396b0f2d60198115c8ff2001a8a6804e6cfb188388ad48ea28d43b16",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 5,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "Company",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "Year",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "Date",
+          "colType": "dateTime",
+          "role": [
+            "attribute",
+            "timeIndicator"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "Close",
+          "colType": "real",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

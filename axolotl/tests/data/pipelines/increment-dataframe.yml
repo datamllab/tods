@@ -1,0 +1,55 @@
+id: 1b6184c1-49ba-44f8-b02d-90fb41e65e1a
+schema: https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json
+created: "2018-10-08 02:56:45.277695Z"
+description: |
+  Test pipeline used in simple-ta3. It expects a DataFrame as input.
+inputs:
+  - name: dataframe
+outputs:
+  - data: steps.2.produce
+steps:
+  - type: PRIMITIVE
+    primitive:
+      id: d7e14b12-abeb-42d8-942f-bdb077b4fd37
+      version: 0.1.0
+      python_path: d3m.primitives.data_transformation.add_semantic_types.Common
+      name: Add semantic types to columns
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: inputs.0
+    outputs:
+      - id: produce
+    hyperparams:
+      columns:
+        type: VALUE
+        data:
+          - 0
+      semantic_types:
+        type: VALUE
+        data:
+          - http://schema.org/Integer
+  - type: PRIMITIVE
+    primitive:
+      id: d510cb7a-1782-4f51-b44c-58f0236e47c7
+      version: 0.6.0
+      python_path: d3m.primitives.data_transformation.column_parser.Common
+      name: Parses strings into their types
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: steps.0.produce
+    outputs:
+      - id: produce
+  - type: PRIMITIVE
+    primitive:
+      id: 5c9d5acf-7754-420f-a49f-90f4d9d0d694
+      version: 0.1.0
+      python_path: d3m.primitives.operator.increment.Test
+      name: Increment Values
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: steps.1.produce
+    outputs:
+      - id: produce

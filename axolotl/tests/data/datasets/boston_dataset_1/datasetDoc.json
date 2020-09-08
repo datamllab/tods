@@ -1,0 +1,164 @@
+{
+  "about": {
+    "datasetID": "boston_dataset_1",
+    "datasetName": "Boston Dataset",
+    "description": "The Boston house-price data of Harrison, D. and Rubinfeld, D.L. 'Hedonic prices and the demand for clean air', J. Environ. Economics & Management, vol.5, 81-102, 1978.  Used in Belsley, Kuh & Welsch, 'Regression diagnostics ...', Wiley, 1980.  N.B. Various transformations are used in the table on pages 244-261 of the latter.",
+    "datasetVersion": "4.0.0",
+    "datasetSchemaVersion": "4.0.0",
+    "sourceURI": "http://lib.stat.cmu.edu/datasets/boston",
+    "license": "unknown",
+    "digest": "7797ade70da006a47c32db5dd24be51a6956dbf8d600c4720e53576d32e451e6"
+  },
+  "dataResources": [
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 15,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "CRIM",
+          "colDescription": "per capita crime rate by town",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 2,
+          "colName": "ZN",
+          "colDescription": "proportion of residential land zoned for lots over 25,000 sq.ft.",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 3,
+          "colName": "INDUS",
+          "colDescription": "proportion of non-retail business acres per town",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 4,
+          "colName": "CHAS",
+          "colDescription": "Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)",
+          "colType": "boolean",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 5,
+          "colName": "NOX",
+          "colDescription": "nitric oxides concentration (parts per 10 million)",
+          "colType": "real",
+          "role": [
+            "attribute",
+            "suggestedTarget"
+          ]
+        },
+        {
+          "colIndex": 6,
+          "colName": "RM",
+          "colDescription": "average number of rooms per dwelling",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 7,
+          "colName": "AGE",
+          "colDescription": "proportion of owner-occupied units built prior to 1940",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 8,
+          "colName": "DIS",
+          "colDescription": "weighted distances to five Boston employment centres",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 9,
+          "colName": "RAD",
+          "colDescription": "index of accessibility to radial highways",
+          "colType": "categorical",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 10,
+          "colName": "TAX",
+          "colDescription": "full-value property-tax rate per $10,000",
+          "colType": "integer",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 11,
+          "colName": "PTRATIO",
+          "colDescription": "pupil-teacher ratio by town",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 12,
+          "colName": "B",
+          "colDescription": "1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 13,
+          "colName": "LSTAT",
+          "colDescription": "% lower status of the population",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        },
+        {
+          "colIndex": 14,
+          "colName": "MEDV",
+          "colDescription": "Median value of owner-occupied homes in $1000's\n",
+          "colType": "real",
+          "role": [
+            "attribute",
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

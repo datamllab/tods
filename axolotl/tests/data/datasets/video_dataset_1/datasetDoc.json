@@ -1,0 +1,71 @@
+{
+  "about": {
+    "datasetID": "video_dataset_1",
+    "datasetName": "Test video dataset from HMDB dataset",
+    "description": "Two videos from the human activity recognition from video dataset.",
+    "citation": "\n@InProceedings{Kuehne11,\n   author= \"Kuehne, H. and Jhuang, H. and Garrote, E. and Poggio, T. and Serre, T.\",\n   title = \"{HMDB}: a large video database for human motion recognition\",\n   booktitle = \"Proceedings of the International Conference on Computer Vision (ICCV)\",\n   year = \"2011\",\n}\n",
+    "license": "No license information provided; citation request",
+    "source": "SERRE Lab, Brown University",
+    "sourceURI": "http://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/",
+    "approximateSize": "400 KB",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "a30c93f97309b425746e195a9bfb8e97f03a71c603dd3b733fdb000470db611e"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "media/",
+      "resType": "video",
+      "resFormat": {
+        "video/mp4": [
+          "mp4"
+        ]
+      },
+      "isCollection": true
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "video_file",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "activity_label",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

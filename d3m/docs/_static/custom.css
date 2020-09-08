@@ -1,0 +1,38 @@
+/* Making index have only one column. */
+.genindextable td {
+    display: table-row;
+}
+
+/* No need to make space on the right of the TOC smaller and smaller for every level. */
+.sphinxsidebar ul ul {
+    margin-right: 0;
+}
+
+/* Let sidebar sticky to the top of the viewport when scrolling down. */
+.sphinxsidebar {
+  position: sticky;
+  top: 0;
+}
+
+@media only screen and (min-width: 1250px) {
+  /* Wider sidebar on large screens. */
+  .sphinxsidebar {
+    width: 350px !important;
+  }
+
+  .document .bodywrapper {
+    margin-left: 350px !important;
+  }
+
+  /* Increase the header height by factor 1.25. */
+  body > .related {
+    line-height: 40px;
+    font-size: 1.125em;
+  }
+
+  /* Keep the footer height as it was. */
+  body > .related ~ .related {
+    line-height: 32px;
+    font-size: 0.9em;
+  }
+}

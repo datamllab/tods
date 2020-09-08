@@ -1,0 +1,31 @@
+id: de6443dd-de0a-4000-9b4e-383920019571
+schema: https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json
+source:
+  name: Mitar
+created: "2018-07-27T18:04:43.650608Z"
+name: Fake scoring pipeline
+description: |
+  A fake scoring pipeline calling fake_score primitive.
+inputs:
+  - name: predictions
+  - name: score dataset
+outputs:
+  - name: scores
+    data: steps.0.produce
+steps:
+  # Step 0.
+  - type: PRIMITIVE
+    primitive:
+      id: 1c4d5cbd-163c-424d-8be5-0f267641ae34
+      version: 0.1.0
+      python_path: d3m.primitives.evaluation.compute_scores.Test
+      name: Generate fake scores for testing
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: inputs.0
+      score_dataset:
+        type: CONTAINER
+        data: inputs.1
+    outputs:
+      - id: produce

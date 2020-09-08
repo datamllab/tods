@@ -1,0 +1,37 @@
+id: 0168fd77-5310-472e-a755-1bb89edcbffd
+schema: https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json
+source:
+  name: Mitar
+created: "2019-05-01T23:54:43.334702Z"
+context: TESTING
+name: Data preparation pipeline - train-test split version
+description: |
+  Data preparation which does train-test split but does not redact anything
+inputs:
+  - name: folds
+  - name: full dataset
+outputs:
+  - name: train datasets
+    data: steps.0.produce
+  - name: test datasets
+    data: steps.0.produce_score_data
+  - name: score datasets
+    data: steps.0.produce_score_data
+steps:
+  # Step 0.
+  - type: PRIMITIVE
+    primitive:
+      id: 3fcc6dc4-6681-4c86-948e-066d14e7d803
+      version: 0.1.0
+      python_path: d3m.primitives.evaluation.train_score_dataset_split.Common
+      name: Train-score tabular dataset splits
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: inputs.0
+      dataset:
+        type: CONTAINER
+        data: inputs.1
+    outputs:
+      - id: produce
+      - id: produce_score_data

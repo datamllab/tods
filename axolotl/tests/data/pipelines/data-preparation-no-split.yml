@@ -1,0 +1,36 @@
+id: fcaddd7f-39fa-49cc-9f31-c3f326b85557
+schema: https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json
+source:
+  name: Daragh
+created: "2019-04-29T04:16:39.642266Z"
+context: TESTING
+name: Data preparation pipeline - no split version
+description: |
+  Data preparation which just passes all data through unchanged
+inputs:
+  - name: folds
+  - name: full dataset
+outputs:
+  - name: train datasets
+    data: steps.0.produce
+  - name: test datasets
+    data: steps.0.produce
+  - name: score datasets
+    data: steps.0.produce
+steps:
+  # Step 0.
+  - type: PRIMITIVE
+    primitive:
+      id: 48c683ad-da9e-48cf-b3a0-7394dba5e5d2
+      version: 0.1.0
+      python_path: d3m.primitives.evaluation.no_split_dataset_split.Common
+      name: No-split tabular dataset splits
+    arguments:
+      inputs:
+        type: CONTAINER
+        data: inputs.0
+      dataset:
+        type: CONTAINER
+        data: inputs.1
+    outputs:
+      - id: produce

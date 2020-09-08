@@ -1,0 +1,152 @@
+
+/* For hiding the last `>` in breadcrumbs. */
+.hide-last:last-child {
+  display:none;
+}
+
+/* Below are mostly copies from css at `schema.org`. */
+body {
+  color: #3A4956;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Tahoma, Arial, sans-serif;
+  line-height: 160%;
+  margin: 0 0 100px 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  font: bold 24px Helvetica, Arial, sans-serif;
+  color: #990000;
+  letter-spacing: -1px;
+  margin: 1em 0 0 0;
+}
+
+#container {
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  background: #fff;
+}
+
+#intro {
+  position: relative;
+}
+
+#pageHeader {
+  width: 100%;
+  height: 80px;
+  background: #990000;
+}
+
+#pageHeader h1 {
+  color: #fff;
+  margin: 0;
+  padding-top: 25px;
+  font-family: bold Helvetica, Arial, sans-serif;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 0 #510000;
+}
+
+#pageHeader a:link, #pageHeader a:hover, #pageHeader a:visited {
+  color: #fff;
+  background-color: #990000;
+  text-decoration: none;
+}
+
+@media all and (max-width: 720px) {
+  #pageHeader {
+    height: 120px;
+  }
+}
+
+#pageHeader h1 {
+  color: #fff;
+  margin: 0;
+  padding-top: 25px;
+  font-family: bold Helvetica, Arial, sans-serif;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 0 #510000;
+}
+
+#mainContent, #footer, .wrapper {
+  margin: 0 auto !important;
+  padding: 0 0.5em;
+}
+
+@media (min-width: 960px) {
+  #mainContent, #footer, .wrapper {
+    max-width: 960px;
+    padding: 0 1em;
+  }
+}
+
+#sitename {
+  max-width: 500px;
+  min-width: auto;
+  display: inline-block;
+  text-shadow: 0 2px 0 #510000;
+  padding: 0;
+  top: 25px;
+  left: -40px;
+}
+
+#mainContent {
+  text-align: left;
+  font-size: 100%;
+}
+
+#selectionbar {
+  color: #fff;
+  height: 46px;
+  background: #660000;
+  font-size: 90%;
+}
+
+#selectionbar ul {
+  float: right;
+  padding: 10px 0;
+  margin: 0 auto;
+  display: block;
+}
+
+#selectionbar li {
+  display: inline;
+  list-style: none;
+}
+
+#selectionbar a:link, #selectionbar a:visited {
+  color: #fff;
+  display: block;
+  float: right;
+  padding: 1px 9px 3px 6px;
+  margin: 0 6px;
+  text-decoration: none;
+}
+
+#selectionbar a:hover {
+  color: #FFEE99;
+  background-color: transparent;
+}
+
+#selectionbar .activelink a {
+  background: #990000;
+}
+
+a:link {
+  color: #660000;
+  text-decoration: none;
+  border-bottom: dotted 1px #660000;
+}
+
+a:visited {
+  color: #990000;
+  text-decoration: none;
+  border-bottom: dotted 1px #990000;
+}
+
+a:hover {
+  border-bottom: none;
+  color: #fff;
+  background-color: #660000;
+  text-decoration: none;
+}

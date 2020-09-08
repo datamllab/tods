@@ -1,0 +1,85 @@
+{
+  "created": "2019-03-14T03:22:12.490865Z",
+  "id": "f52d3690-31fb-458c-ad4c-4c2be11f5f36",
+  "inputs": [
+    {
+      "name": "inputs1"
+    },
+    {
+      "name": "inputs0"
+    }
+  ],
+  "outputs": [
+    {
+      "data": "steps.2.produce",
+      "name": "output"
+    }
+  ],
+  "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+  "steps": [
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "4b42ce1e-9b98-4a25-b68e-fad13311eb65",
+        "name": "Extract a DataFrame from a Dataset",
+        "python_path": "d3m.primitives.data_transformation.dataset_to_dataframe.Common",
+        "version": "0.3.0"
+      },
+      "arguments": {
+        "inputs": {
+          "data": "inputs.0",
+          "type": "CONTAINER"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "4b42ce1e-9b98-4a25-b68e-fad13311eb65",
+        "name": "Extract a DataFrame from a Dataset",
+        "python_path": "d3m.primitives.data_transformation.dataset_to_dataframe.Common",
+        "version": "0.3.0"
+      },
+      "arguments": {
+        "inputs": {
+          "data": "inputs.1",
+          "type": "CONTAINER"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    },
+    {
+      "type": "PRIMITIVE",
+      "primitive": {
+        "id": "b8d0d982-fc53-4a3f-8a8c-a284fdd45bfd",
+        "name": "Random Classifier",
+        "python_path": "d3m.primitives.classification.random_classifier.Test",
+        "version": "0.1.0"
+      },
+      "arguments": {
+        "inputs": {
+          "data": "steps.0.produce",
+          "type": "CONTAINER"
+        },
+        "outputs": {
+          "data": "steps.1.produce",
+          "type": "CONTAINER"
+        }
+      },
+      "outputs": [
+        {
+          "id": "produce"
+        }
+      ]
+    }
+  ]
+}

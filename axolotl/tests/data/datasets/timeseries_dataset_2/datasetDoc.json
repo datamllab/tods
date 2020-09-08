@@ -1,0 +1,85 @@
+{
+  "about": {
+    "datasetID": "timeseries_dataset_2",
+    "datasetName": "Test of timeseries classification dataset",
+    "description": "Based on 66_chlorineConcentration",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "datasetVersion": "4.0.0",
+    "digest": "8d574424ecf2ce36d5cadcefcfe967e8fac523de91f9f35588acb2b86daec329"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "timeseries/",
+      "resType": "timeseries",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": true,
+      "columnsCount": 2,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "time",
+          "colType": "integer",
+          "role": [
+            "timeIndicator"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "value",
+          "colType": "real",
+          "role": [
+            "attribute"
+          ]
+        }
+      ]
+    },
+    {
+      "resID": "learningData",
+      "resPath": "tables/learningData.csv",
+      "resType": "table",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": false,
+      "columnsCount": 3,
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "colType": "integer",
+          "role": [
+            "index"
+          ]
+        },
+        {
+          "colIndex": 1,
+          "colName": "timeseries_file",
+          "colType": "string",
+          "role": [
+            "attribute"
+          ],
+          "refersTo": {
+            "resID": "0",
+            "resObject": "item"
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "label",
+          "colType": "categorical",
+          "role": [
+            "suggestedTarget"
+          ]
+        }
+      ]
+    }
+  ]
+}

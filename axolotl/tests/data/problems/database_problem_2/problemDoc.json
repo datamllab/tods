@@ -1,0 +1,42 @@
+{
+  "about": {
+    "problemID": "database_problem_2",
+    "problemName": "Database problem of type COUNTS_PER_USER",
+    "problemSchemaVersion": "4.0.0",
+    "problemVersion": "4.0.0",
+    "taskKeywords": [
+      "regression",
+      "multivariate"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "database_dataset_2",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 2,
+            "colName": "posts_count"
+          },
+          {
+            "targetIndex": 1,
+            "resID": "learningData",
+            "colIndex": 3,
+            "colName": "comments_count"
+          }
+        ]
+      }
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "rootMeanSquaredError"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv",
+    "scoresFile": "scores.csv"
+  }
+}

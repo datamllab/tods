@@ -1,0 +1,8 @@
+{#
+  Similar to "localtoc.html" but without a link in the heading so
+  that the color of the heading matches other headings in the sidebar.
+#}
+{%- if display_toc %}
+  <h3>{{ _('Table of Contents') }}</h3>
+  {{ toc }}
+{%- endif %}

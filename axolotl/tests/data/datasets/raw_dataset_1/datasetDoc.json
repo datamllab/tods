@@ -1,0 +1,23 @@
+{
+  "about": {
+    "datasetID": "raw_dataset_1",
+    "datasetName": "Raw dataset to be used for tests",
+    "datasetSchemaVersion": "4.0.0",
+    "redacted": false,
+    "digest": "e28468d602c30c7da7643aa78840bcaae68a9abb96b48cc98eb51fb94e6fd3af",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "0",
+      "resPath": "raw/",
+      "resType": "raw",
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "isCollection": true
+    }
+  ]
+}

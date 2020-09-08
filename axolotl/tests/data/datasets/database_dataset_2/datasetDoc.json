@@ -1,0 +1,196 @@
+{
+  "about": {
+    "datasetSchemaVersion": "4.0.0",
+    "datasetID": "database_dataset_2",
+    "datasetName": "Database dataset of type COUNTS_PER_USER",
+    "description": "Database dataset of type COUNTS_PER_USER, size 100, random seed 0",
+    "digest": "0eafe8b08646e4c684bb1776fee8af92cc232ba1bd2840ca0c70e7ae5a59d976",
+    "datasetVersion": "4.0.0"
+  },
+  "dataResources": [
+    {
+      "resID": "users",
+      "isCollection": false,
+      "columnsCount": 2,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/users.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "name",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "posts",
+      "isCollection": false,
+      "columnsCount": 3,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/posts.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "author_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "users",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "post",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "comments",
+      "isCollection": false,
+      "columnsCount": 4,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/comments.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "id",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "post_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "posts",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "author_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "users",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 3,
+          "colName": "comment",
+          "role": [
+            "attribute"
+          ],
+          "colType": "string"
+        }
+      ]
+    },
+    {
+      "resID": "learningData",
+      "isCollection": false,
+      "columnsCount": 4,
+      "resFormat": {
+        "text/csv": [
+          "csv"
+        ]
+      },
+      "resType": "table",
+      "resPath": "tables/learningData.csv",
+      "columns": [
+        {
+          "colIndex": 0,
+          "colName": "d3mIndex",
+          "role": [
+            "index"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 1,
+          "colName": "user_id",
+          "role": [
+            "attribute"
+          ],
+          "colType": "integer",
+          "refersTo": {
+            "resID": "users",
+            "resObject": {
+              "columnIndex": 0
+            }
+          }
+        },
+        {
+          "colIndex": 2,
+          "colName": "posts_count",
+          "role": [
+            "suggestedTarget"
+          ],
+          "colType": "integer"
+        },
+        {
+          "colIndex": 3,
+          "colName": "comments_count",
+          "role": [
+            "suggestedTarget"
+          ],
+          "colType": "integer"
+        }
+      ]
+    }
+  ]
+}
