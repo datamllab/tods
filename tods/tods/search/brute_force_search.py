@@ -250,7 +250,7 @@ def _generate_pipline(combinations):
         final_step.add_output('produce')
         pipeline_description.add_step(final_step)
 
-        pipeline_description.add_output(name='output predictions', data_reference='steps.5.produce')
+        pipeline_description.add_output(name='output predictions', data_reference='steps.8.produce')
         
         pipeline_description.id = str(uuid.uuid4())
         pipeline_description.created = Pipeline().created
