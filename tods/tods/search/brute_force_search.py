@@ -12,16 +12,14 @@ class BruteForceSearch(PipelineSearchBase):
         super().__init__(problem_description=problem_description, backend=backend,
                 primitives_blocklist=primitives_blocklist, ranking_function=ranking_function)
         if self.ranking_function is None:
-            self.ranking_function = _f1_rank
+            self.ranking_function = _rank_first_metric
 
         # Find the candidates
         self.task_description = schemas_utils.get_task_description(self.problem_description['problem']['task_keywords'])
-        #print('task_description:', self.task_description)
         self.available_pipelines = self._return_pipelines(
                             self.task_description['task_type'], self.task_description['task_subtype'], self.task_description['data_types'])
-        #print('available_pipelines:', self.available_pipelines)
         
-        self.metrics = _generate_metrics()
+        self.metrics = self.problem_description['problem']['performance_metrics']
         self.data_preparation_pipeline = _generate_data_preparation_pipeline()
         self.scoring_pipeline = _generate_scoring_pipeline()
         self.data_preparation_params = _generate_data_preparation_params()
@@ -57,6 +55,18 @@ class BruteForceSearch(PipelineSearchBase):
                 scoring_pipeline=self.scoring_pipeline,
                 data_preparation_params=self.data_preparation_params)
 
+        # DEBUG
+        ####################
+        #for pipeline_result in pipeline_results:
+        #    try:
+        #        for error in pipeline_result.error:
+        #            if error is not None:
+        #                raise error
+        #    except:
+        #        import traceback
+        #        traceback.print_exc()
+        ####################
+
         return [self.ranking_function(pipeline_result) for pipeline_result in pipeline_results]
 
     def _return_pipelines(self, task_type, task_subtype, data_type):
@@ -76,22 +86,22 @@ primitive_python_paths = {
         'd3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler',
         'd3m.primitives.tods.timeseries_processing.transformation.standard_scaler',
         'd3m.primitives.tods.timeseries_processing.transformation.power_transformer',
-        #'d3m.primitives.tods.timeseries_processing.transformation.quantile_transformer',
-        #'d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform',
-        #'d3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing',
+        'd3m.primitives.tods.timeseries_processing.transformation.quantile_transformer',
+        'd3m.primitives.tods.timeseries_processing.transformation.moving_average_transform',
+        'd3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing',
         #'d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing',
         #'d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing',
         #'d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
     ],
     'feature_analysis': [
-        'd3m.primitives.tods.feature_analysis.auto_correlation',
+        #'d3m.primitives.tods.feature_analysis.auto_correlation',
         'd3m.primitives.tods.feature_analysis.statistical_mean',
         'd3m.primitives.tods.feature_analysis.statistical_median',
-        #'d3m.primitives.tods.feature_analysis.statistical_g_mean',
-        #'d3m.primitives.tods.feature_analysis.statistical_abs_energy',
-        #'d3m.primitives.tods.feature_analysis.statistical_abs_sum',
-        #'d3m.primitives.tods.feature_analysis.statistical_h_mean',
-        #'d3m.primitives.tods.feature_analysis.statistical_maximum',
+        'd3m.primitives.tods.feature_analysis.statistical_g_mean',
+        'd3m.primitives.tods.feature_analysis.statistical_abs_energy',
+        'd3m.primitives.tods.feature_analysis.statistical_abs_sum',
+        'd3m.primitives.tods.feature_analysis.statistical_h_mean',
+        'd3m.primitives.tods.feature_analysis.statistical_maximum',
         #'d3m.primitives.tods.feature_analysis.statistical_minimum',
         #'d3m.primitives.tods.feature_analysis.statistical_mean_abs',
         #'d3m.primitives.tods.feature_analysis.statistical_mean_abs_temporal_derivative',
@@ -119,10 +129,10 @@ primitive_python_paths = {
         'd3m.primitives.tods.detection_algorithm.pyod_ae',
         'd3m.primitives.tods.detection_algorithm.pyod_vae',
         'd3m.primitives.tods.detection_algorithm.pyod_cof',
-        #'d3m.primitives.tods.detection_algorithm.pyod_sod',
-        #'d3m.primitives.tods.detection_algorithm.pyod_abod',
-        #'d3m.primitives.tods.detection_algorithm.pyod_hbos',
-        #'d3m.primitives.tods.detection_algorithm.pyod_iforest',
+        'd3m.primitives.tods.detection_algorithm.pyod_sod',
+        'd3m.primitives.tods.detection_algorithm.pyod_abod',
+        'd3m.primitives.tods.detection_algorithm.pyod_hbos',
+        'd3m.primitives.tods.detection_algorithm.pyod_iforest',
         #'d3m.primitives.tods.detection_algorithm.pyod_lof',
         #'d3m.primitives.tods.detection_algorithm.pyod_knn',
         #'d3m.primitives.tods.detection_algorithm.pyod_ocsvm',
@@ -142,14 +152,7 @@ primitive_python_paths = {
 }
 
 
-def _f1_rank(pipeline_result):
-    #try:
-    #    for error in pipeline_result.error:
-    #        if error is not None:
-    #            raise error
-    #except:
-    #    import traceback
-    #    traceback.print_exc()
+def _rank_first_metric(pipeline_result):
     if pipeline_result.status == 'COMPLETED':
         scores = pipeline_result.scores
         pipeline_result.rank = -scores['value'][0]
@@ -158,12 +161,6 @@ def _f1_rank(pipeline_result):
         # error
         pipeline_result.rank = 1
         return pipeline_result
-
-def _generate_metrics():
-    from d3m.metadata.problem import PerformanceMetric
-    metrics = [{'metric': PerformanceMetric.F1, 'params': {'pos_label': '1'}},
-              ]
-    return metrics
 
 def _generate_data_preparation_params():
     from axolotl.utils import schemas as schemas_utils
@@ -233,24 +230,24 @@ def _generate_pipline(combinations):
         tods_step_5.add_output('produce')
         pipeline_description.add_step(tods_step_5)
 
-        tods_step_6= PrimitiveStep(primitive=index.get_primitive(combination[1]))
+        tods_step_6= PrimitiveStep(primitive=index.get_primitive(combination[2]))
         tods_step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
         tods_step_6.add_output('produce')
         pipeline_description.add_step(tods_step_6)
 
-        tods_step_7 = PrimitiveStep(primitive=index.get_primitive(combination[3]))
-        tods_step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
-        tods_step_7.add_output('produce')
-        pipeline_description.add_step(tods_step_7)
+        #tods_step_7 = PrimitiveStep(primitive=index.get_primitive(combination[3]))
+        #tods_step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
+        #tods_step_7.add_output('produce')
+        #pipeline_description.add_step(tods_step_7)
 
         # Finalize the pipeline
         final_step = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.construct_predictions.Common'))
-        final_step.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.7.produce')
+        final_step.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
         final_step.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
         final_step.add_output('produce')
         pipeline_description.add_step(final_step)
 
-        pipeline_description.add_output(name='output predictions', data_reference='steps.8.produce')
+        pipeline_description.add_output(name='output predictions', data_reference='steps.7.produce')
         
         pipeline_description.id = str(uuid.uuid4())
         pipeline_description.created = Pipeline().created
@@ -269,7 +266,8 @@ def _generate_pipelines(primitive_python_paths, cpu_count=40):
     import itertools
     import multiprocessing as mp
 
-    components = ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm']
+    #components = ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm']
+    components = ['timeseries_processing', 'feature_analysis', 'detection_algorithm']
     combinations = itertools.product(*(primitive_python_paths[k] for k in components))
 
 
