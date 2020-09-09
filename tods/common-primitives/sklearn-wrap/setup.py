@@ -25,7 +25,7 @@ setup(
         'd3m',
         'Jinja2==2.9.4',
         'simplejson==3.12.0',
-        'scikit-learn==0.21.3',
+        'scikit-learn==0.22.0',
     ],
     url='https://gitlab.datadrivendiscovery.org/jpl/sklearn-wrapping',
     entry_points = {
