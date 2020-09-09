@@ -28,7 +28,7 @@ backend = SimpleRunner(random_seed=0)
 search = BruteForceSearch(problem_description=problem_description, backend=backend)
 
 # Find the best pipeline
-best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=10)
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=15)
 best_pipeline = best_runtime.pipeline
 best_output = best_pipeline_result.output
 # Evaluate the best pipeline
