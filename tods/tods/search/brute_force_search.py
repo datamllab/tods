@@ -75,9 +75,9 @@ class BruteForceSearch(PipelineSearchBase):
 
 primitive_python_paths = {
     'data_processing': [
-        'd3m.primitives.tods.data_processing.time_interval_transform',
+        #'d3m.primitives.tods.data_processing.time_interval_transform',
         #'d3m.primitives.tods.data_processing.categorical_to_binary',
-        #'d3m.primitives.tods.data_processing.column_filter',
+        'd3m.primitives.tods.data_processing.column_filter',
         #'d3m.primitives.tods.data_processing.timestamp_validation',
         #'d3m.primitives.tods.data_processing.duplication_validation',
         #'d3m.primitives.tods.data_processing.continuity_validation',
