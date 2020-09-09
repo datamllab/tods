@@ -6,14 +6,20 @@ from tods.utils import generate_dataset_problem
 from tods.search import BruteForceSearch
 
 # Some information
-table_path = 'datasets/yahoo_sub_5.csv' # The path of the dataset
-target_index = 6 # what column is the target
+table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+target_index = 3 # what column is the target
+
+#table_path = 'datasets/yahoo_sub_5.csv'
+#target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
 #metric = 'F1' # F1 on label 1
 metric = 'F1_MACRO' # F1 on both label 0 and 1
 
 # Read data and generate dataset and problem
 df = pd.read_csv(table_path)
+print(df[4])
+exit()
 dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
 
 # Start backend
