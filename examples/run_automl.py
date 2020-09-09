@@ -17,17 +17,42 @@ from axolotl.utils import pipeline as pipeline_utils, schemas as schemas_utils
 import tods
 from tods.search import BruteForceSearch
 
-table_path = 'datasets/anomaly/kpi/kpi_dataset/tables/learningData.csv'
+table_path = 'datasets/anomaly/yahoo_sub_5/yahoo_sub_5_dataset/tables/learningData.csv'
 df = pd.read_csv(table_path)
 dataset, problem_description = data_problem.generate_dataset_problem(df,
-                                                                     target_index=3,
+                                                                     target_index=7,
                                                                      task_keywords=[TaskKeyword.ANOMALY_DETECTION,],
                                                                      performance_metrics=[{'metric': PerformanceMetric.F1}])
 
-print(dataset)
-print(problem_description)
-
-
 backend = SimpleRunner(random_seed=0) 
 search = BruteForceSearch(problem_description=problem_description, backend=backend)
-print(search)
+
+# Find the best pipeline
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=80)
+best_pipeline = best_runtime.pipeline
+best_output = best_pipeline_result.output
+# Evaluate the best pipeline
+best_scores = search.evaluate(best_pipeline).scores
+
+
+print('*' * 52)
+print('Search History:')
+for pipeline_result in search.history:
+    print('-' * 52)
+    print('Pipeline id:', pipeline_result.pipeline.id)
+    print(pipeline_result.scores)
+print('*' * 52)
+
+print('')
+
+print('*' * 52)
+print('Best pipeline:')
+print('-' * 52)
+print('Pipeline id:', best_pipeline.id)
+print('Pipeline json:', best_pipeline.to_json())
+print('Output:')
+print(best_output)
+print('Scores:')
+print(best_scores)
+print('*' * 52)
+
