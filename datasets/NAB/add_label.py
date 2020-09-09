@@ -16,5 +16,5 @@ for key in label_info.keys():
         else:
             label.append('0')
     df['label'] = label
-    df.to_csv(fpath+"/labeled_"+fname)
+    df.to_csv(fpath+"/labeled_"+fname, index=False)
 
