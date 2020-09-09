@@ -7,7 +7,7 @@ from tods.search import BruteForceSearch
 
 # Some information
 table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
-target_index = 3 # what column is the target
+target_index = 2 # what column is the target
 
 #table_path = 'datasets/yahoo_sub_5.csv'
 #target_index = 6 # what column is the target
