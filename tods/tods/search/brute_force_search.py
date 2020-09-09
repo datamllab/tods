@@ -65,17 +65,17 @@ class BruteForceSearch(PipelineSearchBase):
 
 primitive_python_paths = {
     'data_processing': [
-        #'d3m.primitives.tods.data_processing.time_interval_transform',
+        'd3m.primitives.tods.data_processing.time_interval_transform',
         #'d3m.primitives.tods.data_processing.categorical_to_binary',
         #'d3m.primitives.tods.data_processing.column_filter',
         #'d3m.primitives.tods.data_processing.timestamp_validation',
-        'd3m.primitives.tods.data_processing.duplication_validation',
+        #'d3m.primitives.tods.data_processing.duplication_validation',
         #'d3m.primitives.tods.data_processing.continuity_validation',
     ],
     'timeseries_processing': [
-        #'d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler',
+        'd3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler',
         'd3m.primitives.tods.timeseries_processing.transformation.standard_scaler',
-        #'d3m.primitives.tods.timeseries_processing.transformation.power_transformer',
+        'd3m.primitives.tods.timeseries_processing.transformation.power_transformer',
         #'d3m.primitives.tods.timeseries_processing.transformation.quantile_transformer',
         #'d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform',
         #'d3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing',
@@ -84,9 +84,9 @@ primitive_python_paths = {
         #'d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
     ],
     'feature_analysis': [
-        #'d3m.primitives.tods.feature_analysis.auto_correlation',
+        'd3m.primitives.tods.feature_analysis.auto_correlation',
         'd3m.primitives.tods.feature_analysis.statistical_mean',
-        #'d3m.primitives.tods.feature_analysis.statistical_median',
+        'd3m.primitives.tods.feature_analysis.statistical_median',
         #'d3m.primitives.tods.feature_analysis.statistical_g_mean',
         #'d3m.primitives.tods.feature_analysis.statistical_abs_energy',
         #'d3m.primitives.tods.feature_analysis.statistical_abs_sum',
@@ -117,8 +117,8 @@ primitive_python_paths = {
     ],
     'detection_algorithm': [
         'd3m.primitives.tods.detection_algorithm.pyod_ae',
-        #'d3m.primitives.tods.detection_algorithm.pyod_vae',
-        #'d3m.primitives.tods.detection_algorithm.pyod_cof',
+        'd3m.primitives.tods.detection_algorithm.pyod_vae',
+        'd3m.primitives.tods.detection_algorithm.pyod_cof',
         #'d3m.primitives.tods.detection_algorithm.pyod_sod',
         #'d3m.primitives.tods.detection_algorithm.pyod_abod',
         #'d3m.primitives.tods.detection_algorithm.pyod_hbos',
@@ -143,16 +143,20 @@ primitive_python_paths = {
 
 
 def _f1_rank(pipeline_result):
-    try:
-        for error in pipeline_result.error:
-            if error is not None:
-                raise error
-    except:
-        import traceback
-        traceback.print_exc()
+    #try:
+    #    for error in pipeline_result.error:
+    #        if error is not None:
+    #            raise error
+    #except:
+    #    import traceback
+    #    traceback.print_exc()
     if pipeline_result.status == 'COMPLETED':
         scores = pipeline_result.scores
         pipeline_result.rank = -scores['value'][0]
+        return pipeline_result
+    else:
+        # error
+        pipeline_result.rank = 1
         return pipeline_result
 
 def _generate_metrics():
@@ -267,21 +271,24 @@ def _generate_pipelines(primitive_python_paths, cpu_count=40):
 
     components = ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm']
     combinations = itertools.product(*(primitive_python_paths[k] for k in components))
-    pipelines = []
 
-    # Allocate tasks
-    combination_each_core_list = [[] for i in range(cpu_count)]
-    for idx, combination in enumerate(combinations):
-        core = idx % cpu_count
-        combination_each_core_list[core].append(combination)
 
-    # Obtain all the pipelines
-    pool = mp.Pool(processes=cpu_count)
-    results = [pool.apply_async(_generate_pipline,
-                                args=(combinations,))
-               for combinations in combination_each_core_list]
-    piplines = []
-    for p in results:
-        piplines.extend(p.get())
+    return _generate_pipline(combinations)
+    #pipelines = []
+
+    ## Allocate tasks
+    #combination_each_core_list = [[] for i in range(cpu_count)]
+    #for idx, combination in enumerate(combinations):
+    #    core = idx % cpu_count
+    #    combination_each_core_list[core].append(combination)
+
+    ## Obtain all the pipelines
+    #pool = mp.Pool(processes=cpu_count)
+    #results = [pool.apply_async(_generate_pipline,
+    #                            args=(combinations,))
+    #           for combinations in combination_each_core_list]
+    #piplines = []
+    #for p in results:
+    #    piplines.extend(p.get())
 
     return piplines
