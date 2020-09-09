@@ -1,36 +1,32 @@
-import uuid
-import random
 import pandas as pd
-from pprint import pprint
-from sklearn.datasets import make_classification
 
-from d3m import container
-from d3m.metadata.pipeline import Pipeline
-from d3m.metadata.problem import TaskKeyword, PerformanceMetric
-
-from axolotl.utils import data_problem
 from axolotl.backend.simple import SimpleRunner
-from axolotl.backend.ray import RayRunner
-from axolotl.algorithms.base import PipelineSearchBase
-from axolotl.utils import pipeline as pipeline_utils, schemas as schemas_utils
 
-import tods
+from tods.utils import generate_dataset_problem
 from tods.search import BruteForceSearch
 
-table_path = 'datasets/anomaly/yahoo_sub_5/yahoo_sub_5_dataset/tables/learningData.csv'
-df = pd.read_csv(table_path)
-dataset, problem_description = data_problem.generate_dataset_problem(df,
-                                                                     target_index=7,
-                                                                     task_keywords=[TaskKeyword.ANOMALY_DETECTION,],
-                                                                     performance_metrics=[{'metric': PerformanceMetric.F1}])
+# Some information
+table_path = 'datasets/yahoo_sub_5.csv' # The path of the dataset
+target_index = 6 # what column is the target
+time_limit = 30 # How many seconds you wanna search
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
 
-backend = SimpleRunner(random_seed=0) 
+# Read data and generate dataset and problem
+df = pd.read_csv(table_path)
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+
+# Start backend
+backend = SimpleRunner(random_seed=0)
+
+# Start search algorithm
 search = BruteForceSearch(problem_description=problem_description, backend=backend)
 
 # Find the best pipeline
-best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=15)
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=time_limit)
 best_pipeline = best_runtime.pipeline
 best_output = best_pipeline_result.output
+
 # Evaluate the best pipeline
 best_scores = search.evaluate(best_pipeline).scores
 
