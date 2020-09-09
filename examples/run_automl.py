@@ -18,8 +18,6 @@ metric = 'F1_MACRO' # F1 on both label 0 and 1
 
 # Read data and generate dataset and problem
 df = pd.read_csv(table_path)
-print(df[4])
-exit()
 dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
 
 # Start backend
