@@ -44,6 +44,70 @@ cd ..
 
 There could be some missing dependencies that are not listed above. Try to fix it by yourself if you meet any.
 
+# Examples
+Examples are available in [/examples](examples/). For basic usage, you can evaluate a pipeline on a given datasets. Here, we provide an example to load our default pipeline and evaluate it on a subset of yahoo dataset.
+```
+import pandas as pd
+
+from tods import schemas as schemas_utils
+from tods.utils import generate_dataset_problem, evaluate_pipeline
+
+table_path = 'datasets/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+time_limit = 30 # How many seconds you wanna search
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset and problem
+df = pd.read_csv(table_path)
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+
+# Load the default pipeline
+pipeline = schemas_utils.load_default_pipeline()
+
+# Run the pipeline
+pipeline_result = evaluate_pipeline(problem_description, dataset, pipeline)
+```
+We also provide AutoML support to help you automatically find a good pipeline for a your data.
+```
+import pandas as pd
+
+from axolotl.backend.simple import SimpleRunner
+
+from tods.utils import generate_dataset_problem
+from tods.search import BruteForceSearch
+
+# Some information
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
+#target_index = 2 # what column is the target
+
+table_path = 'datasets/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+time_limit = 30 # How many seconds you wanna search
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset and problem
+df = pd.read_csv(table_path)
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+
+# Start backend
+backend = SimpleRunner(random_seed=0)
+
+# Start search algorithm
+search = BruteForceSearch(problem_description=problem_description, backend=backend)
+
+# Find the best pipeline
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=time_limit)
+best_pipeline = best_runtime.pipeline
+best_output = best_pipeline_result.output
+
+# Evaluate the best pipeline
+best_scores = search.evaluate(best_pipeline).scores
+```
+
 # Dataset
 Datasets are located in `datasets/anomaly`. `raw_data` is the raw time series data. `transform.py` is script to transform the raw data to D3M format. `template` includes some templates for generating D3M data. If you run `transform.py`, the script will load the raw `kpi` data and create a folder named `kpi` in D3M format.
 
