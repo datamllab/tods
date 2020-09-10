@@ -3,17 +3,25 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Time Series Outlier Detection System's documentation!
+Welcome to TOD's documentation!
 ================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
 
 
-Indices and tables
+API Documents
 ==================
+.. toctree::
+    :maxdepth: 4
+    :caption: API Documents:
+    tods.data_processing
+    tods.timeseries_processing
+    tods.feature_analysis
+    tods.detection_algorithm
+    tods.reinforcement
 
 * :ref:`genindex`
 * :ref:`modindex`

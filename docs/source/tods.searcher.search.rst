@@ -9,7 +9,7 @@ tods.searcher.search.brute\_force\_search module
 
 .. automodule:: tods.searcher.search.brute_force_search
    :members:
-   :undoc-members:
+   :noindex:
    :show-inheritance:
 
 Module contents
@@ -17,5 +17,5 @@ Module contents
 
 .. automodule:: tods.searcher.search
    :members:
-   :undoc-members:
+   :noindex:
    :show-inheritance:
