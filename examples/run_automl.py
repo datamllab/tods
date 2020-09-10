@@ -2,8 +2,8 @@ import pandas as pd
 
 from axolotl.backend.simple import SimpleRunner
 
-from tods.utils import generate_dataset_problem
-from tods.search import BruteForceSearch
+from searcher.utils import generate_dataset_problem
+from searcher.search import BruteForceSearch
 
 # Some information
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
