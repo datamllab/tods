@@ -46,7 +46,7 @@ There could be some missing dependencies that are not listed above. Try to fix i
 
 # Examples
 Examples are available in [/examples](examples/). For basic usage, you can evaluate a pipeline on a given datasets. Here, we provide an example to load our default pipeline and evaluate it on a subset of yahoo dataset.
-```
+```python
 import pandas as pd
 
 from tods import schemas as schemas_utils
@@ -70,7 +70,7 @@ pipeline = schemas_utils.load_default_pipeline()
 pipeline_result = evaluate_pipeline(problem_description, dataset, pipeline)
 ```
 We also provide AutoML support to help you automatically find a good pipeline for a your data.
-```
+```python
 import pandas as pd
 
 from axolotl.backend.simple import SimpleRunner
