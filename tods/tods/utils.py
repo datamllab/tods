@@ -46,6 +46,14 @@ def evaluate_pipeline(problem_description, dataset, pipeline):
                                                 data_preparation_pipeline=data_preparation_pipeline,
                                                 scoring_pipeline=scoring_pipeline,
                                                 data_preparation_params=data_preparation_params)
+    try:
+        for error in pipeline_result.error:
+            if error is not None:
+                raise error
+    except:
+        import traceback
+        traceback.print_exc()
+
     return pipeline_result
 
 
