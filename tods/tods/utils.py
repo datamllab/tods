@@ -30,3 +30,22 @@ def generate_dataset_problem(df, target_index, metric):
 
     return dataset, problem_description
 
+def evaluate_pipeline(problem_description, dataset, pipeline):
+    from axolotl.utils import schemas as schemas_utils
+    from axolotl.backend.simple import SimpleRunner
+    data_preparation_pipeline = schemas_utils.get_splitting_pipeline("TRAINING_DATA")
+    scoring_pipeline = schemas_utils.get_scoring_pipeline()
+    data_preparation_params = schemas_utils.DATA_PREPARATION_PARAMS['no_split']
+    metrics = problem_description['problem']['performance_metrics']
+
+    backend = SimpleRunner(random_seed=0) 
+    pipeline_result = backend.evaluate_pipeline(problem_description=problem_description,
+                                                pipeline=pipeline,
+                                                input_data=[dataset],
+                                                metrics=metrics,
+                                                data_preparation_pipeline=data_preparation_pipeline,
+                                                scoring_pipeline=scoring_pipeline,
+                                                data_preparation_params=data_preparation_params)
+    return pipeline_result
+
+
