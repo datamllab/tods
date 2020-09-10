@@ -1,7 +1,7 @@
 import pandas as pd
 
-from tods import schemas as schemas_utils
-from tods.utils import generate_dataset_problem, evaluate_pipeline
+from searcher import schemas as schemas_utils
+from searcher.utils import generate_dataset_problem, evaluate_pipeline
 
 table_path = 'datasets/yahoo_sub_5.csv'
 target_index = 6 # what column is the target
