@@ -1,5 +1,5 @@
 # Time-series Outlie Detection System
-TODS is an full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exahaustive modules for building machine learning-based outlier detection systems including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules including: data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertises to calibrate the system. Specifically, three application scenarios on time-series outlier detection are provided: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
+TODS is an full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exahaustive modules for building machine learning-based outlier detection systems including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules including: data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertises to calibrate the system. Three common outlier detection scenarios on time-series data can be performed: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
 
 TODS is featured for:
 * **Full Sack Machine Learning System** which supports exhaustive components from preprocessings, feature extraction, detection algorithms and also human-in-the loop interface. 
@@ -8,13 +8,6 @@ TODS is featured for:
 
 * **Automated Machine Learning** aims on providing knowledge-free process that construct optimal pipeline based on the given data by automatically searching the best combination from all of the existing modules.
 
-
-## Axolotl
-Running pre-defined pipeline
-```
-python examples/build_AutoEncoder_pipeline.py
-python examples/run_predefined_pipeline.py
-```
 
 ## Installation
 
@@ -115,31 +108,6 @@ best_output = best_pipeline_result.output
 # Evaluate the best pipeline
 best_scores = search.evaluate(best_pipeline).scores
 ```
-
-# Dataset
-Datasets are located in `datasets/anomaly`. `raw_data` is the raw time series data. `transform.py` is script to transform the raw data to D3M format. `template` includes some templates for generating D3M data. If you run `transform.py`, the script will load the raw `kpi` data and create a folder named `kpi` in D3M format.
-
-The generated csv file will have the following columns: `d3mIndex`, `timestamp`, `value`, `'ground_truth`. In the example kpi dataset, there is only one value. For other datasets there could be multiple values. The goal of the pipline is to predict the `ground_truth` based on `timestamp` and the value(s).
-
-There is a nice script to check whether the dataset is in the right format. Run
-```
-python3 datasets/validate.py datasets/anomaly/kpi/
-```
-The expected output is as follows:
-```
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/SCORE/problem_TEST/problemDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/SCORE/dataset_TEST/datasetDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/kpi_problem/problemDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TEST/problem_TEST/problemDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TEST/dataset_TEST/datasetDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/kpi_dataset/datasetDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TRAIN/dataset_TRAIN/datasetDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TRAIN/problem_TRAIN/problemDoc.json'.
-Validating all datasets and problems.
-There are no errors.
-```
-Of course, you can also create other datasets with `transform.py`. But for now, we can focus on this example dataset since other datasets are usually in the same format.
-
 # Example
 In D3M, our goal is to provide a **solution** to a **problem** on a **dataset**. Here, solution is a pipline which consists of data processing, classifiers, etc.
 
