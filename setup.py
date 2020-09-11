@@ -5,7 +5,6 @@ from setuptools import setup, find_packages
 
 
 class install(sdist_orig):
-
     def run(self):
         try:
             self.spawn(['sh', '.install.sh'])
@@ -16,7 +15,6 @@ class install(sdist_orig):
 
 setup(name='tods',
     version='0.0.1',
-    packages=find_packages(exclude=['contrib', 'docs', 'site', 'test*']),
     cmdclass={
         'install': install
     },
