@@ -29,7 +29,7 @@ setup(
         'd3m',
         'Jinja2',
         'simplejson==3.12.0',
-        'scikit-learn==0.21.3',
+        'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
         'tensorflow', # should be removed later

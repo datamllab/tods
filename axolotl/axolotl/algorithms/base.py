@@ -151,7 +151,7 @@ class PipelineSearchBase:
             logging.error('No solution founded')
             pipeline_result = PipelineResult(fitted_pipeline_id='')
             pipeline_result.error = RuntimeError("No solution found")
-            return _, pipeline_result
+            return None, pipeline_result
 
         return self.fit(best_pipeline.pipeline, input_data, expose_values)
 
