@@ -108,20 +108,3 @@ best_output = best_pipeline_result.output
 # Evaluate the best pipeline
 best_scores = search.evaluate(best_pipeline).scores
 ```
-# Example
-In D3M, our goal is to provide a **solution** to a **problem** on a **dataset**. Here, solution is a pipline which consists of data processing, classifiers, etc.
-
-Run the example to build the first pipline with
-```
-python3 examples/build_iforest_pipline.py
-```
-Note that we have not implemented iForest yet. This one is actually Random Forest. This will generate a file `pipline.yml`, which describes a pipline. We can run the pipeline on the example data in this repo as follows:
-```
-python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/kpi/TRAIN/problem_TRAIN/problemDoc.json -i datasets/anomaly/kpi/TRAIN/dataset_TRAIN/datasetDoc.json -t datasets/anomaly/kpi/TEST/dataset_TEST/datasetDoc.json -o results.csv -O pipeline_run.yml
-```
-Another example on a subset of the sequences of Yahoo dataset is as follows:
-```
-python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/yahoo_sub_5/TRAIN/problem_TRAIN/problemDoc.json -i datasets/anomaly/yahoo_sub_5/TRAIN/dataset_TRAIN/datasetDoc.json -t datasets/anomaly/yahoo_sub_5/TEST/dataset_TEST/datasetDoc.json -o results.csv -O pipeline_run.yml
-```
-The above commands will generate two files `results.csv` and `pipline_run.yml`
-
