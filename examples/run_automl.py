@@ -1,33 +1,59 @@
-import uuid
-import random
 import pandas as pd
-from pprint import pprint
-from sklearn.datasets import make_classification
 
-from d3m import container
-from d3m.metadata.pipeline import Pipeline
-from d3m.metadata.problem import TaskKeyword, PerformanceMetric
-
-from axolotl.utils import data_problem
 from axolotl.backend.simple import SimpleRunner
-from axolotl.backend.ray import RayRunner
-from axolotl.algorithms.base import PipelineSearchBase
-from axolotl.utils import pipeline as pipeline_utils, schemas as schemas_utils
 
-import tods
-from tods.search import BruteForceSearch
+from searcher.utils import generate_dataset_problem
+from searcher.search import BruteForceSearch
 
-table_path = 'datasets/anomaly/kpi/kpi_dataset/tables/learningData.csv'
+# Some information
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
+#target_index = 2 # what column is the target
+
+table_path = 'datasets/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+time_limit = 30 # How many seconds you wanna search
+
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset and problem
 df = pd.read_csv(table_path)
-dataset, problem_description = data_problem.generate_dataset_problem(df,
-                                                                     target_index=3,
-                                                                     task_keywords=[TaskKeyword.ANOMALY_DETECTION,],
-                                                                     performance_metrics=[{'metric': PerformanceMetric.F1}])
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
 
-print(dataset)
-print(problem_description)
+# Start backend
+backend = SimpleRunner(random_seed=42)
 
-
-backend = SimpleRunner(random_seed=0) 
+# Start search algorithm
 search = BruteForceSearch(problem_description=problem_description, backend=backend)
-print(search)
+
+# Find the best pipeline
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=time_limit)
+best_pipeline = best_runtime.pipeline
+best_output = best_pipeline_result.output
+
+# Evaluate the best pipeline
+best_scores = search.evaluate(best_pipeline).scores
+
+
+print('*' * 52)
+print('Search History:')
+for pipeline_result in search.history:
+    print('-' * 52)
+    print('Pipeline id:', pipeline_result.pipeline.id)
+    print(pipeline_result.scores)
+print('*' * 52)
+
+print('')
+
+print('*' * 52)
+print('Best pipeline:')
+print('-' * 52)
+print('Pipeline id:', best_pipeline.id)
+print('Pipeline json:', best_pipeline.to_json())
+print('Output:')
+print(best_output)
+print('Scores:')
+print(best_scores)
+print('*' * 52)
+

@@ -1,12 +1,13 @@
-# Automated Time-series Outlie Detection System
-This is a time-seried outlier detection system with automate machin learning.
+# Time-series Outlie Detection System
+TODS is a full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exahaustive modules for building machine learning-based outlier detection systems including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules including: data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertises to calibrate the system. Three common outlier detection scenarios on time-series data can be performed: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
 
-## Axolotl
-Running pre-defined pipeline
-```
-python examples/build_AutoEncoder_pipeline.py
-python examples/run_predefined_pipeline.py
-```
+TODS is featured for:
+* **Full Sack Machine Learning System** which supports exhaustive components from preprocessings, feature extraction, detection algorithms and also human-in-the loop interface. 
+
+* **Wide-range of Algorithms**, including all of the point-wise detection algorithms supported by [PyOD](https://github.com/yzhao062/pyod), state-of-the-art pattern-wise (collective) detection algorithms such as [DeepLog](https://www.cs.utah.edu/~lifeifei/papers/deeplog.pdf), [Telemanon](https://arxiv.org/pdf/1802.04431.pdf), and also various ensemble algorithms for performing system-wise detection.
+
+* **Automated Machine Learning** aims on providing knowledge-free process that construct optimal pipeline based on the given data by automatically searching the best combination from all of the existing modules.
+
 
 ## Installation
 
@@ -44,100 +45,66 @@ cd ..
 
 There could be some missing dependencies that are not listed above. Try to fix it by yourself if you meet any.
 
-# Dataset
-Datasets are located in `datasets/anomaly`. `raw_data` is the raw time series data. `transform.py` is script to transform the raw data to D3M format. `template` includes some templates for generating D3M data. If you run `transform.py`, the script will load the raw `kpi` data and create a folder named `kpi` in D3M format.
+# Examples
+Examples are available in [/examples](examples/). For basic usage, you can evaluate a pipeline on a given datasets. Here, we provide an example to load our default pipeline and evaluate it on a subset of yahoo dataset.
+```python
+import pandas as pd
 
-The generated csv file will have the following columns: `d3mIndex`, `timestamp`, `value`, `'ground_truth`. In the example kpi dataset, there is only one value. For other datasets there could be multiple values. The goal of the pipline is to predict the `ground_truth` based on `timestamp` and the value(s).
+from tods import schemas as schemas_utils
+from tods.utils import generate_dataset_problem, evaluate_pipeline
 
-There is a nice script to check whether the dataset is in the right format. Run
+table_path = 'datasets/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+time_limit = 30 # How many seconds you wanna search
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset and problem
+df = pd.read_csv(table_path)
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+
+# Load the default pipeline
+pipeline = schemas_utils.load_default_pipeline()
+
+# Run the pipeline
+pipeline_result = evaluate_pipeline(problem_description, dataset, pipeline)
 ```
-python3 datasets/validate.py datasets/anomaly/kpi/
+We also provide AutoML support to help you automatically find a good pipeline for a your data.
+```python
+import pandas as pd
+
+from axolotl.backend.simple import SimpleRunner
+
+from tods.utils import generate_dataset_problem
+from tods.search import BruteForceSearch
+
+# Some information
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
+#target_index = 2 # what column is the target
+
+table_path = 'datasets/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+#table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
+time_limit = 30 # How many seconds you wanna search
+#metric = 'F1' # F1 on label 1
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset and problem
+df = pd.read_csv(table_path)
+dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+
+# Start backend
+backend = SimpleRunner(random_seed=0)
+
+# Start search algorithm
+search = BruteForceSearch(problem_description=problem_description, backend=backend)
+
+# Find the best pipeline
+best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=time_limit)
+best_pipeline = best_runtime.pipeline
+best_output = best_pipeline_result.output
+
+# Evaluate the best pipeline
+best_scores = search.evaluate(best_pipeline).scores
 ```
-The expected output is as follows:
-```
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/SCORE/problem_TEST/problemDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/SCORE/dataset_TEST/datasetDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/kpi_problem/problemDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TEST/problem_TEST/problemDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TEST/dataset_TEST/datasetDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/kpi_dataset/datasetDoc.json'.
-Validating dataset '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TRAIN/dataset_TRAIN/datasetDoc.json'.
-Validating problem '/home/grads/d/daochen/tods/tods/datasets/anomaly/kpi/TRAIN/problem_TRAIN/problemDoc.json'.
-Validating all datasets and problems.
-There are no errors.
-```
-Of course, you can also create other datasets with `transform.py`. But for now, we can focus on this example dataset since other datasets are usually in the same format.
-
-# Example
-In D3M, our goal is to provide a **solution** to a **problem** on a **dataset**. Here, solution is a pipline which consists of data processing, classifiers, etc.
-
-Run the example to build the first pipline with
-```
-python3 examples/build_iforest_pipline.py
-```
-Note that we have not implemented iForest yet. This one is actually Random Forest. This will generate a file `pipline.yml`, which describes a pipline. We can run the pipeline on the example data in this repo as follows:
-```
-python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/kpi/TRAIN/problem_TRAIN/problemDoc.json -i datasets/anomaly/kpi/TRAIN/dataset_TRAIN/datasetDoc.json -t datasets/anomaly/kpi/TEST/dataset_TEST/datasetDoc.json -o results.csv -O pipeline_run.yml
-```
-Another example on a subset of the sequences of Yahoo dataset is as follows:
-```
-python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/yahoo_sub_5/TRAIN/problem_TRAIN/problemDoc.json -i datasets/anomaly/yahoo_sub_5/TRAIN/dataset_TRAIN/datasetDoc.json -t datasets/anomaly/yahoo_sub_5/TEST/dataset_TEST/datasetDoc.json -o results.csv -O pipeline_run.yml
-```
-The above commands will generate two files `results.csv` and `pipline_run.yml`
-
-# How to add a new primitive
-
-For new primitives, put them in `/anomaly_pritives`. There is an example for isolation forest (however, this is essentially a RandomForest, although the name is IsolationForest. We need more efforts to change it to real IsolationForest).
-
-In addition to add a new file, you need to register the promitive in `anomaly-primitives/setup.py` and rerun pip install.
-
-Use the following command to check whether your new primitives are registered:
-```
-python3 -m d3m index search
-```
-
-Test the new primitives:
-```
-python3 examples/build_iforest_pipline.py
-```
-
-# Template for meta-data in primitives
-
-*   `__author__`: `DATA Lab at Texas A&M University`
-*   `name`: Just a name. Name your primitive with a few words
-*   `python_path`: This path should have **5** segments. The first two segments should be `d3m.primitives`. The third segment shoulb be `anomaly_detection`, `data_preprocessing` or `feature_construction` (it should match `primitive_family`). The fourth segment should be your algorithm name, e.g., `isolation_forest`. Note that this name should also be added to [this file](d3m/d3m/metadata/primitive_names.py). The last segment should be one of `Preprocessing`, `Feature`, `Algorithm` (for now).
-*   `source`: `name` should be `DATA Lab at Texas A&M University`, `contact` should be `mailto:khlai037@tamu.edu`, `uris` should have `https://gitlab.com/lhenry15/tods.git` and the path your py file.
-*   `algorithms_types`: Name the primitive by your self and add it to [here](d3m/d3m/metadata/schemas/v0/definitions.json#L1957). **Then reinstall d3m.** Fill this field with `metadata_base.PrimitiveAlgorithmType.YOUR_NAME`
-*   `primitive_family`: For preprocessing primitives, use `metadata_base.PrimitiveFamily.DATA_PREPROCESSING`. For feature analysis primitives, use `metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION`. For anomaly detection primitives, use `metadata_base.PrimitiveFamily.ANOMALY_DETECTION`.
-*   `id`: Randomly generate one with `import uuid; uuid.uuid4()`
-*   `hyperparameters_to_tune`: Specify what hyperparameters can be tuned in your primitive
-*   `version`: `0.0.1`
-
-Notes:
-
-1. `installation` is not required. We remove it.
-
-2. Try to reinstall everything if it does not work.
-
-3. An example of fake Isolation Forest is [here](anomaly-primitives/anomaly_primitives/SKIsolationForest.py#L294)
-
-
-## Resources of D3M
-
-If you still have questions, you may refer to the following resources.
-
-Dataset format [https://gitlab.com/datadrivendiscovery/data-supply](https://gitlab.com/datadrivendiscovery/data-supply)
-
-Instructions for creating primitives [https://docs.datadrivendiscovery.org/v2020.1.9/interfaces.html](https://docs.datadrivendiscovery.org/v2020.1.9/interfaces.html)
-
-We use a stable version of d3m core package at [https://gitlab.com/datadrivendiscovery/d3m/-/tree/v2020.1.9](https://gitlab.com/datadrivendiscovery/d3m/-/tree/v2020.1.9).
-
-The documentation is at [https://docs.datadrivendiscovery.org/](https://docs.datadrivendiscovery.org/).
-
-The core package documentation is at [https://docs.datadrivendiscovery.org/v2020.1.9/index.html](https://docs.datadrivendiscovery.org/v2020.1.9/index.html)
-
-The common-primitives is v0.8.0 at [https://gitlab.com/datadrivendiscovery/common-primitives/-/tree/v0.8.0/common_primitives](https://gitlab.com/datadrivendiscovery/common-primitives/-/tree/v0.8.0/common_primitives)
-
-The sklearn-wrap uses dist branch [https://gitlab.com/datadrivendiscovery/sklearn-wrap/-/tree/dist](https://gitlab.com/datadrivendiscovery/sklearn-wrap/-/tree/dist)
-
-There are other primitives developed by many universities but are not used in this repo. See [https://gitlab.com/datadrivendiscovery/primitives](https://gitlab.com/datadrivendiscovery/primitives)
