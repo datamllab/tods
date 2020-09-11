@@ -148,7 +148,8 @@ primitive_python_paths = {
         #'d3m.primitives.tods.detection_algorithm.KDiscordODetector',
         #'d3m.primitives.tods.detection_algorithm.deeplog',
         #'d3m.primitives.tods.detection_algorithm.telemanom',
-    ]
+    ],
+    'contamination': [0.01, 0.02, 0.05, 0.07, 0.1, 0.15, 0.2],
 }
 
 
@@ -233,6 +234,7 @@ def _generate_pipline(combinations):
         tods_step_6= PrimitiveStep(primitive=index.get_primitive(combination[2]))
         tods_step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
         tods_step_6.add_output('produce')
+        tods_step_6.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=combination[3])
         pipeline_description.add_step(tods_step_6)
 
         #tods_step_7 = PrimitiveStep(primitive=index.get_primitive(combination[3]))
@@ -267,7 +269,7 @@ def _generate_pipelines(primitive_python_paths, cpu_count=40):
     import multiprocessing as mp
 
     #components = ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm']
-    components = ['timeseries_processing', 'feature_analysis', 'detection_algorithm']
+    components = ['timeseries_processing', 'feature_analysis', 'detection_algorithm', 'contamination']
     combinations = itertools.product(*(primitive_python_paths[k] for k in components))
 
 

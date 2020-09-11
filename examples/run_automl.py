@@ -13,6 +13,7 @@ table_path = 'datasets/yahoo_sub_5.csv'
 target_index = 6 # what column is the target
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
+
 #metric = 'F1' # F1 on label 1
 metric = 'F1_MACRO' # F1 on both label 0 and 1
 
@@ -21,7 +22,7 @@ df = pd.read_csv(table_path)
 dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
 
 # Start backend
-backend = SimpleRunner(random_seed=0)
+backend = SimpleRunner(random_seed=42)
 
 # Start search algorithm
 search = BruteForceSearch(problem_description=problem_description, backend=backend)
