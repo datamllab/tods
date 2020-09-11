@@ -1,5 +1,5 @@
 # Time-series Outlie Detection System
-TODS is an full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exahaustive modules for building machine learning-based outlier detection systems including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules including: data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertises to calibrate the system. Three common outlier detection scenarios on time-series data can be performed: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
+TODS is a full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exahaustive modules for building machine learning-based outlier detection systems including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules including: data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertises to calibrate the system. Three common outlier detection scenarios on time-series data can be performed: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
 
 TODS is featured for:
 * **Full Sack Machine Learning System** which supports exhaustive components from preprocessings, feature extraction, detection algorithms and also human-in-the loop interface. 
@@ -125,59 +125,3 @@ python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/yahoo_sub
 ```
 The above commands will generate two files `results.csv` and `pipline_run.yml`
 
-# How to add a new primitive
-
-For new primitives, put them in `/anomaly_pritives`. There is an example for isolation forest (however, this is essentially a RandomForest, although the name is IsolationForest. We need more efforts to change it to real IsolationForest).
-
-In addition to add a new file, you need to register the promitive in `anomaly-primitives/setup.py` and rerun pip install.
-
-Use the following command to check whether your new primitives are registered:
-```
-python3 -m d3m index search
-```
-
-Test the new primitives:
-```
-python3 examples/build_iforest_pipline.py
-```
-
-# Template for meta-data in primitives
-
-*   `__author__`: `DATA Lab at Texas A&M University`
-*   `name`: Just a name. Name your primitive with a few words
-*   `python_path`: This path should have **5** segments. The first two segments should be `d3m.primitives`. The third segment shoulb be `anomaly_detection`, `data_preprocessing` or `feature_construction` (it should match `primitive_family`). The fourth segment should be your algorithm name, e.g., `isolation_forest`. Note that this name should also be added to [this file](d3m/d3m/metadata/primitive_names.py). The last segment should be one of `Preprocessing`, `Feature`, `Algorithm` (for now).
-*   `source`: `name` should be `DATA Lab at Texas A&M University`, `contact` should be `mailto:khlai037@tamu.edu`, `uris` should have `https://gitlab.com/lhenry15/tods.git` and the path your py file.
-*   `algorithms_types`: Name the primitive by your self and add it to [here](d3m/d3m/metadata/schemas/v0/definitions.json#L1957). **Then reinstall d3m.** Fill this field with `metadata_base.PrimitiveAlgorithmType.YOUR_NAME`
-*   `primitive_family`: For preprocessing primitives, use `metadata_base.PrimitiveFamily.DATA_PREPROCESSING`. For feature analysis primitives, use `metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION`. For anomaly detection primitives, use `metadata_base.PrimitiveFamily.ANOMALY_DETECTION`.
-*   `id`: Randomly generate one with `import uuid; uuid.uuid4()`
-*   `hyperparameters_to_tune`: Specify what hyperparameters can be tuned in your primitive
-*   `version`: `0.0.1`
-
-Notes:
-
-1. `installation` is not required. We remove it.
-
-2. Try to reinstall everything if it does not work.
-
-3. An example of fake Isolation Forest is [here](anomaly-primitives/anomaly_primitives/SKIsolationForest.py#L294)
-
-
-## Resources of D3M
-
-If you still have questions, you may refer to the following resources.
-
-Dataset format [https://gitlab.com/datadrivendiscovery/data-supply](https://gitlab.com/datadrivendiscovery/data-supply)
-
-Instructions for creating primitives [https://docs.datadrivendiscovery.org/v2020.1.9/interfaces.html](https://docs.datadrivendiscovery.org/v2020.1.9/interfaces.html)
-
-We use a stable version of d3m core package at [https://gitlab.com/datadrivendiscovery/d3m/-/tree/v2020.1.9](https://gitlab.com/datadrivendiscovery/d3m/-/tree/v2020.1.9).
-
-The documentation is at [https://docs.datadrivendiscovery.org/](https://docs.datadrivendiscovery.org/).
-
-The core package documentation is at [https://docs.datadrivendiscovery.org/v2020.1.9/index.html](https://docs.datadrivendiscovery.org/v2020.1.9/index.html)
-
-The common-primitives is v0.8.0 at [https://gitlab.com/datadrivendiscovery/common-primitives/-/tree/v0.8.0/common_primitives](https://gitlab.com/datadrivendiscovery/common-primitives/-/tree/v0.8.0/common_primitives)
-
-The sklearn-wrap uses dist branch [https://gitlab.com/datadrivendiscovery/sklearn-wrap/-/tree/dist](https://gitlab.com/datadrivendiscovery/sklearn-wrap/-/tree/dist)
-
-There are other primitives developed by many universities but are not used in this repo. See [https://gitlab.com/datadrivendiscovery/primitives](https://gitlab.com/datadrivendiscovery/primitives)
