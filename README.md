@@ -16,34 +16,7 @@ This package works with **Python 3.6** and pip 19+. You need to have the followi
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
 
-Then run the script `install.sh`. The script witll install d3m core package with:
-```
-cd d3m
-pip3 install -e .
-cd ..
-```
-Then it installs common primitives (which will be used in the running examples):
-```
-cd common-primitives
-pip3 install -e .
-cd ..
-```
-And it installs sklearn wrapper with:
-```
-cd sklearn-wrap
-pip3 install -r requirements.txt
-pip3 install -e .
-cd ..
-```
-It installs anomaly primitives (ours) by:
-```
-cd anomaly-primitives
-pip3 install -r requirements.txt
-pip3 install -e .
-cd ..
-```
-
-There could be some missing dependencies that are not listed above. Try to fix it by yourself if you meet any.
+Then execute `python setup.py install`. The script will then install all of the packges to build up TODS.
 
 # Examples
 Examples are available in [/examples](examples/). For basic usage, you can evaluate a pipeline on a given datasets. Here, we provide an example to load our default pipeline and evaluate it on a subset of yahoo dataset.
