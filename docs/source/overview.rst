@@ -1,101 +1,42 @@
 Overview
 ========
 
-Design Principles
-~~~~~~~~~~~~~~~~~
-
-The toolkit wraps each game by ``Env`` class with easy-to-use
-interfaces. The goal of this toolkit is to enable the users to focus on
-algorithm development without caring about the environment. The
-following design principles are applied when developing the toolkit: 
- * **Reproducible.** Results on the environments can be reproduced. The same result should be obtained with the same random seed in different runs. 
- * **Accessible.** The experiences are collected and well organized after each game with easy-to-use interfaces. Uses can conveniently configure state representation, action encoding, reward design, or even the game rules. 
- * **Scalable.** New card environments can be added conveniently into the toolkit with the above design principles. We also try to minimize the dependencies in the toolkit so that the codes can be easily maintained.
+TODS follows the design principal of `D3M <http://datadrivendiscovery.org/>`_.
+The toolkit wraps each function into ``Primitive`` class with an unified 
+interface for various functionalities. The goal of this toolkit is to enable
+the users to easily develop outlier detection system for multivariate time series data. 
+TODS provides three pervasive outlier scenarios for the given time series data.
+ * **Point-wise Outliers** are the outliers that occur on time points. In other words, each time point in the time series data could be an outlier.
+ * **Pattern-wise Outliers** refer to the scenario that each outlier is define as a subsequence. It is also known as collective outlier detection. 
+ * **System-wise Outliers** are defined as a set of time series. For example, each set of time series represents a device (system) that equipped with multiple sensors, where each sensor is represented as an univariate time series. The goal is to detect the anomalous devices from the normal ones.
 
 TODS High-level Design
 ~~~~~~~~~~~~~~~~~~~~~~~~
+Following the typical machine learning pipeline, there are 6 modules lie in TODS: Data prociessing, time series processing, feature analysis, detection algorithms and reinforcement module.
 
-This document introduces the high-level design for the environments, the
-games, and the agents (algorithms).
-
-.. image:: img/framework.pdf
+.. image:: img/tods_framework.pdf
    :width: 800
 
 
 
-Data-Processing
+Data Processing
 ---------------
+Data processing aims on processing data following the tabular fashion. The functionalities including: dataset loading, data filtering, data validation, data binarization, and timestamp transformation.
 
-We wrap each game with an ``Env`` class. The responsibility of ``Env``
-is to help you generate trajectories of the games. For developing
-Reinforcement Learning (RL) algorithms, we recommend to use the
-following interfaces:
+Timeseries Processing
+---------------------
+Time series processing provides multiple time series-specific preprocessing techniques including: seasonality/trend decomposition, time series transformation/scaling/smoothing.
 
--  ``set_agents``: This function tells the ``Env`` what agents will be
-   used to perform actions in the game. Different games may have a
-   different number of agents. The input of the function is a list of
-   ``Agent`` class. For example,
-   ``env.set_agent([RandomAgent(), RandomAgent()])`` indicates that two
-   random agents will be used to generate the trajectories.
--  ``run``: After setting the agents, this interface will run a complete
-   trajectory of the game, calculate the reward for each transition, and
-   reorganize the data so that it can be directly fed into a RL
-   algorithm.
+Feature Analysis
+----------------
+Feature analysis module provides exhaustive feature extraction techniques from three aspects: Time domain, frequency domain and latent factor models.  
+There are 30 feature extraction methods including statistical methods, time series filters, spectral transformations, and matrix factorization models.
 
-For advanced access to the environment, such as traversal of the game
-tree, we provide the following interfaces:
+Detection Algorithms
+---------------------
+Based on the three scenarios above, we provide multiple algorithms including traditional approaches (e.g. IForest, Autoregression), heuristic methods (e.g. HotSax algorithm, Matrix Profile), deep learning methods (e.g. RNN-LSTM, GAN, VAE), and ensemble methods to address each kind of outlier. 
 
--  ``step``: Given the current state, the environment takes one step
-   forward, and returns the next state and the next player.
--  ``step_back``: Takes one step backward. The environment will restore
-   to the last state. The ``step_back`` is defaultly turned off since it
-   requires expensively recoeding previous states. To turn it on, set
-   ``allow_step_back = True`` when ``make`` environments.
--  ``get_payoffs``: At the end of the game, this function can be called
-   to obtain the payoffs for each player.
+Reincforcement Module
+----------------------
+Reinforcement module is designed for improve the existed model with human expertise. Specifically, rule-based filtering has been developed to allow users to transform the domain knowledge into rule filters, active learning based methods will be involved in the near future as well.
 
-We also support single-agent mode and human mode. Examples can be found
-in ``examples/``.
-
--  Single agent mode: single-agent environments are developped by
-   simulating other players with pre-trained models or rule-based
-   models. You can enable single-agent mode by
-   ``rlcard.make(ENV_ID, config={'single_agent_mode':True})``. Then the
-   ``step`` function will return ``(next_state, reward, done)`` just as
-   common single-agent environments. ``env.reset()`` will reset the game
-   and return the first state.
-
-Games
------
-
-Card games usually have similar structures. We abstract some concepts in
-card games and follow the same design pattern. In this way,
-users/developers can easily dig into the code and change the rules for
-research purpose. Specifically, the following classes are used in all
-the games:
-
--  ``Game``: A game is defined as a complete sequence starting from one
-   of the non-terminal states to a terminal state.
--  ``Round``: A round is a part of the sequence of a game. Most card
-   games can be naturally divided into multiple rounds.
--  ``Dealer``: A dealer is responsible for shuffling and allocating a
-   deck of cards.
--  ``Judger``: A judger is responsible for making major decisions at the
-   end of a round or a game.
--  ``Player``: A player is a role who plays cards following a strategy.
-
-To summarize, in one ``Game``, a ``Dealer`` deals the cards for each
-``Player``. In each ``Round`` of the game, a ``Judger`` will make major
-decisions about the next round and the payoffs in the end of the game.
-
-Agents
-------
-
-We provide examples of several representative algorithms and wrap them
-as ``Agent`` to show how a learning algorithm can be connected to the
-toolkit. The first example is DQN which is a representative of the
-Reinforcement Learning (RL) algorithms category. The second example is
-NFSP which is a representative of the Reinforcement Learning (RL) with
-self-play. We also provide CFR and DeepCFR which belong to Conterfactual
-Regret Minimization (CFR) category. Other algorithms from these three
-categories can be connected in similar ways.

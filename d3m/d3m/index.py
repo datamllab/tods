@@ -107,8 +107,8 @@ def get_primitive(primitive_path: str) -> typing.Type[base.PrimitiveBase]:
     if not primitive_path:
         raise exceptions.InvalidArgumentValueError("Primitive path is required.")
 
-    if not primitive_path.startswith('d3m.primitives.'):
-        raise exceptions.InvalidArgumentValueError("Primitive path does not start with \"d3m.primitives\".")
+    #if not primitive_path.startswith('d3m.primitives.'):
+    #    raise exceptions.InvalidArgumentValueError("Primitive path does not start with \"d3m.primitives\".")
 
     path, name = primitive_path.rsplit('.', 1)
 
