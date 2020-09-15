@@ -70,9 +70,3 @@ with open('example_pipeline.json', 'w') as f:
     f.write(data)
     print(data)
 
-# Output to YAML
-yaml = pipeline_description.to_yaml()
-with open('pipeline.yml', 'w') as f:
-    f.write(yaml)
-print(yaml)
-
