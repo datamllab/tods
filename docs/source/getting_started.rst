@@ -5,8 +5,8 @@ In this document, we provide some toy examples for getting started. All
 the examples in this document and even more examples are available in
 `examples/ <https://github.com/datamllab/rlcard/tree/master/examples>`__.
 
-Playing with Random Agents
---------------------------
+Constructing Point-wise Detection on NAB Dataset 
+------------------------------------------------
 
 We have set up a random agent that can play randomly on each
 environment. An example of applying a random agent on Blackjack is as
