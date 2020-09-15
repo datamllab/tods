@@ -3114,7 +3114,7 @@ class PrimitiveMetadata(Metadata):
         cls._validate_docker_containers(metadata)
         cls._validate_hyperparams_to_tune(metadata)
         cls._validate_optional_constructor_arguments(metadata)
-        cls._validate_namespace_compliance(metadata['python_path'], metadata['primitive_family'])
+        #cls._validate_namespace_compliance(metadata['python_path'], metadata['primitive_family'])
         cls._validate_contact_information(metadata)
         cls._validate_description(metadata)
 
