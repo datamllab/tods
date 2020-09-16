@@ -2,8 +2,8 @@ import pandas as pd
 
 from axolotl.backend.simple import SimpleRunner
 
-from searcher.utils import generate_dataset_problem
-from searcher.search import BruteForceSearch
+from tods import generate_dataset, generate_problem
+from tods.searcher import BruteForceSearch
 
 # Some information
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
@@ -19,13 +19,15 @@ metric = 'F1_MACRO' # F1 on both label 0 and 1
 
 # Read data and generate dataset and problem
 df = pd.read_csv(table_path)
-dataset, problem_description = generate_dataset_problem(df, target_index=target_index, metric=metric)
+dataset = generate_dataset(df, target_index=target_index)
+problem_description = generate_problem(dataset, metric)
 
 # Start backend
-backend = SimpleRunner(random_seed=42)
+backend = SimpleRunner(random_seed=0)
 
 # Start search algorithm
-search = BruteForceSearch(problem_description=problem_description, backend=backend)
+search = BruteForceSearch(problem_description=problem_description,
+                          backend=backend)
 
 # Find the best pipeline
 best_runtime, best_pipeline_result = search.search_fit(input_data=[dataset], time_limit=time_limit)

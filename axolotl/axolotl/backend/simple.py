@@ -172,6 +172,7 @@ class SimpleRunner(RunnerBase):
         else:
             pipeline_result.status = "COMPLETED"
             pipeline_result.scores = runtime_module.combine_folds(scores)
+            pipeline_result.outputs = [result.values for result in results]
 
         self.request_results[request_id] = pipeline_result
         return request_id
