@@ -85,8 +85,9 @@ class DuplicationValidation(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
         for col in list(inputs.columns.values):
             if not col in ['d3mIndex', 'timestamp', 'ground_truth']:
-                inputs.pop(col)
-                inputs.insert(2, col, inputs_copy[col].values)
+                
+                inputs[col] = inputs_copy[col].values
+                
 
         return inputs
 
