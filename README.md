@@ -81,3 +81,5 @@ best_output = best_pipeline_result.output
 # Evaluate the best pipeline
 best_scores = search.evaluate(best_pipeline).scores
 ```
+# Acknowledgement
+We gratefully acknowledge the Data Driven Discovery of Models (D3M) program of the Defense Advanced Research Projects Agency (DARPA)
