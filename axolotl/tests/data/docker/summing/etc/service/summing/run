@@ -1,4 +1,0 @@
-#!/bin/bash -e
-
-cd /code
-exec chpst -u nobody:nogroup ./server.py 2>&1
