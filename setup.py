@@ -29,7 +29,7 @@ setup(
     url='https://tods-doc.github.io',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     package_data={
-        'tods': ['.entry.ini']
+        'tods': ['.entry_points.ini']
     },
     install_requires=[
         'd3m',
