@@ -35,8 +35,8 @@ import pandas
 
 from d3m import container, utils as d3m_utils
 
-from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
-from detection_algorithm.core.KDiscord import KDiscord
+from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
+from .core.KDiscord import KDiscord
 import uuid
 
 from sklearn.utils import check_array, column_or_1d

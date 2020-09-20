@@ -5,10 +5,10 @@ import numpy as np
 from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
 
-from detection_algorithm.core.CollectiveBase import CollectiveBaseDetector
+from .CollectiveBase import CollectiveBaseDetector
 from pyod.models.pca import PCA as PCA_PYOD
 
-from detection_algorithm.core.utility import get_sub_matrices
+from .utility import get_sub_matrices
 
 
 class PCA(CollectiveBaseDetector):

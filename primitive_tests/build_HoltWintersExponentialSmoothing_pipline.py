@@ -22,7 +22,6 @@ step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_1.add_output('produce')
 pipeline_description.add_step(step_1)
 
-
 # Step 2: extract_columns_by_semantic_types(attributes)
 step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
 step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
@@ -43,13 +42,13 @@ attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
 # Step 4: imputer
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.impute_missing'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
-# Step 5: mean average transform
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform'))
+# Step 5: holt winters exponential smoothing
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_5.add_hyperparameter(name="use_columns", argument_type=ArgumentType.VALUE, data = (2, 3))
 step_5.add_hyperparameter(name="use_semantic_types", argument_type=ArgumentType.VALUE, data = True)

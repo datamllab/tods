@@ -39,7 +39,7 @@ attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
 # Step 4: imputer
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.impute_missing'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
@@ -49,16 +49,13 @@ step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detect
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 
 step_5.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=0.1)
-step_5.add_hyperparameter(name='return_subseq_inds', argument_type=ArgumentType.VALUE, data=True)
 # step_5.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='append')
 
-step_5.add_output('produce_score')
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
 # Final Output
 pipeline_description.add_output(name='output predictions', data_reference='steps.5.produce')
-# pipeline_description.add_output(name='output score', data_reference='steps.5.produce_score')
 
 # Output to YAML
 yaml = pipeline_description.to_yaml()

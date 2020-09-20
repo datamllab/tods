@@ -1,7 +1,7 @@
 #!/bin/bash
 
-test_scripts=$(ls tests)
-#test_scripts=$(ls tests | grep -v -f tested_file.txt)
+#test_scripts=$(ls primitive_tests)
+test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
 
 for file in $test_scripts
 do

@@ -10,7 +10,8 @@ pipeline_description = Pipeline()
 pipeline_description.add_input(name='inputs')
 
 # Step 0: dataset_to_dataframe
-step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe'))
+primitive_0 = index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe')
+step_0 = PrimitiveStep(primitive=primitive_0)
 step_0.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='inputs.0')
 step_0.add_output('produce')
 pipeline_description.add_step(step_0)
@@ -41,17 +42,25 @@ attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
 # Step 4: imputer
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.impute_missing'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
-# Step 5: auto encoder
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_ae'))
+# Step 5: holt smoothing
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
+step_5.add_hyperparameter(name="exclude_columns", argument_type=ArgumentType.VALUE, data = (2, 3))
+step_5.add_hyperparameter(name="use_semantic_types", argument_type=ArgumentType.VALUE, data = True)
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
+# Step 6: isolation forest
+#step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.anomaly_detection.isolation_forest.Algorithm'))
+#step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
+#step_6.add_argument(name='outputs', argument_type=ArgumentType.CONTAINER, data_reference=targets)
+#step_6.add_output('produce')
+#pipeline_description.add_step(step_6)
 
 # Final Output
 pipeline_description.add_output(name='output predictions', data_reference='steps.5.produce')
