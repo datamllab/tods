@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#test_scripts=$(ls primitive_tests)
-test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
+test_scripts=$(ls primitive_tests)
+#test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
 
 for file in $test_scripts
 do
@@ -12,7 +12,7 @@ do
 	echo $file
 
 	# Test pipeline building
-	python tests/$file > tmp.txt 2>>tmp.txt
+	python primitive_tests/$file > tmp.txt 2>>tmp.txt
 	error=$(cat tmp.txt | grep 'Error' | wc -l) 
 	echo "\t#Pipeline Building Errors:" $error
 	if [ "$error" -gt "0" ]
