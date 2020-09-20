@@ -6,8 +6,6 @@ from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 
-import common_primitives
-
 __all__ = ('DatasetToDataFramePrimitive',)
 
 Inputs = container.Dataset
@@ -34,7 +32,7 @@ class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, O
             'name': "Extract a DataFrame from a Dataset",
             'python_path': 'd3m.primitives.tods.data_processing.dataset_to_dataframe',
             'source': {
-                'name': common_primitives.__author__,
+                'name': 'common-primitives',
                 'contact': 'mailto:mitar.commonprimitives@tnode.com',
                 'uris': [
                     'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/dataset_to_dataframe.py',
