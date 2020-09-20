@@ -7,7 +7,7 @@ from sklearn.utils.validation import check_is_fitted
 from scipy.special import erf
 from sklearn.preprocessing import MinMaxScaler
 
-from detection_algorithm.core.CollectiveBase import CollectiveBaseDetector
+from .CollectiveBase import CollectiveBaseDetector
 
 # from tod.utility import get_sub_matrices
 
