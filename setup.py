@@ -10,7 +10,7 @@ def read_file_entry_points(fname):
         return entry_points.read()
 
 def merge_entry_points():
-    entry_list = ['entry_points.ini']
+    entry_list = ['tods/.entry_points.ini']
     merge_entry = []
     for entry_name in entry_list:
         entry_point = read_file_entry_points(entry_name).replace(' ', '')
@@ -28,6 +28,9 @@ setup(
     author_email='khlai037@tamu.edu',
     url='https://tods-doc.github.io',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
+    package_data={
+        'tods': ['.entry.ini']
+    },
     install_requires=[
         'd3m',
         'Jinja2',
