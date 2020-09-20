@@ -29,11 +29,13 @@ setup(
     install_requires=[
         'd3m',
         'Jinja2',
-        'GitPython==3.1.0',
+        #'GitPython==3.1.0',
         'simplejson==3.12.0',
+        'gitdb<5,>=4.0.1',
         'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
+        'pillow==7.1.2',
         'tensorflow', # should be removed later
         'keras', # should be removed later
         'pyod',
