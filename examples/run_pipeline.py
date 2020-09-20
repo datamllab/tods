@@ -15,7 +15,7 @@ parser.add_argument('--target_index', type=int, default=6,
                     help='Index of the ground truth (for evaluation)')
 parser.add_argument('--metric',type=str, default='F1_MACRO',
                     help='Evaluation Metric (F1, F1_MACRO)')
-parser.add_argument('--pipeline_path', default=os.path.join(this_path, '../tods/tods/resources/default_pipeline.json'),
+parser.add_argument('--pipeline_path', default=os.path.join(this_path, '../tods/resources/default_pipeline.json'),
                     help='Input the path of the pre-built pipeline description')
 
 args = parser.parse_args()
