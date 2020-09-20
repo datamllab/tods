@@ -110,6 +110,7 @@ class Model:
                        channel.y_train,
                        batch_size=self._lstm_batch_size,
                        epochs=self._epochs,
+                       shuffle=False,
                        validation_split=self._validation_split,
                        callbacks=cbs,
                        verbose=True)

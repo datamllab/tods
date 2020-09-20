@@ -37,8 +37,8 @@ from d3m import container, utils as d3m_utils
 
 from pyod.models.base import BaseDetector
 
-from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
-from detection_algorithm.core.LSTMOD import LSTMOutlierDetector
+from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
+from .core.LSTMOD import LSTMOutlierDetector
 
 from sklearn.utils import check_array, column_or_1d
 from sklearn.utils.validation import check_is_fitted
