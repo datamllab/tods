@@ -10,7 +10,7 @@ def read_file_entry_points(fname):
         return entry_points.read()
 
 def merge_entry_points():
-    entry_list = ['entry_points.ini']
+    entry_list = ['entry_points.ini', 'entry_points_common.ini']
     merge_entry = []
     for entry_name in entry_list:
         entry_point = read_file_entry_points(entry_name).replace(' ', '')
@@ -29,6 +29,7 @@ setup(
     install_requires=[
         'd3m',
         'Jinja2',
+        'GitPython==3.1.0',
         'simplejson==3.12.0',
         'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
@@ -38,7 +39,9 @@ setup(
         'pyod',
         'nimfa==1.4.0',
         'stumpy==1.4.0',
-        'more-itertools==8.5.0'
+        'more-itertools==8.5.0',
+        'gitdb2==2.0.6',
+        'gitdb==0.6.4'
     ],
 
     entry_points = merge_entry_points()
