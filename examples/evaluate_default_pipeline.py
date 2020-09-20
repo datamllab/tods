@@ -5,6 +5,7 @@ from searcher.utils import generate_dataset_problem, evaluate_pipeline
 
 table_path = 'datasets/yahoo_sub_5.csv'
 target_index = 6 # what column is the target
+
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
 #metric = 'F1' # F1 on label 1

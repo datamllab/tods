@@ -44,7 +44,7 @@ import uuid
 
 from d3m import container, utils as d3m_utils
 
-from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
+from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 
 
 
@@ -110,7 +110,7 @@ class Hyperparams(Hyperparams_ODBase):
     )
 
     window_size = hyperparams.Hyperparameter[int](
-        default=10,
+        default=1,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
         description="window size"
     )
@@ -263,7 +263,7 @@ class DeeplogLstm(BaseDetector):
                  optimizer : str ='adam',loss=mean_squared_error,preprocessing=True,
                  epochs : int =100, batch_size : int =32, dropout_rate : float =0.0,
                  l2_regularizer : float =0.1, validation_size : float =0.1,
-                 window_size: int = 10 ,stacked_layers: int  = 1,verbose : int = 1,contamination:int = 0.001):
+                 window_size: int = 1, stacked_layers: int  = 1, verbose : int = 1, contamination:int = 0.001):
 
         super(DeeplogLstm, self).__init__(contamination=contamination)
         self.hidden_size = hidden_size

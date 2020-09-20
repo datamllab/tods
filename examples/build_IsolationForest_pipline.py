@@ -2,10 +2,6 @@ from d3m import index
 from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from d3m.metadata import hyperparams
-import copy
-
-# -> dataset_to_dataframe -> column_parser -> extract_columns_by_semantic_types(attributes) -> imputer -> random_forest
-#                                             extract_columns_by_semantic_types(targets)    ->            ^
 
 # Creating pipeline
 pipeline_description = Pipeline()
@@ -43,7 +39,7 @@ pipeline_description.add_step(step_3)
 attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
-# Step 4: test primitive
+# Step 4: Power transformation 
 primitive_4 = index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.power_transformer')
 step_4 = PrimitiveStep(primitive=primitive_4)
 step_4.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='new')
@@ -51,7 +47,7 @@ step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
-# Step 4: test primitive
+# Step 5: Axiswise scaling 
 primitive_5 = index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler')
 step_5 = PrimitiveStep(primitive=primitive_5)
 step_5.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='new')
@@ -59,7 +55,7 @@ step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
-# Step 4: test primitive
+# Step 6: Standarization 
 primitive_6 = index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.standard_scaler')
 step_6 = PrimitiveStep(primitive=primitive_6)
 step_6.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='new')
@@ -67,7 +63,7 @@ step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_6.add_output('produce')
 pipeline_description.add_step(step_6)
 
-# Step 4: test primitive
+# Step 7: Quantile transformation 
 primitive_7 = index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.quantile_transformer')
 step_7 = PrimitiveStep(primitive=primitive_7)
 step_7.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='new')
@@ -75,7 +71,7 @@ step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_7.add_output('produce')
 pipeline_description.add_step(step_7)
 
-# Step 4: test primitive
+# Step 4: Isolation Forest 
 primitive_8 = index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_iforest')
 step_8 = PrimitiveStep(primitive=primitive_8)
 step_8.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=0.1)
@@ -100,8 +96,8 @@ with open('example_pipeline.json', 'w') as f:
     f.write(data)
     print(data)
 
-# Output to YAML
-yaml = pipeline_description.to_yaml()
-with open('pipeline.yml', 'w') as f:
-    f.write(yaml)
-print(yaml)
+## Output to YAML
+#yaml = pipeline_description.to_yaml()
+#with open('pipeline.yml', 'w') as f:
+#    f.write(yaml)
+#print(yaml)
