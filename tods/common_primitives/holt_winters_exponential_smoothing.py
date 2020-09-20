@@ -187,9 +187,6 @@ class HoltWintersExponentialSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, O
         except Exception as e:
                self.logger.error("Error in Calculating Holt Winters smoothing",e)
         self._update_metadata(outputs)
-        print(inputs)
-        print("-------------")
-        print(outputs)
 
         return base.CallResult(outputs) 
 
