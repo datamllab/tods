@@ -31,7 +31,6 @@ setup(
         'Jinja2',
         #'GitPython==3.1.0',
         'simplejson==3.12.0',
-        'gitdb<5,>=4.0.1',
         'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
@@ -42,7 +41,6 @@ setup(
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
-        'gitdb2==2.0.6',
         'gitdb==0.6.4'
     ],
 
