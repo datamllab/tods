@@ -34,7 +34,7 @@ import uuid
 
 from d3m import container, utils as d3m_utils
 
-from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
+from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 from pyod.models.sod import SOD
 # from typing import Union
 
