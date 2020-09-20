@@ -42,7 +42,7 @@ attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
 # Step 4: imputer
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.impute_missing'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)

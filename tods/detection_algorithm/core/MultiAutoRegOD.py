@@ -6,12 +6,12 @@ from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
 from sklearn.utils import column_or_1d
 
-from detection_algorithm.core.CollectiveBase import CollectiveBaseDetector
+from .CollectiveBase import CollectiveBaseDetector
 from combo.models.score_comb import average, maximization, median, aom, moa
 from combo.utils.utility import standardizer
 
-from detection_algorithm.core.AutoRegOD import AutoRegOD
-from detection_algorithm.core.utility import get_sub_sequences_length
+from .AutoRegOD import AutoRegOD
+from .utility import get_sub_sequences_length
 
 
 class MultiAutoRegOD(CollectiveBaseDetector):
