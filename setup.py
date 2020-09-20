@@ -41,7 +41,7 @@ setup(
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
-        'gitdb==0.6.4'
+        #'gitdb==0.6.4'
     ],
 
     entry_points = merge_entry_points()
