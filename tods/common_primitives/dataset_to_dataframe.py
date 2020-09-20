@@ -6,7 +6,7 @@ from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 import logging 
-import common_primitives
+import common_primitives 
 
 __all__ = ('DatasetToDataFramePrimitive',)
 
