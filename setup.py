@@ -23,13 +23,12 @@ def merge_entry_points():
 setup(
     name=PACKAGE_NAME,
     version='0.0.1',
-    description='Primitives for time-series outlier detection',
-    author='DATA Lab',
+    description='Automated Time-series Outlier Detection System',
+    author='DATA Lab@Texas A&M University',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     install_requires=[
         'd3m',
         'Jinja2',
-        #'GitPython==3.1.0',
         'simplejson==3.12.0',
         'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
