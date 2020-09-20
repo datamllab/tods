@@ -6,9 +6,9 @@ from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted
 from sklearn.linear_model import LinearRegression
 
-from detection_algorithm.core.CollectiveBase import CollectiveBaseDetector
+from .CollectiveBase import CollectiveBaseDetector
 
-from detection_algorithm.core.utility import get_sub_matrices
+from .utility import get_sub_matrices
 
 
 class AutoRegOD(CollectiveBaseDetector):

@@ -35,9 +35,9 @@ import pandas
 
 from d3m import container, utils as d3m_utils
 
-from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
-from detection_algorithm.core.MultiAutoRegOD import MultiAutoRegOD
-from detection_algorithm.core.AutoRegOD import AutoRegOD
+from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
+from .core.MultiAutoRegOD import MultiAutoRegOD
+from .core.AutoRegOD import AutoRegOD
 
 from sklearn.utils import check_array, column_or_1d
 from sklearn.utils.validation import check_is_fitted
