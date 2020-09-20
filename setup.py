@@ -25,6 +25,8 @@ setup(
     version='0.0.1',
     description='Automated Time-series Outlier Detection System',
     author='DATA Lab@Texas A&M University',
+    author_email='khlai037@tamu.edu',
+    url='https://tods-doc.github.io',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     install_requires=[
         'd3m',
