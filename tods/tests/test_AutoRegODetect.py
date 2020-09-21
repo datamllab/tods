@@ -4,7 +4,7 @@ from d3m import container, utils
 from d3m.metadata import base as metadata_base
 from d3m.container import DataFrame as d3m_dataframe
 
-from detection_algorithm.AutoRegODetect import AutoRegODetector
+from tods.detection_algorithm.AutoRegODetect import AutoRegODetector
 from pyod.utils.data import generate_data
 
 from tods.detection_algorithm.core.CollectiveCommonTest import CollectiveCommonTest
