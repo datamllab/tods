@@ -1,5 +1,5 @@
 
-# Time-series Outlie Detection System
+# TODS: An Automated Time-series Outlie Detection System
 <img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
 
 [![Build Status](https://travis-ci.org/datamllab/tods.svg?branch=master)](https://travis-ci.org/datamllab/tods)
