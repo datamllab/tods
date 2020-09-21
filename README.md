@@ -1,7 +1,8 @@
 
 # Time-series Outlie Detection System
 <img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
-* API Documentations: [https://tods-doc.github.io](https://tods-doc.github.io)
+
+API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 
 
 ##
