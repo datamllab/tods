@@ -13,7 +13,7 @@ class SKPowerTransoformerTestCase(unittest.TestCase):
     def test_basic(self):
         self.maxDiff=None
 
-        dataset_fname = '../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv'
+        dataset_fname = '../../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv'
         dataset = pd.read_csv(dataset_fname)
         # dataset = np.random.rand(1000)
 
