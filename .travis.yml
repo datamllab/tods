@@ -1,5 +1,6 @@
 language: python
 install: 
+  - apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
   - pip install -e 
 
 before_script:
