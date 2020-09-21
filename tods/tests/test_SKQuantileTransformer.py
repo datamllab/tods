@@ -8,12 +8,15 @@ import numpy as np
 import pandas as pd
 from d3m.container import DataFrame as d3m_dataframe
 from scipy.stats import kstest, shapiro
+import os
+
+this_path = os.path.dirname(os.path.realpath(__file__))
 
 class SKQuantileTransformerTestCase(unittest.TestCase):
     def test_basic(self):
         self.maxDiff=None
-
-        dataset_fname = '../../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv'
+        #dataset = pd.DataFrame([[0,2],[1,4],[2,6],[3,8],[4,10],[5,12],[6,14]])
+        dataset_fname = os.path.join(this_path, '../../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv')
         dataset = pd.read_csv(dataset_fname)
         # dataset = np.random.rand(1000)
         main = d3m_dataframe(dataset, generate_metadata=True)
@@ -25,7 +28,7 @@ class SKQuantileTransformerTestCase(unittest.TestCase):
         primitive.fit()
         new_main = primitive.produce(inputs=main).value
 
-        test_data = new_main.values[:, 2]
+        test_data = new_main.values[:, 1]
         # hist_data = new_main.values
         std_normal_samples = np.random.randn(test_data.__len__())
 
@@ -45,9 +48,6 @@ class SKQuantileTransformerTestCase(unittest.TestCase):
         # print(mean_mse, std_mse)
         self.assertAlmostEqual(mean_mse.__float__(), 0., delta=1e-5)
         self.assertAlmostEqual(std_mse.__float__(), 0., delta=1e-5)
-        #
-        # print(main.metadata.to_internal_simple_structure())
-        # print(new_main.metadata.to_internal_simple_structure())
 
         self.assertEqual(utils.to_json_structure(new_main.metadata.to_internal_simple_structure()), [{
             'selector': [],

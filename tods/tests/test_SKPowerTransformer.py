@@ -8,12 +8,14 @@ import numpy as np
 import pandas as pd
 from d3m.container import DataFrame as d3m_dataframe
 from scipy.stats import kstest, shapiro
+import os
 
+this_path = os.path.dirname(os.path.realpath(__file__))
 class SKPowerTransoformerTestCase(unittest.TestCase):
     def test_basic(self):
         self.maxDiff=None
 
-        dataset_fname = '../../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv'
+        dataset_fname = os.path.join(this_path, '../../datasets/anomaly/kpi/TRAIN/dataset_TRAIN/tables/learningData.csv')
         dataset = pd.read_csv(dataset_fname)
         # dataset = np.random.rand(1000)
 
