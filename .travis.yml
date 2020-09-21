@@ -1,0 +1,13 @@
+language: python
+install: 
+  - pip install -e 
+
+before_script:
+  - pip install python-coveralls
+  - pip install pytest-cover
+
+script: 
+  - py.test tods/tests/ --cov=tods
+
+after_success:
+  - coveralls
