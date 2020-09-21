@@ -4,7 +4,7 @@ from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
 
-from timeseries_processing import SimpleExponentialSmoothing
+from tods.timeseries_processing import SimpleExponentialSmoothing
 import pandas as pd
 
 

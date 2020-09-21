@@ -1,8 +1,7 @@
 from d3m import container
 from d3m.metadata import base as metadata_base
 import unittest
-from feature_analysis import NonNegativeMatrixFactorization
-from common_primitives import dataset_to_dataframe,column_parser
+from tods.feature_analysis import NonNegativeMatrixFactorization
 from d3m import container,utils
 from d3m.container import DataFrame as d3m_dataframe
 

@@ -3,7 +3,7 @@ import unittest
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
-from feature_analysis import StatisticalMean
+from tods.feature_analysis import StatisticalMean
 
 class StatisticalMeanTestCase(unittest.TestCase):
     def test_basic(self):

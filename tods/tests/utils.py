@@ -4,7 +4,7 @@ import os
 from d3m import utils, container
 from d3m.metadata import base as metadata_base
 
-from common_primitives import dataset_to_dataframe
+from tods.data_processing import DatasetToDataframe 
 
 
 def convert_metadata(metadata):
