@@ -2,7 +2,7 @@ import unittest
 
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
-from detection_algorithm.MatrixProfile import MatrixProfile
+from tods.detection_algorithm.MatrixProfile import MatrixProfile
 
 
 
