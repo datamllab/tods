@@ -56,7 +56,7 @@ pipeline = schemas_utils.load_default_pipeline()
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
 print(pipeline_result)
 ```
-We also provide AutoML support to help you automatically find a good pipeline for a your data.
+We also provide AutoML support to help you automatically find a good pipeline for your data.
 ```python
 import pandas as pd
 
