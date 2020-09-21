@@ -2,7 +2,7 @@ import unittest
 
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
-from feature_analysis import HPFilter
+from tods.feature_analysis import HPFilter
 
 
 class HPFilterTest(unittest.TestCase):
