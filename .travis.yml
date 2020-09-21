@@ -4,6 +4,8 @@ matrix:
     - python: 3.6
       env: NUMPY=1.18.2 CERTIFI=2020.06.20
 install: 
+  - pip install numpy==1.18.2
+  - pip install certifi==2020.06.20
   - sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
   - pip install -e .
 before_script:
