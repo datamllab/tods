@@ -3,7 +3,7 @@ import unittest
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
-from data_processing import CategoricalToBinary
+from tods.data_processing import CategoricalToBinary
 import numpy as np
 import pandas as pd
 import utils as test_utils
