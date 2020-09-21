@@ -27,6 +27,7 @@ git clone https://github.com/datamllab/tods.git
 ```
 Install locally with `pip`:
 ```
+cd tods
 pip install -e .
 ```
 
