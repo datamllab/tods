@@ -21,7 +21,14 @@ This package works with **Python 3.6** and pip 19+. You need to have the followi
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
 
-Then execute `python setup.py install`, the script will then install all of the packges to build up TODS.
+Clone the repository:
+```
+git clone https://github.com/datamllab/tods.git
+```
+Install locally with `pip`:
+```
+pip install -e .
+```
 
 # Examples
 Examples are available in [/examples](examples/). For basic usage, you can evaluate a pipeline on a given datasets. Here, we provide an example to load our default pipeline and evaluate it on a subset of yahoo dataset.
