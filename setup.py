@@ -37,6 +37,7 @@ setup(
     install_requires=[
         'd3m',
         'Jinja2',
+        'numpy==1.18.2',
         'simplejson==3.12.0',
         'scikit-learn==0.22.0',
 	'statsmodels==0.11.1',
