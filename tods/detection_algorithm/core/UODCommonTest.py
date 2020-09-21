@@ -87,7 +87,7 @@ class UODCommonTest:
         assert_equal(pred_scores.shape[0], self.y_test.shape[0])
 
         # check performance
-        assert_greater(roc_auc_score(self.y_test, pred_scores), self.roc_floor)
+        assert_greater_equal(roc_auc_score(self.y_test, pred_scores), self.roc_floor)
 
     def test_prediction_labels(self):
         pred_labels = self.clf.predict(self.X_test)
