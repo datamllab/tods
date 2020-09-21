@@ -2,13 +2,10 @@ language: python
 install: 
   - sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
   - pip install -e .
-
 before_script:
   - pip install python-coveralls
   - pip install pytest-cover
-
 script: 
   - py.test tods/tests/ --cov=tods
-
 after_success:
   - coveralls
