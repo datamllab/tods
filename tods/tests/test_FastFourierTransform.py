@@ -1,8 +1,7 @@
 from d3m import container,utils
 from d3m.metadata import base as metadata_base
 import unittest
-from feature_analysis import FastFourierTransform
-from common_primitives import dataset_to_dataframe
+from tods.feature_analysis import FastFourierTransform
 
 import utils as test_utils
 import  os

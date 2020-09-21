@@ -7,7 +7,7 @@ from d3m.container import DataFrame as d3m_dataframe
 from detection_algorithm.AutoRegODetect import AutoRegODetector
 from pyod.utils.data import generate_data
 
-from detection_algorithm.core.CollectiveCommonTest import CollectiveCommonTest
+from tods.detection_algorithm.core.CollectiveCommonTest import CollectiveCommonTest
 
 import numpy as np
 
