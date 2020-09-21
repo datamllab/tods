@@ -3,7 +3,7 @@ import unittest
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
-from timeseries_processing import SKQuantileTransformer
+from tods.timeseries_processing import SKQuantileTransformer
 import numpy as np
 import pandas as pd
 from d3m.container import DataFrame as d3m_dataframe

@@ -4,10 +4,10 @@ from d3m import container, utils
 from d3m.metadata import base as metadata_base
 from d3m.container import DataFrame as d3m_dataframe
 
-from detection_algorithm.PyodOCSVM import OCSVMPrimitive
+from tods.detection_algorithm.PyodOCSVM import OCSVMPrimitive
 from pyod.utils.data import generate_data
 
-from detection_algorithm.core.UODCommonTest import UODCommonTest
+from tods.detection_algorithm.core.UODCommonTest import UODCommonTest
 
 import numpy as np
 

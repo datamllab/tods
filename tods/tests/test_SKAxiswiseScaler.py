@@ -3,7 +3,7 @@ import unittest
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
-from timeseries_processing import SKAxiswiseScaler
+from tods.timeseries_processing import SKAxiswiseScaler
 import numpy as np
 
 class SKStandardizationTestCase(unittest.TestCase):

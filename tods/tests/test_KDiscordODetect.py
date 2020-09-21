@@ -4,10 +4,10 @@ from d3m import container, utils
 from d3m.metadata import base as metadata_base
 from d3m.container import DataFrame as d3m_dataframe
 
-from detection_algorithm.KDiscordODetect import KDiscordODetector
+from tods.detection_algorithm.KDiscordODetect import KDiscordODetector
 from pyod.utils.data import generate_data
 
-from detection_algorithm.core.CollectiveCommonTest import CollectiveCommonTest
+from tods.detection_algorithm.core.CollectiveCommonTest import CollectiveCommonTest
 
 import numpy as np
 

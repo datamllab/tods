@@ -5,7 +5,7 @@ import unittest
 from d3m import container, utils
 from d3m.metadata import base as metadata_base
 
-from data_processing import TimeStampValidation
+from tods.data_processing import TimeStampValidation
 
 
 class TimeStampValidationTestCase(unittest.TestCase):
