@@ -95,6 +95,3 @@ best_scores = search.evaluate(best_pipeline).scores
 We gratefully acknowledge the Data Driven Discovery of Models (D3M) program of the Defense Advanced Research Projects Agency (DARPA)
 
 
-# License
-You may use this software under the Apache-2.0 License.
-
