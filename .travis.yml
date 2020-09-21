@@ -1,5 +1,6 @@
 language: python
 install: 
+  - pip install numpy==1.18.2
   - sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
   - pip install -e .
 before_script:
