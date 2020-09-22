@@ -17,7 +17,7 @@ TODS is featured for:
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 * Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
 
-# Cite this Work:
+## Cite this Work:
 If you find this  work useful, you may cite this work:
 ```
 @misc{lai2020tods,
