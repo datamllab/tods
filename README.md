@@ -15,6 +15,20 @@ TODS is featured for:
 
 ## Resources
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
+* Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
+
+# Cite this Work:
+If you find this  work useful, you may cite this work:
+```
+@misc{lai2020tods,
+    title={TODS: An Automated Time Series Outlier Detection System},
+    author={Kwei-Harng Lai and Daochen Zha and Guanchu Wang and Junjie Xu and Yue Zhao and Devesh Kumar and Yile Chen and Purav Zumkhawaka and Minyang Wan and Diego Martinez and Xia Hu},
+    year={2020},
+    eprint={2009.09822},
+    archivePrefix={arXiv},
+    primaryClass={cs.DB}
+}
+```
 
 ## Installation
 
@@ -93,5 +107,4 @@ best_scores = search.evaluate(best_pipeline).scores
 ```
 # Acknowledgement
 We gratefully acknowledge the Data Driven Discovery of Models (D3M) program of the Defense Advanced Research Projects Agency (DARPA)
-
 
