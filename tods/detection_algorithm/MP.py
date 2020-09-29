@@ -80,7 +80,7 @@ class MP:
 			#transformed_columns[col]=output
 			#print(transformed_columns)
 		return transformed_columns
-		
+
 class MatrixProfile(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 	"""
 
