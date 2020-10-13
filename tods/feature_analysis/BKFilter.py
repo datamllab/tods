@@ -186,22 +186,22 @@ class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else:
+        else:   # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
 
 
 
-        if not self._fitted:
+        if not self._fitted:    # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
         sk_inputs = inputs
-        if self.hyperparams['use_semantic_types']:
+        if self.hyperparams['use_semantic_types']:  # pragma: no cover
             sk_inputs = inputs.iloc[:, self._training_indices]
         output_columns = []
         if len(self._training_indices) > 0:
             sk_output = self._bkfilter(sk_inputs, low=self.hyperparams['low'], high=self.hyperparams['high'], K=self.hyperparams['K'])
-            if sparse.issparse(sk_output):
+            if sparse.issparse(sk_output):  # pragma: no cover
                 sk_output = sk_output.toarray()
             outputs = self._wrap_predictions(inputs, sk_output)
 
@@ -209,7 +209,7 @@ class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
                 outputs.columns = self._input_column_names
             output_columns = [outputs]           
             
-        else:
+        else:   # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -217,14 +217,11 @@ class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
                                                add_index_columns=self.hyperparams['add_index_columns'],
                                                inputs=inputs, column_indices=self._training_indices,
                                                columns_list=output_columns)
-
-        # self._write(outputs)
-        # self.logger.warning('produce was called3')
         return CallResult(outputs)
         
     
     @classmethod
-    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
+    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams): # pragma: no cover
         """
         Select columns to fit.
         Args:
@@ -261,7 +258,7 @@ class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
         # return columns_to_produce
 
     @classmethod
-    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
+    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool: # pragma: no cover
         """
         Output whether a column can be processed.
         Args:
@@ -354,8 +351,6 @@ class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
 
         return target_columns_metadata
 
-    def _write(self, inputs:Inputs):
-        inputs.to_csv(str(time.time())+'.csv')
 
     def _bkfilter(self, X, low, high, K):
         """
