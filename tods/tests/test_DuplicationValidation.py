@@ -102,6 +102,54 @@ class DuplicationValidationTest(unittest.TestCase):
 
         self._test_drop_duplication(new_main)
 
+        hyperparams = hyperparams_class.defaults()
+        hyperparams = hyperparams.replace({'keep_option': 'average'})
+        primitive2 = DuplicationValidation.DuplicationValidation(hyperparams=hyperparams)
+        new_main2 = primitive2.produce(inputs=main).value
+        print(new_main2)
+
+        self.assertEqual(utils.to_json_structure(new_main.metadata.to_internal_simple_structure()), [{
+            'selector': [],
+            'metadata': {
+                # 'top_level': 'main',
+                'schema': metadata_base.CONTAINER_SCHEMA_VERSION,
+                'structural_type': 'd3m.container.pandas.DataFrame',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Table'],
+                'dimension': {
+                    'name': 'rows',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularRow'],
+                    'length': 2,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__'],
+            'metadata': {
+                'dimension': {
+                    'name': 'columns',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularColumn'],
+                    'length': 3,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 0],
+            'metadata': {
+                'name': 'timestamp',
+                'structural_type': 'numpy.float64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 1],
+            'metadata': {
+                'name': 'a',
+                'structural_type': 'numpy.float64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 2],
+            'metadata': {
+                'name': 'b',
+                'structural_type': 'numpy.float64',
+            },
+        }])
+
 
     def _test_drop_duplication(self, data_value):
         self.assertEqual(True in list(data_value.duplicated('timestamp')), False)
