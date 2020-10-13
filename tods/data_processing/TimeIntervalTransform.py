@@ -112,15 +112,15 @@ class TimeIntervalTransform(transformer.TransformerPrimitiveBase[Inputs, Outputs
             Container DataFrame with resampled time intervals
         """
 
-        if self.hyperparams['time_interval'] is None:
+        if self.hyperparams['time_interval'] is None: # pragma: no cover
             time_interval = '5T'
         else:
             time_interval = self.hyperparams['time_interval']
 
         try:
             outputs = self._time_interval_transform(inputs, hyperparams)
-            #print(outputs)
-        except Exception as e:
+            
+        except Exception as e: # pragma: no cover
             self.logger.error("Error in Performing Time Interval Transform",e)
 
         self._update_metadata(outputs)

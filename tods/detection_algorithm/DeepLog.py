@@ -304,7 +304,7 @@ class DeeplogLstm(BaseDetector):
             if(layers == self.stacked_layers -1 ):
                 model.add(LSTM(self.hidden_size, return_sequences=False,dropout = self.dropout_rate))
                 continue
-            model.add(LSTM(self.hidden_size,return_sequences=True,dropout = self.dropout_rate))
+            model.add(LSTM(self.hidden_size,return_sequences=True,dropout = self.dropout_rate)) # pragma: no cover
         #output layer
 
         model.add(Dense(self.n_features_))
@@ -364,7 +364,7 @@ class DeeplogLstm(BaseDetector):
         if self.preprocessing:
             self.scaler_ = StandardScaler()
             X_norm = self.scaler_.fit_transform(X)
-        else:
+        else:   # pragma: no cover
             X_norm = np.copy(X)
 
         X_data = []

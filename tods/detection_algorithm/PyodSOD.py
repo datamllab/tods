@@ -173,7 +173,7 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 		"""
 		return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
 
-	def get_params(self) -> Params:
+	def get_params(self) -> Params: # pragma: no cover
 		"""
 		Return parameters.
 		Args:
@@ -184,7 +184,7 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 		"""
 		return super().get_params()
 
-	def set_params(self, *, params: Params) -> None:
+	def set_params(self, *, params: Params) -> None: # pragma: no cover
 		"""
 		Set parameters for outlier detection.
 		Args:
