@@ -170,9 +170,3 @@ class ContinuityValidation(transformer.TransformerPrimitiveBase[Inputs, Outputs,
         inputs['d3mIndex'] = list(range(inputs.shape[0]))
         return inputs
 
-
-    def _write(self, inputs:Inputs):
-        """
-        write inputs to current directory, only for test
-        """
-        inputs.to_csv(str(time.time())+'.csv')
