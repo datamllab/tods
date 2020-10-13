@@ -59,7 +59,7 @@ class ContinuityValidationTest(unittest.TestCase):
         hyperparams_class = ContinuityValidation.ContinuityValidation.metadata.get_hyperparams()
         primitive = ContinuityValidation.ContinuityValidation(hyperparams=hyperparams_class.defaults())
         new_main = primitive.produce(inputs=main).value
-        # print(new_main)
+    
 
         expected_output = container.DataFrame({'d3mIndex': [0, 1, 2, 3],
                                                 'timestamp': [1., 2., 3., 4.],
@@ -123,6 +123,67 @@ class ContinuityValidationTest(unittest.TestCase):
         }])
 
         self._test_continuity(new_main)
+
+        hyperparams = hyperparams_class.defaults()
+        hyperparams = hyperparams.replace({'continuity_option': 'ablation'})
+        primitive2 = ContinuityValidation.ContinuityValidation(hyperparams=hyperparams)
+        new_main2 = primitive2.produce(inputs=main).value
+        print(new_main2)
+
+        self.assertEqual(utils.to_json_structure(new_main2.metadata.to_internal_simple_structure()), [{
+            'selector': [],
+            'metadata': {
+                # 'top_level': 'main',
+                'schema': metadata_base.CONTAINER_SCHEMA_VERSION,
+                'structural_type': 'd3m.container.pandas.DataFrame',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Table'],
+                'dimension': {
+                    'name': 'rows',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularRow'],
+                    'length': 2,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__'],
+            'metadata': {
+                'dimension': {
+                    'name': 'columns',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularColumn'],
+                    'length': 5,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 0],
+            'metadata': {
+                'name': 'd3mIndex',
+                'structural_type': 'numpy.int64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 1],
+            'metadata': {
+                'name': 'timestamp',
+                'structural_type': 'numpy.float64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 2],
+            'metadata': {
+                'name': 'a',
+                'structural_type': 'numpy.float64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 3],
+            'metadata': {
+                'name': 'b',
+                'structural_type': 'numpy.float64',
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 4],
+            'metadata': {
+                'name': 'ground_truth',
+                'structural_type': 'numpy.int64',
+            },
+        }])
+
 
 
     def _test_continuity(self, data_value):

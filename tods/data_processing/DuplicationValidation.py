@@ -91,8 +91,3 @@ class DuplicationValidation(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
         return inputs
 
-    def _write(self, inputs:Inputs):
-        """
-        write inputs to current directory, only for test
-        """
-        inputs.to_csv(str(time.time())+'.csv')

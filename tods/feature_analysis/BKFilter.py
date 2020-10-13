@@ -21,9 +21,12 @@ from d3m.exceptions import PrimitiveNotFittedError
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 
+import os.path
+
+import time
 import statsmodels.api as sm
 
-__all__ = ('HPFilter',)
+__all__ = ('BKFilter',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -31,33 +34,47 @@ Outputs = container.DataFrame
 
 class Hyperparams(hyperparams.Hyperparams):
     # Tuning
-    lamb = hyperparams.UniformInt(
+    low = hyperparams.UniformInt(
         lower=0,
         upper=100000000,
-        default=1600,
-        semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
-        description="The Hodrick-Prescott smoothing parameter. A value of 1600 is suggested for quarterly data. Ravn and Uhlig suggest using a value of 6.25 (1600/4**4) for annual data and 129600 (1600*3**4) for monthly data.",
+        default=6,
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
+        description="Minimum period for oscillations, ie., Baxter and King suggest that the Burns-Mitchell U.S. business cycle has 6 for quarterly data and 1.5 for annual data.",
+    )
+    high = hyperparams.UniformInt(
+        lower=0,
+        upper=100000000,
+        default=32,
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
+        description="Maximum period for oscillations BK suggest that the U.S. business cycle has 32 for quarterly data and 8 for annual data.",
+    )
+    K = hyperparams.UniformInt(
+        lower=0,
+        upper=100000000,
+        default=1,
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
+        description="Lead-lag length of the filter. Baxter and King propose a truncation length of 12 for quarterly data and 3 for annual data.",
     )
 
     # Control
-    # columns_using_method= hyperparams.Enumeration(
-    #     values=['name', 'index'],
-    #     default='index',
-    #     semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
-    #     description="Choose to use columns by names or indecies. If 'name', \"use_columns\" or \"exclude_columns\" is used. If 'index', \"use_columns_name\" or \"exclude_columns_name\" is used."
-    # )
-    # use_columns_name = hyperparams.Set(
-    #     elements=hyperparams.Hyperparameter[str](''),
-    #     default=(),
-    #     semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
-    #     description="A set of column names to force primitive to operate on. If any specified column cannot be parsed, it is skipped.",
-    # )
-    # exclude_columns_name = hyperparams.Set(
-    #     elements=hyperparams.Hyperparameter[str](''),
-    #     default=(),
-    #     semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
-    #     description="A set of column names to not operate on. Applicable only if \"use_columns_name\" is not provided.",
-    # )
+    columns_using_method= hyperparams.Enumeration(
+        values=['name', 'index'],
+        default='index',
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
+        description="Choose to use columns by names or indecies. If 'name', \"use_columns\" or \"exclude_columns\" is used. If 'index', \"use_columns_name\" or \"exclude_columns_name\" is used."
+    )
+    use_columns_name = hyperparams.Set(
+        elements=hyperparams.Hyperparameter[str](''),
+        default=(),
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
+        description="A set of column names to force primitive to operate on. If any specified column cannot be parsed, it is skipped.",
+    )
+    exclude_columns_name = hyperparams.Set(
+        elements=hyperparams.Hyperparameter[str](''),
+        default=(),
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
+        description="A set of column names to not operate on. Applicable only if \"use_columns_name\" is not provided.",
+    )
     use_columns = hyperparams.Set(
         elements=hyperparams.Hyperparameter[int](-1),
         default=(),
@@ -100,14 +117,20 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
     
-class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
-    Filter a time series using the Hodrick-Prescott filter.
+    Filter a time series using the Baxter-King bandpass filter.
 
     Parameters
     ----------
-    lamb: int
-        The Hodrick-Prescott smoothing parameter. A value of 1600 is suggested for quarterly data. Ravn and Uhlig suggest using a value of 6.25 (1600/4**4) for annual data and 129600 (1600*3**4) for monthly data.
+    low: int
+        Minimum period for oscillations, ie., Baxter and King suggest that the Burns-Mitchell U.S. business cycle has 6 for quarterly data and 1.5 for annual data.
+    
+    high: int
+        Maximum period for oscillations BK suggest that the U.S. business cycle has 32 for quarterly data and 8 for annual data.
+
+    K: int
+        Lead-lag length of the filter. Baxter and King propose a truncation length of 12 for quarterly data and 3 for annual data.  
 
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
@@ -132,15 +155,15 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = metadata_base.PrimitiveMetadata({
-         "name": "Hodrick-Prescott filter Primitive",
-         "python_path": "d3m.primitives.tods.feature_analysis.hp_filter",
+    metadata = metadata_base.PrimitiveMetadata({ 
+         "name": "Baxter-King Filter Primitive",
+         "python_path": "d3m.primitives.tods.feature_analysis.bk_filter",
          "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
          'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/DuplicationValidation.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.HP_FILTER,],
+         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.BK_FILTER,],
          "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-         "id": "3af1be06-e45e-4ead-8523-4373264598e4",
-         "hyperparams_to_tune": ['lamb'],
+         "id": "b2bfadc5-dbca-482c-b188-8585e5f245c4",
+         "hyperparams_to_tune": ['low', 'high', 'K'],
          "version": "0.0.1",
     })
 
@@ -152,7 +175,7 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
             inputs: Container DataFrame.
 
         Returns:
-            Container DataFrame after HPFilter.
+            Container DataFrame after BKFilter.
         """
         # Get cols to fit.
         self._fitted = False
@@ -163,21 +186,21 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
 
 
 
-        if not self._fitted: # pragma: no cover
+        if not self._fitted:
             raise PrimitiveNotFittedError("Primitive not fitted.")
         sk_inputs = inputs
         if self.hyperparams['use_semantic_types']:
             sk_inputs = inputs.iloc[:, self._training_indices]
         output_columns = []
         if len(self._training_indices) > 0:
-            sk_output = self._hpfilter(sk_inputs, lamb=self.hyperparams['lamb'])
+            sk_output = self._bkfilter(sk_inputs, low=self.hyperparams['low'], high=self.hyperparams['high'], K=self.hyperparams['K'])
             if sparse.issparse(sk_output):
                 sk_output = sk_output.toarray()
             outputs = self._wrap_predictions(inputs, sk_output)
@@ -186,7 +209,7 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
                 outputs.columns = self._input_column_names
             output_columns = [outputs]           
             
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -194,11 +217,14 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
                                                add_index_columns=self.hyperparams['add_index_columns'],
                                                inputs=inputs, column_indices=self._training_indices,
                                                columns_list=output_columns)
+
+        # self._write(outputs)
+        # self.logger.warning('produce was called3')
         return CallResult(outputs)
         
     
     @classmethod
-    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams): # pragma: no cover
+    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
         """
         Select columns to fit.
         Args:
@@ -235,7 +261,7 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
         # return columns_to_produce
 
     @classmethod
-    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool: # pragma: no cover
+    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
         """
         Output whether a column can be processed.
         Args:
@@ -317,31 +343,34 @@ class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
         outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
         target_columns_metadata: List[OrderedDict] = []
         for column_index in range(outputs_length):
-            # column_name = "output_{}".format(column_index)
+            column_name = "output_{}".format(column_index)
             column_metadata = OrderedDict()
             semantic_types = set()
             semantic_types.add(hyperparams["return_semantic_type"])
             column_metadata['semantic_types'] = list(semantic_types)
 
-            # column_metadata["name"] = str(column_name)
+            column_metadata["name"] = str(column_name)
             target_columns_metadata.append(column_metadata)
 
         return target_columns_metadata
 
-    def _hpfilter(self, X, lamb):
+    def _write(self, inputs:Inputs):
+        inputs.to_csv(str(time.time())+'.csv')
+
+    def _bkfilter(self, X, low, high, K):
         """
-        Perform HPFilter
+        Perform BKFilter
         Args:
             X: slected rows to be performed
-            K, low, high: Parameters of HPFilter
+            K, low, high: Parameters of BKFilter
 
         Returns:
-            Dataframe, results of HPFilter
+            Dataframe, results of BKFilter
         """
         transformed_X = utils.pandas.DataFrame()
         for col in X.columns:
-            cycle, trend = sm.tsa.filters.hpfilter(X[col], lamb=lamb)
-            transformed_X[col+"_cycle"] = cycle
-            transformed_X[col+"_trend"] = trend
+            cycle = sm.tsa.filters.bkfilter(X[col], low=low, high=high, K=K)
+            cycle_df = utils.pandas.DataFrame(cycle)
+            transformed_X = utils.pandas.concat([transformed_X,cycle_df], axis=1)
 
         return transformed_X

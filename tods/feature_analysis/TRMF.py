@@ -276,14 +276,14 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         if len(self._training_indices) > 0:
             self._clf.fit(self._training_inputs)
             self._fitted = True
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
 
 
 
-        if not self._fitted:
+        if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
 
         sk_inputs = inputs
@@ -301,7 +301,7 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             if len(outputs.columns) == len(self._input_column_names):
                 outputs.columns = self._input_column_names
             output_columns = [outputs]
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -316,7 +316,7 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 
     
     @classmethod
-    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
+    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams): # pragma: no cover
         """
         Select columns to fit.
         Args:
@@ -342,7 +342,7 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         # return columns_to_produce
 
     @classmethod
-    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
+    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool: # pragma: no cover
         """
         Output whether a column can be processed.
         Args:
@@ -373,35 +373,35 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         return False
     
 
-    @classmethod
-    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
-        """
-        Output metadata of selected columns.
-        Args:
-            outputs_metadata: metadata_base.DataMetadata
-            hyperparams: d3m.metadata.hyperparams.Hyperparams
+    # @classmethod
+    # def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+    #     """
+    #     Output metadata of selected columns.
+    #     Args:
+    #         outputs_metadata: metadata_base.DataMetadata
+    #         hyperparams: d3m.metadata.hyperparams.Hyperparams
 
-        Returns:
-            d3m.metadata.base.DataMetadata
-        """
-        outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
+    #     Returns:
+    #         d3m.metadata.base.DataMetadata
+    #     """
+    #     outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
 
-        target_columns_metadata: List[OrderedDict] = []
-        for column_index in range(outputs_length):
-            column_metadata = OrderedDict(outputs_metadata.query_column(column_index))
+    #     target_columns_metadata: List[OrderedDict] = []
+    #     for column_index in range(outputs_length):
+    #         column_metadata = OrderedDict(outputs_metadata.query_column(column_index))
 
-            # Update semantic types and prepare it for predicted targets.
-            semantic_types = set(column_metadata.get('semantic_types', []))
-            semantic_types_to_remove = set([])
-            add_semantic_types = []
-            add_semantic_types.add(hyperparams["return_semantic_type"])
-            semantic_types = semantic_types - semantic_types_to_remove
-            semantic_types = semantic_types.union(add_semantic_types)
-            column_metadata['semantic_types'] = list(semantic_types)
+    #         # Update semantic types and prepare it for predicted targets.
+    #         semantic_types = set(column_metadata.get('semantic_types', []))
+    #         semantic_types_to_remove = set([])
+    #         add_semantic_types = []
+    #         add_semantic_types.add(hyperparams["return_semantic_type"])
+    #         semantic_types = semantic_types - semantic_types_to_remove
+    #         semantic_types = semantic_types.union(add_semantic_types)
+    #         column_metadata['semantic_types'] = list(semantic_types)
 
-            target_columns_metadata.append(column_metadata)
+    #         target_columns_metadata.append(column_metadata)
 
-        return target_columns_metadata
+    #     return target_columns_metadata
     
     @classmethod
     def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs],
@@ -464,12 +464,6 @@ class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             target_columns_metadata.append(column_metadata)
 
         return target_columns_metadata
-
-    def _write(self, inputs:Inputs):
-        """
-        write inputs to current directory, only for test
-        """
-        inputs.to_csv(str(time.time())+'.csv')
 
 
 """
@@ -564,7 +558,7 @@ class trmf:
         return np.dot(self.F, X_preds)
 
 
-    def _predict_X(self, h):
+    def _predict_X(self, h): # pragma: no cover
         """Predict X h timepoints ahead.
 
         Evaluates matrix X with the help of matrix W.
