@@ -9,14 +9,14 @@ from tods.detection_algorithm.DeepLog import DeepLogPrimitive
 class DeepLogTest(unittest.TestCase):
     def test_basic(self):
         self.maxDiff = None
-        main = container.DataFrame({'a': [1., 2., 3., 4.], 'b': [2., 3., 4., 5.], 'c': [3., 4., 5., 6.]},
+        self.main = container.DataFrame({'a': [1., 2., 3., 4.], 'b': [2., 3., 4., 5.], 'c': [3., 4., 5., 6.]},
                                     columns=['a', 'b', 'c'],
                                     generate_metadata=True)
 
-        print(main)
+        print(self.main)
 
 
-        self.assertEqual(utils.to_json_structure(main.metadata.to_internal_simple_structure()), [{
+        self.assertEqual(utils.to_json_structure(self.main.metadata.to_internal_simple_structure()), [{
             'selector': [],
             'metadata': {
                 # 'top_level': 'main',
@@ -50,7 +50,7 @@ class DeepLogTest(unittest.TestCase):
         }])
 
 
-        self.assertIsInstance(main, container.DataFrame)
+        self.assertIsInstance(self.main, container.DataFrame)
 
 
         hyperparams_class = DeepLogPrimitive.metadata.get_hyperparams()
@@ -59,15 +59,20 @@ class DeepLogTest(unittest.TestCase):
 
         print(hyperparams)
 
-        primitive = DeepLogPrimitive(hyperparams=hyperparams)
-        primitive.set_training_data(inputs=main)
-        primitive.fit()
-        new_main = primitive.produce(inputs=main).value
-        new_main_score = primitive.produce_score(inputs=main).value
-        print(new_main)       
-        print(new_main_score) 
+        self.primitive = DeepLogPrimitive(hyperparams=hyperparams)
+        self.primitive.set_training_data(inputs=self.main)
+        #print("*****************",self.primitive.get_params())
 
-        self.assertEqual(utils.to_json_structure(main.metadata.to_internal_simple_structure()), [{
+        self.primitive.fit()
+        self.new_main = self.primitive.produce(inputs=self.main).value
+        self.new_main_score = self.primitive.produce_score(inputs=self.main).value
+        print(self.new_main)       
+        print(self.new_main_score) 
+
+        params = self.primitive.get_params()
+        self.primitive.set_params(params=params)
+
+        self.assertEqual(utils.to_json_structure(self.main.metadata.to_internal_simple_structure()), [{
             'selector': [],
             'metadata': {
                 # 'top_level': 'main',
@@ -99,6 +104,11 @@ class DeepLogTest(unittest.TestCase):
             'selector': ['__ALL_ELEMENTS__', 2],
             'metadata': {'structural_type': 'numpy.float64', 'name': 'c'}
         }])
+
+    # def test_params(self):
+    #     params = self.primitive.get_params()
+    #     self.primitive.set_params(params=params)
+
 
 
 if __name__ == '__main__':

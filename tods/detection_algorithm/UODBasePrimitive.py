@@ -256,9 +256,9 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
         if len(self._training_indices) > 0:
 
-            # print('Fit: ', self._clf)
-            # print('Fit: ', self._training_inputs.values.shape)
-            # print('Fit: ', self._clf.fit(self._training_inputs.values))
+            #print('Fit: ', self._clf)
+            #print('Fit: ', self._training_inputs.values.shape)
+            #print('Fit: ', self._clf.fit(self._training_inputs.values))
 
             self._clf.fit(X=self._training_inputs.values, **self._clf_fit_parameter)
             self._fitted = True
@@ -314,7 +314,6 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
-
             # print(sk_output)
             if sparse.issparse(sk_output):
                 sk_output = sk_output.toarray()

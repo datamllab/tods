@@ -1,6 +1,11 @@
 import os
+import sklearn
+import numpy
 import typing
-import collections
+import time
+from scipy import sparse
+from numpy import ndarray
+from collections import OrderedDict
 from typing import Any, Callable, List, Dict, Union, Optional, Sequence, Tuple
 
 import numpy as np
@@ -11,17 +16,43 @@ from numpy import ndarray
 from collections import OrderedDict
 from common_primitives import dataframe_utils, utils
 
+from d3m import utils
+from d3m import container
 from d3m.base import utils as base_utils
+from d3m.exceptions import PrimitiveNotFittedError
+from d3m.container import DataFrame as d3m_dataframe
+from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.primitive_interfaces import base, transformer
-from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
+from d3m.metadata import hyperparams, params, base as metadata_base
+from d3m.primitive_interfaces.base import CallResult, DockerContainer
+from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
 
 from statsmodels.tsa.stattools import acf
 
+
+# import os.path
+
+
 __all__ = ('AutoCorrelation',)
 
-Inputs = container.DataFrame
-Outputs = container.DataFrame
+
+Inputs = d3m_dataframe
+Outputs = d3m_dataframe
+
+class PrimitiveCount:
+    primitive_no = 0
+
+class Params(params.Params):
+    components_: Optional[ndarray]
+    explained_variance_ratio_: Optional[ndarray]
+    explained_variance_: Optional[ndarray]
+    singular_values_: Optional[ndarray]
+    input_column_names: Optional[Any]
+    target_names_: Optional[Sequence[Any]]
+    training_indices_: Optional[Sequence[int]]
+    target_column_indices_: Optional[Sequence[int]]
+    target_columns_metadata_: Optional[List[OrderedDict]]
 
 
 class Hyperparams(hyperparams.Hyperparams):
@@ -96,7 +127,7 @@ class Hyperparams(hyperparams.Hyperparams):
 	)
 	return_result = hyperparams.Enumeration(
 		values=['append', 'replace', 'new'],
-		default='new',
+		default='append',
 		semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
 		description="Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.",
 	)
@@ -134,6 +165,7 @@ class ACF:
 		self._fft = fft
 		self._alpha = alpha
 		self._missing = missing
+		self.primitiveNo = 0
 
 	def produce(self, data):
 
@@ -146,8 +178,12 @@ class ACF:
 
 		"""
 
-		output = acf(data)
-		return output
+		transformed_columns=utils.pandas.DataFrame()
+		for col in data.columns:
+			output = acf(data[col], unbiased = self._unbiased, nlags = self._nlags, qstat = self._qstat, fft = self._fft, alpha = self._alpha, missing = self._missing)
+			output = pd.DataFrame(output)
+			transformed_columns=pd.concat([transformed_columns,output],axis=1)
+		return transformed_columns
 
 
 
@@ -155,37 +191,53 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 	"""
 	A primitive that performs autocorrelation on a DataFrame
 	acf() function documentation: https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.acf.html
+
+	Parameters:
+		-------
+		x: array_like
+			The time series data.
+		
+		unbiased: bool, default False
+			If True, then denominators for autocovariance are n-k, otherwise n.
+		
+		nlags: int, default 40
+			Number of lags to return autocorrelation for.
+		
+		qstat: bool, default False
+			If True, returns the Ljung-Box q statistic for each autocorrelation coefficient. See q_stat for more information.
+		
+		fft: bool, default None
+			If True, computes the ACF via FFT.
+		
+		alpha: scalar, default None
+			If a number is given, the confidence intervals for the given level are returned. For instance if alpha=.05, 95 % confidence intervals are returned where the standard deviation is computed according to Bartlett”s formula.
+		
+		missing: str, default “none”
+			A string in [“none”, “raise”, “conservative”, “drop”] specifying how the NaNs are to be treated. “none” performs no checks. “raise” raises an exception if NaN values are found. “drop” removes the missing observations and then estimates the autocovariances treating the non-missing as contiguous. “conservative” computes the autocovariance using nan-ops so that nans are removed when computing the mean and cross-products that are used to estimate the autocovariance. When using “conservative”, n is set to the number of non-missing observations.
+		-------
 	"""
+	
+	metadata = metadata_base.PrimitiveMetadata({
+		'__author__': "DATA Lab @Texas A&M University",
+		'name': "AutoCorrelation of values",
+		'python_path': 'd3m.primitives.tods.feature_analysis.auto_correlation',
+		'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
+				   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/AutoCorrelation.py']},
+		'algorithm_types': [metadata_base.PrimitiveAlgorithmType.AUTOCORRELATION,], 
+		'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'AutocorrelationPrimitive')),
+		'hyperparams_to_tune': ['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'],
+		'version': '0.0.2',		
+		})
 
-	__author__ = "DATA Lab @Texas A&M University"
-	metadata = metadata_base.PrimitiveMetadata(
-		{
-			'id': '8c246c78-3082-4ec9-844e-5c98fcc76f9f',
-			'version': '0.0.2',
-			'name': "AutoCorrelation of values",
-			'python_path': 'd3m.primitives.tods.feature_analysis.auto_correlation',
-			'algorithm_types': [metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,], #TODO: check is this right?
-			'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-			"hyperparams_to_tune": ['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'],
-			'source': {
-				'name': 'DATA Lab @Texas A&M University',
-				'contact': 'mailto:khlai037@tamu.edu',
-				'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/AutoCorrelation.py'],
-			},
-			'installation': [{
-				'type': metadata_base.PrimitiveInstallationType.PIP,
-				'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-					git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-				),
-			}],		
-		},
-	)
+	def __init__(self, *,
+		 hyperparams: Hyperparams, #
+		 random_seed: int = 0,
+		 docker_containers: Dict[str, DockerContainer] = None) -> None:
+		super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
 
-	def __init__(self, *, hyperparams: Hyperparams) -> None:
-	 	super().__init__(hyperparams=hyperparams)
-
-	 	self._clf = ACF(unbiased = hyperparams['unbiased'],
+		self._clf = ACF(unbiased = hyperparams['unbiased'],
 						nlags = hyperparams['nlags'],
 						qstat = hyperparams['qstat'],
 						fft = hyperparams['fft'],
@@ -193,48 +245,79 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 						missing = hyperparams['missing']
 	 				)
 
+		self.primitiveNo = PrimitiveCount.primitive_no
+		PrimitiveCount.primitive_no+=1
+
+
 	def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:	
 		"""
+		Process the testing data.
 		Args:
-			inputs: Container DataFrame
-			timeout: Default
-			iterations: Default
+			inputs: Container DataFrame.
+
 		Returns:
-		    Container DataFrame containing moving average of selected columns
+			Container DataFrame after AutoCorrelation.
 		"""
 
-		assert isinstance(inputs, container.DataFrame), type(container.DataFrame)
-		_, self._columns_to_produce = self._get_columns_to_fit(inputs, self.hyperparams)
-		
-		
-		outputs = inputs
-		if len(self._columns_to_produce) > 0:
-			for col in self.hyperparams['use_columns']:
-				output = self._clf.produce(inputs.iloc[ : ,col])
-				outputs = pd.concat((outputs, pd.Series(output).rename(inputs.columns[col] + '_acf')), axis = 1)
-		else:
+		# Get cols to fit.
+		self._fitted = False
+		self._training_inputs, self._training_indices = self._get_columns_to_fit(inputs, self.hyperparams)
+		self._input_column_names = self._training_inputs.columns
+
+		print("training_indices_ ", self._training_indices)
+		if len(self._training_indices) > 0:
+			self._fitted = True
+		else:	# pragma: no cover
 			if self.hyperparams['error_on_no_input']:
 				raise RuntimeError("No input columns were selected")
 			self.logger.warn("No input columns were selected")
 
-		self._update_metadata(outputs)
+		if not self._fitted:	# pragma: no cover
+			raise PrimitiveNotFittedError("Primitive not fitted.")
+		
+		sk_inputs = inputs
+		if self.hyperparams['use_semantic_types']:	# pragma: no cover
+			sk_inputs = inputs.iloc[:, self._training_indices]
+		output_columns = []
+		if len(self._training_indices) > 0:
+			print("sk_inputs ", sk_inputs)
+			sk_output = self._clf.produce(sk_inputs)
+			if sparse.issparse(sk_output):	# pragma: no cover
+				sk_output = sk_output.toarray()
+			outputs = self._wrap_predictions(inputs, sk_output)
+			
+			if len(outputs.columns) == len(self._input_column_names):
+				outputs.columns = self._input_column_names
+			output_columns = [outputs]
 
-		return base.CallResult(outputs)
+		else:	# pragma: no cover
+			if self.hyperparams['error_on_no_input']:
+				raise RuntimeError("No input columns were selected")
+			self.logger.warn("No input columns were selected")
+
+		outputs = base_utils.combine_columns(return_result=self.hyperparams['return_result'],
+							   add_index_columns=self.hyperparams['add_index_columns'],
+							   inputs=inputs, column_indices=self._training_indices,
+							   columns_list=output_columns)
+
+		return CallResult(outputs)
 
 
 
-	def _update_metadata(self, outputs):
+
+
+	def _update_metadata(self, outputs):	# pragma: no cover
 		outputs.metadata = outputs.metadata.generate(outputs)
  
 	@classmethod
-	def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
+	def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):	# pragma: no cover
 		"""
-                Select columns to fit.
-                Args:
-                        inputs: Container DataFrame
-                        hyperparams: d3m.metadata.hyperparams.Hyperparams
-                Returns:
-                        list
+			    Select columns to fit.
+			    Args:
+			inputs: Container DataFrame
+			hyperparams: d3m.metadata.hyperparams.Hyperparams
+			    Returns:
+			list
 		"""
 
 		if not hyperparams['use_semantic_types']:
@@ -242,16 +325,14 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 
 		inputs_metadata = inputs.metadata
 
-		
-
 		def can_produce_column(column_index: int) -> bool:
+
 			return cls._can_produce_column(inputs_metadata, column_index, hyperparams)
 
 		columns_to_produce, columns_not_to_produce = base_utils.get_columns_to_use(inputs_metadata,
 					   use_columns=hyperparams['use_columns'],
 					   exclude_columns=hyperparams['exclude_columns'],
 					   can_use_column=can_produce_column)
-
 
 		"""
 		Encountered error: when hyperparams['use_columns'] = (2,3) and hyperparams['exclude_columns'] is (1,2)
@@ -261,15 +342,15 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 		
 
 	@classmethod
-	def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
+	def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:	# pragma: no cover
 		"""
-                Output whether a column can be processed.
+			    Output whether a column can be processed.
 
-                Args:
-                        inputs_metadata: d3m.metadata.base.DataMetadata
-                        column_index: int
-                Returns:
-                        bool
+			    Args:
+			inputs_metadata: d3m.metadata.base.DataMetadata
+			column_index: int
+			    Returns:
+			bool
 		"""
 
 		column_metadata = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index))
@@ -277,12 +358,13 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 		accepted_structural_types = (int, float, np.integer, np.float64) #changed numpy to np
 		accepted_semantic_types = set()
 		accepted_semantic_types.add("https://metadata.datadrivendiscovery.org/types/Attribute")
-
+		print("accepted_semantic_types ", accepted_semantic_types)
+		print("column_metadata['structural_type'] ",column_metadata['structural_type'])
 		if not issubclass(column_metadata['structural_type'], accepted_structural_types):
 			return False
 
 		semantic_types = set(column_metadata.get('semantic_types', []))
-
+		print("semantic_types ", semantic_types)
 		if len(semantic_types) == 0:
 			cls.logger.warning("No semantic types found in column metadata")
 			return False
@@ -307,10 +389,11 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 
 		"""
 
-		outputs = container.DataFrame(predictions, generate_metadata=True)
-		target_columns_metadata = self._copy_inputs_metadata(inputs.metadata, self._columns_to_produce, outputs.metadata, self.hyperparams)
+		outputs = d3m_dataframe(predictions, generate_metadata=True)
+		target_columns_metadata = self._add_target_columns_metadata(outputs.metadata, self.hyperparams, self.primitiveNo)
 		outputs.metadata = self._update_predictions_metadata(inputs.metadata, outputs, target_columns_metadata)
 		return outputs
+
 
 
 
@@ -318,15 +401,15 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 	def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs],
 									target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata:
 		"""
-                Updata metadata for selected columns.
+			    Updata metadata for selected columns.
 
-                Args:
-                        inputs_metadata: metadata_base.DataMetadata
-                        outputs: Container Dataframe
-                        target_columns_metadata: list
+			    Args:
+			inputs_metadata: metadata_base.DataMetadata
+			outputs: Container Dataframe
+			target_columns_metadata: list
 
-                Returns:
-                        d3m.metadata.base.DataMetadata
+			    Returns:
+			d3m.metadata.base.DataMetadata
 		"""
 
 		outputs_metadata = metadata_base.DataMetadata().generate(value=outputs)
@@ -338,50 +421,26 @@ class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 		return outputs_metadata
 
 
-
 	@classmethod
-	def _copy_inputs_metadata(cls, inputs_metadata: metadata_base.DataMetadata, input_indices: List[int],
-							  outputs_metadata: metadata_base.DataMetadata, hyperparams):
+	def _add_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams, primitiveNo):
 		"""
-                Updata metadata for selected columns.
+		Add target columns metadata
+		Args:
+			outputs_metadata: metadata.base.DataMetadata
+			hyperparams: d3m.metadata.hyperparams.Hyperparams
 
-                Args:
-                        inputs_metadata: metadata.base.DataMetadata
-                        input_indices: list
-                        outputs_metadata: metadata.base.DataMetadata
-                        hyperparams: d3m.metadata.hyperparams.Hyperparams
-
-                Returns:
-                        d3m.metadata.base.DataMetadata
+		Returns:
+			List[OrderedDict]
 		"""
-
 		outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
 		target_columns_metadata: List[OrderedDict] = []
-		for column_index in input_indices:
-			column_name = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index)).get("name")
-			if column_name is None:
-				column_name = "output_{}".format(column_index)
-
-			column_metadata = OrderedDict(inputs_metadata.query_column(column_index))
-			semantic_types = set(column_metadata.get('semantic_types', []))
-			semantic_types_to_remove = set([])
-			add_semantic_types = set()
-			add_semantic_types.add(hyperparams["return_semantic_type"])
-			semantic_types = semantic_types - semantic_types_to_remove
-			semantic_types = semantic_types.union(add_semantic_types)
+		for column_index in range(outputs_length):
+			column_name = "{0}{1}_{2}".format(cls.metadata.query()['name'], primitiveNo, column_index)
+			column_metadata = OrderedDict()
+			semantic_types = set()
+			semantic_types.add(hyperparams["return_semantic_type"])
 			column_metadata['semantic_types'] = list(semantic_types)
 
 			column_metadata["name"] = str(column_name)
 			target_columns_metadata.append(column_metadata)
-
-		#  If outputs has more columns than index, add Attribute Type to all remaining
-		if outputs_length > len(input_indices):
-			for column_index in range(len(input_indices), outputs_length):
-				column_metadata = OrderedDict()
-				semantic_types = set()
-				semantic_types.add(hyperparams["return_semantic_type"])
-				column_name = "output_{}".format(column_index)
-				column_metadata["semantic_types"] = list(semantic_types)
-				column_metadata["name"] = str(column_name)
-				target_columns_metadata.append(column_metadata)
 		return target_columns_metadata
