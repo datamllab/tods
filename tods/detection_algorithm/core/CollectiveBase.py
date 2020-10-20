@@ -22,7 +22,7 @@ from sklearn.utils.validation import check_is_fitted
 from sklearn.utils.multiclass import check_classification_targets
 
 
-def _pprint(params, offset=0, printer=repr):
+def _pprint(params, offset=0, printer=repr): # pragma: no cover
     # noinspection PyPep8
     """Pretty print the dictionary 'params'
 
@@ -114,7 +114,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
     @abc.abstractmethod
     def __init__(self, contamination=0.1,
                  window_size=1,
-                 step_size=1):
+                 step_size=1): # pragma: no cover
 
         if not (0. < contamination <= 0.5):
             raise ValueError("contamination must be in (0, 0.5], "
@@ -129,7 +129,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
 
     # noinspection PyIncorrectDocstring
     @abc.abstractmethod
-    def fit(self, X, y=None):
+    def fit(self, X, y=None): # pragma: no cover
         """Fit detector. y is ignored in unsupervised methods.
 
         Parameters
@@ -148,7 +148,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         pass
 
     @abc.abstractmethod
-    def decision_function(self, X):
+    def decision_function(self, X): # pragma: no cover
         """Predict raw anomaly scores of X using the fitted detector.
 
         The anomaly score of an input sample is computed based on the fitted
@@ -169,7 +169,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         pass
 
     @deprecated()
-    def fit_predict(self, X, y=None):
+    def fit_predict(self, X, y=None): # pragma: no cover
         """Fit detector first and then predict whether a particular sample
         is an outlier or not. y is ignored in unsupervised models.
 
@@ -197,7 +197,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         self.fit(X, y)
         return self.labels_
 
-    def predict(self, X):
+    def predict(self, X): # pragma: no cover
         """Predict if a particular sample is an outlier or not.
 
         Parameters
@@ -220,7 +220,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         return (pred_score > self.threshold_).astype(
             'int').ravel(), X_left_inds.ravel(), X_right_inds.ravel()
 
-    def predict_proba(self, X, method='linear'):
+    def predict_proba(self, X, method='linear'): # pragma: no cover
         """Predict the probability of a sample being outlier. Two approaches
         are possible:
 
@@ -272,7 +272,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
             raise ValueError(method,
                              'is not a valid probability conversion method')
 
-    def _predict_rank(self, X, normalized=False):
+    def _predict_rank(self, X, normalized=False): # pragma: no cover
         """Predict the outlyingness rank of a sample by a fitted model. The
         method is for outlier detector score combination.
 
@@ -304,7 +304,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
             ranks = ranks / ranks.max()
         return ranks
 
-    def _set_n_classes(self, y):
+    def _set_n_classes(self, y): # pragma: no cover
         """Set the number of classes if `y` is presented, which is not
         expected. It could be useful for multi-class outlier detection.
 
@@ -326,7 +326,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
                 "y should not be presented in unsupervised learning.")
         return self
 
-    def _process_decision_scores(self):
+    def _process_decision_scores(self): # pragma: no cover
         """Internal function to calculate key attributes:
 
         - threshold_: used to decide the binary label
@@ -350,7 +350,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         return self
 
     # noinspection PyMethodParameters
-    def _get_param_names(cls):
+    def _get_param_names(cls): # pragma: no cover
         # noinspection PyPep8
         """Get parameter names for the estimator
 
@@ -383,7 +383,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         return sorted([p.name for p in parameters])
 
     # noinspection PyPep8
-    def get_params(self, deep=True):
+    def get_params(self, deep=True): # pragma: no cover
         """Get parameters for this estimator.
 
         See http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html
@@ -424,7 +424,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
             out[key] = value
         return out
 
-    def set_params(self, **params):
+    def set_params(self, **params): # pragma: no cover
         # noinspection PyPep8
         """Set the parameters of this estimator.
         The method works on simple estimators as well as on nested objects
@@ -464,7 +464,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
 
         return self
 
-    def __repr__(self):
+    def __repr__(self): # pragma: no cover
         # noinspection PyPep8
         """
         See http://scikit-learn.org/stable/modules/generated/sklearn.base.BaseEstimator.html

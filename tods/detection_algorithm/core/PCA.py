@@ -230,7 +230,7 @@ class PCA(CollectiveBaseDetector):
             sub_matrices), X_left_inds.ravel(), X_right_inds.ravel()
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     # X_train = np.asarray(
     #     [3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]).reshape(-1, 1)
 
