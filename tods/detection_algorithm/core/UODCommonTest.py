@@ -112,11 +112,11 @@ class UODCommonTest:
         with assert_raises(ValueError):
             self.clf.predict_proba(self.X_test, method='something')
 
-    def test_fit_predict(self):
+    def test_fit_predict(self): # pragma: no cover
         pred_labels = self.clf.fit_predict(X=self.X_train)
         assert_equal(pred_labels.shape, self.y_train.shape)
 
-    def test_fit_predict_score(self):
+    def test_fit_predict_score(self): # pragma: no cover
         self.clf.fit_predict_score(self.X_test, self.y_test)
         self.clf.fit_predict_score(self.X_test, self.y_test,
                                    scoring='roc_auc_score')
@@ -126,7 +126,7 @@ class UODCommonTest:
             self.clf.fit_predict_score(self.X_test, self.y_test,
                                        scoring='something')
 
-    def test_predict_rank(self):
+    def test_predict_rank(self): # pragma: no cover
         pred_socres = self.clf.decision_function(self.X_test)
         pred_ranks = self.clf._predict_rank(self.X_test)
 
@@ -135,7 +135,7 @@ class UODCommonTest:
         assert_array_less(pred_ranks, self.X_train.shape[0] + 1)
         assert_array_less(-0.1, pred_ranks)
 
-    def test_predict_rank_normalized(self):
+    def test_predict_rank_normalized(self): # pragma: no cover
         pred_socres = self.clf.decision_function(self.X_test)
         pred_ranks = self.clf._predict_rank(self.X_test, normalized=True)
 
