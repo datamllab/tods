@@ -245,26 +245,26 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         """
         # print('Fit:', self._clf)
 
-        if self._fitted:
+        if self._fitted: # pragma: no cover
             return CallResult(None)
 
         self._training_inputs, self._training_indices = self._get_columns_to_fit(self._inputs, self.hyperparams)
         self._input_column_names = self._training_inputs.columns
 
-        if self._training_inputs is None:
+        if self._training_inputs is None: # pragma: no cover
             return CallResult(None)
 
         if len(self._training_indices) > 0:
 
-            #print('Fit: ', self._clf)
-            #print('Fit: ', self._training_inputs.values.shape)
-            #print('Fit: ', self._clf.fit(self._training_inputs.values))
+            # print('Fit: ', self._clf)
+            # print('Fit: ', self._training_inputs.values.shape)
+            # print('Fit: ', self._clf.fit(self._training_inputs.values))
 
             self._clf.fit(X=self._training_inputs.values, **self._clf_fit_parameter)
             self._fitted = True
             self._set_subseq_inds()
 
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -282,7 +282,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
             1 marks Outliers, 0 marks normal.
         """
 
-        if not self._fitted:
+        if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
         sk_inputs = inputs
         if self.hyperparams['use_semantic_types']:
@@ -314,15 +314,16 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
+
             # print(sk_output)
-            if sparse.issparse(sk_output):
+            if sparse.issparse(sk_output): # pragma: no cover
                 sk_output = sk_output.toarray()
 
             outputs = self._wrap_predictions(inputs, sk_output)
             if len(outputs.columns) == len(self._input_column_names):
                 outputs.columns = self._input_column_names
             output_columns = [outputs]
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -345,7 +346,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
             1 marks Outliers, 0 marks normal.
         """
 
-        if not self._fitted:
+        if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
         sk_inputs = inputs
         if self.hyperparams['use_semantic_types']:
@@ -377,13 +378,13 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
                 else:
                     sk_output, _, _ = self._clf.decision_function(sk_inputs.values)
 
-            if sparse.issparse(sk_output):
+            if sparse.issparse(sk_output): # pragma: no cover
                 sk_output = sk_output.toarray()
             outputs = self._wrap_predictions(inputs, sk_output)
             if len(outputs.columns) == len(self._input_column_names):
                 outputs.columns = self._input_column_names
             output_columns = [outputs]
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -477,7 +478,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
             self._fitted = True
 
     @classmethod
-    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
+    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams): # pragma: no cover
         """
         Select columns to fit.
         Args:
@@ -508,7 +509,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
     @classmethod
     def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int,
-                            hyperparams: Hyperparams) -> bool:
+                            hyperparams: Hyperparams) -> bool: # pragma: no cover
         """
         Output whether a column can be processed.
         Args:
@@ -540,7 +541,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
 
     @classmethod
-    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]: # pragma: no cover
         """
         Output metadata of selected columns.
         Args:
@@ -572,7 +573,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
     @classmethod
     def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs],
-                                     target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata:
+                                     target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata: # pragma: no cover
         """
         Updata metadata for selected columns.
         Args:
@@ -592,7 +593,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         return outputs_metadata
 
 
-    def _wrap_predictions(self, inputs: Inputs, predictions: ndarray) -> Outputs:
+    def _wrap_predictions(self, inputs: Inputs, predictions: ndarray) -> Outputs: # pragma: no cover
         """
         Wrap predictions into dataframe
         Args:
@@ -612,7 +613,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         return outputs
 
     @classmethod
-    def _add_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams, primitiveNo):
+    def _add_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams, primitiveNo): # pragma: no cover
         """
         Add target columns metadata
         Args:
@@ -638,7 +639,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
     @classmethod
     def _copy_inputs_metadata(cls, inputs_metadata: metadata_base.DataMetadata, input_indices: List[int],
-                              outputs_metadata: metadata_base.DataMetadata, hyperparams):
+                              outputs_metadata: metadata_base.DataMetadata, hyperparams): # pragma: no cover
         """
         Updata metadata for selected columns.
         Args:
