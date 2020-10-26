@@ -129,7 +129,7 @@ class Errors:
         # logger.info("normalized prediction error: {0:.2f}"
         #             .format(self.normalized))
 
-    def adjust_window_size(self, channel):
+    def adjust_window_size(self, channel): # pragma: no cover
         """
         Decrease the historical error window size (h) if number of test
         values is limited.
@@ -150,7 +150,7 @@ class Errors:
                                  .format(self._batch_size,
                                          channel.y_test.shape[0]))
 
-    def merge_scores(self):
+    def merge_scores(self): # pragma: no cover
         """
         If anomalous sequences from subsequent batches are adjacent they
         will automatically be combined. This combines the scores for these
@@ -165,8 +165,8 @@ class Errors:
             if not score['start_idx']-1 in score_end_indices:
                 merged_scores.append(score['score'])
                 score_end_indices.append(score['end_idx'])
-
-    def process_batches(self, channel):
+ 
+    def process_batches(self, channel): # pragma: no cover
         """
         Top-level function for the Error class that loops through batches
         of values for a channel.
@@ -227,7 +227,7 @@ class Errors:
             self.merge_scores()
 
 
-class ErrorWindow:
+class ErrorWindow: # pragma: no cover
     def __init__(self, channel,start_idx, end_idx, errors, window_num,l_s,error_buffer,batch_size,p):
         """
         Data and calculations for a specific window of prediction errors.

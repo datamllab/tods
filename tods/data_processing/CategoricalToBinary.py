@@ -81,34 +81,38 @@ class Cat2B:
         dataframe = inputs
         processed_df = utils.pandas.DataFrame()
         for target_column in dataframe.columns :
-            try:
-                req_col = pd.DataFrame(dataframe.loc[:,target_column])
-                categories = req_col[target_column].unique()
+            req_col = pd.DataFrame(dataframe.loc[:,target_column])
+            res = pd.get_dummies(req_col[target_column],prefix=req_col.columns[0],dummy_na=True)
+            processed_df = pd.concat([processed_df,res],axis=1)
 
-                column_names = [target_column+'_'+str(i) for i in categories]
-                column_dtype = req_col[target_column].dtype
+            # try:
+            #     req_col = pd.DataFrame(dataframe.loc[:,target_column])
+            #     categories = req_col[target_column].unique()
 
-                if column_dtype== np.object:
-                    for i,j in zip(categories,column_names):
-                        if i is not None:
-                            req_col.loc[req_col[target_column]==i,j] = "1"
-                            req_col.loc[req_col[target_column]!=i,j] = "0"
-                        else:
-                            req_col.loc[req_col[target_column].isna()==False,j] = "0"
-                            req_col.loc[req_col[target_column].isna()==True,j] = None
+            #     column_names = [target_column+'_'+str(i) for i in categories]
+            #     column_dtype = req_col[target_column].dtype
 
-                else:
-                    for i,j in zip(categories,column_names):
-                        if not math.isnan(i):
-                            req_col.loc[req_col[target_column]==i,j] = "1"
-                            req_col.loc[req_col[target_column]!=i,j] = "0"
-                        else:
-                            req_col.loc[req_col[target_column].isna()==False,j] = "0"
-                            req_col.loc[req_col[target_column].isna()==True,j] = np.nan
+            #     if column_dtype== np.object:
+            #         for i,j in zip(categories,column_names):
+            #             if i is not None:
+            #                 req_col.loc[req_col[target_column]==i,j] = "1"
+            #                 req_col.loc[req_col[target_column]!=i,j] = "0"
+            #             else:
+            #                 req_col.loc[req_col[target_column].isna()==False,j] = "0"
+            #                 req_col.loc[req_col[target_column].isna()==True,j] = None
+
+            #     else:
+            #         for i,j in zip(categories,column_names):
+            #             if not math.isnan(i):
+            #                 req_col.loc[req_col[target_column]==i,j] = "1"
+            #                 req_col.loc[req_col[target_column]!=i,j] = "0"
+            #             else:
+            #                 req_col.loc[req_col[target_column].isna()==False,j] = "0"
+            #                 req_col.loc[req_col[target_column].isna()==True,j] = np.nan
                     
-                processed_df[column_names] = req_col[column_names]
-            except KeyError:
-                logging.warning("Target Column "+ target_column+" Not Found in Dataframe")
+            #     processed_df[column_names] = req_col[column_names]
+            # except KeyError:
+            #     logging.warning("Target Column "+ target_column+" Not Found in Dataframe")
         
         return processed_df;
 
@@ -290,12 +294,12 @@ class CategoricalToBinary(transformer.TransformerPrimitiveBase[Inputs, Outputs, 
         if len(accepted_semantic_types - semantic_types) == 0:
             return True
 
-        print(semantic_types)
+        # print(semantic_types)
         return False
 
 
     @classmethod
-    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]: # pragma: no cover
         """
         Output metadata of selected columns.
         Args:
