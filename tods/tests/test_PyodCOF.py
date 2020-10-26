@@ -6,14 +6,14 @@ from tods.detection_algorithm.PyodCOF import PyodCOF
 import utils as test_utils
 import pandas as pd
 
-class ABODTest(unittest.TestCase):
+class COFTest(unittest.TestCase):
     def test_basic(self):
         self.maxDiff = None
         main = container.DataFrame({'a': [1., 2., 3.], 'b': [2., 3., 4.], 'c': [3., 4., 11.],},
                                     columns=['a', 'b', 'c'],
                                     generate_metadata=True)
 
-        print(main)
+        # print(main)
 
 
         self.assertEqual(utils.to_json_structure(main.metadata.to_internal_simple_structure()), [{
@@ -63,6 +63,7 @@ class ABODTest(unittest.TestCase):
         primitive.set_training_data(inputs=main)
         primitive.fit()
         new_main = primitive.produce(inputs=main).value
+        nme2 = primitive.produce_score(inputs=main).value
         # print(type(new_main))
 
         c = pd.DataFrame({0:[0,0,1]})
