@@ -48,7 +48,7 @@ from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOut
 
 
 
-__all__ = ('DeepLog',)
+__all__ = ('DeepLogPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame

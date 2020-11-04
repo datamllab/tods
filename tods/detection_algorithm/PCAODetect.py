@@ -148,7 +148,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class PCAODetector(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class PCAODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     PCA-based outlier detection with both univariate and multivariate
     time series data. TS data will be first transformed to tabular format.

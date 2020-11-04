@@ -161,7 +161,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class LSTMODetector(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class LSTMODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
 
     Parameters

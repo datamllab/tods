@@ -21,7 +21,7 @@ from scipy import sparse
 import logging
 import uuid
 
-__all__ = ('WaveletTransformer',)
+__all__ = ('WaveletTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -149,7 +149,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class WaveletTransformer(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class WaveletTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     A primitive of Multilevel 1D Discrete Wavelet Transform of data.
     See `PyWavelet documentation <https://pywavelets.readthedocs.io/en/latest/ref/>`_ for details.
@@ -438,7 +438,7 @@ class WaveletTransformer(transformer.TransformerPrimitiveBase[Inputs, Outputs, H
         # print(target_columns_metadata)
         return target_columns_metadata
 
-WaveletTransformer.__doc__ = WaveletTransformer.__doc__
+WaveletTransformPrimitive.__doc__ = WaveletTransformPrimitive.__doc__
 
 class Wavelet:
 

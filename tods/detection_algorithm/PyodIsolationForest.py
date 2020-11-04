@@ -106,7 +106,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class IsolationForest(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 
     """
     Wrapper of Pyod Isolation Forest with more functionalities.

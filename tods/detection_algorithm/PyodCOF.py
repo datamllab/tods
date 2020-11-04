@@ -67,7 +67,7 @@ class Hyperparams(Hyperparams_ODBase):
 
 
 
-class PyodCOF(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Connectivity-Based Outlier Factor (COF) COF uses the ratio of average
     chaining distance of data point and the average of average chaining

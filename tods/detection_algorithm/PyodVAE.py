@@ -186,7 +186,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class VariationalAutoEncoder(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class VariationalAutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Auto Encoder (AE) is a type of neural networks for learning useful data
     representations unsupervisedly. Similar to PCA, AE could be used to

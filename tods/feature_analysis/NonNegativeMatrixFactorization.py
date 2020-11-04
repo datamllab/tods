@@ -16,7 +16,7 @@ import warnings
 
 
 
-__all__ = ('NonNegativeMatrixFactorization',)
+__all__ = ('NonNegativeMatrixFactorizationPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -210,7 +210,7 @@ class NMF:
 		return result
 
 
-class NonNegativeMatrixFactorization(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class NonNegativeMatrixFactorizationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 	"""
 	Calculates Latent factors of a given matrix of timeseries data
 
@@ -520,4 +520,4 @@ class NonNegativeMatrixFactorization(transformer.TransformerPrimitiveBase[Inputs
 			target_columns_metadata.append(column_metadata)
 		return target_columns_metadata
 
-NonNegativeMatrixFactorization.__doc__ = NonNegativeMatrixFactorization.__doc__
+NonNegativeMatrixFactorizationPrimitive.__doc__ = NonNegativeMatrixFactorizationPrimitive.__doc__

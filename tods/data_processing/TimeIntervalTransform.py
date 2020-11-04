@@ -15,7 +15,7 @@ from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 
 
-__all__ = ('TimeIntervalTransform',)
+__all__ = ('TimeIntervalTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -81,7 +81,7 @@ class Hyperparams(hyperparams.Hyperparams):
     
 
 
-class TimeIntervalTransform(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class TimeIntervalTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     
     """
     A primitive which configures the time interval of the dataframe.

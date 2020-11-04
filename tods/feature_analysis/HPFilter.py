@@ -23,7 +23,7 @@ from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 import statsmodels.api as sm
 
-__all__ = ('HPFilter',)
+__all__ = ('HPFilterPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -100,7 +100,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
     
-class HPFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class HPFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Filter a time series using the Hodrick-Prescott filter.
 

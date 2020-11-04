@@ -25,7 +25,7 @@ import uuid
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-__all__ = ('SKQuantileTransformer',)
+__all__ = ('SKQuantileTransformerPrimitive',)
 
 
 class Params(params.Params):
@@ -118,7 +118,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class SKQuantileTransformer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SKQuantileTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Primitive wrapping for sklearn QuantileTransformer
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.QuantileTransformer.html>`_ for more details.
@@ -498,4 +498,4 @@ class SKQuantileTransformer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Pa
         return target_columns_metadata
 
 
-SKQuantileTransformer.__doc__ = QuantileTransformer.__doc__
+SKQuantileTransformerPrimitive.__doc__ = QuantileTransformer.__doc__
