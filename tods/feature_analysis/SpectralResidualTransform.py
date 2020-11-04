@@ -132,6 +132,7 @@ class SpectralResidualTransformPrimitive(transformer.TransformerPrimitiveBase[In
         Returns:
             Container DataFrame containing Spectral Residual Transform of  time series
         """
+
         self.logger.info('Spectral Residual  Primitive called')
 
         # Get cols to fit.
@@ -142,7 +143,7 @@ class SpectralResidualTransformPrimitive(transformer.TransformerPrimitiveBase[In
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -166,7 +167,7 @@ class SpectralResidualTransformPrimitive(transformer.TransformerPrimitiveBase[In
             output_columns = [outputs]
 
 
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -358,7 +359,7 @@ class SpectralResidualTransformPrimitive(transformer.TransformerPrimitiveBase[In
 
         return res
 
-    def _write(self, inputs: Inputs):
+    def _write(self, inputs: Inputs): # pragma: no cover
         inputs.to_csv(str(time.time()) + '.csv')
 
 

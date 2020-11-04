@@ -420,12 +420,12 @@ class NonNegativeMatrixFactorizationPrimitive(transformer.TransformerPrimitiveBa
 		if len(accepted_semantic_types - semantic_types) == 0:
 			return True
 
-		print(semantic_types)
+		# print(semantic_types)
 		return False
 
 
 	@classmethod
-	def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+	def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]: # pragma: no cover
 		"""
 		Output metadata of selected columns.
 		Args:

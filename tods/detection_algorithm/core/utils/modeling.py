@@ -125,7 +125,7 @@ class Model:
     #     self.model.save(os.path.join('data', self.run_id, 'models',
     #                                  '{}.h5'.format(self.chan_id)))
 
-    def aggregate_predictions(self, y_hat_batch, method='mean'):
+    def aggregate_predictions(self, y_hat_batch, method='mean'): # pragma: no cover
         """
         Aggregates predictions for each timestep. When predicting n steps
         ahead where n > 1, will end up with multiple predictions for a
