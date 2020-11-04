@@ -179,7 +179,7 @@ class NmfTestCase(unittest.TestCase):
 		}])
 
 
-		hyperparams_class = NonNegativeMatrixFactorization.NonNegativeMatrixFactorization.metadata.get_hyperparams()
+		hyperparams_class = NonNegativeMatrixFactorization.NonNegativeMatrixFactorizationPrimitive.metadata.get_hyperparams()
 		hp = hyperparams_class.defaults().replace({
 			'use_semantic_types': False,
 		    'use_columns': (0,1,),
@@ -189,7 +189,7 @@ class NmfTestCase(unittest.TestCase):
 		    'W':a,
 		    'H': b,
 		})
-		primitive = NonNegativeMatrixFactorization.NonNegativeMatrixFactorization(hyperparams=hp)
+		primitive = NonNegativeMatrixFactorization.NonNegativeMatrixFactorizationPrimitive(hyperparams=hp)
 		new_main = primitive.produce(inputs=main).value
 
 

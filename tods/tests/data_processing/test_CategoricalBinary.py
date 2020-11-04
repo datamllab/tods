@@ -152,14 +152,14 @@ class CategoricalBinaryTestCase(unittest.TestCase):
 
 
 
-        hyperparams_class = CategoricalToBinary.CategoricalToBinary.metadata.get_hyperparams()
+        hyperparams_class = CategoricalToBinary.CategoricalToBinaryPrimitive.metadata.get_hyperparams()
         hp = hyperparams_class.defaults().replace({
             'use_semantic_types':False,
             'use_columns': (0,),
             'return_result':'append',
         })
 
-        primitive = CategoricalToBinary.CategoricalToBinary(hyperparams=hp)
+        primitive = CategoricalToBinary.CategoricalToBinaryPrimitive(hyperparams=hp)
         new_main = primitive.produce(inputs=main).value
 
         print("new_main \n",new_main)
