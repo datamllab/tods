@@ -33,7 +33,7 @@ Inputs = d3m_dataframe
 # Inputs = container.Dataset
 Outputs = d3m_dataframe
 
-__all__ = ('SKStandardScaler',)
+__all__ = ('SKStandardScalerPrimitive',)
 
 
 class Params(params.Params):
@@ -114,7 +114,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class SKStandardScaler(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SKStandardScalerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Standardize features by removing the mean and scaling to unit variance.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html?highlight=standardscaler#sklearn.preprocessing.StandardScaler>`_ for more details.
@@ -542,4 +542,4 @@ class SKStandardScaler(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params,
         return target_columns_metadata
 
 
-SKStandardScaler.__doc__ = SKStandardScaler.__doc__
+SKStandardScalerPrimitive.__doc__ = SKStandardScalerPrimitive.__doc__

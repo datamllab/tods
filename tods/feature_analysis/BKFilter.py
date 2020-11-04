@@ -26,7 +26,7 @@ import os.path
 import time
 import statsmodels.api as sm
 
-__all__ = ('BKFilter',)
+__all__ = ('BKFilterPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -117,7 +117,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
     
-class BKFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class BKFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Filter a time series using the Baxter-King bandpass filter.
 

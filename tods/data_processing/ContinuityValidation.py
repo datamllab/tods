@@ -7,7 +7,7 @@ from d3m import utils
 
 import time
 
-__all__ = ('ContinuityValidation',)
+__all__ = ('ContinuityValidationPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -30,7 +30,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class ContinuityValidation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class ContinuityValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Check whether the seires data is consitent in time interval and provide processing if not consistent.
 

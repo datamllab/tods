@@ -120,7 +120,7 @@ class MP:
 			transformed_columns=pd.concat([transformed_columns,output],axis=1)
 		return transformed_columns
 
-class MatrixProfile(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class MatrixProfilePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 	"""
 	A primitive that performs matrix profile on a DataFrame using Stumpy package
 	Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html

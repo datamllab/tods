@@ -34,7 +34,7 @@ from statsmodels.tsa.stattools import acf
 # import os.path
 
 
-__all__ = ('AutoCorrelation',)
+__all__ = ('AutoCorrelationPrimitive',)
 
 
 Inputs = d3m_dataframe
@@ -187,7 +187,7 @@ class ACF:
 
 
 
-class AutoCorrelation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 	"""
 	A primitive that performs autocorrelation on a DataFrame
 	acf() function documentation: https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.acf.html

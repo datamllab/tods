@@ -20,7 +20,7 @@ from collections import OrderedDict
 from scipy import sparse
 from numpy import ndarray
 
-__all__ = ('CategoricalToBinary',)
+__all__ = ('CategoricalToBinaryPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -112,7 +112,7 @@ class Cat2B:
         
         return processed_df;
 
-class CategoricalToBinary(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class CategoricalToBinaryPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
         A primitive which will convert all the distinct values present in a column to a binary represntation with each distinct value having a different column.
 
@@ -391,5 +391,5 @@ class CategoricalToBinary(transformer.TransformerPrimitiveBase[Inputs, Outputs, 
         return target_columns_metadata
 
 
-CategoricalToBinary.__doc__ = CategoricalToBinary.__doc__
+CategoricalToBinaryPrimitive.__doc__ = CategoricalToBinaryPrimitive.__doc__
 
