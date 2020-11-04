@@ -137,7 +137,7 @@ class StatisticalZeroCrossingPrimitive(transformer.TransformerPrimitiveBase[Inpu
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -161,7 +161,7 @@ class StatisticalZeroCrossingPrimitive(transformer.TransformerPrimitiveBase[Inpu
             output_columns = [outputs]
 
 
-        else:
+        else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -297,7 +297,7 @@ class StatisticalZeroCrossingPrimitive(transformer.TransformerPrimitiveBase[Inpu
 
         return target_columns_metadata
 
-    def _write(self, inputs: Inputs):
+    def _write(self, inputs: Inputs): # pragma: no cover
         inputs.to_csv(str(time.time()) + '.csv')
 
 

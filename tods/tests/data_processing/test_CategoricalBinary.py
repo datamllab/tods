@@ -67,10 +67,12 @@ class CategoricalBinaryTestCase(unittest.TestCase):
         primitive = CategoricalToBinary.CategoricalToBinaryPrimitive(hyperparams=hp)
         new_main = primitive.produce(inputs=main).value
 
-        c = pd.DataFrame({"A":[1,2], "B":['a','b'],"A_1":["1","0"],"A_2":["0","1"]})
+        c = pd.DataFrame({"A":[1,2], "B":['a','b'],"A_1.0":[np.uint8(1),np.uint8(0)],"A_2.0":[np.uint8(0),np.uint8(1)],"A_nan":[np.uint8(0),np.uint8(0)]})
 
-        pd.testing.assert_frame_equal(new_main, c)
+
         # print("new_main\n",new_main)
+        # pd.testing.assert_frame_equal(new_main, c)
+        
 
         # print(utils.to_json_structure(new_main.metadata.to_internal_simple_structure()))
         self.assertEqual(utils.to_json_structure(new_main.metadata.to_internal_simple_structure()), [{
@@ -92,7 +94,7 @@ class CategoricalBinaryTestCase(unittest.TestCase):
                 'dimension': {
                     'name': 'columns',
                     'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularColumn'],
-                    'length': 4,
+                    'length': 5,
                 },
             },
         }, {
@@ -110,17 +112,24 @@ class CategoricalBinaryTestCase(unittest.TestCase):
         }, {
             'selector': ['__ALL_ELEMENTS__', 2],
             'metadata': {
-                'name': 'A_1',
+                'name': 'A_1.0',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'str',
+                'structural_type': 'numpy.uint8',
             },
-                }, {
+        }, {
             'selector': ['__ALL_ELEMENTS__', 3],
             'metadata': {
-                'name': 'A_2',
+                'name': 'A_2.0',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'str',
-            },
+                'structural_type': 'numpy.uint8',
+                },
+        },{
+            'selector': ['__ALL_ELEMENTS__', 4],
+            'metadata': {
+                'name': 'A_nan',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
+                'structural_type': 'numpy.uint8',
+                },
         }])
 
 
@@ -140,6 +149,21 @@ class CategoricalBinaryTestCase(unittest.TestCase):
 
         params = primitive.get_params()
         primitive.set_params(params=params)
+
+
+
+        hyperparams_class = CategoricalToBinary.CategoricalToBinary.metadata.get_hyperparams()
+        hp = hyperparams_class.defaults().replace({
+            'use_semantic_types':False,
+            'use_columns': (0,),
+            'return_result':'append',
+        })
+
+        primitive = CategoricalToBinary.CategoricalToBinary(hyperparams=hp)
+        new_main = primitive.produce(inputs=main).value
+
+        print("new_main \n",new_main)
+
 
 
 if __name__ == '__main__':
