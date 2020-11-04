@@ -175,6 +175,20 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         """
         return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
 
+
+
+    def produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+        """
+        Process the testing data.
+        Args:
+            inputs: Container DataFrame. Time series data up to outlier detection.
+        Returns:
+            Container DataFrame
+            Outlier score of input DataFrame.
+        """
+        return super().produce_score(inputs=inputs, timeout=timeout, iterations=iterations)
+
+
     def get_params(self) -> Params:
         """
         Return parameters.
