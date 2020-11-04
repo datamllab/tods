@@ -35,7 +35,7 @@ Inputs = d3m_dataframe
 # Inputs = container.Dataset
 Outputs = d3m_dataframe
 
-__all__ = ('SKPowerTransformer',)
+__all__ = ('SKPowerTransformerPrimitive',)
 
 class Params(params.Params):
 
@@ -113,7 +113,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class SKPowerTransformer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SKPowerTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     PowerTransformer primitive using sklearn to make data more Gaussian-like.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html#>`_ for more details.
@@ -497,4 +497,4 @@ class SKPowerTransformer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
         return target_columns_metadata
 
 
-SKPowerTransformer.__doc__ = SKPowerTransformer.__doc__
+SKPowerTransformerPrimitive.__doc__ = SKPowerTransformerPrimitive.__doc__

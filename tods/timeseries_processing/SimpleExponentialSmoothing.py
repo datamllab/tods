@@ -33,6 +33,7 @@ from d3m.primitive_interfaces import base, transformer
 
 
 
+__all__ = ('SimpleExponentialSmoothingPrimitive',)
 Inputs = d3m_dataframe
 # Inputs = container.Dataset
 Outputs = d3m_dataframe
@@ -106,7 +107,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class SimpleExponentialSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SimpleExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Primitive wrapping for simple exponential smoothing
     `statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.SimpleExpSmoothing.html#statsmodels.tsa.holtwinters.SimpleExpSmoothing>`_
@@ -346,4 +347,4 @@ class SimpleExponentialSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, Output
         return target_columns_metadata
 
 
-SimpleExponentialSmoothing.__doc__ = Normalizer.__doc__
+SimpleExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__

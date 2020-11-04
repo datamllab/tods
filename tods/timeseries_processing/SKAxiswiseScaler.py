@@ -17,7 +17,7 @@ from scipy import sparse
 import logging
 import uuid
 
-__all__ = ('SKAxiswiseScaler',)
+__all__ = ('SKAxiswiseScalerPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -122,7 +122,7 @@ class Scaler:
 
 
 
-class SKAxiswiseScaler(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Standardize a dataset along any axis, and center to the mean and component wise scale to unit variance.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.scale.html?highlight=scale#sklearn.preprocessing.scale>`_ for more details.
@@ -395,4 +395,4 @@ class SKAxiswiseScaler(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyp
 
         return target_columns_metadata
 
-SKAxiswiseScaler.__doc__ = SKAxiswiseScaler.__doc__
+SKAxiswiseScalerPrimitive.__doc__ = SKAxiswiseScalerPrimitive.__doc__

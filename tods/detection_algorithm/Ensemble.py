@@ -109,7 +109,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class Ensemble(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class EnsemblePrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
    Ensemble method 
     `Calculate the Maximum/Minimum/Average and  Majority Voting for the detection algorithm based on the threshold set for the score`_
@@ -360,4 +360,4 @@ class Ensemble(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperpa
         return target_columns_metadata
 
 
-Ensemble.__doc__ = Normalizer.__doc__
+EnsemblePrimitive.__doc__ = Normalizer.__doc__

@@ -25,7 +25,7 @@ from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPr
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-__all__ = ('SKTruncatedSVD',)
+__all__ = ('SKTruncatedSVDPrimitive',)
 
 class PrimitiveCount:
     primitive_no = 0
@@ -121,7 +121,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class SKTruncatedSVD(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Primitive wrapping for sklearn TruncatedSVD
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html>`_   

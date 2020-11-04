@@ -19,7 +19,7 @@ from typing import cast, Dict, List, Union, Sequence, Optional, Tuple
 from scipy import sparse
 from numpy import ndarray
 
-__all__ = ('DiscreteCosineTransform',)
+__all__ = ('DiscreteCosineTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -160,7 +160,7 @@ class DCT:
 
         
 
-class DiscreteCosineTransform(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class DiscreteCosineTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Compute the 1-D discrete Cosine Transform.
     Return the Discrete Cosine Transform of arbitrary type sequence x.
@@ -474,7 +474,7 @@ class DiscreteCosineTransform(transformer.TransformerPrimitiveBase[Inputs, Outpu
         return target_columns_metadata
 
 
-DiscreteCosineTransform.__doc__ = DiscreteCosineTransform.__doc__
+DiscreteCosineTransformPrimitive.__doc__ = DiscreteCosineTransformPrimitive.__doc__
 
 
 

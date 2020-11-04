@@ -29,6 +29,8 @@ from d3m.metadata import base as metadata_base
 from d3m.metadata import hyperparams,params
 from d3m.primitive_interfaces import base, transformer
 
+__all__ = ('HoltSmoothingPrimitive',)
+
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
@@ -101,7 +103,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class HoltSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Holt Smoothing
     `statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.Holt.html#statsmodels.tsa.holtwinters.Holt>`_
@@ -337,4 +339,4 @@ class HoltSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hy
         return target_columns_metadata
 
 
-HoltSmoothing.__doc__ = Normalizer.__doc__
+HoltSmoothingPrimitive.__doc__ = Normalizer.__doc__

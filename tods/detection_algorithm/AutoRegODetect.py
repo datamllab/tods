@@ -85,7 +85,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class AutoRegODetector(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class AutoRegODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Autoregressive models use linear regression to calculate a sample's
     deviance from the predicted value, which is then used as its

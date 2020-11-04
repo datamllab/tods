@@ -29,6 +29,8 @@ from d3m.metadata import base as metadata_base
 from d3m.metadata import hyperparams,params
 from d3m.primitive_interfaces import base, transformer
 
+__all__ = ('HoltWintersExponentialSmoothingPrimitive',)
+
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
@@ -100,7 +102,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class HoltWintersExponentialSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     HoltWinter Exponential Smoothing
     `Statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.ExponentialSmoothing.html#statsmodels.tsa.holtwinters.ExponentialSmoothing>`_
@@ -335,4 +337,4 @@ class HoltWintersExponentialSmoothing(UnsupervisedLearnerPrimitiveBase[Inputs, O
         return target_columns_metadata
 
 
-HoltWintersExponentialSmoothing.__doc__ = Normalizer.__doc__
+HoltWintersExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__

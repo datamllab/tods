@@ -22,6 +22,8 @@ from d3m.primitive_interfaces.base import CallResult, DockerContainer
 from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
 
 
+__all__ = ('SKImputerPrimitive',)
+
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
@@ -120,7 +122,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class SKImputer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Primitive wrapping for sklearn SimpleImputer
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`_
@@ -388,4 +390,4 @@ class SKImputer(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperp
         return target_columns_metadata
 
 
-SKImputer.__doc__ = SimpleImputer.__doc__
+SKImputerPrimitive.__doc__ = SimpleImputer.__doc__

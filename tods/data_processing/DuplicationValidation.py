@@ -7,7 +7,7 @@ from d3m import utils
 
 import time
 
-__all__ = ('DuplicationValidation',)
+__all__ = ('DuplicationValidationPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -25,7 +25,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class DuplicationValidation(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class DuplicationValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Check whether the seires data involves duplicate data in one timestamp, and provide processing if the duplication exists.
 

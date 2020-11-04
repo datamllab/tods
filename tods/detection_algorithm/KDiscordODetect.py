@@ -125,7 +125,7 @@ class Hyperparams(Hyperparams_ODBase):
     pass
 
 
-class KDiscordODetector(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     KDiscord first split multivariate time series into
     subsequences (matrices), and it use kNN outlier detection based on PyOD.

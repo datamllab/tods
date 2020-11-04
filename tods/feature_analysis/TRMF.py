@@ -26,7 +26,7 @@ from d3m.primitive_interfaces import base, transformer
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-__all__ = ('TRMF',)
+__all__ = ('TRMFPrimitive',)
 
 # class Params(params.Params):
 #     components_: Optional[ndarray]
@@ -160,7 +160,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class TRMF(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class TRMFPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """Temporal Regularized Matrix Factorization.
 
     Parameters
