@@ -131,7 +131,7 @@ class MP:
 	def predict(self, data):
 		return self.produce(data)
 		
-class MatrixProfile(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 	"""
 
 	A primitive that performs matrix profile on a DataFrame using Stumpy package
