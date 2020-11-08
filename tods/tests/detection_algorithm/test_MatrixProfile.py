@@ -58,10 +58,17 @@ class MatrixProfileTest(unittest.TestCase):
         hyperparams_class = MatrixProfilePrimitive.metadata.get_hyperparams()
         hyperparams = hyperparams_class.defaults()
         hyperparams = hyperparams.replace({'window_size': 3})
+<<<<<<< Updated upstream:tods/tests/detection_algorithm/test_MatrixProfile.py
 
         primitive = MatrixProfilePrimitive(hyperparams=hyperparams)
         #primitive.set_training_data(inputs=main)
         #primitive.fit()
+=======
+        #print(type(main))
+        primitive = MatrixProfile(hyperparams=hyperparams)
+        primitive.set_training_data(inputs=main)
+        primitive.fit()
+>>>>>>> Stashed changes:tods/tests/test_MatrixProfile.py
         new_main = primitive.produce(inputs=main).value
         print(new_main)       
 
