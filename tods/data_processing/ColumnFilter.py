@@ -14,11 +14,8 @@ import logging, uuid
 from scipy import sparse
 from numpy import ndarray
 from collections import OrderedDict
-from common_primitives import dataframe_utils, utils
 
-from d3m import utils
 from d3m import container
-from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
 from d3m.container import DataFrame as d3m_dataframe
 from d3m.container.numpy import ndarray as d3m_ndarray
