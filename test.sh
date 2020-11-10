@@ -12,7 +12,7 @@ do
 	echo $file
 
 	# Test pipeline building
-	python primitive_tests/$file > tmp.txt 2>>tmp.txt
+	python new_tests/$file > tmp.txt 2>>tmp.txt
 	error=$(cat tmp.txt | grep 'Error' | wc -l) 
 	echo "\t#Pipeline Building Errors:" $error
 	if [ "$error" -gt "0" ]
