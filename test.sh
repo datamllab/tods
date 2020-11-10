@@ -1,6 +1,6 @@
 #!/bin/bash
 
-test_scripts=$(ls primitive_tests)
+test_scripts=$(ls new_tests)
 #test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
 
 for file in $test_scripts
