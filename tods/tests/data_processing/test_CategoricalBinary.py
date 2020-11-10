@@ -8,7 +8,6 @@ import numpy as np
 import pandas as pd
 import utils as test_utils
 import os
-from common_primitives import dataset_to_dataframe,column_parser
 
 class CategoricalBinaryTestCase(unittest.TestCase):
     def test_basic(self):
