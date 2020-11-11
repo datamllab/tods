@@ -71,6 +71,7 @@ class ConstructPredictionsPrimitiveTestCase(unittest.TestCase):
 
 
 
+
     def _test_metadata(self, metadata, no_metadata=False):
         self.maxDiff = None
 
@@ -125,6 +126,121 @@ class ConstructPredictionsPrimitiveTestCase(unittest.TestCase):
                 ],
             })
 
+    def test_all_columns(self):
+        dataframe = self._get_yahoo_dataframe()
+
+        # We use all columns. Output has to be just index and targets.
+        targets = copy.copy(dataframe)
+
+        # We pretend these are our predictions.
+        targets.metadata = targets.metadata.remove_semantic_type((metadata_base.ALL_ELEMENTS, 5),
+                                                                 'https://metadata.datadrivendiscovery.org/types/TrueTarget')
+        targets.metadata = targets.metadata.add_semantic_type((metadata_base.ALL_ELEMENTS, 5),
+                                                              'https://metadata.datadrivendiscovery.org/types/PredictedTarget')
+
+        hyperparams_class = ConstructPredictions.ConstructPredictionsPrimitive.metadata.get_hyperparams()
+
+        construct_primitive = ConstructPredictions.ConstructPredictionsPrimitive(
+            hyperparams=hyperparams_class.defaults())
+
+        call_metadata = construct_primitive.produce(inputs=targets, reference=dataframe)
+
+        dataframe = call_metadata.value
+
+        self.assertEqual(list(dataframe.columns), ['d3mIndex', 'value_3'])
+
+        self._test_metadata(dataframe.metadata)
+
+    def test_missing_index(self):
+        dataframe = self._get_yahoo_dataframe()
+
+        # We just use all columns.
+        targets = copy.copy(dataframe)
+
+        # We pretend these are our predictions.
+        targets.metadata = targets.metadata.remove_semantic_type((metadata_base.ALL_ELEMENTS, 5),
+                                                                 'https://metadata.datadrivendiscovery.org/types/TrueTarget')
+        targets.metadata = targets.metadata.add_semantic_type((metadata_base.ALL_ELEMENTS, 5),
+                                                              'https://metadata.datadrivendiscovery.org/types/PredictedTarget')
+
+        # Remove primary index. This one has to be reconstructed.
+        targets = targets.remove_columns([0])
+
+        hyperparams_class = ConstructPredictions.ConstructPredictionsPrimitive.metadata.get_hyperparams()
+
+        construct_primitive = ConstructPredictions.ConstructPredictionsPrimitive(
+            hyperparams=hyperparams_class.defaults())
+
+        call_metadata = construct_primitive.produce(inputs=targets, reference=dataframe)
+
+        dataframe = call_metadata.value
+
+        self.assertEqual(list(dataframe.columns), ['d3mIndex', 'value_3'])
+
+        self._test_metadata(dataframe.metadata)
+
+    def test_just_targets_no_metadata(self):
+        dataframe = self._get_yahoo_dataframe()
+
+        hyperparams_class = ExtractColumnsBySemanticTypes.ExtractColumnsBySemanticTypesPrimitive.metadata.get_hyperparams()
+
+        # We extract just targets.
+        primitive = ExtractColumnsBySemanticTypes.ExtractColumnsBySemanticTypesPrimitive(
+            hyperparams=hyperparams_class.defaults().replace(
+                {'semantic_types': ('https://metadata.datadrivendiscovery.org/types/Target',)}))
+
+        call_metadata = primitive.produce(inputs=dataframe)
+
+        targets = call_metadata.value
+
+        # Remove all metadata.
+        targets.metadata = metadata_base.DataMetadata().generate(targets)
+
+        hyperparams_class = ConstructPredictions.ConstructPredictionsPrimitive.metadata.get_hyperparams()
+
+        construct_primitive = ConstructPredictions.ConstructPredictionsPrimitive(
+            hyperparams=hyperparams_class.defaults())
+
+        call_metadata = construct_primitive.produce(inputs=targets, reference=dataframe)
+
+        dataframe = call_metadata.value
+
+        self.assertEqual(list(dataframe.columns), ['d3mIndex', 'value_3'])
+
+        self._test_metadata(dataframe.metadata, True)
+
+    def test_float_vector(self):
+        dataframe = container.DataFrame({
+            'd3mIndex': [0],
+            'target': [container.ndarray(numpy.array([3, 5, 9, 10]))],
+        }, generate_metadata=True)
+
+        # Update metadata.
+        dataframe.metadata = dataframe.metadata.add_semantic_type((metadata_base.ALL_ELEMENTS, 0),
+                                                                  'https://metadata.datadrivendiscovery.org/types/PrimaryKey')
+        dataframe.metadata = dataframe.metadata.add_semantic_type((metadata_base.ALL_ELEMENTS, 1),
+                                                                  'https://metadata.datadrivendiscovery.org/types/PredictedTarget')
+
+        hyperparams_class = ConstructPredictions.ConstructPredictionsPrimitive.metadata.get_hyperparams()
+
+        construct_primitive = ConstructPredictions.ConstructPredictionsPrimitive(
+            hyperparams=hyperparams_class.defaults())
+
+        dataframe = construct_primitive.produce(inputs=dataframe, reference=dataframe).value
+
+        self.assertEqual(list(dataframe.columns), ['d3mIndex', 'target'])
+
+        self.assertEqual(dataframe.values.tolist(), [
+            [0, '3,5,9,10'],
+        ])
+
+        self.assertEqual(dataframe.metadata.query_column(1), {
+            'structural_type': str,
+            'name': 'target',
+            'semantic_types': (
+                'https://metadata.datadrivendiscovery.org/types/PredictedTarget',
+            ),
+        })
 
 
 if __name__ == '__main__':
