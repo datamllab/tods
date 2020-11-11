@@ -120,7 +120,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         columns_to_use, output_columns = self._produce_columns(inputs)
 
-        if self.hyperparams['replace_index_columns'] and self.hyperparams['return_result'] == 'append':
+        if self.hyperparams['replace_index_columns'] and self.hyperparams['return_result'] == 'append': # pragma: no cover
             assert len(columns_to_use) == len(output_columns)
 
             index_columns = inputs.metadata.get_index_columns()
@@ -215,7 +215,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
         return columns_to_use, output_columns
 
-    def _produce_columns_metadata(self, inputs_metadata: metadata_base.DataMetadata) -> typing.Tuple[typing.List[int], typing.List[metadata_base.DataMetadata]]:
+    def _produce_columns_metadata(self, inputs_metadata: metadata_base.DataMetadata) -> typing.Tuple[typing.List[int], typing.List[metadata_base.DataMetadata]]: # pragma: no cover
         columns_to_use = self._get_columns(inputs_metadata)
 
         # We check against this list again, because there might be multiple matching semantic types
@@ -242,10 +242,10 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
                 elif 'http://schema.org/Float' in parse_semantic_types and 'http://schema.org/Float' in semantic_types:
                     output_columns.append(self._parse_float_metadata(inputs_metadata, column_index))
 
-                elif 'https://metadata.datadrivendiscovery.org/types/FloatVector' in parse_semantic_types and 'https://metadata.datadrivendiscovery.org/types/FloatVector' in semantic_types:
+                elif 'https://metadata.datadrivendiscovery.org/types/FloatVector' in parse_semantic_types and 'https://metadata.datadrivendiscovery.org/types/FloatVector' in semantic_types: # pragma: no cover
                     output_columns.append(self._parse_float_vector_metadata(inputs_metadata, column_index))
 
-                elif 'http://schema.org/DateTime' in parse_semantic_types and 'http://schema.org/DateTime' in semantic_types:
+                elif 'http://schema.org/DateTime' in parse_semantic_types and 'http://schema.org/DateTime' in semantic_types: # pragma: no cover
                     output_columns.append(self._parse_time_metadata(inputs_metadata, column_index))
 
                 else:
@@ -273,14 +273,14 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
     @classmethod
     def _parse_boolean_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment) -> Outputs:
-        return cls._parse_categorical_data(inputs, column_index)
+        return cls._parse_categorical_data(inputs, column_index) # pragma: no cover
 
     @classmethod
     def _parse_boolean_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata:
-        return cls._parse_categorical_metadata(inputs_metadata, column_index)
+        return cls._parse_categorical_metadata(inputs_metadata, column_index) # pragma: no cover
 
     @classmethod
-    def _parse_categorical_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment) -> Outputs:
+    def _parse_categorical_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment) -> Outputs: # pragma: no cover
         values_map: typing.Dict[str, int] = {}
         for value in inputs.iloc[:, column_index]:
             value = value.strip()
@@ -295,7 +295,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         return outputs
 
     @classmethod
-    def _parse_categorical_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata:
+    def _parse_categorical_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata: # pragma: no cover
         outputs_metadata = inputs_metadata.select_columns([column_index])
         return outputs_metadata.update_column(0, {'structural_type': int})
 
@@ -333,7 +333,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         return outputs
 
     @classmethod
-    def _parse_integer_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata:
+    def _parse_integer_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata: # pragma: no cover
         outputs_metadata = inputs_metadata.select_columns([column_index])
         # Without data we assume we can parse everything into integers. This might not be true and
         # we might end up parsing into floats if we have to represent missing (or invalid) values.
@@ -343,7 +343,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
     def _str_to_float(cls, value: str) -> float:
         try:
             return float(value.strip())
-        except ValueError:
+        except ValueError: # pragma: no cover
             return float('nan')
 
     @classmethod
@@ -359,7 +359,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         return outputs_metadata.update_column(0, {'structural_type': float})
 
     @classmethod
-    def _parse_float_vector_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment) -> Outputs:
+    def _parse_float_vector_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment) -> Outputs: # pragma: no cover
         # We are pretty strict here because we are assuming this was generated programmatically.
         outputs = container.DataFrame(
             {
@@ -377,7 +377,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         return outputs
 
     @classmethod
-    def _parse_float_vector_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata:
+    def _parse_float_vector_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata: # pragma: no cover
         outputs_metadata = inputs_metadata.select_columns([column_index])
         # We cannot know the dimension of the ndarray without data.
         outputs_metadata = outputs_metadata.update_column(0, {'structural_type': container.ndarray})
@@ -385,13 +385,13 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         return outputs_metadata
 
     @classmethod
-    def _parse_time_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment, fuzzy: bool) -> Outputs:
+    def _parse_time_data(cls, inputs: Inputs, column_index: metadata_base.SimpleSelectorSegment, fuzzy: bool) -> Outputs: # pragma: no cover
         outputs = container.DataFrame({inputs.columns[column_index]: [utils.parse_datetime_to_float(value, fuzzy=fuzzy) for value in inputs.iloc[:, column_index]]}, generate_metadata=False)
         outputs.metadata = cls._parse_time_metadata(inputs.metadata, column_index)
 
         return outputs
 
     @classmethod
-    def _parse_time_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata:
+    def _parse_time_metadata(cls, inputs_metadata: metadata_base.DataMetadata, column_index: metadata_base.SimpleSelectorSegment) -> metadata_base.DataMetadata: # pragma: no cover
         outputs_metadata = inputs_metadata.select_columns([column_index])
         return outputs_metadata.update_column(0, {'structural_type': float})
