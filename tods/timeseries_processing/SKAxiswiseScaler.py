@@ -9,7 +9,6 @@ from d3m.primitive_interfaces import base, transformer
 
 from sklearn.preprocessing import scale
 
-import common_primitives
 import numpy
 from typing import Optional, List
 from collections import OrderedDict

@@ -6,8 +6,6 @@ from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 
-import common_primitives
-
 __all__ = ('ExtractColumnsBySemanticTypesPrimitive',)
 
 Inputs = container.DataFrame
@@ -74,7 +72,7 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
             'name': "Extracts columns by semantic type",
             'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types',
             'source': {
-                'name': common_primitives.__author__,
+                'name': "DataLab@Texas A&M University",
                 'contact': 'mailto:mitar.commonprimitives@tnode.com',
                 'uris': [
                     'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/extract_columns_semantic_types.py',

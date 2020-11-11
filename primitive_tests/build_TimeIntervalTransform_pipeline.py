@@ -22,7 +22,7 @@ pipeline_description.add_step(step_0)
 # primitive_1 = index.get_primitive('d3m.primitives.data_transformation.SKQuantileTransformer')
 
 #Step 1: column_parser
-step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.Common'))
+step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.column_parser'))
 step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
 step_1.add_output('produce')
 pipeline_description.add_step(step_1)
@@ -35,14 +35,14 @@ step_2.add_output('produce')
 pipeline_description.add_step(step_2)
 #
 # # Step 2: column_parser
-# step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.Common'))
+# step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.column_parser'))
 # step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
 # step_2.add_output('produce')
 # pipeline_description.add_step(step_2)
 #
 #
 # # Step 3: extract_columns_by_semantic_types(attributes)
-# step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+# step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
 # step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 # step_3.add_output('produce')
 # step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
@@ -50,7 +50,7 @@ pipeline_description.add_step(step_2)
 # pipeline_description.add_step(step_3)
 #
 # # Step 4: extract_columns_by_semantic_types(targets)
-# step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+# step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
 # step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
 # step_4.add_output('produce')
 # step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,

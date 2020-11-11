@@ -11,7 +11,6 @@ from d3m.primitive_interfaces import base, transformer
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 
-import common_primitives
 import logging
 import math
 
