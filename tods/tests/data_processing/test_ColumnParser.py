@@ -9,7 +9,6 @@ from d3m.metadata import base as metadata_base
 
 from tods.data_processing import DatasetToDataframe, ColumnParser
 
-from common_primitives import utils as common_utils
 import utils as test_utils
 
 
@@ -441,12 +440,6 @@ class ColumnParserPrimitiveTestCase(unittest.TestCase):
 
 
 
-    def test_ugly_time_values(self):
-        for value in [
-            'Original chained constant price data are rescaled.',
-            '1986/87',
-        ]:
-            self.assertTrue(numpy.isnan(common_utils.parse_datetime_to_float(value)), value)
 
 
 
