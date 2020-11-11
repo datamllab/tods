@@ -194,7 +194,7 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
             self._clf.fit(self._training_inputs)
             self._fitted = True
         else:
-            if self.hyperparams['error_on_no_input']:
+            if self.hyperparams['error_on_no_input']: # pragma: no cover
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
         return CallResult(None)
@@ -215,7 +215,7 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
             output.columns = [inputs.columns[idx] for idx in range(len(inputs.columns)) if idx in self._training_indices]
             output = [output]
         else:
-            if self.hyperparams['error_on_no_input']:
+            if self.hyperparams['error_on_no_input']: # pragma: no cover
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
         _, _, dropped_cols = self._get_columns_to_fit(inputs, self.hyperparams)
@@ -308,7 +308,7 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
         return columns_to_remove
 
     @classmethod
-    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
+    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool: # pragma: no cover
         column_metadata = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index))
 
         accepted_structural_types = (int, float, numpy.integer, numpy.float64)
@@ -330,7 +330,7 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
     
 
     @classmethod
-    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]: # pragma: no cover
         outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
 
         target_columns_metadata: List[OrderedDict] = []
