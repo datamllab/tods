@@ -8,7 +8,6 @@ from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 
-import common_primitives
 import logging
 from cmath import polar
 from scipy.fft import fft

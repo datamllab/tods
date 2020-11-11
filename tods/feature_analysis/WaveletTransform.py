@@ -3,8 +3,8 @@ import typing
 from numpy import ndarray
 import numpy as np
 
-from d3m import container, utils as d3m_utils
 from d3m.base import utils as base_utils
+from d3m import container, exceptions
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 from typing import Union
@@ -13,7 +13,6 @@ import pywt
 import pandas
 import math
 
-import common_primitives
 import numpy
 from typing import Optional, List
 from collections import OrderedDict
