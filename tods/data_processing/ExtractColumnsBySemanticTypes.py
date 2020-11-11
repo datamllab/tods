@@ -106,16 +106,16 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
 
         semantic_types = column_metadata.get('semantic_types', [])
 
-        if self.hyperparams['match_logic'] == 'all':
+        if self.hyperparams['match_logic'] == 'all': # pragma: no cover
             match = all(semantic_type in semantic_types for semantic_type in self.hyperparams['semantic_types'])
         elif self.hyperparams['match_logic'] == 'any':
             match = any(semantic_type in semantic_types for semantic_type in self.hyperparams['semantic_types'])
-        elif self.hyperparams["match_logic"] == "equal":
+        elif self.hyperparams["match_logic"] == "equal": # pragma: no cover
             match = set(semantic_types) == set(self.hyperparams["semantic_types"])
         else:
             raise exceptions.UnexpectedValueError("Unknown value of hyper-parameter \"match_logic\": {value}".format(value=self.hyperparams['match_logic']))
 
-        if self.hyperparams['negate']:
+        if self.hyperparams['negate']: # pragma: no cover
             return not match
         else:
             return match
