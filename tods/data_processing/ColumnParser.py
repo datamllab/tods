@@ -9,8 +9,7 @@ from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 
-import common_primitives
-from common_primitives import utils
+from tods.data_processing import utils
 
 __all__ = ('ColumnParserPrimitive',)
 
@@ -98,7 +97,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
             'name': "Parses strings into their types",
             'python_path': 'd3m.primitives.tods.data_processing.column_parser',
             'source': {
-                'name': common_primitives.__author__,
+                'name': "DataLab@Texas A&M University",
                 'contact': 'mailto:mitar.commonprimitives@tnode.com',
                 'uris': [
                     'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/column_parser.py',

@@ -15,7 +15,7 @@ pipeline_description.add_step(step_0)
 
 
 # Step 1: column_parser
-step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.Common'))
+step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.column_parser'))
 step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
 step_1.add_output('produce')
 pipeline_description.add_step(step_1)

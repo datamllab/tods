@@ -6,7 +6,6 @@ from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
 from d3m.contrib.primitives import compute_scores
 
-import common_primitives
 
 __all__ = ('ConstructPredictionsPrimitive',)
 
@@ -51,7 +50,7 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
             'name': "Construct pipeline predictions output",
             'python_path': 'd3m.primitives.tods.data_processing.construct_predictions',
             'source': {
-                'name': common_primitives.__author__,
+                'name': "DataLab@Texas A&M University",
                 'contact': 'mailto:mitar.commonprimitives@tnode.com',
                 'uris': [
                     'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/construct_predictions.py',
