@@ -12,7 +12,7 @@ class ColumnFilterTest(unittest.TestCase):
                                     columns=['a', 'b', 'c'],
                                     generate_metadata=True)
 
-        print(main)
+        #print(main)
 
 
         self.assertEqual(utils.to_json_structure(main.metadata.to_internal_simple_structure()), [{

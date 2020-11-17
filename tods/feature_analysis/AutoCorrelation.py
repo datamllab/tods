@@ -263,7 +263,6 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 		self._training_inputs, self._training_indices = self._get_columns_to_fit(inputs, self.hyperparams)
 		self._input_column_names = self._training_inputs.columns
 
-		print("training_indices_ ", self._training_indices)
 		if len(self._training_indices) > 0:
 			self._fitted = True
 		else:	# pragma: no cover
@@ -279,7 +278,6 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 			sk_inputs = inputs.iloc[:, self._training_indices]
 		output_columns = []
 		if len(self._training_indices) > 0:
-			print("sk_inputs ", sk_inputs)
 			sk_output = self._clf.produce(sk_inputs)
 			if sparse.issparse(sk_output):	# pragma: no cover
 				sk_output = sk_output.toarray()
@@ -357,13 +355,12 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 		accepted_structural_types = (int, float, np.integer, np.float64) #changed numpy to np
 		accepted_semantic_types = set()
 		accepted_semantic_types.add("https://metadata.datadrivendiscovery.org/types/Attribute")
-		print("accepted_semantic_types ", accepted_semantic_types)
-		print("column_metadata['structural_type'] ",column_metadata['structural_type'])
+
 		if not issubclass(column_metadata['structural_type'], accepted_structural_types):
 			return False
 
 		semantic_types = set(column_metadata.get('semantic_types', []))
-		print("semantic_types ", semantic_types)
+
 		if len(semantic_types) == 0:
 			cls.logger.warning("No semantic types found in column metadata")
 			return False
