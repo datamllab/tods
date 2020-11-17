@@ -29,7 +29,7 @@ primitive_2 = index.get_primitive('d3m.primitives.tods.detection_algorithm.matri
 
 step_2 = PrimitiveStep(primitive=primitive_2)
 step_2.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
-step_2.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(2,3,4)) # There is sth wrong with multi-dimensional
+step_2.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(2,3,)) # There is sth wrong with multi-dimensional
 step_2.add_hyperparameter(name='window_size', argument_type=ArgumentType.VALUE, data=3) # There is sth wrong with multi-dimensional
 step_2.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE, data='append')
 step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')

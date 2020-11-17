@@ -311,7 +311,8 @@ class DeeplogLstm(BaseDetector):
         # Compile model
         model.compile(loss=self.loss, optimizer=self.optimizer)
         if self.verbose >= 1:
-            print(model.summary())
+            #print(model.summary())
+            pass
         return model
 
     def fit(self,X,y=None):
@@ -396,9 +397,9 @@ class DeeplogLstm(BaseDetector):
         check_is_fitted(self, ['model_', 'history_'])
 
         X = check_array(X)
-        print("inside")
-        print(X.shape)
-        print(X[0])
+        #print("inside")
+        #print(X.shape)
+        #print(X[0])
         X_norm,Y_norm = self._preprocess_data_for_LSTM(X)
         pred_scores = np.zeros(X.shape)
         pred_scores[self.window_size:] = self.model_.predict(X_norm)

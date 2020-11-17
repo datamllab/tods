@@ -63,6 +63,7 @@ class MatrixProfileTest(unittest.TestCase):
         primitive.set_training_data(inputs=main)
         primitive.fit()
         new_main = primitive.produce(inputs=main).value
+        #print("new_main.drop([1,2]) ",new_main.drop(columns=[1,2]))
         print(new_main)       
 
 
