@@ -83,6 +83,15 @@ class MP:
 		
 		return self
 
+	def _get_right_inds(self, data):
+		right_inds = []
+		for row in data[1]:
+			right_inds.append(row+self._window_size-1)
+		right_inds = pd.DataFrame(right_inds)
+		data = pd.concat([data,right_inds], axis=1)
+		data.columns = range(0,len(data.columns))
+		return data
+
 	def produce(self, data):
 
 		"""
@@ -93,39 +102,15 @@ class MP:
 			nparray
 
 		"""
-		"""
-		#print(data.shape[0s])
-		rows = data.shape[0]
-		columns = data.shape[1]
-		convert_data = np.reshape(data, (columns, rows))
-		T_data = data.transpose()
-		#print(T_data)
+		
+		#only keep first two columns of MP results, the second column is left index, use windowsize to get right index
 		transformed_columns=utils.pandas.DataFrame()
-		transformed_columns=d3m_dataframe
-		print(len(data))
-		for col in range(len(data)):
-			output = stumpy.stump(data[col], m = self._window_size)
-			output = pd.DataFrame(output)
-			#print("output", output)
-			transformed_columns=pd.concat([transformed_columns,output],axis=1)
-			#transformed_columns[col]=output
-			#print(transformed_columns)
-		return transformed_columns
-		# transformed_data = []
-		# for row in T_data:
-		# 	print(row)
-		# 	output = stumpy.stump(row, m = self._window_size)
-		# 	print(output)
-		"""
-		#input from UODBasePrimitive is np.ndarray not dataframe
-		print("data ",type(data))
-		transformed_columns=utils.pandas.DataFrame()
-		for col in data:
-			print(col)
+		for col in data.transpose(): #data.reshape(1,len(data)):
 			output = stumpy.stump(col, m = self._window_size)
 			output = pd.DataFrame(output)
-			transformed_columns=pd.concat([transformed_columns,output])
-			#print(transformed_columns)
+			output=output.drop(columns=[2,3])
+			output = self._get_right_inds(output)
+			transformed_columns=pd.concat([transformed_columns,output], axis=1)
 		return transformed_columns
 
 	def predict(self, data):
@@ -214,10 +199,9 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
 			Container DataFrame
 			1 marks Outliers, 0 marks normal.
 		"""
-		print("inputs ",type(inputs))
 		return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
 
-	def get_params(self) -> Params:
+	def get_params(self) -> Params:		# pragma: no cover
 		"""
 		Return parameters.
 		Args:
@@ -228,7 +212,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
 		"""
 		return super().get_params()
 
-	def set_params(self, *, params: Params) -> None:
+	def set_params(self, *, params: Params) -> None:	# pragma: no cover
 		"""
 		Set parameters for outlier detection.
 		Args:
