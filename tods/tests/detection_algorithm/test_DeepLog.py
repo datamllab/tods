@@ -56,7 +56,6 @@ class DeepLogTest(unittest.TestCase):
         hyperparams_class = DeepLogPrimitive.metadata.get_hyperparams()
         hyperparams = hyperparams_class.defaults()
         hyperparams = hyperparams.replace({'batch_size': 4})
-
         print(hyperparams)
 
         self.primitive = DeepLogPrimitive(hyperparams=hyperparams)
