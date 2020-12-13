@@ -253,7 +253,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
 
         if self._training_inputs is None: # pragma: no cover
             return CallResult(None)
-
+        #print("self._training_indices ", self._training_indices)
         if len(self._training_indices) > 0:
 
             # print('Fit: ', self._clf)
@@ -288,6 +288,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         if self.hyperparams['use_semantic_types']:
             sk_inputs = inputs.iloc[:, self._training_indices]
         output_columns = []
+        #print("skinputs ", sk_inputs.values)
         if len(self._training_indices) > 0:
 
             if self.hyperparams['return_subseq_inds']:
@@ -315,7 +316,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
 
-            # print(sk_output)
+            #print("sk output ", sk_output)
             if sparse.issparse(sk_output): # pragma: no cover
                 sk_output = sk_output.toarray()
 
@@ -323,16 +324,16 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
             if len(outputs.columns) == len(self._input_column_names):
                 outputs.columns = self._input_column_names
             output_columns = [outputs]
-        else: # pragma: no cover
+        else: # pragma: no cover    
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
-
+        
         outputs = base_utils.combine_columns(return_result=self.hyperparams['return_result'],
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
-
+        
         return CallResult(outputs)
 
     def produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
@@ -488,21 +489,21 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         Returns:
             list
         """
-
+        #print("*******************get columns to fit***********")
         if not hyperparams['use_semantic_types']:
             return inputs, list(range(len(inputs.columns)))
 
         inputs_metadata = inputs.metadata
-
-
+        #print("inputs_metadata ", inputs_metadata)
+        
         def can_produce_column(column_index: int) -> bool:
             return cls._can_produce_column(inputs_metadata, column_index, hyperparams)
-
+        
         columns_to_produce, columns_not_to_produce = base_utils.get_columns_to_use(inputs_metadata,
                                                                                    use_columns=hyperparams['use_columns'],
                                                                                    exclude_columns=hyperparams['exclude_columns'],
                                                                                    can_use_column=can_produce_column)
-
+        #print("columns_to_produce ", columns_to_produce)
         return inputs.iloc[:, columns_to_produce], columns_to_produce
         # return columns_to_produce
 
@@ -519,16 +520,18 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
         Returns:
             bool
         """
+        
         column_metadata = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index))
-
+        #print("column metadasta ", )
         accepted_structural_types = (int, float, numpy.integer, numpy.float64)
         accepted_semantic_types = set()
         accepted_semantic_types.add("https://metadata.datadrivendiscovery.org/types/Attribute")
+        
         if not issubclass(column_metadata['structural_type'], accepted_structural_types):
             return False
 
         semantic_types = set(column_metadata.get('semantic_types', []))
-
+        #print("semantic_types ", column_metadata.get('semantic_types'))
         if len(semantic_types) == 0:
             cls.logger.warning("No semantic types found in column metadata")
             return False
