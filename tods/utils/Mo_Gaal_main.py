@@ -1,5 +1,5 @@
 import numpy as np
-from skinterface.primitiveSKI.Mo_Gaal_skinterface import Mo_GaalSKI
+from skinterface.primitiveSKI.detection_algorithm.Mo_Gaal_skinterface import Mo_GaalSKI
 
 X_train = np.array([[3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]])
 X_test = np.array([[3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]])

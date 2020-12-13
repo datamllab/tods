@@ -1,5 +1,5 @@
 import numpy as np
-from skinterface.primitiveSKI.ABOD_skinterface import ABODSKI
+from skinterface.primitiveSKI.detection_algorithm.ABOD_skinterface import ABODSKI
 
 X_train = np.array([[3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]])
 X_test = np.array([[3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]])
