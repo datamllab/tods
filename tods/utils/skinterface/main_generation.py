@@ -30,7 +30,7 @@ for primitive_index, primitive_start_loc in enumerate(primitive_start_loc_buf):
 # sys.path.insert(0, 'tods/utils')"""
     import_line1 = 'import numpy as np' 
 
-    import_line2 = '\nfrom skinterface.primitiveSKI.'+ primitve_api_name + ' import ' + class_name + '\n\n'
+    import_line2 = '\nfrom skinterface.primitiveSKI.detection_algorithm.'+ primitve_api_name + ' import ' + class_name + '\n\n'
     #print(import_line)
 
     main_line1 = """X_train = np.array([[3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]])
