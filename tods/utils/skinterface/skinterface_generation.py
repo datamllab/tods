@@ -5,7 +5,7 @@ import os
 with open('tods/utils/skinterface/entry_points.txt','r',encoding='utf-8') as f:
     entry_file = f.read()
 
-output_dir = 'tods/utils/skinterface/primitiveSKI'
+output_dir = 'tods/utils/skinterface/primitiveSKI/detection_algorithm'
 
 
 primitive_folder_start_loc_buf = [i.start()+2 for i in re.finditer('=', entry_file)]
@@ -22,7 +22,7 @@ for primitive_index, primitive_start_loc in enumerate(primitive_start_loc_buf):
     # print(entry_file[primitive_folder_start_loc:primitive_start_loc-1])
     # print(entry_file[primitive_start_loc:primitive_end_loc])
 
-    import_line1 = 'import numpy as np \nfrom .Base_skinterface import BaseSKI\n'
+    import_line1 = 'import numpy as np \nfrom ..Base_skinterface import BaseSKI\n'
     import_line2 = 'from ' + primitive_folder + ' import ' + primitive_name + '\n\n'
     # print(import_line)
 
@@ -34,7 +34,7 @@ for primitive_index, primitive_start_loc in enumerate(primitive_start_loc_buf):
     python_name = primitive_name.replace('Primitive', '_skinterface.py')
     with open(os.path.join(output_dir, python_name), 'w', encoding='utf-8') as f:
         f.write(python_content)
-    #print(os.path.join(output_dir, python_name))
+    print(os.path.join(output_dir, python_name))
     print(python_content)
 
 

@@ -1,5 +1,5 @@
 import numpy as np 
-from .Base_skinterface import BaseSKI
+from ..Base_skinterface import BaseSKI
 from tods.detection_algorithm.PyodLODA import LODAPrimitive
 
 class LODASKI(BaseSKI):
