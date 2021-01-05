@@ -56,9 +56,9 @@ class ABODTest(unittest.TestCase):
         hyperparams = hyperparams_class.defaults()
         hyperparams = hyperparams.replace({'return_result': 'new',
                                             'method': 'default',
-
+                                            
                                         })
-
+        print(hyperparams)
         primitive = ABODPrimitive(hyperparams=hyperparams)
         primitive.set_training_data(inputs=main)
         primitive.fit()
