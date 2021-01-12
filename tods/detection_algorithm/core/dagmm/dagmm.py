@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.externals import joblib
 
-from .compression_net import CompressionNet
+from  .compression_net import CompressionNet
 from .estimation_net import EstimationNet
 from .gmm import GMM
 
@@ -11,7 +11,10 @@ from os import makedirs
 from os.path import exists, join
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-class DAGMM:
+
+from pyod.models.base import BaseDetector
+
+class DAGMM(BaseDetector):
     """ Deep Autoencoding Gaussian Mixture Model.
 
     This implementation is based on the paper:
@@ -23,11 +26,11 @@ class DAGMM:
     MODEL_FILENAME = "DAGMM_model"
     SCALER_FILENAME = "DAGMM_scaler"
 
-    def __init__(self, comp_hiddens, comp_activation,
-            est_hiddens, est_activation, est_dropout_ratio=0.5,
-            minibatch_size=1024, epoch_size=100,
-            learning_rate=0.0001, lambda1=0.1, lambda2=0.0001,
-            normalize=True, random_seed=123):
+    def __init__(self, comp_hiddens:list = [16,8,1],
+            est_hiddens:list = [8,4], est_dropout_ratio:float =0.5,
+            minibatch_size:int = 1024, epoch_size:int =100,
+            learning_rate:float =0.0001, lambda1:float =0.1, lambda2:float =0.0001,
+            normalize:bool=True, random_seed:int=123 , contamination:float = 0.001  ):
         """
         Parameters
         ----------
@@ -36,16 +39,14 @@ class DAGMM:
             For example, if the sizes are [n1, n2],
             structure of compression network is:
             input_size -> n1 -> n2 -> n1 -> input_sizes
-        comp_activation : function
-            activation function of compression network
+
         est_hiddens : list of int
             sizes of hidden layers of estimation network.
             The last element of this list is assigned as n_comp.
             For example, if the sizes are [n1, n2],
             structure of estimation network is:
             input_size -> n1 -> n2 (= n_comp)
-        est_activation : function
-            activation function of estimation network
+
         est_dropout_ratio : float (optional)
             dropout ratio of estimation network applied during training
             if 0 or None, dropout is not applied.
@@ -66,6 +67,9 @@ class DAGMM:
         random_seed : int (optional)
             random seed used when fit() is called.
         """
+        est_activation = tf.nn.tanh
+        comp_activation = tf.nn.tanh
+        super(DAGMM, self).__init__(contamination=contamination)
         self.comp_net = CompressionNet(comp_hiddens, comp_activation)
         self.est_net = EstimationNet(est_hiddens, est_activation)
         self.est_dropout_ratio = est_dropout_ratio
@@ -90,19 +94,19 @@ class DAGMM:
         if self.sess is not None:
             self.sess.close()
 
-    def fit(self, x):
+    def fit(self,X,y=None):
         """ Fit the DAGMM model according to the given data.
 
         Parameters
         ----------
-        x : array-like, shape (n_samples, n_features)
+        X : array-like, shape (n_samples, n_features)
             Training data.
         """
-        n_samples, n_features = x.shape
+        n_samples, n_features = X.shape
 
         if self.normalize:
             self.scaler = scaler = StandardScaler()
-            x = scaler.fit_transform(x)
+            X = scaler.fit_transform(X)
 
         with tf.Graph().as_default() as graph:
             self.graph = graph
@@ -140,25 +144,25 @@ class DAGMM:
             self.sess.run(init)
 
             # Training
-            idx = np.arange(x.shape[0])
+            idx = np.arange(X.shape[0])
             np.random.shuffle(idx)
 
             for epoch in range(self.epoch_size):
                 for batch in range(n_batch):
                     i_start = batch * self.minibatch_size
                     i_end = (batch + 1) * self.minibatch_size
-                    x_batch = x[idx[i_start:i_end]]
+                    x_batch = X[idx[i_start:i_end]]
 
                     self.sess.run(minimizer, feed_dict={
                         input:x_batch, drop:self.est_dropout_ratio})
 
                 if (epoch + 1) % 100 == 0:
-                    loss_val = self.sess.run(loss, feed_dict={input:x, drop:0})
+                    loss_val = self.sess.run(loss, feed_dict={input:X, drop:0})
                     print(" epoch {}/{} : loss = {:.3f}".format(epoch + 1, self.epoch_size, loss_val))
 
             # Fix GMM parameter
             fix = self.gmm.fix_op()
-            self.sess.run(fix, feed_dict={input:x, drop:0})
+            self.sess.run(fix, feed_dict={input:X, drop:0})
             self.energy = self.gmm.energy(z)
 
             tf.add_to_collection("save", self.input)
@@ -166,12 +170,12 @@ class DAGMM:
 
             self.saver = tf.train.Saver()
 
-    def decision_function(self, x):
+    def decision_function(self, X):
         """ Calculate anormaly scores (sample energy) on samples in X.
 
         Parameters
         ----------
-        x : array-like, shape (n_samples, n_features)
+        X : array-like, shape (n_samples, n_features)
             Data for which anomaly scores are calculated.
             n_features must be equal to n_features of the fitted data.
 
@@ -184,9 +188,9 @@ class DAGMM:
             raise Exception("Trained model does not exist.")
 
         if self.normalize:
-            x = self.scaler.transform(x)
+            X = self.scaler.transform(X)
 
-        energies = self.sess.run(self.energy, feed_dict={self.input:x})
+        energies = self.sess.run(self.energy, feed_dict={self.input:X})
         return energies
 
     def save(self, fdir):
