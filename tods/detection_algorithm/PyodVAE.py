@@ -56,7 +56,7 @@ class Hyperparams(Hyperparams_ODBase):
     ######## Add more Hyperparamters #######
 
     encoder_neurons = hyperparams.List(
-        default=[1, 2, 1],
+        default=[1, 4, 1],
         elements=hyperparams.Hyperparameter[int](1),
         description='The number of neurons per hidden layers in encoder.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
