@@ -1,4 +1,4 @@
 numpy==1.18.2
--e git+https://github.com/tods-doc/d3m@70aeefed6b7307941581357c4b7858bb3f88e1da#egg=d3m
+-e git+https://github.com/tods-doc/d3m@e25793d4aaa9a8fdb63ac33bf1c045b96d6067a6#egg=d3m
 -e git+https://github.com/tods-doc/axolotl@af54e6970476a081bf0cd65990c9f56a1200d8a2#egg=axolotl
 -e git+https://gitlab.com/datadrivendiscovery/common-primitives.git@046b20d2f6d4543dcbe18f0a1d4bcbb1f61cf518#egg=common_primitives
