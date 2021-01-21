@@ -114,3 +114,7 @@ pipeline_run.yml
 example_pipeline.json
 .DS_Store
 tmp.txt
+
+# mad-gan dataset
+tods/detection_algorithm/core/mad_gan/data/
+tods/detection_algorithm/core/mad_gan/experiments/
