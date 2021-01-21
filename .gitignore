@@ -116,5 +116,8 @@ example_pipeline.json
 tmp.txt
 
 # mad-gan dataset
+tods/tods/detection_algorithm/core/mad_gan/data/
+tods/tods/detection_algorithm/core/mad_gan/experiments/
+
 tods/detection_algorithm/core/mad_gan/data/
 tods/detection_algorithm/core/mad_gan/experiments/
