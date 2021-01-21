@@ -114,6 +114,9 @@ class MP:
 		return transformed_columns
 
 	def predict(self, data):
+		return self.produce(data)	
+	
+	def decision_function(self, data):
 		return self.produce(data)
 		
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
