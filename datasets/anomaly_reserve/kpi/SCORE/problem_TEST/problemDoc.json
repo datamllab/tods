@@ -1,0 +1,65 @@
+{
+    "about": {
+        "problemID": "kpi_problem",
+        "problemName": "kpi_problem",
+        "problemDescription": "Anomaly detection",
+        "problemVersion": "4.0.0",
+        "problemSchemaVersion": "4.0.0",
+        "taskKeywords": [
+            "classification",
+            "binary",
+            "tabular"
+        ]
+    },
+    "inputs": {
+        "data": [
+            {
+                "datasetID": "kpi_dataset",
+                "targets": [
+                    {
+                        "targetIndex": 0,
+                        "resID": "learningData",
+                        "colIndex": 3,
+                        "colName": "ground_truth"
+                    }
+                ]
+            }
+        ],
+        "dataSplits": {
+            "method": "holdOut",
+            "testSize": 0.2,
+            "stratified": true,
+            "numRepeats": 0,
+            "randomSeed": 42,
+            "splitsFile": "dataSplits.csv",
+            "datasetViewMaps": {
+                "train": [
+                    {
+                        "from": "kpi_dataset",
+                        "to": "kpi_dataset_TRAIN"
+                    }
+                ],
+                "test": [
+                    {
+                        "from": "kpi_dataset",
+                        "to": "kpi_dataset_TEST"
+                    }
+                ],
+                "score": [
+                    {
+                        "from": "kpi_dataset",
+                        "to": "kpi_dataset_SCORE"
+                    }
+                ]
+            }
+        },
+        "performanceMetrics": [
+            {
+                "metric": "f1Macro"
+            }
+        ]
+    },
+    "expectedOutputs": {
+        "predictionsFile": "predictions.csv"
+    }
+}
