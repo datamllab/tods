@@ -25,32 +25,33 @@ class BaseSKI():
         self.fit_available = False
         self.predict_available = False
         self.produce_available = False
-        #print(hyperparams)
+
+        # print(hyperparams)
 
     def transform(self, X):     #transform the ndarray to d3m dataframe, select columns to use
-        # if self.use_columns==():
-        #     self.use_columns = [iter for iter in range(len(X))]
-        # else:
-        #     pass
-        # print(self.use_columns)
+        column_name = [str(col_index) for col_index in range(X.shape[1])]
+        return container.DataFrame(X, columns=column_name, generate_metadata=True)
 
-        use_columns = [iter for iter in range(len(X))]
-        inputs = {}
-        for i in use_columns:
-          inputs['col_'+str(i)] = list(X[i])
-        inputs = container.DataFrame(inputs, columns=list(inputs.keys()), generate_metadata=True)
-        return inputs
+        # use_columns = [iter for iter in range(len(X))]
+        # inputs = {}
+        # for i in use_columns:
+        #   inputs['col_'+str(i)] = list(X[i])
+        # inputs = container.DataFrame(inputs, columns=list(inputs.keys()), generate_metadata=True)
+        # return inputs
 
     def set_training_data(self, data):
         return self.primitive.set_training_data(inputs=data)
 
     def fit(self, data):
+        # print(data)
 
         if not self.fit_available:
             raise AttributeError('type object ' + self.__class__.__name__ + ' has no attribute \'fit\'')
 
         data = self.transform(data)
+        # print(data)
         self.set_training_data(data)
+        
         return self.primitive.fit()
     
     def predict(self, data):

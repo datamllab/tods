@@ -8,3 +8,4 @@ class TelemanomSKI(BaseSKI):
 		self.fit_available = True
 		self.predict_available = True
 		self.produce_available = False
+
