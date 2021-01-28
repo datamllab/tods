@@ -54,7 +54,7 @@ class MADGANTest(unittest.TestCase):
 
         hyperparams_class = MADGANPrimitive.metadata.get_hyperparams()
         hyperparams = hyperparams_class.defaults()
-        hyperparams = hyperparams.replace({'batch_size': 4})
+        # hyperparams = hyperparams.replace({'batch_size': 4})
         print(hyperparams)
 
         self.primitive = MADGANPrimitive(hyperparams=hyperparams)
@@ -62,7 +62,7 @@ class MADGANTest(unittest.TestCase):
         #print("*****************",self.primitive.get_params())
 
         self.primitive.fit()
-        self.new_main = self.primitive.produce(inputs=self.main).value
+        self.new_main = self.primitive.produce().value
         #self.new_main_score = self.primitive.produce_score(inputs=self.main).value
         print(self.new_main)       
         #print(self.new_main_score) 

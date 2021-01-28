@@ -96,6 +96,7 @@ def load_settings_from_file(settings):
     the command line defaults, but otherwise overwriting them.
     """
     settings_path = './tods/detection_algorithm/core/mad_gan/experiments/settings/' + settings['settings_file'] + '.txt'
+    #settings_path = 'experiments/settings/' + settings['settings_file'] + '.txt'
     print('Loading settings from', settings_path)
     settings_loaded = json.load(open(settings_path, 'r'))
     # check for settings missing in file

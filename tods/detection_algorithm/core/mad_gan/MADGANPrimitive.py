@@ -432,32 +432,43 @@ class MADGAN(BaseDetector):
     """Class to Implement Deep Log LSTM based on "https://www.cs.utah.edu/~lifeifei/papers/deeplog.pdf
        Only Parameter Value anomaly detection layer has been implemented for time series data"""
 
-    def __init__(self, hidden_size : int = 64,
-                 optimizer : str ='adam',loss=mean_squared_error,preprocessing=True,
-                 epochs : int =100, batch_size : int =32, dropout_rate : float =0.0,
-                 l2_regularizer : float =0.1, validation_size : float =0.1,
-                 window_size: int = 1, stacked_layers: int  = 1, verbose : int = 1, contamination:int = 0.001):
+    def __init__(self, settings_file: str= "", data: str="kdd99", seq_length: int=30, num_signals: int=6,
+                    normalise: int=false, scale: float=0.1, freq_low: float=1.0, freq_high: float=5.0,
+                    amplitude_low: float=0.1, amplitude_high: float=0.9, multivariate_mnist: bool=false,
+                    full_mnist: bool=false, data_load_from: str="", resample_rate_in_min: int=15,
+                    hidden_units_g: int=100, hidden_units_d: int=100, hidden_units_e: int=100,
+                    kappa: int=1, latent_dim: int=15, weight: float=0.5, degree: int=1, batch_mean: bool=false,
+                    learn_scale: bool=false, learning_rate: float=0.1, batch_size: float=500, num_epochs: float=100,
+                    D_rounds: int=1, G_rounds: int=3, E_rounds: int=1, shuffle: bool=true, eval_mul: bool=false,
+                    eval_an: bool=false, eval_single: bool=false, wrong_labels: bool=false, identifier: str="kdd99",
+                    sub_id: str="kdd99", dp: bool=false, l2norm_bound: float=1e-05, batches_per_lot: int=1,
+                    dp_sigma: float=1e-05, use_time: bool=false, seq_step: int=10, num_generated_features: int=6):
 
         super(DeeplogLstm, self).__init__(contamination=contamination)
-        self.hidden_units_g = hidden_units_g
-        self.hidden_units_d = hidden_units_d
-        self.kappa = kappa
-        self.latent_dim = latent_dim
-        self.batch_mean = batch_mean
-        self.learn_scale = learn_scale
+        self.MG_hyperparams['hidden_units_g'] = hidden_units_g
+        self.MG_hyperparams['hidden_units_d'] = hidden_units_d
+        self.MG_hyperparams['kappa'] = kappa
+        self.MG_hyperparams['latent_dim'] = latent_dim
+        self.MG_hyperparams['batch_mean'] = batch_mean
+        self.MG_hyperparams['learn_scale'] = learn_scale
 
-        self.learning_rate = learning_rate
-        self.batch_size = batch_size 
-        self.num_epochs = num_epochs
-        self.D_rounds = D_rounds
-        self.G_rounds = G_rounds
-        self.use_time = use_time
-        self.WGAN = WGAN
-        self.WGAN_clip = WGAN_clip
-        self.shuffle = shuffle
-        self.wrong_labels = wrong_labels
+        self.MG_hyperparams['learning_rate']  = learning_rateS
+        self.MG_hyperparams['batch_size']  = batch_size 
+        self.MG_hyperparams['num_epochs']  = num_epochs
+        self.MG_hyperparams['D_rounds']  = D_rounds
+        self.MG_hyperparams['G_rounds']  = G_rounds
+        self.MG_hyperparams['use_time']  = use_time
+        self.MG_hyperparams['WGAN']  = WGANS
+        self.MG_hyperparams['WGAN_clip']  = WGAN_clip
+        self.MG_hyperparams['shuffle']  = shuffle
+        self.MG_hyperparams['wrong_labels']  = wrong_labels
         
-
+        self.MG_hyperparams['data'] = data
+        self.MG_hyperparams['seq_length'] = seq_length
+        self.MG_hyperparams['seq_step'] = seq_step
+        self.MG_hyperparams['num_signals'] = num_signals
+        self.MG_hyperparams['sub_id'] = sub_id
+        self.MG_hyperparams['evan_an'] = eval_an
 
 
     def _build_model(self):

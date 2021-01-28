@@ -62,12 +62,20 @@ from tods.detection_algorithm.core.mad_gan import *
 # import eval
 # import DR_discriminator
 
+# import tods.detection_algorithm.core.mad_gan.data_utils
+# import tods.detection_algorithm.core.mad_gan.plotting
+# import tods.detection_algorithm.core.mad_gan.model
+# import tods.detection_algorithm.core.mad_gan.utils
+# import tods.detection_algorithm.core.mad_gan.eval
+# import tods.detection_algorithm.core.mad_gan.DR_discriminator
+
 from tods.detection_algorithm.core.mad_gan import data_utils
 from tods.detection_algorithm.core.mad_gan import plotting
 from tods.detection_algorithm.core.mad_gan import model
 from tods.detection_algorithm.core.mad_gan import utils
 from tods.detection_algorithm.core.mad_gan import eval
 from tods.detection_algorithm.core.mad_gan import DR_discriminator
+from tods.detection_algorithm.core.mad_gan import mmd
 
 from time import time
 from math import floor
@@ -82,7 +90,6 @@ from time import time
 
 begin = time()
 
-#here
 
 __all__ = ('MADGANPrimitive',)
 
@@ -143,10 +150,10 @@ class Hyperparams(Hyperparams_ODBase):
         default=1000,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
-    kappa = hyperparams.Uniform(    # TODO: check range
+    kappa = hyperparams.Uniform(
         lower=0,
-        upper=1.0,  #1.0,
-        default=0.99,    #1.0,
+        upper=1.01,
+        default=1.0,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
         description="weight between final output and intermediate steps in discriminator cost (1 = all intermediate",
     )
@@ -266,10 +273,10 @@ class MADGANPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, H
         'python_path': 'd3m.primitives.tods.detection_algorithm.deeplog',
         'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
                    'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/MatrixProfile.py']},
-        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.DEEPLOG],  # TODO: fix this 
+        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.DEEPLOG], 
         'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MADGANPrimitive')),
-        'hyperparams_to_tune': ['hidden_units_g', 'hidden_units_d'],
+        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DeepLogPrimitive')),
+        # 'hyperparams_to_tune': [],
         'version': '0.0.1', 
         }
     )
@@ -291,8 +298,8 @@ class MADGANPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, H
                            D_rounds=hyperparams['D_rounds'],
                            G_rounds=hyperparams['G_rounds'],
                            use_time=hyperparams['use_time'],
-                           WGAN=hyperparams['WGAN'],
-                           WGAN_clip = hyperparams['WGAN_clip'],
+                        #    WGAN=hyperparams['WGAN'],
+                        #    WGAN_clip = hyperparams['WGAN_clip'],
                            shuffle = hyperparams['shuffle'],
                            wrong_labels = hyperparams['wrong_labels'])
                                 
@@ -359,32 +366,80 @@ class MADGAN(BaseDetector):
     """Class to Implement Deep Log LSTM based on "https://www.cs.utah.edu/~lifeifei/papers/deeplog.pdf
        Only Parameter Value anomaly detection layer has been implemented for time series data"""
 
-    def __init__(self, hidden_units_g : int=1000,
-                 hidden_units_d : int=1000, kappa : float=0.99, latent_dim : int=5,
-                 batch_mean : bool=False, learn_scale : bool=False, learning_rate : int=0.1,
-                 batch_size : int=28, num_epochs : int=100, D_rounds : int=5, G_rounds : int=1,
-                 use_time : bool=False, WGAN : bool=False, WGAN_clip : bool=False, shuffle : bool=True,
-                 wrong_labels : bool=False):
-
-        super(MADGAN, self).__init__()
-        self.hidden_units_g = hidden_units_g
-        self.hidden_units_d = hidden_units_d
-        self.kappa = kappa
-        self.latent_dim = latent_dim
-        self.batch_mean = batch_mean
-        self.learn_scale = learn_scale
-
-        self.learning_rate = learning_rate
-        self.batch_size = batch_size 
-        self.num_epochs = num_epochs
-        self.D_rounds = D_rounds
-        self.G_rounds = G_rounds
-        self.use_time = use_time
-        self.WGAN = WGAN
-        self.WGAN_clip = WGAN_clip
-        self.shuffle = shuffle
-        self.wrong_labels = wrong_labels
+    def __init__(self, settings_file: str= "", data: str="kdd99", seq_length: int=30, num_signals: int=6,
+                    normalise: bool = False, scale: float=0.1, freq_low: float=1.0, freq_high: float=5.0,
+                    amplitude_low: float=0.1, amplitude_high: float=0.9, multivariate_mnist: bool=False,
+                    full_mnist: bool=False, data_load_from: str="", resample_rate_in_min: int=15,
+                    hidden_units_g: int=100, hidden_units_d: int=100, hidden_units_e: int=100,
+                    kappa: int=1, latent_dim: int=15, weight: float=0.5, degree: int=1, batch_mean: bool=False,
+                    learn_scale: bool=False, learning_rate: float=0.1, batch_size: float=500, num_epochs: float=100,
+                    D_rounds: int=1, G_rounds: int=3, E_rounds: int=1, shuffle: bool=True, eval_mul: bool=False,
+                    eval_an: bool=False, eval_single: bool=False, wrong_labels: bool=False, identifier: str="kdd99",
+                    sub_id: str="kdd99", dp: bool=False, l2norm_bound: float=1e-05, batches_per_lot: int=1,
+                    dp_sigma: float=1e-05, use_time: bool=False, seq_step: int=10, num_generated_features: int=6):
+        self.MG_hyperparams={}
+        # super(DeeplogLstm, self).__init__(contamination=contamination)
+        self.MG_hyperparams['settings_file'] = settings_file
+        self.MG_hyperparams['data'] = data
+        self.MG_hyperparams['seq_length'] = seq_length
+        self.MG_hyperparams['num_signals'] = num_signals
         
+        self.MG_hyperparams['hidden_units_g'] = hidden_units_g
+        self.MG_hyperparams['hidden_units_d'] = hidden_units_d
+        self.MG_hyperparams['hidden_units_e'] = hidden_units_e
+        self.MG_hyperparams['kappa'] = kappa
+        self.MG_hyperparams['latent_dim'] = latent_dim
+        self.MG_hyperparams['weight'] = weight
+        self.MG_hyperparams['degree'] = degree
+        self.MG_hyperparams['batch_mean'] = batch_mean
+        self.MG_hyperparams['learn_scale'] = learn_scale
+
+        self.MG_hyperparams['learning_rate']  = learning_rate
+        self.MG_hyperparams['batch_size']  = batch_size 
+        self.MG_hyperparams['num_epochs']  = num_epochs
+        self.MG_hyperparams['D_rounds']  = D_rounds
+        self.MG_hyperparams['G_rounds']  = G_rounds
+        self.MG_hyperparams['E_rounds'] = E_rounds
+        self.MG_hyperparams['use_time']  = use_time
+        # self.MG_hyperparams['WGAN']  = WGAN
+        # self.MG_hyperparams['WGAN_clip']  = WGAN_clip
+        self.MG_hyperparams['shuffle']  = shuffle
+        self.MG_hyperparams['eval_mul'] = eval_mul
+        self.MG_hyperparams['eval_an'] = eval_an
+        self.MG_hyperparams['eval_single'] = eval_single
+        self.MG_hyperparams['wrong_labels']  = wrong_labels
+        self.MG_hyperparams['identifier'] = identifier 
+        self.MG_hyperparams['sub_id'] = sub_id
+        self.MG_hyperparams['dp'] = dp
+        self.MG_hyperparams['l2norm_bound'] = l2norm_bound
+        self.MG_hyperparams['batches_per_lot'] = batches_per_lot
+        self.MG_hyperparams['dp_sigma'] = dp_sigma
+        self.MG_hyperparams['use_time'] = use_time
+        self.MG_hyperparams['seq_step'] = seq_step
+        self.MG_hyperparams['num_generated_features'] = num_generated_features
+        self.MG_hyperparams['data_load_from'] = data_load_from
+        
+        
+        
+
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
+        # self.MG_hyperparams[''] = 
 
 
 
@@ -403,8 +458,9 @@ class MADGAN(BaseDetector):
         #tf.logging.set_verbosity(tf.logging.ERROR)
         # --- get settings --- #
         # parse command line arguments, or use defaults
-        parser = utils.rgan_options_parser()
-        settings = vars(parser.parse_args())
+        # parser = utils.rgan_options_parser()
+        # settings = vars(parser.parse_args())
+        settings = self.MG_hyperparams
         # if a settings file is specified, it overrides command line arguments/defaults
         if settings['settings_file']: settings = utils.load_settings_from_file(settings)
         # --- get data, split --- #
@@ -413,8 +469,6 @@ class MADGAN(BaseDetector):
         print('Loading data from', data_path)
         settings["eval_an"] = False
         settings["eval_single"] = False
-        print(settings["seq_length"])
-        print(settings)
         samples, labels, index = data_utils.get_data(settings["data"], settings["seq_length"], settings["seq_step"],
                                                      settings["num_signals"], settings['sub_id'], settings["eval_single"],
                                                      settings["eval_an"], data_path)
@@ -428,6 +482,7 @@ class MADGAN(BaseDetector):
         # add the settings to local environment
         # WARNING: at this point a lot of variables appear
         locals().update(settings)
+        identifier = settings["identifier"]
         json.dump(settings, open('./tods/detection_algorithm/core/mad_gan/experiments/settings/' + identifier + '.txt', 'w'), indent=0)
         # --- build model --- #
         # preparation: data placeholders and model parameters
@@ -507,11 +562,11 @@ class MADGAN(BaseDetector):
     def produce(self, X):
         # --- get settings --- #
         # parse command line arguments, or use defaults
-        parser = utils.rgan_options_parser()
-        settings = vars(parser.parse_args())
+        # parser = utils.rgan_options_parser()
+        # settings = vars(parser.parse_args())
         # if a settings file is specified, it overrides command line arguments/defaults
-        if settings['settings_file']: settings = utils.load_settings_from_file(settings)
-
+        # if settings['settings_file']: settings = utils.load_settings_from_file(settings)
+        settings = self.MG_hyperparams
         # --- get data, split --- #
         data_path = './experiments/data/' + settings['data_load_from'] + '.data.npy'
         print('Loading data from', data_path)

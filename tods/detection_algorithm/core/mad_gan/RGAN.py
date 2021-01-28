@@ -26,6 +26,7 @@ begin = time()
 # parse command line arguments, or use defaults
 parser = utils.rgan_options_parser()
 settings = vars(parser.parse_args())
+print(" settings['settings_file'] ",settings['settings_file'])
 # if a settings file is specified, it overrides command line arguments/defaults
 if settings['settings_file']: settings = utils.load_settings_from_file(settings)
 
@@ -49,6 +50,7 @@ for (k, v) in settings.items(): print(v, '\t', k)
 # add the settings to local environment
 # WARNING: at this point a lot of variables appear
 locals().update(settings)
+print("identifier", identifier)
 json.dump(settings, open('./tods/detection_algorithm/core/mad_gan/experiments/settings/' + identifier + '.txt', 'w'), indent=0)
 
 # --- build model --- #
