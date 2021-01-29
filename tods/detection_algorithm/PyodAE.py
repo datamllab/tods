@@ -56,7 +56,7 @@ class Hyperparams(Hyperparams_ODBase):
     ######## Add more Hyperparamters #######
 
     hidden_neurons = hyperparams.List(
-        default=[4, 2, 4],
+        default=[1, 4, 1],
         elements=hyperparams.Hyperparameter[int](1),
         description='The number of neurons per hidden layers.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']

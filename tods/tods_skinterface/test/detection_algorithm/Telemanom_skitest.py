@@ -1,10 +1,10 @@
 import numpy as np
 from tods.tods_skinterface.primitiveSKI.detection_algorithm.Telemanom_skinterface import TelemanomSKI
 
-X_train = np.array([[3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]])
-X_test = np.array([[3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]])
+X_train = np.random.rand(9, 3)
+X_test = np.random.rand(9, 3)
 
-transformer = TelemanomSKI()
+transformer = TelemanomSKI(l_s= 2, n_predictions= 1)
 transformer.fit(X_train)
 prediction_labels = transformer.predict(X_test)
 prediction_score = transformer.predict_score(X_test)
@@ -12,3 +12,5 @@ prediction_score = transformer.predict_score(X_test)
 print("Primitive: ", transformer.primitive)
 print("Prediction Labels\n", prediction_labels)
 print("Prediction Score\n", prediction_score)
+
+

@@ -56,7 +56,7 @@ class Hyperparams(Hyperparams_ODBase):
     ######## Add more Hyperparamters #######
 
     encoder_neurons = hyperparams.List(
-        default=[4, 2, 4],
+        default=[1, 4, 1],
         elements=hyperparams.Hyperparameter[int](1),
         description='The number of neurons per hidden layers in encoder.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
@@ -153,7 +153,7 @@ class Hyperparams(Hyperparams_ODBase):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
 
-    verbosity = hyperparams.Enumeration[int](
+    verbose = hyperparams.Enumeration[int](
         values=[0, 1, 2],
         default=1,
         description='Verbosity mode.',
@@ -324,7 +324,7 @@ class VariationalAutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Ou
                         l2_regularizer=hyperparams['l2_regularizer'],
                         validation_size=hyperparams['validation_size'],
                         preprocessing=hyperparams['preprocessing'],
-                        verbosity=hyperparams['verbosity'],
+                        verbose=hyperparams['verbose'],
                         random_state=hyperparams['random_state'],
                         )
 
