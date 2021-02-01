@@ -106,11 +106,14 @@ class MP:
 		Returns:
 			nparray
 
-		"""
+		""" 
 		
 		#only keep first two columns of MP results, the second column is left index, use windowsize to get right index
 		transformed_columns=utils.pandas.DataFrame()
-		for col in data.transpose(): #data.reshape(1,len(data)):
+		print(data)
+		print(data.transpose())
+		for col in data: #data.reshape(1,len(data)):
+			print(col)
 			output = stumpy.stump(col, m = self._window_size)
 			output = pd.DataFrame(output)
 			output=output.drop(columns=[2,3])
