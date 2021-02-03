@@ -98,7 +98,6 @@ if __name__ == '__main__':
     inputs = container.DataFrame(inputs, columns=list(inputs.keys()), generate_metadata=True)
     outputs = self.primitive.produce(inputs=inputs).value.to_numpy()
     return outputs
-
     'contamination': contamination,
           'use_columns': use_columns,
           'return_result': return_result,
