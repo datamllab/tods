@@ -1,5 +1,5 @@
 import numpy as np
-from tods.tods_skinterface.primitiveSKI.detection_algorithm.MatrixProfile_skinterface import MatrixProfileSKI
+from tods.tods_skinterface.primitiveSKI.detection_algorithm.DeepLog_skinterface import DeepLogSKI
 
 #prepare the data
 
@@ -15,7 +15,7 @@ X_test = np.expand_dims(data[10001:], axis=1)
 # print("First 5 rows train:\n", X_train[:5])
 # print("First 5 rows test:\n", X_test[:5])
 
-transformer = MatrixProfileSKI()
+transformer = DeepLogSKI()
 transformer.fit(X_train)
 prediction_labels = transformer.predict(X_test)
 prediction_score = transformer.predict_score(X_test)
