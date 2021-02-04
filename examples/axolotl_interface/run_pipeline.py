@@ -9,7 +9,7 @@ this_path = os.path.dirname(os.path.abspath(__file__))
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 
 parser = argparse.ArgumentParser(description='Arguments for running predefined pipelin.')
-parser.add_argument('--table_path', type=str, default=os.path.join(this_path, '../../datasets/yahoo_sub_5.csv'),
+parser.add_argument('--table_path', type=str, default=os.path.join(this_path, '../../datasets/anomaly/raw_data/yahoo_sub_5.csv'),
                     help='Input the path of the input data table')
 parser.add_argument('--target_index', type=int, default=6,
                     help='Index of the ground truth (for evaluation)')
