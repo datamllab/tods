@@ -182,6 +182,6 @@ class KFoldTimeSeriesSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperpa
     @classmethod
     def _parse_time_data(cls, inputs: container.DataFrame, column_index: metadata_base.SimpleSelectorSegment, fuzzy: bool) -> typing.List[float]:
         return [
-            utils.parse_datetime_to_float(value, fuzzy=fuzzy)
+            parse_datetime_to_float(value, fuzzy=fuzzy)
             for value in inputs.iloc[:, column_index]
         ]
