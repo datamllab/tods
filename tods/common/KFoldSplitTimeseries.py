@@ -11,7 +11,7 @@ from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.base import primitives
 
-import utils
+from .utils import parse_datetime_to_float
 
 __all__ = ('KFoldTimeSeriesSplitPrimitive',)
 
