@@ -124,10 +124,8 @@ class MP:
 		
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 	"""
-
 	A primitive that performs matrix profile on a DataFrame using Stumpy package
 	Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
-
 	 Parameters
     	----------
     	T_A : ndarray

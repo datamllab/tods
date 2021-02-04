@@ -59,4 +59,3 @@ try:
     subprocess.run(['pip', 'install', '-r', 'tods/resources/.requirements.txt'])
 except Exception as e:
     print(e)
-
