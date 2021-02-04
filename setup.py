@@ -35,7 +35,7 @@ setup(
                  ]
     },
     install_requires=[
-        'd3m',
+        #'d3m',
         'Jinja2',
         'numpy==1.18.2',
         'simplejson==3.12.0',
