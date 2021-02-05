@@ -1,3 +1,0 @@
-numpy==1.18.2
--e git+https://github.com/tods-doc/d3m@70aeefed6b7307941581357c4b7858bb3f88e1da#egg=d3m
--e git+https://github.com/tods-doc/axolotl@8f75d841da3fd106257ad25bf6b03bce420dbfa3#egg=axolotl
