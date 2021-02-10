@@ -47,18 +47,12 @@ class HoltSmoothingTestCase(unittest.TestCase):
 
         hyperparams_class = HoltSmoothing.HoltSmoothingPrimitive.metadata.get_hyperparams()
         primitive = HoltSmoothing.HoltSmoothingPrimitive(hyperparams=hyperparams_class.defaults())
-      #  primitive.set_training_data(inputs=main)
-      #  primitive.fit()
+        primitive.set_training_data(inputs=main)
+        primitive.fit()
         output_main = primitive.produce(inputs=main).value
         output_main = round(output_main, 2) 
-     #   new_main_drop = new_main.iloc[2:]
-     #   new_main_drop = new_main_drop.reset_index(drop = True)
-        print ( "output", output_main)
 
         expected_result = container.DataFrame(data = { 'timestamp' : [1,2,3], 'value_holt_smoothing': [2.00,2.76,3.54]})
-        print ("expected_result", expected_result)
-     #   output_main.reset_index()
-
    
         
         self.assertEqual(output_main[['timestamp','value_holt_smoothing']].values.tolist(), expected_result[['timestamp','value_holt_smoothing']].values.tolist())

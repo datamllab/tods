@@ -47,17 +47,11 @@ class SimpleExponentialSmoothingTestCase(unittest.TestCase):
 
         hyperparams_class = SimpleExponentialSmoothing.SimpleExponentialSmoothingPrimitive.metadata.get_hyperparams()
         primitive = SimpleExponentialSmoothing.SimpleExponentialSmoothingPrimitive(hyperparams=hyperparams_class.defaults())
-      #  primitive.set_training_data(inputs=main)
-      #  primitive.fit()
+        primitive.set_training_data(inputs=main)
+        primitive.fit()
         output_main = primitive.produce(inputs=main).value
-       
-     #   new_main_drop = new_main.iloc[2:]
-     #   new_main_drop = new_main_drop.reset_index(drop = True)
-        print ( "output", output_main)
 
         expected_result = container.DataFrame(data = { 'timestamp' : [20201,20202,20203], 'value_0': [100,100,120]})
-        print ("expected_result", expected_result)
-     #   output_main.reset_index()
 
     
         self.assertEqual(output_main[['timestamp','value_0_simple_exponential_smoothing']].values.tolist(), expected_result[['timestamp','value_0']].values.tolist())
