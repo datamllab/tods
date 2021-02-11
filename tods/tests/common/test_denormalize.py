@@ -6,7 +6,7 @@ from d3m.metadata import base as metadata_base
 
 from tods.common import Denormalize
 
-import utils as test_utils
+from tods.tests import utils as test_utils
 
 
 class DenormalizePrimitiveTestCase(unittest.TestCase):
