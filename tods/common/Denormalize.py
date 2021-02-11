@@ -67,7 +67,7 @@ class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs,
             'id': 'f31f8c1f-d1c5-43e5-a4b2-2ae4a761ef2e',
             'version': '0.2.0',
             'name': "Denormalize datasets",
-            'python_path': 'd3m.primitives.data_transformation.denormalize.Common',
+            'python_path': 'd3m.primitives.tods.common.denormalize',
             'source': {
                 'name': "DATALab@Texas A&M University",
                 'contact': 'mailto:khlai037@tamu.edu',
