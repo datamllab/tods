@@ -51,7 +51,12 @@ class Params(Params_ODBase):
 
 class Hyperparams(Hyperparams_ODBase):
 	######## Add more Attributes #######
-	pass
+	#pass
+	window_size = hyperparams.Hyperparameter[int](
+        default=3,
+        description='The moving window size.',
+        semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
+    )
 
 class MP:
 	"""

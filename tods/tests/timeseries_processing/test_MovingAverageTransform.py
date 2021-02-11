@@ -47,17 +47,13 @@ class MovingAverageTransformTestCase(unittest.TestCase):
 
         hyperparams_class = MovingAverageTransformer.MovingAverageTransformerPrimitive.metadata.get_hyperparams()
         primitive = MovingAverageTransformer.MovingAverageTransformerPrimitive(hyperparams=hyperparams_class.defaults())
-      #  primitive.set_training_data(inputs=main)
-      #  primitive.fit()
+        primitive.set_training_data(inputs=main)
+        primitive.fit()
         output_main = primitive.produce(inputs=main).value
        
-      #  new_main_drop = new_main.iloc[2:]
-      #  new_main_drop = new_main_drop.reset_index(drop = True)
-      #  print ( "input", new_main_drop)
 
         expected_result = container.DataFrame(data = { 'timestamp' : [20201,20202,20203,20204,20205], 'value': [150.0,200.0,300.0,400.0,450.0]})
         print ("expected_result", expected_result)
-      #  new_main_drop.reset_index()
 
 
         self.assertEqual(output_main[['timestamp','value_moving_average']].values.tolist(), expected_result[['timestamp','value']].values.tolist())

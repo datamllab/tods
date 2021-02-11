@@ -47,18 +47,12 @@ class HoltSmoothingTestCase(unittest.TestCase):
 
         hyperparams_class = HoltWintersExponentialSmoothing.HoltWintersExponentialSmoothingPrimitive.metadata.get_hyperparams()
         primitive = HoltWintersExponentialSmoothing.HoltWintersExponentialSmoothingPrimitive(hyperparams=hyperparams_class.defaults())
-      #  primitive.set_training_data(inputs=main)
-      #  primitive.fit()
+        primitive.set_training_data(inputs=main)
+        primitive.fit()
         output_main = primitive.produce(inputs=main).value
         output_main = round(output_main,2)
        
-     #   new_main_drop = new_main.iloc[2:]
-     #   new_main_drop = new_main_drop.reset_index(drop = True)
-        print ( "output", output_main)
-
         expected_result = container.DataFrame(data = { 'timestamp' : [1,2,3,4], 'value': [0.32,0.32,0.31,0.32]})
-        print ("expected_result", expected_result)
-     #   output_main.reset_index()
       
         self.assertEqual(output_main[['timestamp','value_holt_winters_smoothing']].values.tolist(), expected_result[['timestamp','value']].values.tolist())
         
