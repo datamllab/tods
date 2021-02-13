@@ -7,6 +7,7 @@ import numpy as np
 import typing
 import time
 import pandas as pd
+import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
