@@ -1,5 +1,6 @@
 import os
 import typing
+import uuid
 
 from d3m import container, exceptions, utils as d3m_utils
 from d3m.base import utils as base_utils
@@ -67,28 +68,19 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
 
     metadata = metadata_base.PrimitiveMetadata(
         {
-            'id': '4503a4c6-42f7-45a1-a1d4-ed69699cf5e1',
+            "__author__ " : "DATA Lab @ Texas A&M University",
             'version': '0.4.0',
             'name': "Extracts columns by semantic type",
             'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types',
             'source': {
-                'name': "DataLab@Texas A&M University",
+                'name': "DATA Lab @ Texas A&M University",
                 'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/extract_columns_semantic_types.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
             },
-            'installation': [{
-                'type': metadata_base.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-                    git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                ),
-            }],
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.ARRAY_SLICING,
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ],
             'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+            'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ExtractColumnsBySemanticTypesPrimitive')),
         },
     )
 

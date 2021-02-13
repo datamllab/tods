@@ -7,6 +7,7 @@ import sklearn
 import numpy
 import typing
 import pandas as pd
+import uuid
 # Custom import commands if any
 from sklearn.preprocessing.data import Normalizer
 
@@ -107,16 +108,19 @@ class MovingAverageTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs,
     Columns for which moving average is calculated is passed as hyperparameter . Default is all values column    
     """
     
-    __author__ = "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.MOVING_AVERAGE_TRANSFORM, ],
+         "__author__": "DATA Lab @ Texas A&M University",
          "name": "pandas.preprocessing.data.MovingAverageTransform",
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
          "python_path": "d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/mia/anomaly-primitives/anomaly_primitives/MovingAverageTransform.py']},
-         "version": "0.0.1",
-         "id": "ab8c90a6-d10e-49f1-8c5a-38884defc570",
+         "source": {
+             'name': 'DATA Lab @ Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "hyperparams_to_tune": ['window_size'],
+         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, ],
+         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MovingAverageTransformerPrimitive')),
+         "version": "0.0.1",
     })
 
     def __init__(self, *,

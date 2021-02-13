@@ -10,7 +10,7 @@ import json
 # Designed for time series data
 name = 'yahoo_sub_5'
 src_path = './raw_data/yahoo_sub_5.csv'
-label_name = 'is_anomaly'
+label_name = 'anomaly'
 timestamp_name = 'timestamp'
 value_names = ['value_{}'.format(i) for i in range(5)]
 ratio = 0.9 # Ratio of training data, the rest is for testing

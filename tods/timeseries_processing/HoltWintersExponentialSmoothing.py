@@ -5,6 +5,7 @@ from scipy import sparse
 import os
 import sklearn
 import numpy
+import uuid
 import typing
 import pandas as pd
 # Custom import commands if any
@@ -109,16 +110,20 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
     """
     
-    __author__ = "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.HOLT_WINTERS_EXPONENTIAL_SMOOTHING, ],
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "statsmodels.preprocessing.data.HoltWintersExponentialSmoothing",
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         #3"python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing.Preprocessing",
          "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/mia/anomaly-primitives/anomaly_primitives/HoltWintersExponentialSmoothing.py']},
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
          "version": "0.0.1",
-         "id": "b8c6647c-3787-4efd-bf01-b0ca11c643c6",
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltWintersExponentialSmoothingPrimitive')),
          "hyperparams_to_tune": ['endog','use_columns'],
          })
 

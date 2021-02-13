@@ -7,6 +7,7 @@ import sklearn
 import numpy
 import typing
 import copy
+import uuid
 
 # Custom import commands if any
 from sklearn.preprocessing import PowerTransformer
@@ -29,7 +30,6 @@ from d3m import exceptions
 import pandas
 
 from d3m import container, utils as d3m_utils
-import uuid
 
 Inputs = d3m_dataframe
 # Inputs = container.Dataset
@@ -132,18 +132,21 @@ class SKPowerTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outpu
 
     """
     
-    __author__ = "DATALAB @Taxes A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.DATA_MAPPING, ],
-        "name": "Power_transformation",
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.power_transformer",
-        "hyperparams_to_tune": ['method', 'standardize'],
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "version": "0.0.1",
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKPowerTransformer')),
-    })
+            '__author__': "DATA Lab @Texas A&M University",
+            "name": "Power_transformation",
+            "python_path": "d3m.primitives.tods.timeseries_processing.transformation.power_transformer",
+            'source': {
+                'name': "DATA Lab @ Taxes A&M University", 
+                'contact': 'mailto:khlai037@tamu.edu',
+            },
+            'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+            ], 
+            'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+            "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKPowerTransformer')),
+            'version': '0.0.1',		
+            })
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

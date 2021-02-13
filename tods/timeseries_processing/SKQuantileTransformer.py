@@ -152,17 +152,21 @@ class SKQuantileTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Ou
         Quantiles of references.
     """
     
-    __author__ = "DATALAB @Taxes A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION, ],
+        "__author__": "DATA Lab @ Taxes A&M University",
         "name": "Quantile_transformation",
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.quantile_transformer",
+        "source": {
+            'name': "DATALAB @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
         "hyperparams_to_tune": ['n_quantiles', 'output_distribution', 'ignore_implicit_zeros', 'subsample', 'random_state'],
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "version": "0.0.1",
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKQuantileTransformer')),
+        "version": "0.0.1",
     })
 
     def __init__(self, *,
