@@ -220,13 +220,17 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 		'__author__': "DATA Lab @Texas A&M University",
 		'name': "AutoCorrelation of values",
 		'python_path': 'd3m.primitives.tods.feature_analysis.auto_correlation',
-		'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-				   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/AutoCorrelation.py']},
-		'algorithm_types': [metadata_base.PrimitiveAlgorithmType.AUTOCORRELATION,], 
+		'source': {
+                    'name': "DATALAB @Taxes A&M University", 
+                    'contact': 'mailto:khlai037@tamu.edu',		   
+                },
+		'version': '0.0.2',		
+		'hyperparams_to_tune': ['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'],
+		'algorithm_types': [
+                    metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+                ], 
 		'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
 		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'AutocorrelationPrimitive')),
-		'hyperparams_to_tune': ['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'],
-		'version': '0.0.2',		
 		})
 
 	def __init__(self, *,

@@ -7,6 +7,7 @@ import sklearn
 import numpy
 import typing
 import time
+import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -154,17 +155,21 @@ class BKFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hy
         Decides what semantic type to attach to generated attributes'
     """
 
-    __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "Baxter-King Filter Primitive",
          "python_path": "d3m.primitives.tods.feature_analysis.bk_filter",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/DuplicationValidation.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.BK_FILTER,],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-         "id": "b2bfadc5-dbca-482c-b188-8585e5f245c4",
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "hyperparams_to_tune": ['low', 'high', 'K'],
          "version": "0.0.1",
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'BKFilterPrimitive')),
     })
 
 

@@ -112,20 +112,20 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
     """
     
     metadata = metadata_base.PrimitiveMetadata({ 
-         "__author__": "DATA Lab @ Texas A&M University",
-         "name": "statsmodels.preprocessing.HoltSmoothing",
-         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing",
-         "source": {
-             'name': 'DATA Lab @ Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "version": "0.0.1",
-         "hyperparams_to_tune": ['endog','use_columns'],
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltSmoothingPrimitive')),
+        "__author__": "DATA Lab @ Texas A&M University",
+        "name": "statsmodels.preprocessing.HoltSmoothing",
+        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing",
+        "source": {
+            'name': 'DATA Lab @ Texas A&M University', 
+            'contact': 'mailto:khlai037@tamu.edu', 
+        },
+        "version": "0.0.1",
+        "hyperparams_to_tune": ['endog','use_columns'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltSmoothingPrimitive')),
      })
 
     def __init__(self, *,

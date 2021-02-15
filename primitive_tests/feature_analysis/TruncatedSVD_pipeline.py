@@ -29,12 +29,12 @@ pipeline_description.add_step(step_2)
 
 # Step 3: TruncatedSVD
 step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.truncated_svd'))
-step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
-step_3.add_output('produce')
 step_3.add_hyperparameter(name = 'n_components', argument_type=ArgumentType.VALUE, data = 3)
 step_3.add_hyperparameter(name = 'use_columns', argument_type=ArgumentType.VALUE, data = (2, 3, 4, 5))
 step_3.add_hyperparameter(name = 'return_result', argument_type=ArgumentType.VALUE, data = 'append')
 step_3.add_hyperparameter(name = 'use_semantic_types', argument_type=ArgumentType.VALUE, data = True)
+step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+step_3.add_output('produce')
 pipeline_description.add_step(step_3)
 
 # Final Output

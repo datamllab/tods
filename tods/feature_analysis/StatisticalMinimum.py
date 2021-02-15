@@ -13,6 +13,7 @@ import os
 import numpy
 import typing
 import time
+import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -90,36 +91,24 @@ class StatisticalMinimumPrimitive(transformer.TransformerPrimitiveBase[Inputs, O
     """
     Primitive to find minimum of time series
     """
-    __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '255955d0-1d64-433b-b9f0-e2a1b679be45',
-            'version': '0.1.0',
-            'name': 'Time Series Decompostional',
-            'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum',
-            'keywords': ['Time Series','Minimum'],
-            "hyperparams_to_tune": ['window_size'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/StatisticalMinimum.py'],
-                'contact': 'mailto:khlai037@tamu.edu'
 
-            },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-
-        }
-    )
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab @ Texas A&M University",
+        'name': 'Time Series Decompostional',
+        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum',
+        'keywords': ['Time Series','Minimum'],
+        'source': {
+            'name': 'DATA Lab at Texas A&M University',
+            'contact': 'mailto:khlai037@tamu.edu'
+        },
+        'version': '0.1.0',
+        "hyperparams_to_tune": ['window_size'],
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMinimumPrimitive')),
+    })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
