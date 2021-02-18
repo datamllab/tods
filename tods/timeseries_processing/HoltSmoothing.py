@@ -1,6 +1,7 @@
 from typing import Any, Callable, List, Dict, Union, Optional, Sequence, Tuple
 from numpy import ndarray
 from collections import OrderedDict
+import uuid
 from scipy import sparse
 import os
 import sklearn
@@ -110,16 +111,21 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
     
     """
     
-    __author__ = "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.HOLT_SMOOTHING, ],
+         "__author__": "DATA Lab @ Texas A&M University",
          "name": "statsmodels.preprocessing.HoltSmoothing",
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
          "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/mia/anomaly-primitives/anomaly_primitives/HoltSmoothing.py']},
+         "source": {
+             'name': 'DATA Lab @ Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "version": "0.0.1",
-         "id": "3688b5b4-885c-40bb-9731-fe3969ea81b0",
          "hyperparams_to_tune": ['endog','use_columns'],
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltSmoothingPrimitive')),
      })
 
     def __init__(self, *,

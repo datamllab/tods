@@ -1,5 +1,6 @@
 import os
 import typing
+import uuid
 
 from d3m import container, utils as d3m_utils
 from d3m.base import utils as base_utils
@@ -25,32 +26,21 @@ class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, O
     A primitive which extracts a DataFrame out of a Dataset.
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '4b42ce1e-9b98-4a25-b68e-fad13311eb65',
+    metadata = metadata_base.PrimitiveMetadata({
+            "__author__ " : "DATA Lab @ Texas A&M University",
             'version': '0.3.0',
             'name': "Extract a DataFrame from a Dataset",
             'python_path': 'd3m.primitives.tods.data_processing.dataset_to_dataframe',
             'source': {
-                'name': 'common-primitives',
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/dataset_to_dataframe.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
+                'name': "DATA Lab @ Texas A&M University",
+                'contact': 'mailto:khlai037@tamu.edu',
             },
-            'installation': [{
-                'type': metadata_base.PrimitiveInstallationType.PIP,
-                'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-                    git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                ),
-            }],
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ],
             'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        },
-    )
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DatasetToDataFramePrimitive')),
+        })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         dataframe_resource_id, dataframe = base_utils.get_tabular_resource(inputs, self.hyperparams['dataframe_resource'])

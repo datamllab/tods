@@ -10,6 +10,7 @@ import pandas as pd
 # Custom import commands if any
 from sklearn.preprocessing.data import Normalizer
 from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
+import uuid
 
 
 from d3m.container.numpy import ndarray as d3m_ndarray
@@ -114,16 +115,21 @@ class SimpleExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Input
     
     """
     
-    __author__ = "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.SIMPLE_EXPONENTIAL_SMOOTHING,],
-         "name": "statsmodels.preprocessing.data.SimpleExponentialSmoothing",
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/mia/anomaly-primitives/anomaly_primitives/SimpleExponentialSmoothing.py']},
-         "version": "0.0.1",
-         "id": "3e92984e-b7d1-4de0-9203-3a6093ddb38e",
-         "hyperparams_to_tune": ['endog','use_columns'],
+        "__author__": "DATA Lab at Texas A&M University",
+        "name": "statsmodels.preprocessing.data.SimpleExponentialSmoothing",
+        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing",
+        "source": {
+            'name': 'DATA Lab at Texas A&M University', 
+            'contact': 'mailto:khlai037@tamu.edu', 
+        },
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SimpleExponentialSmoothingPrimitive')),
+        "hyperparams_to_tune": ['endog','use_columns'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+        "version": "0.0.1",
       })
 
     def __init__(self, *,

@@ -138,17 +138,21 @@ class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
         If True, scale the data to unit variance (or equivalently, unit standard deviation).
     """
 
-    __author__ = "DATALAB @Taxes A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.DATA_MAPPING, ],
+        "__author__": "DATA Lab @ Taxes A&M University",
         "name": "Axis_wise_scale",
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler",
         "hyperparams_to_tune": ['with_mean', 'with_std', 'axis'],
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "version": "0.0.1",
+        "source": {
+            'name': "DATA Lab @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKAxiswiseScaler')),
+        "version": "0.0.1",
     })
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:

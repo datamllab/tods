@@ -13,18 +13,19 @@ def load_pipeline(pipeline_path):
 
     return pipeline
     
-def generate_dataset(df, target_index):
+def generate_dataset(df, target_index, system_dir=None):
     """Generate dataset
 
     Args:
         df (pandas.DataFrame): dataset
         target_index (int): The column index of the target
+        system_dir (str): Where the systems will be stored
 
     returns:
         dataset
     """
     from axolotl.utils import data_problem
-    dataset = data_problem.import_input_data(df, target_index=target_index)
+    dataset = data_problem.import_input_data(df, target_index=target_index, media_dir=system_dir)
 
     return dataset
 

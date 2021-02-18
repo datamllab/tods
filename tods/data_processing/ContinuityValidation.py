@@ -1,6 +1,7 @@
 from d3m import container, exceptions
 from d3m.primitive_interfaces import base, transformer
 from d3m.metadata import base as metadata_base, hyperparams
+import uuid
 
 import os.path
 from d3m import utils
@@ -48,13 +49,17 @@ class ContinuityValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     metadata = metadata_base.PrimitiveMetadata({
          "name": "continuity validation primitive",
          "python_path": "d3m.primitives.tods.data_processing.continuity_validation",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/ContinuityValidation.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.CONTINUITY_VALIDATION, ],
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+         ],
          "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         "id": "ef8fb025-d157-476c-8e2e-f8fe56162195",
          "hyperparams_to_tune": ['continuity_option', 'interval'],
          "version": "0.0.1",
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ContinuityValidationPrimitive')),
     })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:

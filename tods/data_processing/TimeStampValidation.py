@@ -2,6 +2,7 @@
 import os
 import typing
 import numpy
+import uuid
 
 from d3m import container, utils as d3m_utils
 from d3m.metadata import base as metadata_base
@@ -22,34 +23,23 @@ class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     """
     A primitive to check time series is sorted by time stamp , if not then return sorted time series
     """
-    __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '5f791b09-e16f-42e1-bc53-39de308f5861',
+    metadata = metadata_base.PrimitiveMetadata({
+            '__author__': "DATA Lab at Texas A&M University",
             'version': '0.1.0',
             'name': 'Time Stamp Validation',
             'python_path': 'd3m.primitives.tods.data_processing.timestamp_validation',
             'keywords': ['Time Stamp', 'Sort Order'],
             'source': {
                 'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/data_processing/TimeStampValidation.py'],
                 'contact': 'mailto:khlai037@tamu.edu'
             },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING ,
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ],
             'primitive_family': metadata_base.PrimitiveFamily.DATA_VALIDATION,
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeStampValidationPrimitive')),
 
-        }
-    )
+        })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

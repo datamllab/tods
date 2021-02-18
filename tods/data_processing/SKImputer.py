@@ -6,6 +6,7 @@ import os
 import sklearn
 import numpy
 import typing
+import uuid
 
 # Custom import commands if any
 from sklearn.impute import SimpleImputer
@@ -129,22 +130,19 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
     
     """
     
-    __author__ = "DataLab @ Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({ 
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.IMPUTATION, ],
+         "__author__": "DATA Lab @ Texas A&M University",
          "name": "sklearn.impute.SimpleImputer",
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_CLEANING,
          "python_path": "d3m.primitives.tods.data_processing.impute_missing",
-         "source": {'name': 'JPL', 'contact': 'mailto:shah@jpl.nasa.gov', 'uris': ['https://gitlab.com/datadrivendiscovery/sklearn-wrap/issues', 'https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html']},
+         "source": {
+             'name': 'DATA Lab @ Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "version": "2019.11.13",
-         "id": "d016df89-de62-3c53-87ed-c06bb6a23cde",
          "hyperparams_to_tune": ['strategy'],
-         'installation': [
-                        {'type': metadata_base.PrimitiveInstallationType.PIP,
-                           'package_uri': 'git+https://gitlab.com/datadrivendiscovery/sklearn-wrap.git@{git_commit}#egg=sklearn_wrap'.format(
-                               git_commit=utils.current_git_commit(os.path.dirname(__file__)),
-                            ),
-                           }]
+         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, ],
+         "primitive_family": metadata_base.PrimitiveFamily.DATA_CLEANING,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKImputerPrimitive')),
     })
 
     def __init__(self, *,

@@ -107,7 +107,7 @@ class MP:
 			nparray
 
 		"""
-		
+		"""
 		#only keep first two columns of MP results, the second column is left index, use windowsize to get right index
 		transformed_columns=utils.pandas.DataFrame()
 		for col in data.transpose(): #data.reshape(1,len(data)):
@@ -117,6 +117,19 @@ class MP:
 			output = self._get_right_inds(output)
 			transformed_columns=pd.concat([transformed_columns,output], axis=1)
 		return transformed_columns
+		"""
+		#data = np.random.rand(3, 1000) 
+		#data = np.array([[1., 2., 3., 4.], [5., 6., 7., 8.], [9., 10., 11., 12.]])
+		#data = np.array([1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.])
+		# data = np.array([3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2])
+		# print(data, self._window_size)
+		matrix_profile, matrix_profile_indices = stumpy.mstump(data.transpose(), m = self._window_size)
+		# matrix_profile = stumpy.stump(data, m = self._window_size)
+		#output = utils.pandas.DataFrame(output)
+		#print(matrix_profile[:, 0])
+		#print(matrix_profile)
+		#print(matrix_profile_indices)
+		return matrix_profile
 
 	def predict(self, data):
 		return self.produce(data)

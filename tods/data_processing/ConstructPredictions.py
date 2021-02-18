@@ -1,5 +1,6 @@
 import os
 import typing
+import uuid
 
 from d3m import container, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
@@ -43,32 +44,21 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     assumes that all ``inputs`` columns are predicted targets, without confidence column(s).
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '8d38b340-f83f-4877-baaa-162f8e551736',
+    metadata = metadata_base.PrimitiveMetadata({
+            "__author__ " : "DATA Lab @ Texas A&M University",
             'version': '0.3.0',
             'name': "Construct pipeline predictions output",
             'python_path': 'd3m.primitives.tods.data_processing.construct_predictions',
             'source': {
-                'name': "DataLab@Texas A&M University",
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/construct_predictions.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
+                'name': "DATA Lab @ Texas A&M University",
+                'contact': 'mailto:khlai037@tamu.edu',
             },
-            'installation': [{
-               'type': metadata_base.PrimitiveInstallationType.PIP,
-               'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-                   git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-               ),
-            }],
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ],
             'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        },
-    )
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ConstructPredictionsPrimitive')),
+        })
 
     def produce(self, *, inputs: Inputs, reference: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:  # type: ignore
         index_columns = inputs.metadata.get_index_columns()

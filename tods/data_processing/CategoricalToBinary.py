@@ -2,6 +2,7 @@ import os
 import typing
 import pandas as pd 
 import numpy as np
+import uuid
 
 
 from d3m import container, utils
@@ -147,22 +148,18 @@ class CategoricalToBinaryPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     __author__ = "DATA LAB"
     metadata = metadata_base.PrimitiveMetadata(
         {
-            "__author__ " : "DATA Lab at Texas A&M University",
+            "__author__ " : "DATALAB @ Texas A&M University",
             'name': "Converting Categorical to Binary",
             'python_path': 'd3m.primitives.tods.data_processing.categorical_to_binary',
             'source': {
                 'name': 'DATA Lab at Texas A&M University',
                 'contact': 'mailto:khlai037@tamu.edu',
-                'uris': [
-                    'https://gitlab.com/lhenry15/tods.git',
-                    'https://gitlab.com/lhenry15/tods/-/blob/purav/anomaly-primitives/anomaly_primitives/CategoricalToBinaryDataframe.py',
-                ],
             },
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.CATEGORICAL_TO_BINARY,
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ],
             'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-            'id': 'bb6fb64d-cf20-45f0-8c4b-d7218f9c58c2',
+            'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'CategoricalToBinaryPrimitive')),
             'hyperparameters_to_tune':"None",
             'version': '0.0.1',
         },

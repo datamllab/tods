@@ -90,12 +90,14 @@ class TimeIntervalTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs
         '__author__': "DATA Lab @Texas A&M University",
         'name': "Time Interval Transform",
         'python_path': 'd3m.primitives.tods.data_processing.time_interval_transform',
-        'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/TimeIntervalTransform.py']},
-        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.TIME_INTERVAL_TRANSFORM,], 
+        'source': {
+            'name': "DATA Lab @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
+        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,], 
         'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeIntervalTransformPrimitive')),
         'hyperparams_to_tune': ['time_interval'],
+        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeIntervalTransformPrimitive')),
         'version': '0.0.2' 
         })
 

@@ -94,12 +94,16 @@ class ColumnFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 	"""
 
 	metadata = metadata_base.PrimitiveMetadata({
-		'__author__': "DATA Lab @Texas A&M University",
+		'__author__': "DATA Lab @ Texas A&M University",
 		'name': "Column Filter",
 		'python_path': 'd3m.primitives.tods.data_processing.column_filter',
-		'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-				   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/tods/tods/data_processing/column_filter.py']},
-		'algorithm_types': [metadata_base.PrimitiveAlgorithmType.COLUMN_FILTER,], 
+		'source': {
+                    'name': "DATA Lab @ Texas A&M University", 
+                    'contact': 'mailto:khlai037@tamu.edu',
+                },
+		'algorithm_types': [
+                    metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+                ], 
 		'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
 		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ColumnFilterPrimitive')),
 		'version': '0.0.1',		

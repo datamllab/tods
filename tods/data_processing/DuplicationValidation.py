@@ -1,6 +1,7 @@
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
 from d3m.metadata import base as metadata_base, hyperparams
+import uuid
 
 import os.path
 from d3m import utils
@@ -39,11 +40,15 @@ class DuplicationValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs
     metadata = metadata_base.PrimitiveMetadata({
          "name": "duplication validation primitive",
          "python_path": "d3m.primitives.tods.data_processing.duplication_validation",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/DuplicationValidation.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.DUPLICATION_VALIDATION,],
+         "source": {
+             'name': 'DATALAB @ Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+         ],
          "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         "id": "cf6d8137-73d8-496e-a2e3-49f941ee716d",
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DuplicationValidationPrimitive')),
          "hyperparams_to_tune": ['keep_option'],
          "version": "0.0.1",
     })

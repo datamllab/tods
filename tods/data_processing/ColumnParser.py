@@ -1,6 +1,7 @@
 import hashlib
 import os
 import typing
+import uuid
 
 import numpy  # type: ignore
 
@@ -90,32 +91,21 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
     What is returned is controlled by ``return_result`` and ``add_index_columns``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': 'd510cb7a-1782-4f51-b44c-58f0236e47c7',
+    metadata = metadata_base.PrimitiveMetadata({
+	    '__author__': "DATA Lab @Texas A&M University",
             'version': '0.6.0',
             'name': "Parses strings into their types",
             'python_path': 'd3m.primitives.tods.data_processing.column_parser',
             'source': {
-                'name': "DataLab@Texas A&M University",
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/column_parser.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
+                'name': "DATA Lab @ Texas A&M University",
+                'contact': 'mailto:khlai037@tamu.edu',
             },
-            'installation': [{
-               'type': metadata_base.PrimitiveInstallationType.PIP,
-               'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-                   git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-               ),
-            }],
             'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,
-            ],
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+            ], 
             'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        },
-    )
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ColumnParserPrimitive')),
+            })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         columns_to_use, output_columns = self._produce_columns(inputs)

@@ -142,15 +142,19 @@ class SKStandardScalerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs
         The number of samples processed by the estimator for each feature. If there are not missing samples, the n_samples_seen will be an integer, otherwise it will be an array. Will be reset on new calls to fit, but increments across partial_fit calls.
     """
     
-    __author__ = "DATALAB @Taxes A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION, ],
+        "__author__": "DATA Lab @Taxes A&M University",
         "name": "Standard_scaler",
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.standard_scaler",
+        "source": {
+            'name': "DATA Lab @ Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
         "hyperparams_to_tune": ['with_mean', 'with_std'],
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                    'uris': ['https://gitlab.com/lhenry15/tods.git']},
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
         "version": "0.0.1",
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKStandardScaler')),
     })

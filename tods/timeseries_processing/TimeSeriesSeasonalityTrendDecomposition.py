@@ -1,8 +1,7 @@
-
 import os
 from typing import Any,Optional,List
 import statsmodels.api as sm
-
+import uuid
 from d3m import container, utils as d3m_utils
 from d3m import utils
 
@@ -94,31 +93,22 @@ class TimeSeriesSeasonalityTrendDecompositionPrimitive(transformer.TransformerPr
     The columns for which decomposition is done is passed as hyperparameter .Default is all value columns
 
     """
-    __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': 'fe79c99b-7e9b-4b4c-bc70-6e0ec798acbc',
-            'version': '0.1.0',
-            'name': 'Time Series Decompostional',
-            'python_path': 'd3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
-            'keywords': ['Time Series', 'Trend', 'Seasonality','Residual'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/TimeSeriesSeasonalityTrendDecomposition.py'],
-                'contact': 'mailto:khlai037@tamu.edu'
-            },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING ,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_VALIDATION,
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
+        'name': 'Time Series Decompostional',
+        'python_path': 'd3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
+        'keywords': ['Time Series', 'Trend', 'Seasonality','Residual'],
+        'source': {
+            'name': 'DATA Lab at Texas A&M University',
+            'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/TimeSeriesSeasonalityTrendDecomposition.py'],
+            'contact': 'mailto:khlai037@tamu.edu'
+        },
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeSeriesSeasonalityTrendDecompositionPrimitive')),
+        'version': '0.1.0',
 
         }
     )
