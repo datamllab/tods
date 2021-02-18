@@ -22,6 +22,7 @@ from d3m import utils
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
+import uuid
 
 # from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimitiveBase
 from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
@@ -116,15 +117,20 @@ class ABODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
 
     __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "Angle-base Outlier Detection Primitive",
          "python_path": "d3m.primitives.tods.detection_algorithm.pyod_abod",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/PyodABOD.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.ANGLE_BASE_OUTLIER_DETECTION],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-         "id": "134f6c5f-717b-4683-bfbc-251bab07f6fa",
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "hyperparams_to_tune": ['contamination', 'n_neighbors', 'method'],
          "version": "0.0.1",
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ABODPrimitive')),
     })
 
     def __init__(self, *,

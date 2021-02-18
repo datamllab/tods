@@ -10,6 +10,7 @@ import pandas as pd
 # Custom import commands if any
 from sklearn.preprocessing.data import Normalizer
 from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
+import uuid
 
 
 from d3m.container.numpy import ndarray as d3m_ndarray
@@ -116,16 +117,21 @@ class EnsemblePrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
     
     """
     
-    __author__ = "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "Ensemble",
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.ISOLATION_FOREST, ],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
          "python_path": "d3m.primitives.tods.detection_algorithm.Ensemble",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/mia/anomaly-primitives/anomaly_primitives/HoltSmoothing.py']},
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "version": "0.0.1",
-         "id": "3688b5b4-885c-40bb-9731-fe3969ea81b0",
          "hyperparams_to_tune": ['use_columns'],
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'EnsemblePrimitive')),
      })
 
     def __init__(self, *,

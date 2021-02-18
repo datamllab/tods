@@ -2,13 +2,13 @@
 
 #modules="data_processing timeseries_processing feature_analysis detection_algorithms reinforcement"
 #modules="data_processing timeseries_processing"
-modules="feature_analysis"
+modules="detection_algorithm"
 #test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
 
 for module in $modules
 do
 	test_scripts=$(ls $module | grep -v -f tested_file.txt)
-
+	#test_scripts=$(ls $module)
 	for file in $test_scripts
 	do
 		for f in $tested_file

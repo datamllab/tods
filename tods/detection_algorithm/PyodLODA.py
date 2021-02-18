@@ -103,15 +103,20 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     """
 
     metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
         "name": "TODS.anomaly_detection_primitives.LODAPrimitive",
         "python_path": "d3m.primitives.anomaly_detection.LODAPrimitive",
         "python_path": "d3m.primitives.tods.detection_algorithm.pyod_loda",
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.LOCAL_OUTLIER_FACTOR, ], # Wrong
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "version": "0.0.1",
+        "source": {
+            'name': "DATA Lab @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
         "hyperparams_to_tune": ['n_bins', 'n_random_cuts', 'contamination'],
+        "version": "0.0.1",
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'LODAPrimitive')),
     })
 

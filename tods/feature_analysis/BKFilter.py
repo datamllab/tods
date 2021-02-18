@@ -156,20 +156,20 @@ class BKFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hy
     """
 
     metadata = metadata_base.PrimitiveMetadata({ 
-         "__author__": "DATA Lab at Texas A&M University",
-         "name": "Baxter-King Filter Primitive",
-         "python_path": "d3m.primitives.tods.feature_analysis.bk_filter",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "hyperparams_to_tune": ['low', 'high', 'K'],
-         "version": "0.0.1",
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'BKFilterPrimitive')),
+        "__author__": "DATA Lab at Texas A&M University",
+        "name": "Baxter-King Filter Primitive",
+        "python_path": "d3m.primitives.tods.feature_analysis.bk_filter",
+        "source": {
+            'name': 'DATA Lab at Texas A&M University', 
+            'contact': 'mailto:khlai037@tamu.edu', 
+        },
+        "hyperparams_to_tune": ['low', 'high', 'K'],
+        "version": "0.0.1",
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'BKFilterPrimitive')),
     })
 
 

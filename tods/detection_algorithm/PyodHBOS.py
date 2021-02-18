@@ -30,6 +30,7 @@ from d3m.primitive_interfaces.transformer import TransformerPrimitiveBase
 from d3m.primitive_interfaces.base import ProbabilisticCompositionalityMixin, ContinueFitMixin
 from d3m import exceptions
 import pandas
+import uuid
 
 from d3m import container, utils as d3m_utils
 
@@ -122,17 +123,21 @@ class HBOSPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         ``threshold_`` on ``decision_scores_``.
     """
 
-    __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "HBOS",
          "python_path": "d3m.primitives.tods.detection_algorithm.pyod_hbos",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/PyodHBOS.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.HISTOGRAM_BASED_OUTLIER_DETECTION],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-         "id": "dc722a9f-7621-4900-9b77-7b3b7631ff5e",
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "hyperparams_to_tune": ['contamination', 'n_bins', 'alpha', 'tol'],
          "version": "0.0.1",
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	 "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HBOSPrimitive')),
     })
 
     def __init__(self, *,
