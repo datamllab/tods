@@ -180,18 +180,21 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
 	"""
 
 	metadata = metadata_base.PrimitiveMetadata({
-		'__author__': "DATA Lab @Texas A&M University",
-		'name': "Matrix Profile",
-		#'python_path': 'd3m.primitives.tods.feature_analysis.matrix_profile',
-		'python_path': 'd3m.primitives.tods.detection_algorithm.matrix_profile',
-		'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/MatrixProfile.py']},
-		'algorithm_types': [metadata_base.PrimitiveAlgorithmType.MATRIX_PROFILE,], 
-		'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
-		'hyperparams_to_tune': ['window_size'],
-		'version': '0.0.2',		
-		})
+	    '__author__': "DATA Lab @Texas A&M University",
+	    'name': "Matrix Profile",
+	    'python_path': 'd3m.primitives.tods.detection_algorithm.matrix_profile',
+	    'source': {
+                'name': "DATA Lab @Taxes A&M University", 
+                'contact': 'mailto:khlai037@tamu.edu',
+            },
+	    'hyperparams_to_tune': ['window_size'],
+	    'version': '0.0.2',		
+	    'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+            ], 
+	    'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
+	})
 
 
 	def __init__(self, *,

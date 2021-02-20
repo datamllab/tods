@@ -244,15 +244,20 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
     """
 
     metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
         "name": "KDiscordODetector",
         "python_path": "d3m.primitives.tods.detection_algorithm.KDiscordODetector",
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.LOCAL_OUTLIER_FACTOR, ], #
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        "source": {
+            'name': "DATA Lab @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',       
+            'uris': ['https://gitlab.com/lhenry15/tods.git']
+        },
         "version": "0.0.1",
-        "hyperparams_to_tune": ['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination',
-                                'window_size', 'step_size', 'method', 'radius'],
+        "hyperparams_to_tune": ['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination', 'window_size', 'step_size', 'method', 'radius'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'KDiscordODetector')),
     })
 

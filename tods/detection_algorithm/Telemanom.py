@@ -35,6 +35,7 @@ from sklearn.utils import check_array
 
 # from d3m.primitive_interfaces.base import ProbabilisticCompositionalityMixin, ContinueFitMixin
 from d3m import exceptions
+import uuid
 
 
 # from detection_algorithm.UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
@@ -195,29 +196,22 @@ class TelemanomPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params
 
 	"""
 
-	__author__ = "Data Lab"
-	metadata = metadata_base.PrimitiveMetadata(
-	{
-		'__author__' : "DATA Lab at Texas A&M University",
-		'name': "Telemanom",
-		'python_path': 'd3m.primitives.tods.detection_algorithm.telemanom',
-		'source': {
-		'name': 'DATA Lab at Texas A&M University',
-		'contact': 'mailto:khlai037@tamu.edu',
-		'uris': [
-			'https://gitlab.com/lhenry15/tods.git',
-			'https://gitlab.com/lhenry15/tods/-/blob/purav/anomaly-primitives/anomaly_primitives/telemanom.py',
-		],
-		},
-		'algorithm_types': [
-			metadata_base.PrimitiveAlgorithmType.TELEMANOM,
-		],
-		'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-		'id': 'c7259da6-7ce6-42ad-83c6-15238679f5fa',
-		'hyperparameters_to_tune':['layers','loss_metric','optimizer','epochs','p','l_s','patience','min_delta','dropout','smoothing_perc'],
-		'version': '0.0.1',
-	},
-	)
+	metadata = metadata_base.PrimitiveMetadata({
+	    '__author__' : "DATA Lab at Texas A&M University",
+	    'name': "Telemanom",
+	    'python_path': 'd3m.primitives.tods.detection_algorithm.telemanom',
+	    'source': {
+	        'name': 'DATA Lab at Texas A&M University',
+	        'contact': 'mailto:khlai037@tamu.edu',
+	    },
+	    'hyperparameters_to_tune':['layers','loss_metric','optimizer','epochs','p','l_s','patience','min_delta','dropout','smoothing_perc'],
+	    'version': '0.0.1',
+	    'algorithm_types': [
+	    	metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+	    ],
+	    'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TelemanomPrimitive')),
+	})
 
 	def __init__(self, *,
 				 hyperparams: Hyperparams,  #

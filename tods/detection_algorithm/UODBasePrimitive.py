@@ -281,7 +281,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
             Container DataFrame
             1 marks Outliers, 0 marks normal.
         """
-
+        print(self.hyperparams)
         if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
         sk_inputs = inputs
@@ -308,7 +308,6 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
                                                numpy.expand_dims(left_inds_, axis=1),
                                                numpy.expand_dims(right_inds_, axis=1)), axis=1)
 
-
             else:
                 if getattr(self._clf, 'left_inds_', None) is None or getattr(self._clf, 'right_inds_', None) is None: # point OD
                     sk_output = self._clf.predict(sk_inputs.values)
@@ -316,7 +315,7 @@ class UnsupervisedOutlierDetectorBase(UnsupervisedLearnerPrimitiveBase[Inputs, O
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
 
-            #print("sk output ", sk_output)
+            
             if sparse.issparse(sk_output): # pragma: no cover
                 sk_output = sk_output.toarray()
 

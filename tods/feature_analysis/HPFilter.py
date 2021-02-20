@@ -7,6 +7,7 @@ import sklearn
 import numpy
 import typing
 import time
+import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -131,17 +132,21 @@ class HPFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hy
         Decides what semantic type to attach to generated attributes'
     """
 
-    __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
+         "__author__": "DATA Lab at Texas A&M University",
          "name": "Hodrick-Prescott filter Primitive",
          "python_path": "d3m.primitives.tods.feature_analysis.hp_filter",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/DuplicationValidation.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.HP_FILTER,],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-         "id": "3af1be06-e45e-4ead-8523-4373264598e4",
+         "source": {
+             'name': 'DATA Lab at Texas A&M University', 
+             'contact': 'mailto:khlai037@tamu.edu', 
+         },
          "hyperparams_to_tune": ['lamb'],
          "version": "0.0.1",
+         "algorithm_types": [
+             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+         ],
+         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HPFilterPrimitive')),
     })
 
 

@@ -14,6 +14,7 @@ from scipy import stats
 import numpy
 import typing
 import time
+import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -91,36 +92,24 @@ class StatisticalSkewPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
     """
     Primitive to find skew of time series
     """
-    __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': 'cd154af5-8f98-480a-8a72-6a22365c3c6f',
-            'version': '0.1.0',
-            'name': 'Time Series Decompostional',
-            'python_path': 'd3m.primitives.tods.feature_analysis.statistical_skew',
-            'keywords': ['Time Series','Skew'],
-            "hyperparams_to_tune": ['window_size'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/StatisticalSkew.py'],
-                'contact': 'mailto:khlai037@tamu.edu'
 
-            },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-
-        }
-    )
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab @ Texas A&M University",
+        'name': 'Time Series Decompostional',
+        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_skew',
+        'keywords': ['Time Series','Skew'],
+        'source': {
+            'name': 'DATA Lab at Texas A&M University',
+            'contact': 'mailto:khlai037@tamu.edu'
+        },
+        'version': '0.1.0',
+        "hyperparams_to_tune": ['window_size'],
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalSkewPrimitive')),
+    })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

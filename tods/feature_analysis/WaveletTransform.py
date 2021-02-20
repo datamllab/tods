@@ -174,20 +174,22 @@ class WaveletTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
         None
     """
 
-    __author__ = "DATALAB @Taxes A&M University"
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            "name": "Wavelet_transformation",
-            "python_path": "d3m.primitives.tods.feature_analysis.wavelet_transform",
-            "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                       'uris': ['https://gitlab.com/lhenry15/tods.git']},
-            "algorithm_types": [metadata_base.PrimitiveAlgorithmType.FREQUENCY_TRANSFORM, ],
-            "primitive_family": metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
-            "version": "0.0.1",
-            "hyperparams_to_tune": ['wavelet', 'mode', 'axis', 'level'],
-            "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'WaveletTransformer')),
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab @ Texas A&M University",
+        "name": "Wavelet_transformation",
+        "python_path": "d3m.primitives.tods.feature_analysis.wavelet_transform",
+        "source": {
+            'name': "DATA Lab @ Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
         },
-    )
+        "version": "0.0.1",
+        "hyperparams_to_tune": ['wavelet', 'mode', 'axis', 'level'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'WaveletTransformer')),
+    })
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams) # , random_seed=random_seed, docker_containers=docker_containers)

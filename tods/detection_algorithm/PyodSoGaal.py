@@ -32,6 +32,7 @@ from d3m import exceptions
 import pandas
 
 from d3m import container, utils as d3m_utils
+import uuid
 
 from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 from pyod.models.so_gaal import SO_GAAL
@@ -158,36 +159,22 @@ class So_GaalPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
     """
 
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '56e6cfe9-d9e9-495f-83da-cfed6fa27da1',
-            'version': '0.1.0',
-            'name': 'So_Gaal Anomaly Detection',
-            'python_path': 'd3m.primitives.tods.detection_algorithm.pyod_sogaal',
-            'keywords': ['Time Series', 'GAN'],
-            "hyperparams_to_tune": ['stop_epochs','lr_d','lr_g','decay','momentum'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git',
-                         'https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/detection_algorithm/PyodSoGaal.py'],
-                'contact': 'mailto:khlai037@tamu.edu'
-
-            },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-
-        }
-    )
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
+        'name': 'So_Gaal Anomaly Detection',
+        'python_path': 'd3m.primitives.tods.detection_algorithm.pyod_sogaal',
+        'source': {
+            'name': 'DATA Lab at Texas A&M University',
+            'contact': 'mailto:khlai037@tamu.edu'
+        },
+        "hyperparams_to_tune": ['contamination', 'stop_epochs','lr_d','lr_g','decay','momentum'],
+        'version': '0.1.0',
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'So_GaalPrimitive')),
+    })
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

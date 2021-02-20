@@ -21,6 +21,7 @@ from d3m.container import DataFrame as d3m_dataframe
 from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
+import uuid
 from d3m.exceptions import PrimitiveNotFittedError
 
 __all__ = ('SystemWiseDetectionPrimitive',)
@@ -106,36 +107,22 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     Primitive to find abs_energy of time series
     """
 
-    __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '3726fa29-28c5-4529-aec5-2f8b4ff2ef9e',
-            'version': '0.1.0',
-            'name': 'Sytem_Wise_Anomaly_Detection_Primitive',
-            'python_path': 'd3m.primitives.tods.detection_algorithm.system_wise_detection',
-            'keywords': ['Time Series','Anomalous System '],
-            "hyperparams_to_tune": ['window_size','method_type','contamination'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/StatisticalAbsEnergy.py'],
-                'contact': 'mailto:khlai037@tamu.edu'
-
-            },
-            'installation': [
-                {'type': metadata_base.PrimitiveInstallationType.PIP,
-                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
-                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-                 ),
-                 }
-
-            ],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-
-        }
-    )
+    metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
+        'name': 'Sytem_Wise_Anomaly_Detection_Primitive',
+        'python_path': 'd3m.primitives.tods.detection_algorithm.system_wise_detection',
+        'source': {
+            'name': 'DATA Lab at Texas A&M University',
+            'contact': 'mailto:khlai037@tamu.edu'
+        },
+        "hyperparams_to_tune": ['window_size','method_type','contamination'],
+        'version': '0.1.0',
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'Sytem_Wise_Anomaly_Detection_Primitive')),
+     })
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

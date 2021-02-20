@@ -288,13 +288,19 @@ class VariationalAutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Ou
     """
 
     metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
         "name": "TODS.anomaly_detection_primitives.VariationalAutoEncoder",
         "python_path": "d3m.primitives.tods.detection_algorithm.pyod_vae",
-        "source": {'name': "DATA Lab at Texas A&M University", 'contact': 'mailto:khlai037@tamu.edu','uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.VARIATIONAL_AUTO_ENCODER, ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        "source": {
+            'name': "DATA Lab at Texas A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
         "version": "0.0.1",
-        "hyperparameters_to_tune": [''],
+        "hyperparameters_to_tune": ['contamination'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'AutoEncoderPrimitive')),
     })
 

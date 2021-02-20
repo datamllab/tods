@@ -7,6 +7,7 @@ import sklearn
 import numpy as np
 import typing
 import time
+import uuid
 
 # Custom import commands if any
 from sklearn.decomposition.truncated_svd import TruncatedSVD
@@ -222,17 +223,21 @@ class TRMFPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperp
     Which can be found there: http://www.cs.utexas.edu/~rofuyu/papers/tr-mf-nips.pdf
     """
 
-    __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-         "name": "Temporal Regularized Matrix Factorization Primitive",
-         "python_path": "d3m.primitives.tods.feature_analysis.trmf",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/TRMF.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TEMPORAL_REGULARIZED_MATRIX_FACTORIZATION, ],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-         "id": "d6be6941-61d0-4cbd-85ef-a10c86aa40b1",
-         "hyperparams_to_tune": ['lags', 'K', 'lambda_f', 'lambda_x', 'lambda_w', 'alpha', 'eta', 'max_iter', 'F_step', 'X_step', 'W_step'],
-         "version": "0.0.1",
+        "__author__": "DATA Lab @ Texas A&M University",
+        "name": "Temporal Regularized Matrix Factorization Primitive",
+        "python_path": "d3m.primitives.tods.feature_analysis.trmf",
+        "source": {
+            'name': 'DATA Lab @ Texas A&M University', 
+            'contact': 'mailto:khlai037@tamu.edu', 
+        },
+        "version": "0.0.1",
+        "hyperparams_to_tune": ['lags', 'K', 'lambda_f', 'lambda_x', 'lambda_w', 'alpha', 'eta', 'max_iter', 'F_step', 'X_step', 'W_step'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TRMFPrimitive')),
     })
 
         

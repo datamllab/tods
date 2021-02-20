@@ -228,14 +228,19 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
     """
 
     metadata = metadata_base.PrimitiveMetadata({
+        "__author__": "DATA Lab at Texas A&M University",
         "name": "TODS.anomaly_detection_primitives.KNNPrimitive",
         "python_path": "d3m.primitives.tods.detection_algorithm.pyod_knn",
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods.git']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.K_NEAREST_NEIGHBORS, ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        "source": {
+            'name': "DATALAB @Taxes A&M University", 
+            'contact': 'mailto:khlai037@tamu.edu',
+        },
         "version": "0.0.1",
         "hyperparams_to_tune": ['n_neighbors', 'method', 'radius', 'algorithm', 'leaf_size', 'p'],
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'KNNPrimitive')),
     })
 

@@ -7,6 +7,7 @@ from d3m import container, utils
 from d3m.base import utils as base_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.primitive_interfaces import base, transformer
+import uuid
 
 import logging
 from cmath import polar
@@ -204,29 +205,22 @@ class FastFourierTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs,
         Decides what semantic type to attach to generated attributes'
     """
     
-    __author__ = "Data Lab"
-    metadata = metadata_base.PrimitiveMetadata(
-    {
-        '__author__' : "DATA Lab at Texas A&M University",
+    metadata = metadata_base.PrimitiveMetadata({
+        '__author__' : "DATA Lab @ Texas A&M University",
         'name': "Fast Fourier Transform",
         'python_path': 'd3m.primitives.tods.feature_analysis.fast_fourier_transform',
         'source': {
-            'name': 'DATA Lab at Texas A&M University',
+            'name': 'DATA Lab @ Texas A&M University',
             'contact': 'mailto:khlai037@tamu.edu',
-            'uris': [
-                'https://gitlab.com/lhenry15/tods.git',
-                'https://gitlab.com/lhenry15/tods/-/blob/purav/anomaly-primitives/anomaly_primitives/FastFourierTransform.py',
-            ],
         },
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.FAST_FOURIER_TRANSFORM,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-        'id': '7bd269bc-de7e-47b8-8d6c-0bd46594d3cb',
         'hyperparameters_to_tune':['n','norm','axis'],
         'version': '0.0.1',
-    },
-    )
+        'algorithm_types': [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+        ],
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'FastFourierTransformPrimitive')),
+    })
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

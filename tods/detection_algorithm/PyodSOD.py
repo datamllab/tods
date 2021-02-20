@@ -114,16 +114,20 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 	"""
 
 	metadata = metadata_base.PrimitiveMetadata({
-		 "__author__": "DATA Lab at Texas A&M University",
-		 "name": "Subspace Outlier Detection Primitive",
-		 "python_path": "d3m.primitives.tods.detection_algorithm.pyod_sod",			
-		 "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-		 'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/PyodSOD.py']},
-		 "algorithm_types": [metadata_base.PrimitiveAlgorithmType.SUBSPACE_OUTLIER_DETECTION],
-		 "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-		 "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SODPrimitive')),
-		 "hyperparams_to_tune": ['contamination', 'n_neighbors', 'ref_set', 'alpha'],
-		 "version": "0.0.1",
+	    "__author__": "DATA Lab at Texas A&M University",
+	    "name": "Subspace Outlier Detection Primitive",
+	    "python_path": "d3m.primitives.tods.detection_algorithm.pyod_sod",			
+	    "source": {
+                'name': 'DATA Lab at Texas A&M University', 
+                'contact': 'mailto:khlai037@tamu.edu', 
+            },
+	    "hyperparams_to_tune": ['contamination', 'n_neighbors', 'ref_set', 'alpha'],
+	    "version": "0.0.1",
+	    "algorithm_types": [
+                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
+            ],
+	    "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+	    "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SODPrimitive')),
 	})
 
 

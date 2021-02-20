@@ -7,6 +7,7 @@ import sklearn
 import numpy
 import typing
 import time
+import uuid
 
 # Custom import commands if any
 from sklearn.decomposition.truncated_svd import TruncatedSVD
@@ -156,17 +157,21 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Decides what semantic type to attach to generated attributes'
     """    
 
-    __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
-         "name": "Truncated SVD",
-         "python_path": "d3m.primitives.tods.feature_analysis.truncated_svd",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/SKTruncatedSVD.py']},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.SINGULAR_VALUE_DECOMPOSITION, ],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-         "id": "9231fde3-7322-3c41-b4cf-d00a93558c44",
-         "hyperparams_to_tune": ['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'],
-         "version": "0.0.1",
+        "__author__": "DATA Lab at Texas A&M University",
+        "name": "Truncated SVD",
+        "python_path": "d3m.primitives.tods.feature_analysis.truncated_svd",
+        "source": {
+            'name': 'DATA Lab at Texas A&M University', 
+            'contact': 'mailto:khlai037@tamu.edu', 
+        },
+        "hyperparams_to_tune": ['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'],
+        "version": "0.0.1",
+        "algorithm_types": [
+            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
+        ],
+        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKTruncatedSVDPrimitive')),
     })
 
     def __init__(self, *,

@@ -7,6 +7,7 @@ from d3m.primitive_interfaces.base import CallResult, DockerContainer
 from typing import cast, Dict, List, Union, Sequence, Optional, Tuple
 from collections import OrderedDict
 from scipy import sparse
+import uuid
 
 import nimfa
 import pandas as pd 
@@ -266,29 +267,22 @@ class NonNegativeMatrixFactorizationPrimitive(transformer.TransformerPrimitiveBa
 
 
 
-	__author__ = "Data Lab"
-	metadata = metadata_base.PrimitiveMetadata(
-	{
-		'__author__' : "DATA Lab at Texas A&M University",
-		'name': "Fast Fourier Transform",
-		'python_path': 'd3m.primitives.tods.feature_analysis.non_negative_matrix_factorization',
-		'source': {
-		'name': 'DATA Lab at Texas A&M University',
+	metadata = metadata_base.PrimitiveMetadata({
+	    '__author__' : "DATA Lab @ Texas A&M University",
+	    'name': "Fast Fourier Transform",
+	    'python_path': 'd3m.primitives.tods.feature_analysis.non_negative_matrix_factorization',
+	    'source': {
+		'name': 'DATA Lab @ Texas A&M University',
 		'contact': 'mailto:khlai037@tamu.edu',
-		'uris': [
-			'https://gitlab.com/lhenry15/tods.git',
-			'https://gitlab.com/lhenry15/tods/-/blob/purav/anomaly-primitives/anomaly_primitives/NonNegativeMatrixFactorization.py',
-		],
-		},
-		'algorithm_types': [
-			metadata_base.PrimitiveAlgorithmType.NON_NEGATIVE_MATRIX_FACTORIZATION,
-		],
-		'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-		'id': 'c7259da6-7ce6-42ad-83c6-15238679f5fa',
-		'hyperparameters_to_tune':['rank','update','objective','max_iter','learning_rate'],
-		'version': '0.0.1',
-	},
-	)
+	    },
+	    'hyperparameters_to_tune':['rank','update','objective','max_iter','learning_rate'],
+	    'version': '0.0.1',
+	    'algorithm_types': [
+		metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
+	    ],
+	    'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'NonNegativeMatrixFactorizationPrimitive')),
+	})
 
 	def __init__(self, *, hyperparams: Hyperparams) -> None:
 		super().__init__(hyperparams=hyperparams)
