@@ -37,6 +37,8 @@ from d3m import container, utils as d3m_utils
 
 from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 import stumpy
+
+from sklearn.preprocessing import MinMaxScaler
 # from typing import Union
 
 Inputs = d3m_dataframe
@@ -62,8 +64,9 @@ class MP:
 	"""
 	This is the class for matrix profile function
 	"""
-	def __init__(self, window_size):
+	def __init__(self, window_size, step_size):
 		self._window_size = window_size
+		self._step_size = step_size
 		return
 
 	def fit(self, X, y=None):
@@ -121,15 +124,29 @@ class MP:
 		#data = np.random.rand(3, 1000) 
 		#data = np.array([[1., 2., 3., 4.], [5., 6., 7., 8.], [9., 10., 11., 12.]])
 		#data = np.array([1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.])
-		# data = np.array([3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2])
-		# print(data, self._window_size)
+		#data = np.array([[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10],[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10],[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10]])
+
 		matrix_profile, matrix_profile_indices = stumpy.mstump(data.transpose(), m = self._window_size)
-		# matrix_profile = stumpy.stump(data, m = self._window_size)
-		#output = utils.pandas.DataFrame(output)
-		#print(matrix_profile[:, 0])
-		#print(matrix_profile)
-		#print(matrix_profile_indices)
-		return matrix_profile
+		#matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
+
+		left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
+		right_inds_ = left_inds_ + self._window_size
+		right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
+		left_inds_ = np.array([left_inds_]).transpose()
+		right_inds_ = np.array([right_inds_]).transpose()
+		
+		# apply min-max scaling
+		scaler = MinMaxScaler()
+		scaler = scaler.fit(matrix_profile)
+		matrix_profile = scaler.transform(matrix_profile)
+		output = []
+		for timestamp in matrix_profile:
+			timestamp = sum(timestamp)
+			output.append([timestamp])
+
+		output = np.concatenate((output, left_inds_, right_inds_),axis=1)
+		
+		return output
 
 	def predict(self, data):
 		return self.produce(data)
@@ -183,7 +200,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
 				 docker_containers: Dict[str, DockerContainer] = None) -> None:
 		super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
-		self._clf = MP(window_size=hyperparams['window_size'])
+		self._clf = MP(window_size=hyperparams['window_size'], step_size=hyperparams['step_size'])
 
 	def set_training_data(self, *, inputs: Inputs) -> None:
 		"""
