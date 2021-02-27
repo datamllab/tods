@@ -242,7 +242,6 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
         #                                        columns_list=output_columns)
         
         print(outputs.shape)
-        self._write(outputs)
         return CallResult(outputs)
         
     
