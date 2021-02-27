@@ -6,7 +6,6 @@ import os
 import sklearn
 import numpy
 import typing
-import time
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -22,8 +21,6 @@ from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
 
 import os.path
-
-import time
 import re
 
 
@@ -31,7 +28,7 @@ Inputs = container.DataFrame
 Outputs = container.DataFrame
 
 
-class Hyperparams(hyperparams.Hyperparams):
+class Hyperparams(hyperparams.Hyperparams):   # pragma: no cover
     # Tuning
     rule = hyperparams.Hyperparameter[str](
         default='',
@@ -81,7 +78,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
     
-class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):   # pragma: no cover
     """
     Filter the selected columns according to the rule.
 
@@ -143,8 +140,9 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
 
 
         operated_col = [int(x.strip('#')) for x in re.findall(r'#\d*#', self.hyperparams['rule'])]
+
+        
         if set(operated_col) != set(self._training_indices):
-            # print(operated_col, self._training_indices)
             raise RuntimeError("Column numbers in 'rule' and 'use_columns' are not matched.")
 
 
@@ -186,8 +184,6 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
                                                inputs=inputs, column_indices=self._training_indices,
                                                columns_list=output_columns)
 
-        # self._write(outputs)
-        # self.logger.warning('produce was called3')
         return CallResult(outputs)
         
     
@@ -223,7 +219,6 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
         # else: 
         use_columns=hyperparams['use_columns']
         exclude_columns=hyperparams['exclude_columns']
-
         
         columns_to_produce, columns_not_to_produce = base_utils.get_columns_to_use(inputs_metadata, use_columns=use_columns, exclude_columns=exclude_columns, can_use_column=can_produce_column)
         return inputs.iloc[:, columns_to_produce], columns_to_produce

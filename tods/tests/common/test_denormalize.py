@@ -46,7 +46,7 @@ class DenormalizePrimitiveTestCase(unittest.TestCase):
 
         #self.assertEqual(dataset.metadata.to_internal_json_structure(), dataset_metadata_before)
 
-    def _test_discard_metadata(self, metadata, dataset_doc_path):
+    def _test_discard_metadata(self, metadata, dataset_doc_path):    # pragma: no cover
         self.maxDiff = None
 
         self.assertEqual(test_utils.convert_through_json(metadata.query(())), {
@@ -197,7 +197,7 @@ class DenormalizePrimitiveTestCase(unittest.TestCase):
 
         #self.assertEqual(dataset.metadata.to_internal_json_structure(), dataset_metadata_before)
 
-    def _test_recursive_metadata(self, metadata, dataset_doc_path):
+    def _test_recursive_metadata(self, metadata, dataset_doc_path):    # pragma: no cover
         self.maxDiff = None
 
         self.assertEqual(test_utils.convert_through_json(metadata.query(())), {
@@ -344,7 +344,7 @@ class DenormalizePrimitiveTestCase(unittest.TestCase):
 
         #self.assertEqual(dataset.metadata.to_internal_json_structure(), dataset_metadata_before)
 
-    def _test_row_order_metadata(self, metadata, dataset_doc_path):
+    def _test_row_order_metadata(self, metadata, dataset_doc_path):    # pragma: no cover
         self.maxDiff = None
 
         self.assertEqual(test_utils.convert_through_json(metadata.query(())), {

@@ -50,7 +50,7 @@ class Hyperparams(hyperparams.Hyperparams):
 #       once to the second table, and then just do the join with already joined second table.
 #       Not sure how to behave in "recursive == False" case then.
 # TODO: Add a test where main table has a foreign key twice to same table (for example, person 1 and person 2 to table of persons).
-class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):   # pragma: no cover
     """
     A primitive which converts a Dataset with multiple tabular resources into a Dataset with only one tabular resource,
     based on known relations between tabular resources. Any resource which can be joined is joined (thus the resource
@@ -517,28 +517,28 @@ class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs,
             del graph[resource_id]
 
 
-if __name__ == '__main__':
-    import logging
-    import pprint
-    import sys
+# if __name__ == '__main__':
+#     import logging
+#     import pprint
+#     import sys
 
-    logging.basicConfig()
+#     logging.basicConfig()
 
-    for dataset_file_path in sys.argv[1:]:
-        try:
-            dataset = container.Dataset.load('file://{dataset_doc_path}'.format(dataset_doc_path=os.path.abspath(dataset_file_path)))
-        except Exception as error:
-            raise Exception("Unable to load dataset: {dataset_doc_path}".format(dataset_doc_path=dataset_file_path)) from error
+#     for dataset_file_path in sys.argv[1:]:
+#         try:
+#             dataset = container.Dataset.load('file://{dataset_doc_path}'.format(dataset_doc_path=os.path.abspath(dataset_file_path)))
+#         except Exception as error:
+#             raise Exception("Unable to load dataset: {dataset_doc_path}".format(dataset_doc_path=dataset_file_path)) from error
 
-        primitive = DenormalizePrimitive(hyperparams=Hyperparams.defaults().replace({
-            'recursive': True,
-            'discard_not_joined_tabular_resources': False,
-        }))
+#         primitive = DenormalizePrimitive(hyperparams=Hyperparams.defaults().replace({
+#             'recursive': True,
+#             'discard_not_joined_tabular_resources': False,
+#         }))
 
-        try:
-            denormalized_dataset = primitive.produce(inputs=dataset).value
+#         try:
+#             denormalized_dataset = primitive.produce(inputs=dataset).value
 
-            pprint.pprint(denormalized_dataset)
-            denormalized_dataset.metadata.pretty_print()
-        except Exception as error:
-            raise Exception("Unable to denormalize dataset: {dataset_doc_path}".format(dataset_doc_path=dataset_file_path)) from error
+#             pprint.pprint(denormalized_dataset)
+#             denormalized_dataset.metadata.pretty_print()
+#         except Exception as error:
+#             raise Exception("Unable to denormalize dataset: {dataset_doc_path}".format(dataset_doc_path=dataset_file_path)) from error

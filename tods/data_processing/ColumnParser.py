@@ -134,7 +134,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
         return base.CallResult(outputs)
 
-    def _can_use_column(self, inputs_metadata: metadata_base.DataMetadata, column_index: int) -> bool:
+    def _can_use_column(self, inputs_metadata: metadata_base.DataMetadata, column_index: int) -> bool:   # pragma: no cover
         column_metadata = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index))
 
         # We produce only on columns which have not yet been parsed (are strings).
@@ -156,7 +156,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 
         return False
 
-    def _produce_columns(self, inputs: Inputs) -> typing.Tuple[typing.List[int], typing.List[Outputs]]:
+    def _produce_columns(self, inputs: Inputs) -> typing.Tuple[typing.List[int], typing.List[Outputs]]:   # pragma: no cover
         # The logic of parsing values tries to mirror also the logic of detecting
         # values in "SimpleProfilerPrimitive". One should keep them in sync.
 

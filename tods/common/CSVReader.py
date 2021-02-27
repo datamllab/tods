@@ -11,7 +11,7 @@ from d3m.base import primitives
 
 
 
-class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):
+class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no cover
     """
     A primitive which reads columns referencing CSV files.
 

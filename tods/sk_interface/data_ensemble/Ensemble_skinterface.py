@@ -3,7 +3,7 @@ from d3m import container
 from tods.detection_algorithm.Ensemble import EnsemblePrimitive
 from ..base import get_default_hyperparameter
 
-class EnsembleSKI:
+class EnsembleSKI:   # pragma: no cover
 	def __init__(self, **hyperparameter):
 
 		hyperparams = get_default_hyperparameter(EnsemblePrimitive, hyperparameter)

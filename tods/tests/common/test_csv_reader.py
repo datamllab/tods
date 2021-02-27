@@ -9,7 +9,7 @@ from tods.data_processing import DatasetToDataframe
 
 class CSVReaderPrimitiveTestCase(unittest.TestCase):
 
-    def _get_yahoo_dataset(self):
+    def _get_yahoo_dataset(self):    # pragma: no cover
         dataset_doc_path = os.path.abspath(os.path.join(os.path.dirname(__file__),'..', '..', '..', 'datasets', 'anomaly','yahoo_sub_5','TRAIN','dataset_TRAIN', 'datasetDoc.json'))
 
         dataset = container.Dataset.load('file://{dataset_doc_path}'.format(dataset_doc_path=dataset_doc_path))
