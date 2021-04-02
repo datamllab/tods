@@ -56,7 +56,7 @@ class StatisticalVariationTestCase(unittest.TestCase):
 
         primitive = StatisticalVariation.StatisticalVariationPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_variation', 'b_variation']])
 
         expected_output = container.DataFrame(

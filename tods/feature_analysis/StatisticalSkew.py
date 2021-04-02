@@ -24,6 +24,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalSkewPrimitive',)
 
@@ -88,7 +89,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalSkewPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalSkewPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find skew of time series
     """
@@ -111,7 +112,7 @@ class StatisticalSkewPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalSkewPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

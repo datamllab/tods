@@ -54,7 +54,7 @@ class BKFilterTest(unittest.TestCase):
 
         hyperparams_class = BKFilter.BKFilterPrimitive.metadata.get_hyperparams()
         primitive = BKFilter.BKFilterPrimitive(hyperparams=hyperparams_class.defaults())
-        new_main = primitive.produce(inputs=main).value
+        new_main = primitive._produce(inputs=main).value
         print(new_main)       
 
 

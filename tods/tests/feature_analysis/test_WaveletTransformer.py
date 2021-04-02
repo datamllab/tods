@@ -28,7 +28,7 @@ class WaveletTransformerTestCase(unittest.TestCase):
                                                    'return_result': 'new'})
 
         primitive = WaveletTransformPrimitive(hyperparams=hyperparams)
-        new_main = primitive.produce(inputs=main).value
+        new_main = primitive._produce(inputs=main).value
 
         # print(new_main)
         # print(mean_mse, std_mse)
@@ -89,7 +89,7 @@ class WaveletTransformerTestCase(unittest.TestCase):
         hyperparams = hyperparams_default.replace({'inverse': 1})
 
         primitive = WaveletTransformPrimitive(hyperparams=hyperparams)
-        main_recover = primitive.produce(inputs=main).value
+        main_recover = primitive._produce(inputs=main).value
 
         self.assertAlmostEqual(main_recover.values.tolist(), main.values.tolist(), delta=1e-6)
         # print(main.metadata.to_internal_simple_structure())

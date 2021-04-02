@@ -66,7 +66,7 @@ class AutoCorrelationTestCase(unittest.TestCase):
 		hyperparams_class = AutoCorrelation.AutoCorrelationPrimitive.metadata.get_hyperparams().defaults()
 		hyperparams_class = hyperparams_class.replace({'nlags': 2})
 		primitive = AutoCorrelation.AutoCorrelationPrimitive(hyperparams=hyperparams_class)
-		new_main = primitive.produce(inputs=main).value
+		new_main = primitive._produce(inputs=main).value
 		print(new_main)
 		
 		# new_main_drop = new_main['value_acf']

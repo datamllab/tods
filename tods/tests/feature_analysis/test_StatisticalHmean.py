@@ -56,7 +56,7 @@ class StatisticalHmeanTestCase(unittest.TestCase):
 
         primitive = StatisticalHmean.StatisticalHmeanPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         #print(output_main[['values_hmean', 'b_hmean']])
 
         expected_output = container.DataFrame(

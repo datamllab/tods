@@ -23,6 +23,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalMeanAbsTemporalDerivativePrimitive',)
 
@@ -87,7 +88,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMeanAbsTemporalDerivativePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalMeanAbsTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find mean_abs_temporal_derivative of time series
     """
@@ -110,7 +111,7 @@ class StatisticalMeanAbsTemporalDerivativePrimitive(transformer.TransformerPrimi
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMeanAbsTemporalDerivativePrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

@@ -56,7 +56,7 @@ class StatisticalMeanTemporalDerivativeTestCase(unittest.TestCase):
 
         primitive = StatisticalMeanTemporalDerivative.StatisticalMeanTemporalDerivativePrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_mean_temporal_derivative', 'b_mean_temporal_derivative']])
         expected_output = container.DataFrame(
             {'timestamp': [1, 3, 2, 5], 'values': [1.0, 2.0, 3.0, 4.0], 'b': [1.0, 4.0, 5.0, 6.0],

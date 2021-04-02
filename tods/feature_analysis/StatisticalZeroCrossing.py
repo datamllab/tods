@@ -23,6 +23,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalZeroCrossingPrimitive',)
 
@@ -83,7 +84,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalZeroCrossingPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalZeroCrossingPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find zero_crossing of time series. A column indicating zero crossing on ith row . 1 indicates crossing 0 is for normal
     """
@@ -105,7 +106,7 @@ class StatisticalZeroCrossingPrimitive(transformer.TransformerPrimitiveBase[Inpu
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalZeroCrossingPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

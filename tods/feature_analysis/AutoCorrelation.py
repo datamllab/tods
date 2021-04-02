@@ -25,7 +25,7 @@ from d3m.primitive_interfaces import base, transformer
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
-from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 from statsmodels.tsa.stattools import acf
 
@@ -186,7 +186,7 @@ class ACF:
 
 
 
-class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class AutoCorrelationPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 	"""
 	A primitive that performs autocorrelation on a DataFrame
 	acf() function documentation: https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.acf.html
@@ -233,26 +233,8 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'AutocorrelationPrimitive')),
 		})
 
-	def __init__(self, *,
-		 hyperparams: Hyperparams, #
-		 random_seed: int = 0,
-		 docker_containers: Dict[str, DockerContainer] = None) -> None:
-		super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
-
-		self._clf = ACF(unbiased = hyperparams['unbiased'],
-						nlags = hyperparams['nlags'],
-						qstat = hyperparams['qstat'],
-						fft = hyperparams['fft'],
-						alpha = hyperparams['alpha'],
-						missing = hyperparams['missing']
-	 				)
-
-		self.primitiveNo = PrimitiveCount.primitive_no
-		PrimitiveCount.primitive_no+=1
-
-
-	def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:	
+	def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:	
 		"""
 		Process the testing data.
 		Args:
@@ -261,6 +243,16 @@ class AutoCorrelationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outp
 		Returns:
 			Container DataFrame after AutoCorrelation.
 		"""
+		self._clf = ACF(unbiased = self.hyperparams['unbiased'],
+						nlags = self.hyperparams['nlags'],
+						qstat = self.hyperparams['qstat'],
+						fft = self.hyperparams['fft'],
+						alpha = self.hyperparams['alpha'],
+						missing = self.hyperparams['missing']
+	 				)
+
+		self.primitiveNo = PrimitiveCount.primitive_no
+		PrimitiveCount.primitive_no+=1
 
 		# Get cols to fit.
 		self._fitted = False

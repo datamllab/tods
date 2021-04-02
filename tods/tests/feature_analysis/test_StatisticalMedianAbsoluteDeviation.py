@@ -56,7 +56,7 @@ class StatisticalMedianAbsoluteDeviationTestCase(unittest.TestCase):
 
         primitive = StatisticalMedianAbsoluteDeviation.StatisticalMedianAbsoluteDeviationPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_median_absolute_deviation', 'b_median_absolute_deviation']])
 
         expected_output = container.DataFrame(

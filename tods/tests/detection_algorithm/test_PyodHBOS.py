@@ -63,8 +63,6 @@ class HBOSTest(unittest.TestCase):
         primitive.fit()
         new_main = primitive.produce(inputs=main).value
         new_main_score = primitive.produce_score(inputs=main).value
-        print(new_main)       
-        print(new_main_score)      
 
 
         self.assertEqual(utils.to_json_structure(new_main.metadata.to_internal_simple_structure()), [{
@@ -125,7 +123,7 @@ class HBOSTest(unittest.TestCase):
             'selector': ['__ALL_ELEMENTS__', 0],
             'metadata': {
                 'name': 'HBOS0_0',
-                'structural_type': 'numpy.float64',
+                'structural_type': 'numpy.int64',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'] 
             },
         }])

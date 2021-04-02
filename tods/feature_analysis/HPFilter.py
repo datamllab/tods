@@ -21,6 +21,7 @@ from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
 
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 import statsmodels.api as sm
 
@@ -101,7 +102,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
     
-class HPFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class HPFilterPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Filter a time series using the Hodrick-Prescott filter.
 
@@ -150,7 +151,7 @@ class HPFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hy
     })
 
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
         Process the testing data.
         Args:

@@ -19,6 +19,7 @@ from collections import OrderedDict
 from scipy import sparse
 import logging
 import uuid
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('WaveletTransformPrimitive',)
 
@@ -148,7 +149,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class WaveletTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class WaveletTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     A primitive of Multilevel 1D Discrete Wavelet Transform of data.
     See `PyWavelet documentation <https://pywavelets.readthedocs.io/en/latest/ref/>`_ for details.
@@ -203,7 +204,7 @@ class WaveletTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
                           )
 
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
         Process the testing data.
         Args:

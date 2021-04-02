@@ -74,7 +74,7 @@ class NmfTestCase(unittest.TestCase):
 		    'H': b,
 		})
 		primitive = NonNegativeMatrixFactorization.NonNegativeMatrixFactorizationPrimitive(hyperparams=hp)
-		new_main = primitive.produce(inputs=main).value
+		new_main = primitive._produce(inputs=main).value
 
 		print("new_main",new_main)
 		c = pd.DataFrame({"A":[1,2,3,np.nan,np.nan], "B":[4,5,6,np.nan,np.nan],

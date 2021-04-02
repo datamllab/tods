@@ -95,7 +95,7 @@ class Hyperparams(Hyperparams_ODBase):
     )
 
     epochs = hyperparams.Hyperparameter[int](
-        default=100,
+        default=1,
         description='Number of epochs to train the model.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
@@ -335,7 +335,7 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
         Returns:
             None
         """
-        return super().fit()
+        return super()._fit()
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
@@ -347,7 +347,7 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
             Container DataFrame
             1 marks Outliers, 0 marks normal.
         """
-        return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
+        return super()._produce(inputs=inputs, timeout=timeout, iterations=iterations)
 
     def get_params(self) -> Params:
         """

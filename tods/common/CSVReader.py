@@ -68,7 +68,7 @@ class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no co
             # This should be done by primitives later on.
             dtype=str,
             # We always expect one row header.
-            header=0,
+            header=None,
             # We want empty strings and not NaNs.
             na_filter=False,
             encoding='utf8',
@@ -92,7 +92,7 @@ class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no co
         data = container.DataFrame(data, {
             'schema': metadata_base.CONTAINER_SCHEMA_VERSION,
             'structural_type': container.DataFrame,
-        }, generate_metadata=False)
+        }, generate_metadata=True)
 
         assert column_names is not None
 

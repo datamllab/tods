@@ -67,7 +67,7 @@ class FftTestCase(unittest.TestCase):
             'return_result':'append',
         })
         primitive = FastFourierTransform.FastFourierTransformPrimitive(hyperparams=hp)
-        new_main = primitive.produce(inputs=main).value
+        new_main = primitive._produce(inputs=main).value
 
         c = pd.DataFrame({"A":[1,2,3], "B":['a','b','c'],'A_fft_abs':[6.000000,1.732051,1.732051],'A_fft_phse':[-0.000000,2.617994,-2.617994]})
 

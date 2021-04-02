@@ -142,7 +142,6 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
 
         self.logger.info('System wise Detection Input  Primitive called')
 
-        
         # Get cols to fit.
         self._fitted = False
         self._training_inputs, self._training_indices = self._get_columns_to_fit(inputs, self.hyperparams)
@@ -316,12 +315,8 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     def _write(self, inputs: Inputs):
         inputs.to_csv(str(time.time()) + '.csv')
 
-
-
-
     def _system_wise_detection(self,X,method_type,window_size,contamination):
-        systemIds = X.system_id.unique()
-        groupedX = X.groupby(X.system_id)
+        systemIds = [int(idx) for idx in X.index]
 
         transformed_X = []
         if(method_type=="max"):
@@ -330,17 +325,17 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
             """
             maxOutlierScorePerSystemList = []
             for systemId in systemIds:
-                systemDf = groupedX.get_group(systemId)
-                maxOutlierScorePerSystemList.append(np.max(np.abs(systemDf["value_0"].values)))
+                systemDf = X.iloc[systemId]['system']
+                maxOutlierScorePerSystemList.append(np.max(np.abs(systemDf.iloc[:,0].values)))
 
             ranking = np.sort(maxOutlierScorePerSystemList)
             threshold = ranking[int((1 - contamination) * len(ranking))]
             self.threshold = threshold
-            mask = (maxOutlierScorePerSystemList >= threshold)
+            mask = (maxOutlierScorePerSystemList > threshold)
             ranking[mask] = 1
             ranking[np.logical_not(mask)] = 0
             for iter in range(len(systemIds)):
-                transformed_X.append([systemIds[iter],ranking[iter]])
+                transformed_X.append(ranking[iter])
 
         if (method_type == "avg"):
             """
@@ -348,60 +343,72 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
             """
             avgOutlierScorePerSystemList = []
             for systemId in systemIds:
-                systemDf = groupedX.get_group(systemId)
-                avgOutlierScorePerSystemList.append(np.mean(np.abs(systemDf["value_0"].values)))
+                systemDf = X.iloc[systemId]['system']
+                avgOutlierScorePerSystemList.append(np.mean(np.abs(systemDf.iloc[:,0].values)))
 
             ranking = np.sort(avgOutlierScorePerSystemList)
             threshold = ranking[int((1 - contamination) * len(ranking))]
             self.threshold = threshold
-            mask = (avgOutlierScorePerSystemList >= threshold)
+            mask = (avgOutlierScorePerSystemList > threshold)
             ranking[mask] = 1
             ranking[np.logical_not(mask)] = 0
             for iter in range(len(systemIds)):
-                transformed_X.append([systemIds[iter], ranking[iter]])
+                transformed_X.append( ranking[iter])
 
         if (method_type == "sliding_window_sum"):
             """
-            Sytems are sorted based on max of max of reconstruction errors in each window"
+            Sytems are sorted based on max of sum of reconstruction errors in each window"
             """
-            OutlierScorePerSystemList = []
+            maxOutlierScorePerSystemList = []
             for systemId in systemIds:
-                systemDf = groupedX.get_group(systemId)
-                column_value = systemDf["value_0"].values
-                column_score = np.zeros(len(column_value))
+                systemDf = X.iloc[systemId]['system']
+                column_value = systemDf.iloc[:,0].values
+                column_score = []
                 for iter in range(window_size - 1, len(column_value)):
                     sequence = column_value[iter - window_size + 1:iter + 1]
-                    column_score[iter] = np.sum(np.abs(sequence))
-                column_score[:window_size - 1] = column_score[window_size - 1]
-                OutlierScorePerSystemList.append(column_score.tolist())
-            OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+                    column_score.append(np.sum(np.abs(sequence)))
+                #column_score[:window_size - 1] = column_score[window_size - 1]
 
-            maxOutlierScorePerSystemList = OutlierScorePerSystemList.max(axis=1).tolist()
+                maxOutlierScorePerSystemList.append(np.max(column_score))
+            #OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+
+            #maxOutlierScorePerSystemList = OutlierScorePerSystemList.max(axis=1).tolist()
 
             ranking = np.sort(maxOutlierScorePerSystemList)
             threshold = ranking[int((1 - contamination) * len(ranking))]
             self.threshold = threshold
-            mask = (maxOutlierScorePerSystemList >= threshold)
+            mask = (maxOutlierScorePerSystemList > threshold)
             ranking[mask] = 1
             ranking[np.logical_not(mask)] = 0
             for iter in range(len(systemIds)):
-                transformed_X.append([systemIds[iter], ranking[iter]])
+                transformed_X.append( ranking[iter])
+
 
         if (method_type == "majority_voting_sliding_window_sum"):
             """
             Sytem with most vote based on max of sum of reconstruction errors in each window
             """
             OutlierScorePerSystemList = []
+            max_time_points = 0
             for systemId in systemIds:
-                systemDf = groupedX.get_group(systemId)
-                column_value = systemDf["value_0"].values
-                column_score = np.zeros(len(column_value))
+                systemDf = X.iloc[systemId]['system']
+                max_time_points = max(max_time_points,systemDf.shape[0])
+
+            for systemId in systemIds:
+                column_value = np.zeros(max_time_points)
+                systemDf = X.iloc[systemId]['system']
+                column_value_actual = systemDf.iloc[:, 0].values
+                column_value[0:len(column_value_actual)] = column_value_actual
+                column_value[len(column_value_actual):]= column_value_actual[-1]
+                column_score = []
                 for iter in range(window_size - 1, len(column_value)):
                     sequence = column_value[iter - window_size + 1:iter + 1]
-                    column_score[iter] = np.sum(np.abs(sequence))
-                column_score[:window_size - 1] = column_score[window_size - 1]
-                OutlierScorePerSystemList.append(column_score.tolist())
+                    column_score.append(np.sum(np.abs(sequence)))
+
+                OutlierScorePerSystemList.append(column_score)
+
             OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+
             OutlierScorePerSystemList = (
                     OutlierScorePerSystemList == OutlierScorePerSystemList.max(axis=0)[None, :]).astype(int)
 
@@ -409,28 +416,39 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
 
             ranking = np.sort(maxOutlierScorePerSystemList)
             threshold = ranking[int((1 - contamination) * len(ranking))]
+
             self.threshold = threshold
-            mask = (maxOutlierScorePerSystemList >= threshold)
+            mask = (maxOutlierScorePerSystemList > threshold)
             ranking[mask] = 1
             ranking[np.logical_not(mask)] = 0
             for iter in range(len(systemIds)):
-                transformed_X.append([systemIds[iter], ranking[iter]])
+                transformed_X.append( ranking[iter])
+
 
         if (method_type == "majority_voting_sliding_window_max"):
             """
             Sytem with most vote based on max of max of reconstruction errors in each window
             """
             OutlierScorePerSystemList = []
+            max_time_points = 0
             for systemId in systemIds:
-                systemDf = groupedX.get_group(systemId)
-                column_value = systemDf["value_0"].values
-                column_score = np.zeros(len(column_value))
+                systemDf = X.iloc[systemId]['system']
+                max_time_points = max(max_time_points, systemDf.shape[0])
+
+            for systemId in systemIds:
+                column_value = np.zeros(max_time_points)
+                systemDf = X.iloc[systemId]['system']
+                column_value_actual = systemDf.iloc[:, 0].values
+                column_value[0:len(column_value_actual)] = column_value_actual
+                column_value[len(column_value_actual):] = column_value_actual[-1]
+                column_score = []
                 for iter in range(window_size - 1, len(column_value)):
                     sequence = column_value[iter - window_size + 1:iter + 1]
-                    column_score[iter] = np.max(np.abs(sequence))
-                column_score[:window_size - 1] = column_score[window_size - 1]
-                OutlierScorePerSystemList.append(column_score.tolist())
+                    column_score.append(np.max(np.abs(sequence)))
+
+                OutlierScorePerSystemList.append(column_score)
             OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+
             OutlierScorePerSystemList = (
                     OutlierScorePerSystemList == OutlierScorePerSystemList.max(axis=0)[None, :]).astype(int)
 
@@ -439,11 +457,11 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
             ranking = np.sort(maxOutlierScorePerSystemList)
             threshold = ranking[int((1 - contamination) * len(ranking))]
             self.threshold = threshold
-            mask = (maxOutlierScorePerSystemList >= threshold)
+            mask = (maxOutlierScorePerSystemList > threshold)
             ranking[mask] = 1
             ranking[np.logical_not(mask)] = 0
             for iter in range(len(systemIds)):
-                transformed_X.append([systemIds[iter], ranking[iter]])
+                transformed_X.append(ranking[iter])
 
         return transformed_X
 

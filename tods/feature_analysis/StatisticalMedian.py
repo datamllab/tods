@@ -23,6 +23,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalMedianPrimitive',)
 
@@ -87,7 +88,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMedianPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalMedianPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find median of time series
     """
@@ -110,7 +111,7 @@ class StatisticalMedianPrimitive(transformer.TransformerPrimitiveBase[Inputs, Ou
 
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

@@ -9,11 +9,11 @@ from numpy import ndarray
 from collections import OrderedDict
 from scipy import sparse
 import os
+import uuid
 
 import numpy
 import typing
 import time
-import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -23,6 +23,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalMaximumPrimitive',)
 
@@ -87,7 +88,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMaximumPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find maximum of time series
     """
@@ -110,7 +111,7 @@ class StatisticalMaximumPrimitive(transformer.TransformerPrimitiveBase[Inputs, O
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMaximumPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:
@@ -159,11 +160,11 @@ class StatisticalMaximumPrimitive(transformer.TransformerPrimitiveBase[Inputs, O
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
+
         outputs = base_utils.combine_columns(return_result=self.hyperparams['return_result'],
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
-
         self.logger.info('Statistical Maximum  Primitive returned')
 
         return base.CallResult(outputs)
@@ -314,6 +315,6 @@ class StatisticalMaximumPrimitive(transformer.TransformerPrimitiveBase[Inputs, O
                 sequence = column_value[iter-window_size+1:iter+1]
                 column_maximum[iter] = np.max(sequence)
             column_maximum[:window_size-1] = column_maximum[window_size-1]
-            transformed_X[column + "_maximum"] = column_maximum
+            transformed_X[str(column) + "_maximum"] = column_maximum
 
         return transformed_X

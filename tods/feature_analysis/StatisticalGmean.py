@@ -24,6 +24,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
 from d3m.exceptions import UnexpectedValueError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalGmeanPrimitive',)
 
@@ -88,7 +89,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalGmeanPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalGmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find gmean of time series .
     Will only take positive values as inputs .
@@ -111,7 +112,7 @@ class StatisticalGmeanPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalGmeanPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

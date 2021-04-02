@@ -23,6 +23,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalStdPrimitive',)
 
@@ -87,7 +88,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalStdPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalStdPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find std of time series
     """
@@ -110,7 +111,7 @@ class StatisticalStdPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outpu
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalStdPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

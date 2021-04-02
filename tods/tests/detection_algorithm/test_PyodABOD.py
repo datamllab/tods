@@ -126,7 +126,7 @@ class ABODTest(unittest.TestCase):
             'selector': ['__ALL_ELEMENTS__', 0],
             'metadata': {
                 'name': 'Angle-base Outlier Detection Primitive0_0',
-                'structural_type': 'numpy.float64',
+                'structural_type': 'numpy.int64',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'] 
             },
         }])

@@ -20,6 +20,7 @@ from d3m.primitive_interfaces import base, transformer
 
 from d3m.container import DataFrame as d3m_dataframe
 from d3m.metadata import hyperparams, params, base as metadata_base
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
@@ -87,7 +88,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalAbsEnergyPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalAbsEnergyPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find abs_energy of time series
     """
@@ -112,7 +113,7 @@ class StatisticalAbsEnergyPrimitive(transformer.TransformerPrimitiveBase[Inputs,
 
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

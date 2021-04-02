@@ -22,6 +22,7 @@ from d3m.exceptions import PrimitiveNotFittedError
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
 from d3m.primitive_interfaces import base, transformer
 # from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 
 Inputs = d3m_dataframe
@@ -161,7 +162,7 @@ class Hyperparams(hyperparams.Hyperparams):
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter']
     )
 
-class TRMFPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class TRMFPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """Temporal Regularized Matrix Factorization.
 
     Parameters
@@ -241,7 +242,7 @@ class TRMFPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperp
     })
 
         
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
         Process the testing data.
         Args:

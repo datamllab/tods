@@ -5,7 +5,7 @@ from d3m.metadata import base as metadata_base
 from tods.detection_algorithm.Telemanom import TelemanomPrimitive
 
 
-class SODTest(unittest.TestCase):
+class TelemanomTest(unittest.TestCase):
     def test_basic(self):
         self.maxDiff = None
         main = container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
@@ -91,21 +91,21 @@ class SODTest(unittest.TestCase):
             'selector': ['__ALL_ELEMENTS__', 0],
             'metadata': {
                 'name': 'Telemanom0_0',
-                'structural_type': 'numpy.float64',     
+                'structural_type': 'numpy.int64',     
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
                 },
         }, {
             'selector': ['__ALL_ELEMENTS__', 1],
             'metadata': {
-                'structural_type': 'numpy.float64',
                 'name': 'Telemanom0_1',
+                'structural_type': 'numpy.int64',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 2],
             'metadata': {
-                'structural_type': 'numpy.float64', 
                 'name': 'Telemanom0_2',
+                'structural_type': 'numpy.int64', 
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
             }
         }])

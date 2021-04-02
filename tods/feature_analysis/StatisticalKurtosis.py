@@ -24,6 +24,7 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalKurtosisPrimitive',)
 
@@ -88,7 +89,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalKurtosisPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalKurtosisPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find kurtosis of time series
     """
@@ -110,7 +111,7 @@ class StatisticalKurtosisPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
 	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalKurtosisPrimitive')),
     })
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:

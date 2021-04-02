@@ -13,7 +13,6 @@ import os
 import numpy
 import typing
 import time
-import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -22,10 +21,10 @@ from d3m.container import DataFrame as d3m_dataframe
 from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
+import uuid
 from d3m.exceptions import PrimitiveNotFittedError
-from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
-__all__ = ('StatisticalMeanTemporalDerivativePrimitive',)
+__all__ = ('SystemWiseDetectionPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
@@ -40,9 +39,24 @@ class Hyperparams(hyperparams.Hyperparams):
 
        #Tuning Parameter
        #default -1 considers entire time series is considered
-       window_size = hyperparams.Hyperparameter(default=-1, semantic_types=[
+       window_size = hyperparams.Hyperparameter(default=10, semantic_types=[
            'https://metadata.datadrivendiscovery.org/types/TuningParameter',
        ], description="Window Size for decomposition")
+
+       method_type = hyperparams.Enumeration(
+           values=['max', 'avg', 'sliding_window_sum','majority_voting_sliding_window_sum','majority_voting_sliding_window_max'],
+           default='majority_voting_sliding_window_max',
+           semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
+           description="The type of method used to find anomalous system",
+       )
+       contamination = hyperparams.Uniform(
+           lower=0.,
+           upper=0.5,
+           default=0.1,
+           description='The amount of contamination of the data set, i.e. the proportion of outliers in the data set. ',
+           semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
+       )
+
        #control parameter
        use_columns = hyperparams.Set(
            elements=hyperparams.Hyperparameter[int](-1),
@@ -58,7 +72,7 @@ class Hyperparams(hyperparams.Hyperparams):
        )
        return_result = hyperparams.Enumeration(
            values=['append', 'replace', 'new'],
-           default='append',
+           default='new',
            semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
            description="Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.",
        )
@@ -88,30 +102,33 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
-    Primitive to find mean_temporal_derivative of time series
+    Primitive to find abs_energy of time series
     """
 
     metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_mean_temporal_derivative',
-        'keywords': ['Time Series','MeanTemporalDerivative'],
+        "__author__": "DATA Lab at Texas A&M University",
+        'name': 'Sytem_Wise_Anomaly_Detection_Primitive',
+        'python_path': 'd3m.primitives.tods.detection_algorithm.system_wise_detection',
         'source': {
-            'name': 'DATA Lab @ Texas A&M University',
+            'name': 'DATA Lab at Texas A&M University',
             'contact': 'mailto:khlai037@tamu.edu'
         },
+        "hyperparams_to_tune": ['window_size','method_type','contamination'],
         'version': '0.1.0',
-        "hyperparams_to_tune": ['window_size'],
         'algorithm_types': [
             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
         ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMeanTemporalDerivativePrimitive')),
-    })
+        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'Sytem_Wise_Anomaly_Detection_Primitive')),
+     })
 
-    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def __init__(self, *, hyperparams: Hyperparams) -> None:
+        super().__init__(hyperparams=hyperparams)
+        self.primitiveNo = 0
+
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
         Args:
@@ -120,10 +137,11 @@ class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[In
             iterations: Default
 
         Returns:
-            Container DataFrame containing mean_temporal_derivative of  time series
+            Container DataFrame containing abs_energy of  time series
         """
-        self.logger.info('Statistical MeanTemporalDerivative  Primitive called')
 
+        self.logger.info('System wise Detection Input  Primitive called')
+        
         # Get cols to fit.
         self._fitted = False
         self._training_inputs, self._training_indices = self._get_columns_to_fit(inputs, self.hyperparams)
@@ -132,23 +150,25 @@ class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[In
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
 
         if not self._fitted:
             raise PrimitiveNotFittedError("Primitive not fitted.")
-        statistical_mean_temporal_derivative_input = inputs
+        system_wise_detection_input = inputs
         if self.hyperparams['use_semantic_types']:
-            statistical_mean_temporal_derivative_input = inputs.iloc[:, self._training_indices]
+            system_wise_detection_input = inputs.iloc[:, self._training_indices]
         output_columns = []
         if len(self._training_indices) > 0:
-            statistical_mean_temporal_derivative_output = self._mean_temporal_derivative(statistical_mean_temporal_derivative_input,self.hyperparams["window_size"])
+            system_wise_detection_output = self._system_wise_detection(system_wise_detection_input,self.hyperparams["method_type"],self.hyperparams["window_size"],self.hyperparams["contamination"])
+            outputs = system_wise_detection_output
 
-            if sparse.issparse(statistical_mean_temporal_derivative_output):
-                statistical_mean_temporal_derivative_output = statistical_mean_temporal_derivative_output.toarray()
-            outputs = self._wrap_predictions(inputs, statistical_mean_temporal_derivative_output)
+
+            if sparse.issparse(system_wise_detection_output):
+                system_wise_detection_output = system_wise_detection_output.toarray()
+            outputs = self._wrap_predictions(inputs, system_wise_detection_output)
 
             #if len(outputs.columns) == len(self._input_column_names):
                # outputs.columns = self._input_column_names
@@ -156,17 +176,17 @@ class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[In
             output_columns = [outputs]
 
 
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
+
+
+        self.logger.info('System wise Detection  Primitive returned')
         outputs = base_utils.combine_columns(return_result=self.hyperparams['return_result'],
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
-
-        self.logger.info('Statistical MeanTemporalDerivative  Primitive returned')
-
         return base.CallResult(outputs)
 
     @classmethod
@@ -262,13 +282,13 @@ class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[In
             Dataframe
         """
         outputs = d3m_dataframe(predictions, generate_metadata=True)
-        target_columns_metadata = self._add_target_columns_metadata(outputs.metadata, self.hyperparams)
+        target_columns_metadata = self._add_target_columns_metadata(outputs.metadata, self.hyperparams,self.primitiveNo)
         outputs.metadata = self._update_predictions_metadata(inputs.metadata, outputs, target_columns_metadata)
 
         return outputs
 
     @classmethod
-    def _add_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams):
+    def _add_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams, primitiveNo):
         """
         Add target columns metadata
         Args:
@@ -281,40 +301,155 @@ class StatisticalMeanTemporalDerivativePrimitive(TODSTransformerPrimitiveBase[In
         outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
         target_columns_metadata: List[OrderedDict] = []
         for column_index in range(outputs_length):
-            # column_name = "output_{}".format(column_index)
+            column_name = "{0}{1}_{2}".format(cls.metadata.query()['name'], primitiveNo, column_index)
             column_metadata = OrderedDict()
             semantic_types = set()
             semantic_types.add(hyperparams["return_semantic_type"])
             column_metadata['semantic_types'] = list(semantic_types)
 
-            # column_metadata["name"] = str(column_name)
+            column_metadata["name"] = str(column_name)
             target_columns_metadata.append(column_metadata)
 
         return target_columns_metadata
 
-    def _write(self, inputs: Inputs): # pragma: no cover
+    def _write(self, inputs: Inputs):
         inputs.to_csv(str(time.time()) + '.csv')
 
+    def _system_wise_detection(self,X,method_type,window_size,contamination):
+        #systemIds = X.system_id.unique()
+        systemIds = [int(idx) for idx in X.index]
+        #groupedX = X.groupby(X.system_id)
+        print(systemIds)
+        print(X.iloc[0])
+        systemDf = X.iloc(systemIds[0])['system']
+        print(systemDf)
+        exit()
 
-    def _mean_temporal_derivative(self,X,window_size):
-        """ statistical mean_temporal_derivative of time series sequence
-           Args:
-            X : DataFrame
-               Time series.
-        Returns:
-            DataFrame
-            A object with mean_temporal_derivative
-        """
-        if(window_size==-1):
-            window_size = len(X)
-        transformed_X = utils.pandas.DataFrame()
-        for column in X.columns:
-            column_value = X[column].values
-            column_mean_temporal_derivative = np.zeros(len(column_value))
-            for iter in range(window_size-1,len(column_value)):
-                sequence = column_value[iter-window_size+1:iter+1]
-                column_mean_temporal_derivative[iter] = np.mean(np.diff(sequence))
-            column_mean_temporal_derivative[:window_size-1] = column_mean_temporal_derivative[window_size-1]
-            transformed_X[column + "_mean_temporal_derivative"] = column_mean_temporal_derivative
+        transformed_X = []
+        if(method_type=="max"):
+            """
+            Sytems are sorted based on maximum of reconstruction errors"
+            """
+            maxOutlierScorePerSystemList = []
+            for systemId in systemIds:
+                systemDf = groupedX.get_group(systemId)
+                #systemDf = X[systemId]['system']
+                maxOutlierScorePerSystemList.append(np.max(np.abs(systemDf["value_0"].values)))
+
+            ranking = np.sort(maxOutlierScorePerSystemList)
+            threshold = ranking[int((1 - contamination) * len(ranking))]
+            self.threshold = threshold
+            mask = (maxOutlierScorePerSystemList >= threshold)
+            ranking[mask] = 1
+            ranking[np.logical_not(mask)] = 0
+            for iter in range(len(systemIds)):
+                transformed_X.append([systemIds[iter],ranking[iter]])
+
+        if (method_type == "avg"):
+            """
+            Sytems are sorted based on average of reconstruction errors"
+            """
+            avgOutlierScorePerSystemList = []
+            for systemId in systemIds:
+                systemDf = groupedX.get_group(systemId)
+                avgOutlierScorePerSystemList.append(np.mean(np.abs(systemDf["value_0"].values)))
+
+            ranking = np.sort(avgOutlierScorePerSystemList)
+            threshold = ranking[int((1 - contamination) * len(ranking))]
+            self.threshold = threshold
+            mask = (avgOutlierScorePerSystemList >= threshold)
+            ranking[mask] = 1
+            ranking[np.logical_not(mask)] = 0
+            for iter in range(len(systemIds)):
+                transformed_X.append([systemIds[iter], ranking[iter]])
+
+        if (method_type == "sliding_window_sum"):
+            """
+            Sytems are sorted based on max of max of reconstruction errors in each window"
+            """
+            OutlierScorePerSystemList = []
+            for systemId in systemIds:
+                systemDf = groupedX.get_group(systemId)
+                column_value = systemDf["value_0"].values
+                column_score = np.zeros(len(column_value))
+                for iter in range(window_size - 1, len(column_value)):
+                    sequence = column_value[iter - window_size + 1:iter + 1]
+                    column_score[iter] = np.sum(np.abs(sequence))
+                column_score[:window_size - 1] = column_score[window_size - 1]
+                OutlierScorePerSystemList.append(column_score.tolist())
+            OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+
+            maxOutlierScorePerSystemList = OutlierScorePerSystemList.max(axis=1).tolist()
+
+            ranking = np.sort(maxOutlierScorePerSystemList)
+            threshold = ranking[int((1 - contamination) * len(ranking))]
+            self.threshold = threshold
+            mask = (maxOutlierScorePerSystemList >= threshold)
+            ranking[mask] = 1
+            ranking[np.logical_not(mask)] = 0
+            for iter in range(len(systemIds)):
+                transformed_X.append([systemIds[iter], ranking[iter]])
+
+        if (method_type == "majority_voting_sliding_window_sum"):
+            """
+            Sytem with most vote based on max of sum of reconstruction errors in each window
+            """
+            OutlierScorePerSystemList = []
+            for systemId in systemIds:
+                systemDf = groupedX.get_group(systemId)
+                column_value = systemDf["value_0"].values
+                column_score = np.zeros(len(column_value))
+                for iter in range(window_size - 1, len(column_value)):
+                    sequence = column_value[iter - window_size + 1:iter + 1]
+                    column_score[iter] = np.sum(np.abs(sequence))
+                column_score[:window_size - 1] = column_score[window_size - 1]
+                OutlierScorePerSystemList.append(column_score.tolist())
+            OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+            OutlierScorePerSystemList = (
+                    OutlierScorePerSystemList == OutlierScorePerSystemList.max(axis=0)[None, :]).astype(int)
+
+            maxOutlierScorePerSystemList = OutlierScorePerSystemList.sum(axis=1).tolist()
+
+            ranking = np.sort(maxOutlierScorePerSystemList)
+            threshold = ranking[int((1 - contamination) * len(ranking))]
+            self.threshold = threshold
+            mask = (maxOutlierScorePerSystemList >= threshold)
+            ranking[mask] = 1
+            ranking[np.logical_not(mask)] = 0
+            for iter in range(len(systemIds)):
+                transformed_X.append([systemIds[iter], ranking[iter]])
+
+        if (method_type == "majority_voting_sliding_window_max"):
+            """
+            Sytem with most vote based on max of max of reconstruction errors in each window
+            """
+            OutlierScorePerSystemList = []
+            for systemId in systemIds:
+                systemDf = groupedX.get_group(systemId)
+                column_value = systemDf["value_0"].values
+                column_score = np.zeros(len(column_value))
+                for iter in range(window_size - 1, len(column_value)):
+                    sequence = column_value[iter - window_size + 1:iter + 1]
+                    column_score[iter] = np.max(np.abs(sequence))
+                column_score[:window_size - 1] = column_score[window_size - 1]
+                OutlierScorePerSystemList.append(column_score.tolist())
+            OutlierScorePerSystemList = np.asarray(OutlierScorePerSystemList)
+            OutlierScorePerSystemList = (
+                    OutlierScorePerSystemList == OutlierScorePerSystemList.max(axis=0)[None, :]).astype(int)
+
+            maxOutlierScorePerSystemList = OutlierScorePerSystemList.sum(axis=1).tolist()
+
+            ranking = np.sort(maxOutlierScorePerSystemList)
+            threshold = ranking[int((1 - contamination) * len(ranking))]
+            self.threshold = threshold
+            mask = (maxOutlierScorePerSystemList >= threshold)
+            ranking[mask] = 1
+            ranking[np.logical_not(mask)] = 0
+            for iter in range(len(systemIds)):
+                transformed_X.append([systemIds[iter], ranking[iter]])
 
         return transformed_X
+
+
+
+

@@ -14,6 +14,7 @@ import math
 from scipy.fft import dct
 from collections import OrderedDict
 from typing import cast, Dict, List, Union, Sequence, Optional, Tuple
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 
 from scipy import sparse
@@ -160,7 +161,7 @@ class DCT:
 
         
 
-class DiscreteCosineTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class DiscreteCosineTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Compute the 1-D discrete Cosine Transform.
     Return the Discrete Cosine Transform of arbitrary type sequence x.
@@ -242,7 +243,7 @@ class DiscreteCosineTransformPrimitive(transformer.TransformerPrimitiveBase[Inpu
                         workers = self.hyperparams['workers']
                         )
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
             Args:

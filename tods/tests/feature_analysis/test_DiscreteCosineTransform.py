@@ -66,7 +66,7 @@ class DctTestCase(unittest.TestCase):
 			'return_result':'append',
 		})
 		primitive = DiscreteCosineTransform.DiscreteCosineTransformPrimitive(hyperparams=hp)
-		new_main = primitive.produce(inputs=main).value
+		new_main = primitive._produce(inputs=main).value
 
 		c = pd.DataFrame({"A":[1,2,3], "B":['a','b','c'],'A_dct_coeff':[1.200000e+01,-3.464102e+00,-4.440892e-16]})
 

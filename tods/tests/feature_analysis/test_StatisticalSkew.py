@@ -56,7 +56,7 @@ class StatisticalSkewTestCase(unittest.TestCase):
 
         primitive = StatisticalSkew.StatisticalSkewPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_skew', 'b_skew']])
 
         expected_output = container.DataFrame(

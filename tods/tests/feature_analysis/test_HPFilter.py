@@ -54,7 +54,7 @@ class HPFilterTest(unittest.TestCase):
 
         hyperparams_class = HPFilter.HPFilterPrimitive.metadata.get_hyperparams()
         primitive = HPFilter.HPFilterPrimitive(hyperparams=hyperparams_class.defaults())
-        new_main = primitive.produce(inputs=main).value
+        new_main = primitive._produce(inputs=main).value
         print(new_main)       
 
 

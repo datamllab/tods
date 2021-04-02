@@ -17,6 +17,7 @@ from typing import cast, Dict, List, Union, Sequence, Optional, Tuple
 
 from scipy import sparse
 from numpy import ndarray
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('FastFourierTransformPrimitive',)
 
@@ -157,7 +158,7 @@ class FFT:
 
         
 
-class FastFourierTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Compute the 1-D discrete Fourier Transform.
     This function computes the 1-D n-point discrete Fourier Transform (DFT) with the efficient Fast Fourier Transform (FFT) algorithm
@@ -232,7 +233,7 @@ class FastFourierTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs,
                         workers = self.hyperparams['workers']
                         )
 
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
 
             Args:

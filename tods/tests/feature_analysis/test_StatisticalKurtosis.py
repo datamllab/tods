@@ -56,7 +56,7 @@ class StatisticalKurtosisTestCase(unittest.TestCase):
 
         primitive = StatisticalKurtosis.StatisticalKurtosisPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_kurtosis', 'b_kurtosis']])
 
         expected_output = container.DataFrame(

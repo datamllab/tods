@@ -41,7 +41,9 @@ attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
 
 # Step 4: processing
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler'))
+#step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_maximum'))
+#step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_minimum'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
@@ -64,7 +66,7 @@ pipeline_description.add_output(name='output predictions', data_reference='steps
 
 # Output to json
 data = pipeline_description.to_json()
-with open('example_pipeline.json', 'w') as f:
+with open('autoencoder_pipeline.json', 'w') as f:
     f.write(data)
     print(data)
 

@@ -56,7 +56,7 @@ class TRMFTest(unittest.TestCase):
         primitive = TRMF.TRMFPrimitive(hyperparams=hyperparams_class.defaults())
         # primitive.set_training_data(inputs=main)
         # primitive.fit()
-        new_main = primitive.produce(inputs=main).value
+        new_main = primitive._produce(inputs=main).value
         print(new_main)       
 
 

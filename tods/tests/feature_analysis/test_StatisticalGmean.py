@@ -56,7 +56,7 @@ class StatisticalGmeanTestCase(unittest.TestCase):
 
         primitive = StatisticalGmean.StatisticalGmeanPrimitive(hyperparams=hp)
 
-        output_main = primitive.produce(inputs=main).value
+        output_main = primitive._produce(inputs=main).value
         print(output_main[['values_gmean', 'b_gmean']])
 
         expected_output = container.DataFrame(

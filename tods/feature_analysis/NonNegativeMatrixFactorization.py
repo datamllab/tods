@@ -15,6 +15,7 @@ import numpy
 from numpy import ndarray
 import warnings
 
+from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 
 __all__ = ('NonNegativeMatrixFactorizationPrimitive',)
@@ -211,7 +212,7 @@ class NMF:
 		return result
 
 
-class NonNegativeMatrixFactorizationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class NonNegativeMatrixFactorizationPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 	"""
 	Calculates Latent factors of a given matrix of timeseries data
 
@@ -299,7 +300,7 @@ class NonNegativeMatrixFactorizationPrimitive(transformer.TransformerPrimitiveBa
 						learning_rate = self.hyperparams['learning_rate'],
 						)
 
-	def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+	def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
 
 		assert isinstance(inputs, container.DataFrame), type(dataframe)
 
