@@ -40,6 +40,7 @@ class MatrixProfileSKI_TestCase(unittest.TestCase):
     def test_prediction_score(self):
         pred_scores = self.transformer.predict_score(self.X_test)
         assert_equal(pred_scores.shape[0], self.y_test.shape[0])
+        pred_scores = pred_scores[:,0]
         assert_greater_equal(roc_auc_score(self.y_test, pred_scores), self.roc_floor)
 
 
