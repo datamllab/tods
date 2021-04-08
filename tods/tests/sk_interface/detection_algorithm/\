@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from tods.sk_interface.detection_algorithm.SystemWiseDetection_skinterface import SystemWiseDetectionSKI
+from tods.sk_interface.detection_algorithm.Telemanom_skinterface import TelemanomSKI
 
 from pyod.utils.data import generate_data
 import unittest
@@ -14,7 +14,7 @@ from sklearn.utils.testing import assert_less_equal
 from sklearn.utils.testing import assert_raises
 from sklearn.metrics import roc_auc_score
 
-class SystemWiseDetectionSKI_TestCase(unittest.TestCase):
+class TelemanomSKI_TestCase(unittest.TestCase):
     def setUp(self):
 
         self.maxDiff = None
@@ -26,11 +26,12 @@ class SystemWiseDetectionSKI_TestCase(unittest.TestCase):
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
 
-        self.transformer = SystemWiseDetectionSKI(contamination=self.contamination)
+        self.transformer = TelemanomSKI(contamination=self.contamination, l_s= 2, n_predictions= 100)
         self.transformer.fit(self.X_train)
 
     def test_prediction_labels(self):
         pred_labels = self.transformer.predict(self.X_test)
+        print(pred_labels)
         assert_equal(pred_labels.shape[0], self.y_test.shape[0])
 
     def test_prediction_score(self):

@@ -26,6 +26,9 @@ class LSTMODetectorSKI_TestCase(unittest.TestCase):
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
 
+        self.y_test = self.y_test[1:]
+        self.y_train = self.y_train[1:]
+
         self.transformer = LSTMODetectorSKI(contamination=self.contamination)
         self.transformer.fit(self.X_train)
 
