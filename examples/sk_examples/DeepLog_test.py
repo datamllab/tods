@@ -1,5 +1,6 @@
 import numpy as np
-from tods.tods_skinterface.primitiveSKI.detection_algorithm.DeepLog_skinterface import DeepLogSKI
+from tods.sk_interface.detection_algorithm.DeepLog_skinterface import DeepLogSKI
+#from tods.tods_skinterface.primitiveSKI.detection_algorithm.DeepLog_skinterface import DeepLogSKI
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
