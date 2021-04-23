@@ -46,6 +46,7 @@ setup(
         'tensorflow==2.2', # should be removed later
         'keras', # should be removed later
         'pyod',
+        'combo',
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
