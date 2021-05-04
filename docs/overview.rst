@@ -36,7 +36,7 @@ Detection Algorithms
 ---------------------
 Based on the three scenarios above, we provide multiple algorithms including traditional approaches (e.g. IForest, Autoregression), heuristic methods (e.g. HotSax algorithm, Matrix Profile), deep learning methods (e.g. RNN-LSTM, GAN, VAE), and ensemble methods to address each kind of outlier. 
 
-Reincforcement Module
+Reinforcement Module
 ----------------------
 Reinforcement module is designed for improve the existed model with human expertise. Specifically, rule-based filtering has been developed to allow users to transform the domain knowledge into rule filters, active learning based methods will be involved in the near future as well.
 
