@@ -9,7 +9,7 @@ TODS is a full-stack automated machine learning system for outlier detection on 
 
 TODS is featured for:
 
-* **Full Sack Machine Learning System** which supports exhaustive components from preprocessings, feature extraction, detection algorithms and also human-in-the loop interface. 
+* **Full Stack Machine Learning System** which supports exhaustive components from preprocessings, feature extraction, detection algorithms and also human-in-the loop interface. 
 
 * **Wide-range of Algorithms**, including all of the point-wise detection algorithms supported by `PyOD <https://github.com/yzhao062/pyod>`__, state-of-the-art pattern-wise (collective) detection algorithms such as `DeepLog <https://www.cs.utah.edu/~lifeifei/papers/deeplog.pdf>`__, `Telemanon <https://arxiv.org/pdf/1802.04431.pdf>`__, and also various ensemble algorithms for performing system-wise detection.
 
