@@ -1,5 +1,5 @@
 
-def load_pipeline(pipeline_path):
+def load_pipeline(pipeline_path): # pragma: no cover
     """Load a pipeline given a path
 
     Args:
@@ -13,7 +13,7 @@ def load_pipeline(pipeline_path):
 
     return pipeline
     
-def generate_dataset(df, target_index, system_dir=None):
+def generate_dataset(df, target_index, system_dir=None): # pragma: no cover
     """Generate dataset
 
     Args:
@@ -29,7 +29,7 @@ def generate_dataset(df, target_index, system_dir=None):
 
     return dataset
 
-def generate_problem(dataset, metric):
+def generate_problem(dataset, metric): # pragma: no cover
     """Generate dataset
 
     Args:
@@ -61,7 +61,7 @@ def generate_problem(dataset, metric):
     
     return problem_description
 
-def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0):
+def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cover
     """Evaluate a Pipeline
 
     Args:

@@ -7,7 +7,7 @@ from d3m.metadata.pipeline import Pipeline
 from axolotl.algorithms.base import PipelineSearchBase
 from axolotl.utils import  schemas as schemas_utils
 
-class BruteForceSearch(PipelineSearchBase):
+class BruteForceSearch(PipelineSearchBase): # pragma: no cover
     def __init__(self, problem_description, backend, *, primitives_blocklist=None, ranking_function=None):
         super().__init__(problem_description=problem_description, backend=backend,
                 primitives_blocklist=primitives_blocklist, ranking_function=ranking_function)
@@ -153,7 +153,7 @@ primitive_python_paths = {
 }
 
 
-def _rank_first_metric(pipeline_result):
+def _rank_first_metric(pipeline_result): # pragma: no cover
     if pipeline_result.status == 'COMPLETED':
         scores = pipeline_result.scores
         pipeline_result.rank = -scores['value'][0]
@@ -163,22 +163,22 @@ def _rank_first_metric(pipeline_result):
         pipeline_result.rank = 1
         return pipeline_result
 
-def _generate_data_preparation_params():
+def _generate_data_preparation_params(): # pragma: no cover
     from axolotl.utils import schemas as schemas_utils
     data_preparation_params = schemas_utils.DATA_PREPARATION_PARAMS['no_split']
     return data_preparation_params
     
-def _generate_scoring_pipeline():
+def _generate_scoring_pipeline(): # pragma: no cover
     from axolotl.utils import schemas as schemas_utils
     scoring_pipeline = schemas_utils.get_scoring_pipeline()
     return scoring_pipeline
     
-def _generate_data_preparation_pipeline():
+def _generate_data_preparation_pipeline(): # pragma: no cover
     from axolotl.utils import schemas as schemas_utils
     data_preparation_pipeline = schemas_utils.get_splitting_pipeline("TRAINING_DATA")
     return data_preparation_pipeline
 
-def _generate_pipline(combinations):
+def _generate_pipline(combinations): # pragma: no cover
     from d3m import index
     from d3m.metadata.base import ArgumentType
     from d3m.metadata.pipeline import Pipeline, PrimitiveStep
@@ -257,7 +257,7 @@ def _generate_pipline(combinations):
         piplines.append(pipeline_description)
     return piplines
 
-def _generate_pipelines(primitive_python_paths, cpu_count=40):
+def _generate_pipelines(primitive_python_paths, cpu_count=40): # pragma: no cover
     """
     Args:
         primitive_python_paths: a list of primitive Python paths for algorithms
