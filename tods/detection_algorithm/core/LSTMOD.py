@@ -25,8 +25,8 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
                     epochs=10,
                     batch_size=8,
                     dropout_rate=0.0,
-                    feature_dim=1,
-                    hidden_dim=8,
+                    feature_dim=9,
+                    hidden_dim=1,
                     n_hidden_layer=0,
                     activation=None,
                     diff_group_method='average'
@@ -51,19 +51,22 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         self.hidden_dim = hidden_dim
         self.n_hidden_layer = n_hidden_layer
         self.diff_group_method = diff_group_method
+        self.activation = activation
 
 
-        self.model_ = Sequential()
-        self.model_.add(LSTM(units=hidden_dim, input_shape=(feature_dim, 1),
-                             dropout=dropout_rate, activation=activation))
+    def _build_model(self):
+        model_ = Sequential()
+        model_.add(LSTM(units=self.hidden_dim, input_shape=(self.feature_dim, 1),
+                             dropout=self.dropout_rate, activation=self.activation))
 
-        for layer_idx in range(n_hidden_layer):
-            self.model_.add(LSTM(units=hidden_dim, input_shape=(hidden_dim, 1),
-                             dropout=dropout_rate, activation=activation))
+        for layer_idx in range(self.n_hidden_layer):
+            model_.add(LSTM(units=self.hidden_dim, input_shape=(self.hidden_dim, 1),
+                             dropout=self.dropout_rate, activation=self.activation))
 
-        self.model_.add(Dense(units=feature_dim, input_shape=(hidden_dim, 1), activation=None))
+        model_.add(Dense(units=self.feature_dim, input_shape=(self.hidden_dim, 1), activation=None))
 
-        self.model_.compile(loss=self.loss, optimizer=self.optimizer)
+        model_.compile(loss=self.loss, optimizer=self.optimizer)
+        return model_
 
     def fit(self, X: np.array, y=None) -> object:
         """Fit detector. y is ignored in unsupervised methods.
@@ -84,6 +87,8 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         X = check_array(X).astype(np.float)
         self._set_n_classes(None)
         X_buf, y_buf = self._get_sub_matrices(X)
+        self.feature_dim = X_buf.shape[1]
+        self.model_ = self._build_model()
 
         # fit the LSTM model
         self.model_.fit(X_buf, y_buf, epochs=self.epochs, batch_size=self.batch_size)
@@ -209,15 +214,14 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         return pred_score, relative_error_left_inds, relative_error_right_inds
 
 
-
-if __name__ == "__main__": # pragma: no cover
+def main():
     X_train = np.asarray(
         [3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]).reshape(-1, 1)
 
     X_test = np.asarray(
-        [3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]).reshape(-1,1)
+        [3., 4., 8., 16.1, 18.2, 36.2, 57.1, -10.3, 17, 19.2, 36.1, 127, -23, 59.2]).reshape(-1,1)
 
-    # print(X_train.shape, X_test.shape)
+    print(X_train.shape, X_test.shape)
 
     clf = LSTMOutlierDetector(contamination=0.1)
     clf.fit(X_train)
@@ -231,3 +235,6 @@ if __name__ == "__main__": # pragma: no cover
 
     # print('pred_scores: ',pred_scores)
     print('pred_labels: ',pred_labels)
+
+if __name__ == "__main__": # pragma: no cover
+    main()
