@@ -55,7 +55,7 @@ import pandas as pd
 from tods import schemas as schemas_utils
 from tods import generate_dataset, evaluate_pipeline
 
-table_path = 'datasets/data/raw_data/yahoo_sub_5.csv'
+table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
 target_index = 6 # what column is the target
 metric = 'F1_MACRO' # F1 on both label 0 and 1
 
