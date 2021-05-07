@@ -1,0 +1,6 @@
+tods.data_processing.time_interval_transform = tods.data_processing.TimeIntervalTransform:TimeIntervalTransformPrimitive
+tods.data_processing.categorical_to_binary = tods.data_processing.CategoricalToBinary:CategoricalToBinaryPrimitive
+tods.data_processing.timestamp_validation = tods.data_processing.TimeStampValidation:TimeStampValidationPrimitive
+tods.data_processing.duplication_validation = tods.data_processing.DuplicationValidation:DuplicationValidationPrimitive
+tods.data_processing.continuity_validation = tods.data_processing.ContinuityValidation:ContinuityValidationPrimitive
+tods.data_processing.impute_missing = tods.data_processing.SKImputer:SKImputerPrimitive
