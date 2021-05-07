@@ -1,0 +1,65 @@
+{
+  "about": {
+    "problemID": "template",
+    "problemName": "baseball_problem",
+    "problemDescription": "**Author**: Jeffrey S. Simonoff  \n**Source**: [AnalCatData](http://www.stern.nyu.edu/~jsimonof/AnalCatData) - 2003  \n**Please cite**: Jeffrey S. Simonoff, Analyzing Categorical Data, Springer-Verlag, New York, 2003  \n \nDatabase of baseball players and play statistics, including 'Games_played', 'At_bats', 'Runs', 'Hits', 'Doubles', 'Triples', 'Home_runs', 'RBIs', 'Walks', 'Strikeouts', 'Batting_average', 'On_base_pct', 'Slugging_pct' and 'Fielding_ave' \n\nNotes:  \n* Quotes, Single-Quotes and Backslashes were removed, Blanks replaced with Underscores\n* Player is an identifier that should be ignored when modelling the data",
+    "problemVersion": "4.0.0",
+    "problemSchemaVersion": "4.0.0",
+    "taskKeywords": [
+      "classification",
+      "multiClass",
+      "tabular"
+    ]
+  },
+  "inputs": {
+    "data": [
+      {
+        "datasetID": "185_baseball_dataset",
+        "targets": [
+          {
+            "targetIndex": 0,
+            "resID": "learningData",
+            "colIndex": 18,
+            "colName": "Hall_of_Fame"
+          }
+        ]
+      }
+    ],
+    "dataSplits": {
+      "method": "holdOut",
+      "testSize": 0.2,
+      "stratified": true,
+      "numRepeats": 0,
+      "randomSeed": 42,
+      "splitsFile": "dataSplits.csv",
+      "datasetViewMaps": {
+        "train": [
+          {
+            "from": "185_baseball_dataset",
+            "to": "185_baseball_dataset_TRAIN"
+          }
+        ],
+        "test": [
+          {
+            "from": "185_baseball_dataset",
+            "to": "185_baseball_dataset_TEST"
+          }
+        ],
+        "score": [
+          {
+            "from": "185_baseball_dataset",
+            "to": "185_baseball_dataset_SCORE"
+          }
+        ]
+      }
+    },
+    "performanceMetrics": [
+      {
+        "metric": "f1Macro"
+      }
+    ]
+  },
+  "expectedOutputs": {
+    "predictionsFile": "predictions.csv"
+  }
+}

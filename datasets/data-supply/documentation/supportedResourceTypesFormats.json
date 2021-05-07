@@ -1,0 +1,60 @@
+{
+	"datasets_release":"3.0",
+	"supported_resource_types_and_formats":[
+		{
+			"resType":"audio",
+			"resFormat":{
+				"audio/aiff":["aif", "aiff"],
+				"audio/flac":["flac"],
+				"audio/ogg":["ogg"],
+				"audio/wav":["wav"],
+				"audio/mpeg":["mp3"]
+			}
+		},
+		{
+			"resType":"image",
+			"resFormat":{
+				"image/jpeg":["jpeg", "jpg"],
+				"image/png":["png"]
+			}
+		},
+		{
+			"resType":"video",
+			"resFormat":{
+				"video/mp4": ["mp4"],
+				"video/avi": ["avi"]
+			}
+		},
+		{
+			"resType":"table",
+			"resFormat":{
+				"text/csv": ["csv"],
+				"text/csv+gzip": ["csv.gz"]
+			}
+		},
+		{
+			"resType":"text",
+			"resFormat":{
+				"text/plain": ["txt"]
+			}
+		},
+		{
+			"resType":"graph",
+			"resFormat":{
+				"text/vnd.gml": ["gml"]
+			}
+		},
+		{
+			"resType":"edgeList",
+			"resFormat":{
+				"text/csv": ["csv"]
+			}
+		},
+		{
+			"resType":"timeseries",
+			"resFormat":{
+				"text/csv": ["csv"]
+			}
+		}
+	]
+}

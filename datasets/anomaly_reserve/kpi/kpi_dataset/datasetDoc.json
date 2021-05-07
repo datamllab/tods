@@ -1,0 +1,63 @@
+{
+    "about": {
+        "datasetID": "kpi_dataset",
+        "datasetName": "kpi",
+        "description": "Database of baseball players and play statistics, including 'Games_played', 'At_bats', 'Runs', 'Hits', 'Doubles', 'Triples', 'Home_runs', 'RBIs', 'Walks', 'Strikeouts', 'Batting_average', 'On_base_pct', 'Slugging_pct' and 'Fielding_ave'",
+        "citation": " @book{simonoff2003analyzing,title={Analyzing Categorical Data},author={Simonoff, J.S.},isbn={9780387007496},lccn={2003044946},series={Springer Texts in Statistics},url={https://books.google.com/books?id=G8wrifweAoC},year={2003},publisher={Springer New York}} ",
+        "license": " CC Public Domain Mark 1.0 ",
+        "source": "OpenML",
+        "sourceURI": "http://www.openml.org/d/185",
+        "approximateSize": "",
+        "datasetSchemaVersion": "4.0.0",
+        "redacted": false,
+        "datasetVersion": "4.0.0"
+    },
+    "dataResources": [
+        {
+            "resID": "learningData",
+            "resPath": "tables/learningData.csv",
+            "resType": "table",
+            "resFormat": {
+                "text/csv": [
+                    "csv"
+                ]
+            },
+            "isCollection": false,
+            "columns": [
+                {
+                    "colIndex": 0,
+                    "colName": "d3mIndex",
+                    "colType": "integer",
+                    "role": [
+                        "index"
+                    ]
+                },
+                {
+                    "colIndex": 1,
+                    "colName": "timestamp",
+                    "colType": "integer",
+                    "role": [
+                        "attribute"
+                    ]
+                },
+                {
+                    "colIndex": 2,
+                    "colName": "value",
+                    "colType": "real",
+                    "role": [
+                        "attribute"
+                    ]
+                },
+                {
+                    "colIndex": 3,
+                    "colName": "ground_truth",
+                    "colType": "integer",
+                    "role": [
+                        "suggestedTarget"
+                    ]
+                }
+            ],
+            "columnsCount": 4
+        }
+    ]
+}

@@ -1,0 +1,149 @@
+
+/
+|-- media/
+	|-- img1.png
+	|-- img2.png
+	|-- img3.png
+	|-- img4.png
+|-- tables/
+	|-- learningData.csv
+		d3mIndex,image,label
+		0,img1.png,cat
+		1,img2.png,dog
+		2,img3.png,dog
+		3,img4.png,cat
+|-- datasetDoc.json
+
+
+/
+|-- media/
+	|-- img1.png
+	|-- img2.png
+|-- tables/
+	|-- learningData.csv
+		d3mIndex,image,label
+		0,img1.png,cat
+		1,img2.png,dog
+|-- datasetDoc.json
+
+
+/
+|-- media/
+	|-- img3.png
+	|-- img4.png
+|-- tables/
+	|-- learningData.csv
+		d3mIndex,image,label
+		2,img3.png,
+		3,img4.png,
+|-- datasetDoc.json
+
+
+/
+|-- problemDoc.json
+|-- dataSplits.csv
+	d3mIndex,type,repeat,fold
+	0,TRAIN,0,0
+	1,TRAIN,0,0
+	2,TEST,0,0
+	3,TEST,0,0
+
+
+/
+|-- problemDoc.json
+|-- dataSplits.csv
+	d3mIndex,type,repeat,fold
+	0,TRAIN,0,0
+	1,TRAIN,0,0
+
+/
+|-- problemDoc.json
+|-- dataSplits.csv
+	d3mIndex,image,type,repeat,fold
+	0,img001.pngTRAIN,0,0
+	1,img001.pngTRAIN,0,0
+	2,img001.png,TRAIN,0,0
+	3,img002.png,TEST,0,0
+	4,img002.png,TEST,0,0
+	5,img003.png,TRAIN,0,0
+	6,img003.png,TRAIN,0,0
+	...
+
+/
+|-- problemDoc.json
+|-- dataSplits.csv
+	d3mIndex,type,repeat,fold
+	2,TEST,0,0
+	3,TEST,0,0
+
+
+d3mIndex,type,repeat,fold
+0,TRAIN,0,0
+1,TRAIN,0,0
+2,TEST,0,0
+3,TRAIN,0,0
+4,TRAIN,0,0
+5,TEST,0,0
+6,TEST,0,0
+7,TRAIN,0,0
+8,TEST,0,0
+
+d3mIndex,type,repeat,fold,0
+2,TEST,0,0,1
+5,TEST,0,0,1
+6,TEST,0,0,3
+8,TEST,0,0,2
+
+
+d3mIndex,type,repeat,fold,0,1,2
+12,TEST,0,0,0,0,1
+15,TEST,0,0,1,0,0
+62,TEST,0,0,1,1,0
+81,TEST,0,0,0,0,0
+87,TEST,0,0,0,1,0
+
+
+d3mIndex,type,repeat,fold,0,0.confidence.1,0.confidence.2,0.confidence.3
+2,TEST,0,0,1,0.5,0.25,0.25
+5,TEST,0,0,1,0.8,0.1,0.1
+6,TEST,0,0,3,0.2,0.2,0.6
+8,TEST,0,0,2,0.1,0.7,0.2
+
+
+d3mIndex,image,bounding_box,confidence
+12,'img_00285.png','330,463,387,505',0.0739
+13,'img_00285.png','420,433,451,498',0.0910
+14,'img_00285.png','328,465,403,540',0.1008
+15,'img_00285.png','480,477,508,522',0.1012
+16,'img_00285.png','357,460,417,537',0.1058
+17,'img_00285.png','356,456,391,521',0.0843
+18,'img_00225.png','345,460,415,547',0.0539
+19,'img_00225.png','381,362,455,513',0.0542
+20,'img_00225.png','382,366,416,422',0.0559
+21,'img_00225.png','730,463,763,583',0.0588
+
+d3mIndex,image,bounding_box
+3,'img_00285.png','480,457,515,529'
+4,'img_00285.png','480,457,515,529'
+5,'img_00225.png','522,540,576,660'
+6,'img_00225.png','739,460,768,545'
+
+
+24,img00016.png,"80,86,205,383",0.0739
+25,img00016.png,"279,94,400,361",0.0918
+26,img00016.png,"411,101,495,378",0.1008
+27,img00017.png,"115,48,244,332",0.1058
+28,img00018.png,"20,19,126,304",0.0843
+29,img00018.png,"7,135,142,389",0.0539
+30,img00018.png,"194,123,339,421",0.0542
+31,img00028.png,"339,99,508,381",0.0559
+
+
+d3mIndex,image,bounding_box
+12,img00016.png,"80,86,205,383"
+13,img00016.png,"279,94,400,361"
+14,img00017.png,"115,48,244,332"
+15,img00018.png,"20,19,126,304"
+16,img00019.png,"7,135,142,389"
+17,img00019.png,"194,123,339,421"
+17,img00020.png,"339,99,508,381"

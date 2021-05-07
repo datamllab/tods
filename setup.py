@@ -56,3 +56,12 @@ setup(
     entry_points = merge_entry_points()
 
 )
+<<<<<<< HEAD
+
+try:
+    subprocess.run(['pip', 'install', '-r', 'tods/resources/.requirements.txt'])
+except Exception as e:
+    print(e)
+
+=======
+>>>>>>> 8cecf3d397824535dfe828fae29898fb49227ef2
