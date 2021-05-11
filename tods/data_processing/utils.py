@@ -174,14 +174,14 @@ def cut_dataset(dataset: container.Dataset, row_indices_to_keep: typing.Mapping[
     return dataset.select_rows(row_indices_to_keep)
 
 
-def parse_datetime(value: str, *, fuzzy: bool = True) -> typing.Optional[datetime.datetime]:
+def parse_datetime(value: str, *, fuzzy: bool = True) -> typing.Optional[datetime.datetime]: # pragma: no cover
     try:
         return dateutil.parser.parse(value, default=DEFAULT_DATETIME, fuzzy=fuzzy)
     except (ValueError, OverflowError, TypeError):
         return None
 
 
-def parse_datetime_to_float(value: str, *, fuzzy: bool = True) -> float:
+def parse_datetime_to_float(value: str, *, fuzzy: bool = True) -> float: # pragma: no cover
     try:
         parsed = parse_datetime(value, fuzzy=fuzzy)
         if parsed is None:

@@ -155,7 +155,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
         self._inputs = inputs
         self._fitted = False
         
-    def fit(self, *, timeout: float = None, iterations: int = None)-> CallResult[None]:
+    def fit(self, *, timeout: float = None, iterations: int = None)-> CallResult[None]: # pragma: no cover
         if self._fitted:
             return CallResult(None)
 
@@ -174,7 +174,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
             self.logger.warn("No input columns were selected")
         return CallResult(None)
         
-    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]: # pragma: no cover
 
         self.logger.info('Holt Winters Smoothing Primitive called')
         outputs = inputs
@@ -228,7 +228,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
     
     @classmethod
-    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams):
+    def _get_columns_to_fit(cls, inputs: Inputs, hyperparams: Hyperparams): # pragma: no cover
         if not hyperparams['use_semantic_types']:
             return inputs, list(range(len(inputs.columns)))
 
@@ -245,7 +245,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
         # return columns_to_produce
 
     @classmethod
-    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool:
+    def _can_produce_column(cls, inputs_metadata: metadata_base.DataMetadata, column_index: int, hyperparams: Hyperparams) -> bool: # pragma: no cover
         column_metadata = inputs_metadata.query((metadata_base.ALL_ELEMENTS, column_index))
 
         accepted_structural_types = (int, float, numpy.integer, numpy.float64)
@@ -268,7 +268,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
 
     @classmethod
-    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]:
+    def _get_target_columns_metadata(cls, outputs_metadata: metadata_base.DataMetadata, hyperparams) -> List[OrderedDict]: # pragma: no cover
         outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
 
         target_columns_metadata: List[OrderedDict] = []
@@ -290,7 +290,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
     @classmethod
     def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs],
-                                     target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata:
+                                     target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata: # pragma: no cover
         outputs_metadata = metadata_base.DataMetadata().generate(value=outputs)
 
         for column_index, column_metadata in enumerate(target_columns_metadata):
@@ -299,7 +299,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
 
         return outputs_metadata
 
-    def _wrap_predictions(self, inputs: Inputs, predictions: ndarray) -> Outputs:
+    def _wrap_predictions(self, inputs: Inputs, predictions: ndarray) -> Outputs: # pragma: no cover
         outputs = d3m_dataframe(predictions, generate_metadata=True)
         target_columns_metadata = self._copy_inputs_metadata(inputs.metadata, self._training_indices, outputs.metadata, self.hyperparams)
         outputs.metadata = self._update_predictions_metadata(inputs.metadata, outputs, target_columns_metadata)
@@ -308,7 +308,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
 
     @classmethod
     def _copy_inputs_metadata(cls, inputs_metadata: metadata_base.DataMetadata, input_indices: List[int],
-                                        outputs_metadata: metadata_base.DataMetadata, hyperparams):
+                                        outputs_metadata: metadata_base.DataMetadata, hyperparams): # pragma: no cover
         outputs_length = outputs_metadata.query((metadata_base.ALL_ELEMENTS,))['dimension']['length']
         target_columns_metadata: List[OrderedDict] = []
         for column_index in input_indices:

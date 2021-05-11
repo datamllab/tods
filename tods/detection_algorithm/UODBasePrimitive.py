@@ -341,7 +341,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
         
         return CallResult(outputs)
 
-    def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]: # pragma: no cover
         """
         Process the testing data.
         Args:
@@ -402,7 +402,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
         return CallResult(outputs)
 
 
-    def get_params(self) -> Params_ODBase:
+    def get_params(self) -> Params_ODBase: # pragma: no cover
         """
         Return parameters.
         Args:
@@ -447,7 +447,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
         # pass
 
 
-    def set_params(self, *, params: Params_ODBase) -> None:
+    def set_params(self, *, params: Params_ODBase) -> None: # pragma: no cover
         """
         Set parameters for outlier detection.
         Args:
@@ -580,7 +580,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
 
 
     @classmethod
-    def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs],
+    def _update_predictions_metadata(cls, inputs_metadata: metadata_base.DataMetadata, outputs: Optional[Outputs], 
                                      target_columns_metadata: List[OrderedDict]) -> metadata_base.DataMetadata: # pragma: no cover
         """
         Updata metadata for selected columns.
@@ -737,10 +737,10 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
     __author__ = "DATALAB @Taxes A&M University"
     metadata: metadata_base.PrimitiveMetadata = None
 
-    def __init__(self, *,
+    def __init__(self, *, 
                  hyperparams: Hyperparams,
                  random_seed: int = 0,
-                 docker_containers: Dict[str, DockerContainer] = None) -> None:
+                 docker_containers: Dict[str, DockerContainer] = None) -> None: # pragma: no cover
         super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
         self._clf = None
@@ -764,7 +764,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
         self._fitted = False
 #
     @abc.abstractmethod
-    def set_training_data(self, *, inputs: Inputs) -> None:
+    def set_training_data(self, *, inputs: Inputs) -> None: # pragma: no cover
         """
         Set training data for outlier detection.
         Args:
@@ -776,7 +776,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
         self._inputs = inputs
         self._fitted = False
 
-    def _set_subseq_inds(self):
+    def _set_subseq_inds(self): # pragma: no cover
 
         self.left_inds_ = getattr(self._clf, 'left_inds_', None)
         self.right_inds_ = getattr(self._clf, 'right_inds_', None)
@@ -787,7 +787,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
             self.right_inds_[self.right_inds_ > len(self._inputs)] = len(self._inputs)
             # print(self.left_inds_, self.right_inds_)
 
-    def _fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
+    def _fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]: # pragma: no cover
         """
         Fit model with training data.
         Args:
@@ -829,7 +829,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
 
         return CallResult(None)
 
-    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]: # pragma: no cover
         """
         Process the testing data.
         Args:
@@ -894,7 +894,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
         
         return CallResult(outputs)
 
-    def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]: # pragma: no cover
         """
         Process the testing data.
         Args:
@@ -955,7 +955,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
         return CallResult(outputs)
 
 
-    def get_params(self) -> Params_ODBase:
+    def get_params(self) -> Params_ODBase: # pragma: no cover
         """
         Return parameters.
         Args:
@@ -1000,7 +1000,7 @@ class UnsupervisedOutlierDetectorBase2(UnsupervisedLearnerPrimitiveBase[Inputs, 
         # pass
 
 
-    def set_params(self, *, params: Params_ODBase) -> None:
+    def set_params(self, *, params: Params_ODBase) -> None: # pragma: no cover
         """
         Set parameters for outlier detection.
         Args:

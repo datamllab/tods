@@ -29,13 +29,13 @@ __all__ = ('SystemWiseDetectionPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
-class Params(params.Params):
+class Params(params.Params): # pragma: no cover
        #to-do : how to make params dynamic
        use_column_names: Optional[Any]
 
 
 
-class Hyperparams(hyperparams.Hyperparams):
+class Hyperparams(hyperparams.Hyperparams): # pragma: no cover
 
        #Tuning Parameter
        #default -1 considers entire time series is considered
@@ -102,7 +102,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]): # pragma: no cover
     """
     Primitive to find abs_energy of time series
     """
