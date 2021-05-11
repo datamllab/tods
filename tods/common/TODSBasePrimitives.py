@@ -13,7 +13,7 @@ from d3m import utils
 
 __all__ = ('TODSTransformerPrimitiveBase',)
 
-class TODSTransformerPrimitiveBase(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class TODSTransformerPrimitiveBase(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]): # pragma: no cover
     """
     A base class for primitives which are not fitted at all and can
     simply produce (useful) outputs from inputs directly. As such they
@@ -76,7 +76,7 @@ class TODSTransformerPrimitiveBase(transformer.TransformerPrimitiveBase[Inputs, 
             data.iloc[i][col_name] = out.value
         return data
 
-class TODSUnsupervisedLearnerPrimitiveBase(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class TODSUnsupervisedLearnerPrimitiveBase(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):# pragma: no cover
 
     def __init__(self, *, hyperparams: Hyperparams, 
             random_seed: int=0, 

@@ -73,7 +73,7 @@ class BruteForceSearch(PipelineSearchBase): # pragma: no cover
         pipeline_candidates = _generate_pipelines(primitive_python_paths)
         return pipeline_candidates
 
-primitive_python_paths = {
+primitive_python_paths = { # pragma: no cover
     'data_processing': [
         #'d3m.primitives.tods.data_processing.time_interval_transform',
         #'d3m.primitives.tods.data_processing.categorical_to_binary',
