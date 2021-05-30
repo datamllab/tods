@@ -293,9 +293,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
         if self.hyperparams['use_semantic_types']:
             sk_inputs = inputs.iloc[:, self._training_indices]
         output_columns = []
-        #print("skinputs ", sk_inputs.values)
         if len(self._training_indices) > 0:
-
             if self.hyperparams['return_subseq_inds']:
 
                 if getattr(self._clf, 'left_inds_', None) is None or getattr(self._clf, 'right_inds_', None) is None: # point OD
@@ -305,9 +303,6 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
                     right_inds_[right_inds_ > len(pred_label)] = len(pred_label)
                 else:
                     pred_label, left_inds_, right_inds_ = self._clf.predict(sk_inputs.values)
-
-                # print(pred_label.shape, left_inds_.shape, right_inds_.shape)
-                # print(pred_label, left_inds_, right_inds_)
 
                 sk_output = numpy.concatenate((numpy.expand_dims(pred_label, axis=1),
                                                numpy.expand_dims(left_inds_, axis=1),
@@ -321,7 +316,6 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
 
-            #print("sk output ", sk_output)
             if sparse.issparse(sk_output): # pragma: no cover
                 sk_output = sk_output.toarray()
 

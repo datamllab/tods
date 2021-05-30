@@ -34,6 +34,8 @@ import pandas
 import uuid
 
 from d3m import container, utils as d3m_utils
+from .core.CollectiveBase import CollectiveBaseDetector
+from .core.utility import get_sub_matrices
 
 from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 import stumpy
@@ -47,216 +49,226 @@ Outputs = d3m_dataframe
 
 
 class Params(Params_ODBase):
-	######## Add more Attributes #######
-	pass
+    ######## Add more Attributes #######
+    pass
 
 
 class Hyperparams(Hyperparams_ODBase):
-	######## Add more Attributes #######
-	#pass
-	window_size = hyperparams.Hyperparameter[int](
+    ######## Add more Attributes #######
+    #pass
+    window_size = hyperparams.Hyperparameter[int](
         default=3,
         description='The moving window size.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
 
-class MP:
-	"""
-	This is the class for matrix profile function
-	"""
-	def __init__(self, window_size, step_size):
-		self._window_size = window_size
-		self._step_size = step_size
-		return
+class MP(CollectiveBaseDetector):
+    """
+    This is the class for matrix profile function
+    """
+    def __init__(self, window_size, step_size, contamination):
+        self._window_size = window_size
+        self._step_size = step_size
+        self.contamination = contamination
+        return
 
-	def fit(self, X, y=None):
-		"""Fit detector. y is ignored in unsupervised methods.
-		Parameters
-		----------
-		X : numpy array of shape (n_samples, n_features)
-		    The input samples.
-		y : Ignored
-		    Not used, present for API consistency by convention.
-		Returns
-		-------
-		self : object
-		    Fitted estimator.
-		"""
+    def _get_right_inds(self, data):
+        right_inds = []
+        for row in data[1]:
+            right_inds.append(row+self._window_size-1)
+        right_inds = pd.DataFrame(right_inds)
+        data = pd.concat([data,right_inds], axis=1)
+        data.columns = range(0,len(data.columns))
+        return data
 
-		# validate inputs X and y (optional)
-		# X = check_array(X)
-		# self._set_n_classes(y)
-		# self.decision_scores_ = self.decision_function(X)
-		# self._process_decision_scores()
-		
-		return self
+    def fit(self, X):
+        """Fit detector. y is ignored in unsupervised methods.
+        Parameters
+        ----------
+        X : numpy array of shape (n_samples, n_features)
+            The input samples.
+        y : Ignored
+            Not used, present for API consistency by convention.
+        Returns
+        -------
+        self : object
+            Fitted estimator.
+        """
+        sub_matrices, self.left_inds_, self.right_inds_ = get_sub_matrices(
+            X,
+            window_size=self._window_size,
+            step=self._step_size,
+            return_numpy=True,
+            flatten=True)
+        sub_matrices = sub_matrices[:-1, :]
+        self.left_inds_ = self.left_inds_[:-1]
+        self.right_inds_ = self.right_inds_[:-1]
+        matrix_profile, matrix_profile_indices = stumpy.mstump(X.transpose(), m = self._window_size)
+        #matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
 
-	def _get_right_inds(self, data):
-		right_inds = []
-		for row in data[1]:
-			right_inds.append(row+self._window_size-1)
-		right_inds = pd.DataFrame(right_inds)
-		data = pd.concat([data,right_inds], axis=1)
-		data.columns = range(0,len(data.columns))
-		return data
+        #left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
+        #right_inds_ = left_inds_ + self._window_size
+        #right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
+        #left_inds_ = np.array([left_inds_]).transpose()
+        #right_inds_ = np.array([right_inds_]).transpose()
+        
+        # apply min-max scaling
+        scaler = MinMaxScaler()
+        scaler = scaler.fit(matrix_profile)
+        matrix_profile = scaler.transform(matrix_profile)
+        self.decision_scores_ = matrix_profile
+        self._process_decision_scores()
+        return self
 
-	def produce(self, data):
+    def decision_function(self, data):
 
-		"""
+        """
 
-		Args:
-			data: dataframe column
-		Returns:
-			nparray
+        Args:
+            data: dataframe column
+        Returns:
+            nparray
 
-		"""
-		"""
-		#only keep first two columns of MP results, the second column is left index, use windowsize to get right index
-		transformed_columns=utils.pandas.DataFrame()
-		for col in data.transpose(): #data.reshape(1,len(data)):
-			output = stumpy.stump(col, m = self._window_size)
-			output = pd.DataFrame(output)
-			output=output.drop(columns=[2,3])
-			output = self._get_right_inds(output)
-			transformed_columns=pd.concat([transformed_columns,output], axis=1)
-		return transformed_columns
-		"""
-		#data = np.random.rand(3, 1000) 
-		#data = np.array([[1., 2., 3., 4.], [5., 6., 7., 8.], [9., 10., 11., 12.]])
-		#data = np.array([1., 2., 3., 4., 5., 6., 7., 8., 9., 10., 11., 12.])
-		#data = np.array([[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10],[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10],[3., 4., 8.6, 13., 22.5, 17, 19.2, 36.1, 127, -23, 59.2, -10]])
+        """
+        """
+        #only keep first two columns of MP results, the second column is left index, use windowsize to get right index
+        transformed_columns=utils.pandas.DataFrame()
+        for col in data.transpose(): #data.reshape(1,len(data)):
+            output = stumpy.stump(col, m = self._window_size)
+            output = pd.DataFrame(output)
+            output=output.drop(columns=[2,3])
+            output = self._get_right_inds(output)
+            transformed_columns=pd.concat([transformed_columns,output], axis=1)
+        return transformed_columns
+        """
+        matrix_profile, matrix_profile_indices = stumpy.mstump(data.transpose(), m = self._window_size)
+        #matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
 
-		matrix_profile, matrix_profile_indices = stumpy.mstump(data.transpose(), m = self._window_size)
-		#matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
+        left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
+        right_inds_ = left_inds_ + self._window_size
+        right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
+        left_inds_ = np.array([left_inds_]).transpose()
+        right_inds_ = np.array([right_inds_]).transpose()
+        
+        # apply min-max scaling
+        scaler = MinMaxScaler()
+        scaler = scaler.fit(matrix_profile)
+        matrix_profile = scaler.transform(matrix_profile)
+        #output = []
+        #for timestamp in matrix_profile:
+        #    timestamp = sum(timestamp)
+        #    output.append([timestamp])
 
-		left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
-		right_inds_ = left_inds_ + self._window_size
-		right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
-		left_inds_ = np.array([left_inds_]).transpose()
-		right_inds_ = np.array([right_inds_]).transpose()
-		
-		# apply min-max scaling
-		scaler = MinMaxScaler()
-		scaler = scaler.fit(matrix_profile)
-		matrix_profile = scaler.transform(matrix_profile)
-		output = []
-		for timestamp in matrix_profile:
-			timestamp = sum(timestamp)
-			output.append([timestamp])
-
-		output = np.concatenate((output, left_inds_, right_inds_),axis=1)
-		
-		return output
-
-	def predict(self, data):
-		return self.produce(data)
-		
+        #output = np.concatenate((output, left_inds_, right_inds_),axis=1)
+        
+        return matrix_profile, left_inds_, right_inds_
+        
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
-	"""
+    """
 
-	A primitive that performs matrix profile on a DataFrame using Stumpy package
-	Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
+    A primitive that performs matrix profile on a DataFrame using Stumpy package
+    Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
 
-	 Parameters
-    	----------
-    	T_A : ndarray
-    	    The time series or sequence for which to compute the matrix profile
-    	m : int
-    	    Window size
-    	T_B : ndarray
-    	    The time series or sequence that contain your query subsequences
-    	    of interest. Default is `None` which corresponds to a self-join.
-    	ignore_trivial : bool
-    	    Set to `True` if this is a self-join. Otherwise, for AB-join, set this
-    	    to `False`. Default is `True`.
-    	Returnsfdsf
-    	-------
-    	out : ndarray
-    	    The first column consists of the matrix profile, the second column
-    	    consists of the matrix profile indices, the third column consists of
-    	    the left matrix profile indices, and the fourth column consists of
-    	    the right matrix profile indices.
-	
-	"""
+     Parameters
+        ----------
+        T_A : ndarray
+            The time series or sequence for which to compute the matrix profile
+        m : int
+            Window size
+        T_B : ndarray
+            The time series or sequence that contain your query subsequences
+            of interest. Default is `None` which corresponds to a self-join.
+        ignore_trivial : bool
+            Set to `True` if this is a self-join. Otherwise, for AB-join, set this
+            to `False`. Default is `True`.
+        Returnsfdsf
+        -------
+        out : ndarray
+            The first column consists of the matrix profile, the second column
+            consists of the matrix profile indices, the third column consists of
+            the left matrix profile indices, and the fourth column consists of
+            the right matrix profile indices.
+    
+    """
 
-	metadata = metadata_base.PrimitiveMetadata({
-	    '__author__': "DATA Lab @Texas A&M University",
-	    'name': "Matrix Profile",
-	    'python_path': 'd3m.primitives.tods.detection_algorithm.matrix_profile',
-	    'source': {
+    metadata = metadata_base.PrimitiveMetadata({
+        '__author__': "DATA Lab @Texas A&M University",
+        'name': "Matrix Profile",
+        'python_path': 'd3m.primitives.tods.detection_algorithm.matrix_profile',
+        'source': {
                 'name': "DATA Lab @Taxes A&M University", 
                 'contact': 'mailto:khlai037@tamu.edu',
             },
-	    'hyperparams_to_tune': ['window_size'],
-	    'version': '0.0.2',		
-	    'algorithm_types': [
+        'hyperparams_to_tune': ['window_size'],
+        'version': '0.0.2',        
+        'algorithm_types': [
                 metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
             ], 
-	    'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
-	})
+        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
+    })
 
 
-	def __init__(self, *,
-				 hyperparams: Hyperparams, #
-				 random_seed: int = 0,
-				 docker_containers: Dict[str, DockerContainer] = None) -> None:
-		super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
+    def __init__(self, *,
+                 hyperparams: Hyperparams, #
+                 random_seed: int = 0,
+                 docker_containers: Dict[str, DockerContainer] = None) -> None:
+        super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
 
-		self._clf = MP(window_size=hyperparams['window_size'], step_size=hyperparams['step_size'])
+        self._clf = MP(window_size=hyperparams['window_size'], step_size=hyperparams['step_size'], contamination=hyperparams['contamination'])
 
-	def set_training_data(self, *, inputs: Inputs) -> None:
-		"""
-		Set training data for outlier detection.
-		Args:
-			inputs: Container DataFrame
+    def set_training_data(self, *, inputs: Inputs) -> None:
+        """
+        Set training data for outlier detection.
+        Args:
+            inputs: Container DataFrame
 
-		Returns:
-			None
-		"""
-		super().set_training_data(inputs=inputs)
+        Returns:
+            None
+        """
+        super().set_training_data(inputs=inputs)
 
-	def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
-		"""
-		Fit model with training data.
-		Args:
-			*: Container DataFrame. Time series data up to fit.
+    def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
+        """
+        Fit model with training data.
+        Args:
+            *: Container DataFrame. Time series data up to fit.
 
-		Returns:
-			None
-		"""
-		return super().fit()
+        Returns:
+            None
+        """
+        return super().fit()
 
-	def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
-		"""
-		Process the testing data.
-		Args:
-			inputs: Container DataFrame. Time series data up to outlier detection.
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+        """
+        Process the testing data.
+        Args:
+            inputs: Container DataFrame. Time series data up to outlier detection.
 
-		Returns:
-			Container DataFrame
-			1 marks Outliers, 0 marks normal.
-		"""
-		return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
+        Returns:
+            Container DataFrame
+            1 marks Outliers, 0 marks normal.
+        """
+        return super().produce(inputs=inputs, timeout=timeout, iterations=iterations)
 
-	def get_params(self) -> Params:		# pragma: no cover
-		"""
-		Return parameters.
-		Args:
-			None
+    def get_params(self) -> Params:        # pragma: no cover
+        """
+        Return parameters.
+        Args:
+            None
 
-		Returns:
-			class Params
-		"""
-		return super().get_params()
+        Returns:
+            class Params
+        """
+        return super().get_params()
 
-	def set_params(self, *, params: Params) -> None:	# pragma: no cover
-		"""
-		Set parameters for outlier detection.
-		Args:
-			params: class Params
+    def set_params(self, *, params: Params) -> None:    # pragma: no cover
+        """
+        Set parameters for outlier detection.
+        Args:
+            params: class Params
 
-		Returns:
-			None
-		"""
-		super().set_params(params=params)
+        Returns:
+            None
+        """
+        super().set_params(params=params)

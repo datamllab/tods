@@ -25,7 +25,6 @@ prediction_labels_train = transformer.predict(X_train)
 prediction_labels = transformer.predict(X_test)
 prediction_score = transformer.predict_score(X_test)
 
-print("Primitive: ", transformer.primitive)
 print("Prediction Labels\n", prediction_labels)
 print("Prediction Score\n", prediction_score)
 y_true = prediction_labels_train
