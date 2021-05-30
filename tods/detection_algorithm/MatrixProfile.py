@@ -101,9 +101,12 @@ class MP(CollectiveBaseDetector):
             return_numpy=True,
             flatten=True)
         sub_matrices = sub_matrices[:-1, :]
-        self.left_inds_ = self.left_inds_[:-1]
-        self.right_inds_ = self.right_inds_[:-1]
+        #self.left_inds_ = self.left_inds_[:-1]
+        #self.right_inds_ = self.right_inds_[:-1]
         matrix_profile, matrix_profile_indices = stumpy.mstump(X.transpose(), m = self._window_size)
+        blank = X.shape[0] - matrix_profile.shape[0]
+        for i in range(blank):
+            matrix_profile = np.append(matrix_profile, [matrix_profile[-1]], axis=0)
         #matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
 
         #left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
@@ -116,11 +119,15 @@ class MP(CollectiveBaseDetector):
         scaler = MinMaxScaler()
         scaler = scaler.fit(matrix_profile)
         matrix_profile = scaler.transform(matrix_profile)
+
+        # sum over the dimension with normalized MP value
+        if len(matrix_profile.shape) > 1 or matrix_profile.shape[1] > 1:
+            matrix_profile = np.sum(matrix_profile, axis=1)
         self.decision_scores_ = matrix_profile
         self._process_decision_scores()
         return self
 
-    def decision_function(self, data):
+    def decision_function(self, X):
 
         """
 
@@ -141,26 +148,34 @@ class MP(CollectiveBaseDetector):
             transformed_columns=pd.concat([transformed_columns,output], axis=1)
         return transformed_columns
         """
-        matrix_profile, matrix_profile_indices = stumpy.mstump(data.transpose(), m = self._window_size)
+        sub_matrices, left_inds_, right_inds_ = get_sub_matrices(
+            X,
+            window_size=self._window_size,
+            step=self._step_size,
+            return_numpy=True,
+            flatten=True)
+        sub_matrices = sub_matrices[:-1, :]
+        matrix_profile, matrix_profile_indices = stumpy.mstump(X.transpose(), m = self._window_size)
+        blank = X.shape[0] - matrix_profile.shape[0]
+        for i in range(blank):
+            matrix_profile = np.append(matrix_profile, [matrix_profile[-1]], axis=0)
         #matrix_profile, matrix_profile_indices = stumpy.mstump(data, m = self._window_size)
 
-        left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
-        right_inds_ = left_inds_ + self._window_size
-        right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
-        left_inds_ = np.array([left_inds_]).transpose()
-        right_inds_ = np.array([right_inds_]).transpose()
+        #left_inds_ = numpy.arange(0, len(matrix_profile), self._step_size)
+        #right_inds_ = left_inds_ + self._window_size
+        #right_inds_[right_inds_ > len(matrix_profile)] = len(matrix_profile)
+        #left_inds_ = np.array([left_inds_]).transpose()
+        #right_inds_ = np.array([right_inds_]).transpose()
         
         # apply min-max scaling
         scaler = MinMaxScaler()
         scaler = scaler.fit(matrix_profile)
         matrix_profile = scaler.transform(matrix_profile)
-        #output = []
-        #for timestamp in matrix_profile:
-        #    timestamp = sum(timestamp)
-        #    output.append([timestamp])
 
-        #output = np.concatenate((output, left_inds_, right_inds_),axis=1)
-        
+        # sum over the dimension with normalized MP value
+        if len(matrix_profile.shape) > 1 or matrix_profile.shape[1] > 1:
+            matrix_profile = np.sum(matrix_profile, axis=1)
+
         return matrix_profile, left_inds_, right_inds_
         
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):

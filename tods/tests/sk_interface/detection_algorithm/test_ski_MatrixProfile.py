@@ -27,9 +27,6 @@ class MatrixProfileSKI_TestCase(unittest.TestCase):
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
 
-        self.y_test = self.y_test[self.window_size-1:]
-        self.y_train = self.y_train[self.window_size-1:]
-
         self.transformer = MatrixProfileSKI(contamination=self.contamination, window_size=self.window_size)
         self.transformer.fit(self.X_train)
 
