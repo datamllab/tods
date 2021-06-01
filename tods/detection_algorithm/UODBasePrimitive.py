@@ -83,7 +83,7 @@ class Hyperparams_ODBase(hyperparams.Hyperparams):
     )
 
     window_size = hyperparams.Hyperparameter[int](
-        default=1,
+        default=10,
         description='The moving window size.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )

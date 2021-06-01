@@ -157,6 +157,33 @@ class MultiAutoRegOD(CollectiveBaseDetector):
         self._process_decision_scores()
         return self
 
+    def predict(self, X): # pragma: no cover
+        """Predict if a particular sample is an outlier or not.
+
+        Parameters
+        ----------
+        X : numpy array of shape (n_samples, n_features)
+            The input samples.
+
+        Returns
+        -------
+        outlier_labels : numpy array of shape (n_samples,)
+            For each observation, tells whether or not
+            it should be considered as an outlier according to the
+            fitted model. 0 stands for inliers and 1 for outliers.
+        """
+
+        check_is_fitted(self, ['decision_scores_', 'threshold_', 'labels_'])
+
+        pred_score, X_left_inds, X_right_inds = self.decision_function(X)
+
+        pred_score = np.concatenate((np.zeros((self.window_size,)), pred_score))
+        X_left_inds = np.concatenate((np.zeros((self.window_size,)), X_left_inds))
+        X_right_inds = np.concatenate((np.zeros((self.window_size,)), X_right_inds))
+
+        return (pred_score > self.threshold_).astype(
+            'int').ravel(), X_left_inds.ravel(), X_right_inds.ravel()
+
     def decision_function(self, X: np.array):
         """Predict raw anomaly scores of X using the fitted detector.
 

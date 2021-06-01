@@ -33,7 +33,7 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
                  ):
 
         super(LSTMOutlierDetector, self).__init__(contamination=contamination,
-                                                  window_size=min_attack_time,
+                                                #   window_size=min_attack_time,
                                                   step_size=1,
                                                   )
 
@@ -54,14 +54,34 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         self.activation = activation
 
 
+    # def _build_model(self):
+    #     print('dim:', self.hidden_dim, self.feature_dim)
+    #     model_ = Sequential()
+    #     model_.add(LSTM(units=self.hidden_dim, input_shape=(self.feature_dim, 1),
+    #                          dropout=self.dropout_rate, activation=self.activation, return_sequences=True))
+
+    #     for layer_idx in range(self.n_hidden_layer-1):
+    #         model_.add(LSTM(units=self.hidden_dim, input_shape=(self.hidden_dim, 1),
+    #                          dropout=self.dropout_rate, activation=self.activation, return_sequences=True))
+
+    #     model_.add(LSTM(units=self.hidden_dim, input_shape=(self.hidden_dim, 1),
+    #                          dropout=self.dropout_rate, activation=self.activation))
+
+    #     model_.add(Dense(units=self.feature_dim, input_shape=(self.hidden_dim, 1), activation=None))
+
+    #     model_.compile(loss=self.loss, optimizer=self.optimizer)
+    #     return model_
+
     def _build_model(self):
         model_ = Sequential()
         model_.add(LSTM(units=self.hidden_dim, input_shape=(self.feature_dim, 1),
-                             dropout=self.dropout_rate, activation=self.activation))
+                             dropout=self.dropout_rate, activation=self.activation,
+                             return_sequences=bool(self.n_hidden_layer>0)))
 
         for layer_idx in range(self.n_hidden_layer):
             model_.add(LSTM(units=self.hidden_dim, input_shape=(self.hidden_dim, 1),
-                             dropout=self.dropout_rate, activation=self.activation))
+                             dropout=self.dropout_rate, activation=self.activation,
+                             return_sequences=bool(layer_idx < self.n_hidden_layer - 1)))
 
         model_.add(Dense(units=self.feature_dim, input_shape=(self.hidden_dim, 1), activation=None))
 
@@ -84,6 +104,7 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         self : object
             Fitted estimator.
         """
+        print("XXXX:", X.shape)
         X = check_array(X).astype(np.float)
         self._set_n_classes(None)
         X_buf, y_buf = self._get_sub_matrices(X)
@@ -120,6 +141,33 @@ class LSTMOutlierDetector(CollectiveBaseDetector):
         relative_error = (np.linalg.norm(y_predict - y_buf, axis=1) / np.linalg.norm(y_buf + 1e-6, axis=1)).ravel()
 
         return relative_error
+
+    def predict(self, X): # pragma: no cover
+        """Predict if a particular sample is an outlier or not.
+
+        Parameters
+        ----------
+        X : numpy array of shape (n_samples, n_features)
+            The input samples.
+
+        Returns
+        -------
+        outlier_labels : numpy array of shape (n_samples,)
+            For each observation, tells whether or not
+            it should be considered as an outlier according to the
+            fitted model. 0 stands for inliers and 1 for outliers.
+        """
+
+        check_is_fitted(self, ['decision_scores_', 'threshold_', 'labels_'])
+
+        pred_score, X_left_inds, X_right_inds = self.decision_function(X)
+
+        pred_score = np.concatenate((np.zeros((self.window_size,)), pred_score))
+        X_left_inds = np.concatenate((np.zeros((self.window_size,)), X_left_inds))
+        X_right_inds = np.concatenate((np.zeros((self.window_size,)), X_right_inds))
+
+        return (pred_score > self.threshold_).astype(
+            'int').ravel(), X_left_inds.ravel(), X_right_inds.ravel()
 
     def decision_function(self, X: np.array):
         """Predict raw anomaly scores of X using the fitted detector.
