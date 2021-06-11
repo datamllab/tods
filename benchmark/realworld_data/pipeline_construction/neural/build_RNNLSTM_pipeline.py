@@ -72,7 +72,7 @@ for cont_rate in [0.01, 0.05, 0.1, 0.15, 0.2, 0.25]:
 
     # Output to json
     data = pipeline_description.to_json()
-    with open('../../pipelines/RNN_LSTM/'+data_name+'/rnnlstm_pipeline_'+str(cont_rate)+'.json', 'w') as f:
+    with open('./pipelines/RNN_LSTM/'+data_name+'/rnnlstm_pipeline_'+str(cont_rate)+'.json', 'w') as f:
         f.write(data)
         print(data)
 

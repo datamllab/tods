@@ -152,7 +152,7 @@ def _generate_pipeline(combinations):
         pipeline_description.add_output(name='output predictions', data_reference='steps.6.produce')
         data = pipeline_description.to_json()
         #with open('../pipelines/'+str(combination[1].split(".")[-1])+'_'+str(combination[2])+".json", 'w') as f:
-        with open('./subseq/'+str(combination[1].split(".")[-1])+'_subseq_'+str(combination[2])+".json", 'w') as f:
+        with open('./pipelines/subseq/'+str(combination[1].split(".")[-1])+'_subseq_'+str(combination[2])+".json", 'w') as f:
             f.write(data)
         pipeline_description.id = str(uuid.uuid4())
         pipeline_description.created = Pipeline().created
