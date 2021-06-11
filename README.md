@@ -1,10 +1,9 @@
 
 # Revisiting Time Series Outlier Detection: Definitions and Benchmarks
-<img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
-
-
 ## Benchmark Directions
 For getting benchmark code, data and result, please follow the instruction below to intall the package and go to the "benchmark/" folder for the details.
+
+<img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
 
 [![Build Status](https://travis-ci.org/datamllab/tods.svg?branch=dev)](https://travis-ci.org/datamllab/tods)
 
