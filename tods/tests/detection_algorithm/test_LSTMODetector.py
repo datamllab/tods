@@ -30,7 +30,7 @@ class LSTMODTestCase(unittest.TestCase):
         self.y_train = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.X_test = d3m_dataframe({'data': [3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]},
                                      columns=['data'], generate_metadata=True)
-        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0])
+        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0])
 
 
 
@@ -66,7 +66,7 @@ class LSTMODTestCase(unittest.TestCase):
                 'dimension': {
                     'name': 'rows',
                     'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularRow'],
-                    'length': 10,
+                    'length': 11,
                 },
             },
         }, {

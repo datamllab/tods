@@ -31,7 +31,7 @@ class AutoRegODetectTestCase(unittest.TestCase):
         self.y_train = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.X_test = d3m_dataframe({'data': [3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]},
                                      columns=['data'], generate_metadata=True)
-        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 1])
+        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0])
 
 
 
@@ -70,7 +70,7 @@ class AutoRegODetectTestCase(unittest.TestCase):
                 'dimension': {
                     'name': 'rows',
                     'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularRow'],
-                    'length': 9,
+                    'length': 11,
                 },
             },
         }, {
@@ -87,21 +87,21 @@ class AutoRegODetectTestCase(unittest.TestCase):
             'metadata': {
                 'name': 'AutoRegODetector0_0',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.int64',
+                'structural_type': 'numpy.float64',
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 1],
             'metadata': {
                 'name': 'AutoRegODetector0_1',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.int64',
+                'structural_type': 'numpy.float64',
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 2],
             'metadata': {
                 'name': 'AutoRegODetector0_2',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.int64',
+                'structural_type': 'numpy.float64',
             },
         }])
 
