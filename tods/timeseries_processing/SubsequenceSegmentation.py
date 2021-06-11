@@ -31,7 +31,7 @@ Outputs = container.DataFrame
 class Hyperparams(hyperparams.Hyperparams):
     # Tuning
     window_size = hyperparams.Hyperparameter[int](
-        default=1,
+        default=10,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
         description="The moving window size.",
     )

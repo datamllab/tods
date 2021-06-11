@@ -97,7 +97,7 @@ class Hyperparams(Hyperparams_ODBase):
     )
 
     epochs = hyperparams.Hyperparameter[int](
-        default=50,
+        default=20,
         description='Number of epochs to train the model.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
