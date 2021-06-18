@@ -1,7 +1,5 @@
 
-# Revisiting Time Series Outlier Detection: Definitions and Benchmarks
-## Benchmark Directions
-For getting benchmark code, data and result, please follow the instruction below to intall the package and go to the "benchmark/" folder for the details.
+# TODS: Automated Time-series Outlier Detection System
 
 <img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
 
