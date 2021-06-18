@@ -87,21 +87,21 @@ class AutoRegODetectTestCase(unittest.TestCase):
             'metadata': {
                 'name': 'AutoRegODetector0_0',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.float64',
+                'structural_type': 'numpy.int64',
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 1],
             'metadata': {
                 'name': 'AutoRegODetector0_1',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.float64',
+                'structural_type': 'numpy.int64',
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 2],
             'metadata': {
                 'name': 'AutoRegODetector0_2',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute'],
-                'structural_type': 'numpy.float64',
+                'structural_type': 'numpy.int64',
             },
         }])
 
