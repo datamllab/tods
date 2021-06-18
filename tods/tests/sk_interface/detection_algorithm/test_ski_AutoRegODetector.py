@@ -26,7 +26,6 @@ class AutoRegODetectorSKI_TestCase(unittest.TestCase):
         self.X_train, self.y_train, self.X_test, self.y_test = generate_data(
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
-        self.y_test = self.y_test[self.window_size:]
         self.y_train = self.y_train[self.window_size:]
 
         self.transformer = AutoRegODetectorSKI(contamination=self.contamination, window_size=self.window_size)
