@@ -160,7 +160,7 @@ class Hyperparams(Hyperparams_ODBase):
     contamination = hyperparams.Uniform(
         lower=0.,
         upper=0.5,
-        default=0.1,
+        default=0.01,
         description='The amount of contamination of the data set, i.e. the proportion of outliers in the data set. ',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
