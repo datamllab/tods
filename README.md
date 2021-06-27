@@ -42,7 +42,7 @@ This package works with **Python 3.6** and pip 19+. You need to have the followi
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
 
-Clone the repository:
+Clone the repository (if you are in China and Github is slow, you can use the mirror in [Gitee](https://gitee.com/daochenzha/tods)):
 ```
 git clone https://github.com/datamllab/tods.git
 ```

@@ -39,7 +39,7 @@ TODS具有如下特点：
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
 
-克隆该仓库:
+克隆该仓库（如果您访问Github较慢，国内用户可以使用[Gitee镜像](https://gitee.com/daochenzha/tods)）:
 ```
 git clone https://github.com/datamllab/tods.git
 ```
