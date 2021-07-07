@@ -1,0 +1,5 @@
+metric,value,normalized,randomSeed,fold
+PRECISION,0.3,0.3,0,0
+RECALL,0.3,0.3,0,0
+F1_MACRO,0.5882352941176471,0.5882352941176471,0,0
+F1,0.3,0.3,0,0
