@@ -21,7 +21,6 @@ If you find this  work useful, you may cite this work:
 ## Datasets
 
 This All of the datasets were generated from the generators. Tuning parameters in the generators can get your own datasets.
-The datasets used in the paper is provided in "unidataset" and "multidataset"
 
 ## Pipeline
 
@@ -34,7 +33,7 @@ To run a pipeline, you can generate your own pipeline json file from script. Tak
 ```python
 python script/simple_algo/build_AutoEncoder_pipeline.py 
 ```
-Then run the json using run\_pipeline in /runner
+Then run the json using run_pipeline in /runner
 ```python
 python runner/run_pipeline.py --pipeline_path ae_pipeline_default_con0.05.json 
 ```
