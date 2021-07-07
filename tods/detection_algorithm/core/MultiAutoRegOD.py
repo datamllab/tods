@@ -154,6 +154,12 @@ class MultiAutoRegOD(CollectiveBaseDetector):
         self.decision_scores_ = self._score_combination(
             self._decison_mat_scalaled)
 
+        # print(self.decision_scores_.shape, self.left_inds_.shape, self.right_inds_.shape)
+        self.decision_scores_ = np.concatenate((np.zeros((self.window_size,)), self.decision_scores_))
+        self.left_inds_ = np.concatenate(((-self.window_size) * np.ones((self.window_size,)).astype(np.int), self.left_inds_))
+        self.right_inds_ = np.concatenate((np.zeros((self.window_size,)).astype(np.int), self.right_inds_))
+        # print(self.decision_scores_.shape, self.left_inds_.shape, self.right_inds_.shape)
+
         self._process_decision_scores()
         return self
 

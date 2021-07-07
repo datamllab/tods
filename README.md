@@ -1,4 +1,3 @@
-
 # TODS: Automated Time-series Outlier Detection System
 
 <img width="500" src="./docs/img/tods_logo.png" alt="Logo" />

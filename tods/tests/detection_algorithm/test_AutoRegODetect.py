@@ -28,10 +28,10 @@ class AutoRegODetectTestCase(unittest.TestCase):
 
         self.X_train = d3m_dataframe({'data': [3., 4., 8., 16, 18, 13., 22., 36., 59., 128, 62, 67, 78, 100]},
                                       columns=['data'], generate_metadata=True)
-        self.y_train = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        self.y_train = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         self.X_test = d3m_dataframe({'data': [3., 4., 8.6, 13.4, 22.5, 17, 19.2, 36.1, 127, -23, 59.2]},
                                      columns=['data'], generate_metadata=True)
-        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0])
+        self.y_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0])
 
 
 
@@ -45,6 +45,8 @@ class AutoRegODetectTestCase(unittest.TestCase):
         self.primitive.fit()
         self.prediction_labels = self.primitive.produce(inputs=self.X_test).value
         self.prediction_score = self.primitive.produce_score(inputs=self.X_test).value
+
+        # print(self.prediction_labels)
 
         self.collective_common_test = CollectiveCommonTest(model=self.primitive._clf,
                                                             X_train=self.X_train,
