@@ -16,7 +16,7 @@ parser.add_argument('--target_index', type=int, default=6,
 parser.add_argument('--metric',type=str, default='F1_MACRO',
                     help='Evaluation Metric (F1, F1_MACRO)')
 parser.add_argument('--pipeline_path', 
-                    default=os.path.join(this_path, './example_pipelines/autoencoder_pipeline.json'),
+                    default=os.path.join(this_path, '../../example_pipeline.json'),
                     help='Input the path of the pre-built pipeline description')
 
 args = parser.parse_args()
