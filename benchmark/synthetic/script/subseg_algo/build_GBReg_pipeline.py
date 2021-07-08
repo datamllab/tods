@@ -49,6 +49,7 @@ pipeline_description.add_step(step_4)
 # Step 5: algorithm
 step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.GBRegODetector'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
+step_5.add_hyperparameter(name='window_size', argument_type=ArgumentType.VALUE, data=5)
 
 CONTAMINATION = 0.25
 step_5.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=CONTAMINATION)
@@ -67,7 +68,7 @@ pipeline_description.add_output(name='output predictions', data_reference='steps
 
 # Output to json
 data = pipeline_description.to_json()
-with open('GBReg_subseg_con' + str(CONTAMINATION) + '.json', 'w') as f:
+with open('GBReg_subseg_win5_con' + str(CONTAMINATION) + '.json', 'w') as f:
     f.write(data)
     print(data)
 
