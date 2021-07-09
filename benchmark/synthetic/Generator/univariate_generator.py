@@ -166,16 +166,19 @@ if __name__ == '__main__':
     BASE = [1.4529900e-01, 1.2820500e-01, 9.4017000e-02, 7.6923000e-02, 1.1111100e-01, 1.4529900e-01, 1.7948700e-01,
          2.1367500e-01, 2.1367500e-01]
 
-    univariate_data = UnivariateDataGenerator(stream_length=200, behavior=sine, behavior_config=BEHAVIOR_CONFIG)
+    univariate_data = UnivariateDataGenerator(stream_length=400, behavior=sine, behavior_config=BEHAVIOR_CONFIG)
 
-
+    
     univariate_data.collective_global_outliers(ratio=0.05, radius=5, option='square', coef=1.5, noise_amp=0.04,
                                                 level=5, freq=0.04,
                                                 base=BASE, offset=0.0)
-    univariate_data.collective_trend_outliers(ratio=0.2, factor=0.5, radius=5)
     univariate_data.collective_seasonal_outliers(ratio=0.05, factor=3, radius=5)
-    univariate_data.point_global_outliers(ratio=0.2, factor=6, radius=5) # to 0.2
-    univariate_data.point_contextual_outliers(ratio=0.2, factor=3, radius=5)
+    univariate_data.collective_trend_outliers(ratio=0.05, factor=0.5, radius=5)
+
+    univariate_data.point_global_outliers(ratio=0.05, factor=6, radius=5)
+    univariate_data.point_contextual_outliers(ratio=0.05, factor=3, radius=5)
+    
+    
 
 
     plt.plot(univariate_data.timestamp, univariate_data.data)
@@ -191,5 +194,6 @@ if __name__ == '__main__':
     plt.show()
 
     df = pd.DataFrame({'value': univariate_data.data, 'anomaly': univariate_data.label})
-    df.to_csv("/Users/apple/Desktop/tods/benchmark/dataset/point_global_0.2.csv", index=False)
+    df.to_csv("/Users/apple/Desktop/tods/benchmark/synthetic/unidataset/01234.csv", index=False)
+                # /Users/apple/Desktop/tods/benchmark/synthetic/unidataset
 

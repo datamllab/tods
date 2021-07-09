@@ -54,7 +54,7 @@ class Hyperparams(Hyperparams_ODBase):
     )
 
     epoch_size = hyperparams.Hyperparameter[int](
-        default=100,
+        default=500,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/ControlParameter'],
         description="Epoch"
     )

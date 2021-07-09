@@ -1,0 +1,48 @@
+import sys
+import argparse
+import os
+import pandas as pd
+
+from tods import generate_dataset, load_pipeline, evaluate_pipeline
+
+
+this_path = os.path.dirname(os.path.abspath(__file__))
+
+parser = argparse.ArgumentParser(description='Arguments for running predefined pipelin.')
+parser.add_argument('--target_index', type=int, default=1,
+                    help='Index of the ground truth (for evaluation)')
+parser.add_argument('--metric',type=str, default='ALL',
+                    help='Evaluation Metric (F1, F1_MACRO)')
+parser.add_argument('--pipeline_path_name', 
+                    default='ocsvm_subseg',
+                    help='Input the path of the pre-built pipeline description')
+
+args = parser.parse_args()
+
+result_container = []
+pipeline_path_list = [0.05, 0.1, 0.15, 0.2, 0.25]
+dataset_list = ['0', '01', '012', '0123', '01234']
+
+
+for dat, pip in zip(dataset_list, pipeline_path_list):
+    df = pd.read_csv(os.path.join(this_path, '../unidataset/' + dat + '.csv'))
+    dataset = generate_dataset(df, args.target_index)
+    pipeline_path = os.path.join(this_path, '..', 'Pipeline', args.pipeline_path_name, args.pipeline_path_name + '_con' + str(pip) + '.json')
+    pipeline = load_pipeline(pipeline_path)
+    pipeline_result = evaluate_pipeline(dataset, pipeline, args.metric)
+    result_container.append(list(pipeline_result.scores['value']))
+
+    # result_path = os.path.join('./result', 'unidataset', dat, args.pipeline_path_name)
+    # if not os.path.exists(result_path):
+    #     os.makedirs(result_path)
+    # pipeline_result.scores.to_csv(result_path + '/' + args.pipeline_path_name + str(pip) + ".csv")
+    
+df = pd.DataFrame({args.pipeline_path_name: result_container})
+df.to_csv(os.path.join('./result', 'unidataset_types', args.pipeline_path_name + '.csv'))
+
+for i in range(10):
+    print(args.pipeline_path_name)
+for i in result_container:
+    for j in i:
+        print(j)
+    # print('\n')

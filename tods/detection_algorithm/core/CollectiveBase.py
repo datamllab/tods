@@ -217,6 +217,10 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
 
         pred_score, X_left_inds, X_right_inds = self.decision_function(X)
 
+        # pred_score = np.concatenate((np.zeros((self.window_size,)), pred_score))
+        # X_left_inds = np.concatenate((np.zeros((self.window_size,)), X_left_inds))
+        # X_right_inds = np.concatenate((np.zeros((self.window_size,)), X_right_inds))
+
         return (pred_score > self.threshold_).astype(
             'int').ravel(), X_left_inds.ravel(), X_right_inds.ravel()
 
