@@ -20,8 +20,8 @@ parser.add_argument('--pipeline_path_name',
 args = parser.parse_args()
 
 result_container = []
-pipeline_path_list = [0.05, 0.1, 0.15, 0.2, 0.25]
-dataset_list = ['0', '01', '012', '0123', '01234']
+pipeline_path_list = [0.05, 0.05, 0.05, 0.05, 0.05, 0.1, 0.1, 0.1, 0.1, 0.15, 0.15, 0.15, 0.2, 0.2, 0.25]
+dataset_list = ['0', '1', '2', '3', '4', '01', '12', '23', '34', '012', '123', '234', '0123', '1234', '01234']
 
 
 for dat, pip in zip(dataset_list, pipeline_path_list):

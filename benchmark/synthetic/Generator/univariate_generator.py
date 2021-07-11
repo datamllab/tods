@@ -88,11 +88,12 @@ class UnivariateDataGenerator:
         """
         position = (np.random.rand(round(self.STREAM_LENGTH * ratio)) * self.STREAM_LENGTH).astype(int)
         maximum, minimum = max(self.data), min(self.data)
+        print(maximum, minimum)
         for i in position:
             local_std = self.data_origin[max(0, i - radius):min(i + radius, self.STREAM_LENGTH)].std()
             self.data[i] = self.data_origin[i] * factor * local_std
-            if self.data[i] > maximum: self.data[i] = maximum * min(0.95, abs(np.random.normal(0, 1)))
-            if self.data[i] < minimum: self.data[i] = minimum * min(0.95, abs(np.random.normal(0, 1)))
+            if self.data[i] > maximum: self.data[i] = maximum * min(0.95, abs(np.random.normal(0, 0.5)))  # previous(0, 1)
+            if self.data[i] < minimum: self.data[i] = minimum * min(0.95, abs(np.random.normal(0, 0.5)))
 
             self.label[i] = 1
 
@@ -169,14 +170,14 @@ if __name__ == '__main__':
     univariate_data = UnivariateDataGenerator(stream_length=400, behavior=sine, behavior_config=BEHAVIOR_CONFIG)
 
     
-    univariate_data.collective_global_outliers(ratio=0.05, radius=5, option='square', coef=1.5, noise_amp=0.04,
-                                                level=5, freq=0.04,
-                                                base=BASE, offset=0.0)
-    univariate_data.collective_seasonal_outliers(ratio=0.05, factor=3, radius=5)
-    univariate_data.collective_trend_outliers(ratio=0.05, factor=0.5, radius=5)
+    univariate_data.collective_global_outliers(ratio=0.05, radius=5, option='square', coef=1.5, noise_amp=0.03,
+                                                level=20, freq=0.04,
+                                                base=BASE, offset=0.0) #2
+    univariate_data.collective_seasonal_outliers(ratio=0.05, factor=3, radius=5) #3
+    univariate_data.collective_trend_outliers(ratio=0.05, factor=0.5, radius=5) #4
 
-    univariate_data.point_global_outliers(ratio=0.05, factor=6, radius=5)
-    univariate_data.point_contextual_outliers(ratio=0.05, factor=3, radius=5)
+    univariate_data.point_global_outliers(ratio=0.05, factor=3.5, radius=5) #0
+    univariate_data.point_contextual_outliers(ratio=0.05, factor=2.5, radius=5) #1
     
     
 
