@@ -108,6 +108,8 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
             })
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+        # print('inputs in column parse')
+        # print(inputs)
         columns_to_use, output_columns = self._produce_columns(inputs)
 
         if self.hyperparams['replace_index_columns'] and self.hyperparams['return_result'] == 'append': # pragma: no cover

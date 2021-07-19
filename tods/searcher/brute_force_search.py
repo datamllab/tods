@@ -84,11 +84,11 @@ primitive_python_paths = { # pragma: no cover
     ],
     'timeseries_processing': [
         'd3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler',
-        'd3m.primitives.tods.timeseries_processing.transformation.standard_scaler',
-        'd3m.primitives.tods.timeseries_processing.transformation.power_transformer',
-        'd3m.primitives.tods.timeseries_processing.transformation.quantile_transformer',
-        'd3m.primitives.tods.timeseries_processing.transformation.moving_average_transform',
-        'd3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing',
+        # 'd3m.primitives.tods.timeseries_processing.transformation.standard_scaler',
+        # 'd3m.primitives.tods.timeseries_processing.transformation.power_transformer',
+        # 'd3m.primitives.tods.timeseries_processing.transformation.quantile_transformer',
+        # 'd3m.primitives.tods.timeseries_processing.transformation.moving_average_transform',
+        # 'd3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing',
         #'d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing',
         #'d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing',
         #'d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
@@ -96,12 +96,12 @@ primitive_python_paths = { # pragma: no cover
     'feature_analysis': [
         #'d3m.primitives.tods.feature_analysis.auto_correlation',
         'd3m.primitives.tods.feature_analysis.statistical_mean',
-        'd3m.primitives.tods.feature_analysis.statistical_median',
-        'd3m.primitives.tods.feature_analysis.statistical_g_mean',
-        'd3m.primitives.tods.feature_analysis.statistical_abs_energy',
-        'd3m.primitives.tods.feature_analysis.statistical_abs_sum',
-        'd3m.primitives.tods.feature_analysis.statistical_h_mean',
-        'd3m.primitives.tods.feature_analysis.statistical_maximum',
+        # 'd3m.primitives.tods.feature_analysis.statistical_median',
+        # 'd3m.primitives.tods.feature_analysis.statistical_g_mean',
+        # 'd3m.primitives.tods.feature_analysis.statistical_abs_energy',
+        # 'd3m.primitives.tods.feature_analysis.statistical_abs_sum',
+        # 'd3m.primitives.tods.feature_analysis.statistical_h_mean',
+        # 'd3m.primitives.tods.feature_analysis.statistical_maximum',
         #'d3m.primitives.tods.feature_analysis.statistical_minimum',
         #'d3m.primitives.tods.feature_analysis.statistical_mean_abs',
         #'d3m.primitives.tods.feature_analysis.statistical_mean_abs_temporal_derivative',
@@ -127,12 +127,12 @@ primitive_python_paths = { # pragma: no cover
     ],
     'detection_algorithm': [
         'd3m.primitives.tods.detection_algorithm.pyod_ae',
-        'd3m.primitives.tods.detection_algorithm.pyod_vae',
+        # 'd3m.primitives.tods.detection_algorithm.pyod_vae',
         'd3m.primitives.tods.detection_algorithm.pyod_cof',
-        'd3m.primitives.tods.detection_algorithm.pyod_sod',
-        'd3m.primitives.tods.detection_algorithm.pyod_abod',
-        'd3m.primitives.tods.detection_algorithm.pyod_hbos',
-        'd3m.primitives.tods.detection_algorithm.pyod_iforest',
+        # 'd3m.primitives.tods.detection_algorithm.pyod_sod',
+        # 'd3m.primitives.tods.detection_algorithm.pyod_abod',
+        # 'd3m.primitives.tods.detection_algorithm.pyod_hbos',
+        # 'd3m.primitives.tods.detection_algorithm.pyod_iforest',
         #'d3m.primitives.tods.detection_algorithm.pyod_lof',
         #'d3m.primitives.tods.detection_algorithm.pyod_knn',
         #'d3m.primitives.tods.detection_algorithm.pyod_ocsvm',
@@ -191,19 +191,22 @@ def _generate_pipline(combinations): # pragma: no cover
         
         # The first three steps are fixed
         # Step 0: dataset_to_dataframe
-        step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.dataset_to_dataframe.Common'))
+        # step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.dataset_to_dataframe.Common'))
+        step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe'))
         step_0.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='inputs.0')
         step_0.add_output('produce')
         pipeline_description.add_step(step_0)
 
         # Step 1: column_parser
-        step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.Common'))
+        # step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.Common'))
+        step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.column_parser'))
         step_1.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
         step_1.add_output('produce')
         pipeline_description.add_step(step_1)
 
         # Step 2: extract_columns_by_semantic_types(attributes)
-        step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+        # step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+        step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
         step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
         step_2.add_output('produce')
         step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
@@ -211,7 +214,8 @@ def _generate_pipline(combinations): # pragma: no cover
         pipeline_description.add_step(step_2)
 
         # Step 3: extract_columns_by_semantic_types(targets)
-        step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+        # step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.extract_columns_by_semantic_types.Common'))
+        step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
         step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
         step_3.add_output('produce')
         step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
@@ -220,21 +224,68 @@ def _generate_pipline(combinations): # pragma: no cover
 
         attributes = 'steps.2.produce'
         targets = 'steps.3.produce'
+        # print('-------------------------------------------------')
+        # print(combination[0])
+        # print('-------------------------------------------------')
+        # print(len(combination))
 
-        tods_step_4 = PrimitiveStep(primitive=index.get_primitive(combination[0]))
+
+        # for j in range(len(combination)):
+
+        # for k in range(len(combination)):
+        #     exec(f'cat_{k} = k*2')
+        #     print(cat_0)
+
+        # print(list(combination[0][1].keys())[0])
+        # print(list(combination[0][1].values())[0])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        tods_step_4 = PrimitiveStep(primitive=index.get_primitive(combination[0][0]))
+        for i in range(len(combination[0][1])):
+            if list(combination[1][1].values())[i] != "None":
+                tods_step_4.add_hyperparameter(name=str(list(combination[0][1].keys())[i]), argument_type=ArgumentType.VALUE, data=list(combination[0][1].values())[i])
+            else:
+                tods_step_4.add_hyperparameter(name=str(list(combination[0][1].keys())[i]), argument_type=ArgumentType.VALUE, data=None)
         tods_step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
         tods_step_4.add_output('produce')
         pipeline_description.add_step(tods_step_4)
 
-        tods_step_5 = PrimitiveStep(primitive=index.get_primitive(combination[1]))
+        tods_step_5 = PrimitiveStep(primitive=index.get_primitive(combination[1][0]))
+        for i in range(len(combination[1][1])):
+            if list(combination[1][1].values())[i] != "None":
+                tods_step_5.add_hyperparameter(name=str(list(combination[1][1].keys())[i]), argument_type=ArgumentType.VALUE, data=list(combination[1][1].values())[i])
+            else:
+                tods_step_5.add_hyperparameter(name=str(list(combination[1][1].keys())[i]), argument_type=ArgumentType.VALUE, data=None)
         tods_step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
         tods_step_5.add_output('produce')
         pipeline_description.add_step(tods_step_5)
 
-        tods_step_6= PrimitiveStep(primitive=index.get_primitive(combination[2]))
+        tods_step_6 = PrimitiveStep(primitive=index.get_primitive(combination[2][0]))
+        for i in range(len(combination[2][1])):
+            if list(combination[2][1].values())[i] != "None":
+                tods_step_6.add_hyperparameter(name=str(list(combination[2][1].keys())[i]), argument_type=ArgumentType.VALUE, data=list(combination[2][1].values())[i])
+            else:
+                tods_step_6.add_hyperparameter(name=str(list(combination[2][1].keys())[i]), argument_type=ArgumentType.VALUE, data=None)
         tods_step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
         tods_step_6.add_output('produce')
-        tods_step_6.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=combination[3])
+        # tods_step_6.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=combination[2][1]['contamination'])
         pipeline_description.add_step(tods_step_6)
 
         #tods_step_7 = PrimitiveStep(primitive=index.get_primitive(combination[3]))
@@ -243,7 +294,8 @@ def _generate_pipline(combinations): # pragma: no cover
         #pipeline_description.add_step(tods_step_7)
 
         # Finalize the pipeline
-        final_step = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.construct_predictions.Common'))
+        # final_step = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.construct_predictions.Common'))
+        final_step = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
         final_step.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
         final_step.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
         final_step.add_output('produce')
@@ -253,9 +305,87 @@ def _generate_pipline(combinations): # pragma: no cover
         
         pipeline_description.id = str(uuid.uuid4())
         pipeline_description.created = Pipeline().created
+        data = pipeline_description.to_json()
+        # print(data)
+        # print('--------------------------------------------------------------------------------------------------------------------------')
 
         piplines.append(pipeline_description)
     return piplines
+
+def get_component_from_json(path):
+    import json
+
+    components = []
+
+    f = open(path)
+    data = json.load(f)
+
+    for i in data:
+        components.append(str(i))
+
+    f.close()
+    return components
+
+def get_primitives_from_json(path):
+    import json
+    import itertools
+
+    components = []
+
+    f = open(path)
+    data = json.load(f)
+
+    space = []
+
+    for i in data:
+        # print(i)
+        p = []
+        if str(i) != 'contamination':
+            for j in data[i]:
+                temp = 'd3m.primitives.tods.' + i  + '.' + j
+                # print(temp)
+                # p.append(temp)
+                hyperparams = []
+                hyperparams_name = []
+                for k in data[i][j]:
+                    hyperparams.append(data[i][j][k])
+                    hyperparams_name.append(k)
+                # print(hyperparams_name)
+                combination = list(itertools.product(*hyperparams))
+                # print(combination)
+                # print("---------------")
+                # print(list(itertools.product(*hyperparams)))
+                # print(list(itertools.product(*hyperparams))[0][0])
+                for comb in combination:
+                    # print(temp, comb)
+                    # for m in hyperparams_name:
+                    #     print(m, combination[hyperparams_name.index(m)])
+                    one = {}
+                    for m in range(len(comb)):
+                        # print(hyperparams_name[m], comb[m])
+                        # one_comp[]
+                        # one.append(hyperparams_name[m])
+                        # one.append(comb[m])
+                        one[hyperparams_name[m]] = comb[m]
+                    # print(one)
+                    p.append((temp, one))
+
+
+
+            space.append(p)
+        elif str(i) == 'contamination':
+            p.append(data[i])
+            space.append(data[i])
+
+    # print(space)
+    # for i in space:
+    #     print(i)
+
+    return space
+
+
+
+
 
 def _generate_pipelines(primitive_python_paths, cpu_count=40): # pragma: no cover
     """
@@ -272,6 +402,26 @@ def _generate_pipelines(primitive_python_paths, cpu_count=40): # pragma: no cove
     components = ['timeseries_processing', 'feature_analysis', 'detection_algorithm', 'contamination']
     combinations = itertools.product(*(primitive_python_paths[k] for k in components))
 
+
+    # print(get_component_from_json('test.json'))
+
+    # print(components)
+    # print(combinations)
+
+    # for k in components:
+    #     print(primitive_python_paths[k])
+
+    # data = get_primitives_from_json('test.json')
+
+    # for k in get_component_from_json('test.json'):
+    #     print(data[k])
+
+    space = get_primitives_from_json('test2.json')
+
+    combinations = itertools.product(*(i for i in space))
+
+    for i in combinations:
+        print(i)
 
     return _generate_pipline(combinations)
     #pipelines = []
@@ -292,3 +442,7 @@ def _generate_pipelines(primitive_python_paths, cpu_count=40): # pragma: no cove
     #    piplines.extend(p.get())
 
     return piplines
+
+temp = _generate_pipelines(primitive_python_paths, 40)
+
+# print(_generate_pipelines(primitive_python_paths, 40))

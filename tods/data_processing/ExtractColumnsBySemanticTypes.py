@@ -85,11 +85,16 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
     )
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+        # print('input in extract columns by semantic type')
+        # print(inputs)
         columns_to_use = self._get_columns(inputs.metadata)
 
         output_columns = inputs.select_columns(columns_to_use)
 
         outputs = base_utils.combine_columns(inputs, columns_to_use, [output_columns], return_result='new', add_index_columns=self.hyperparams['add_index_columns'])
+
+        # print('output in extract columns by semantic type')
+        # print(outputs)
 
         return base.CallResult(outputs)
 

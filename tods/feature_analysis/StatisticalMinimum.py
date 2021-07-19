@@ -122,6 +122,9 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Returns:
             Container DataFrame containing minimum of  time series
         """
+
+        print('input in statistical maximum')
+        print(inputs)
         self.logger.info('Statistical Minimum  Primitive called')
 
         # Get cols to fit.
@@ -166,6 +169,8 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
                                              columns_list=output_columns)
 
         self.logger.info('Statistical Minimum  Primitive returned')
+
+        # exit()
 
         return base.CallResult(outputs)
 

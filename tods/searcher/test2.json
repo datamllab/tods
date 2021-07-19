@@ -1,0 +1,53 @@
+{
+  "data_processing": {
+    "time_interval_transform": {
+      "time_interval": [
+        "5T",
+        "3T"
+      ]
+    }
+  },
+  
+  "feature_analysis": {
+    "statistical_h_mean": {
+      "window_size": [
+        10,
+        20
+      ]
+    },
+    "fast_fourier_transform": {
+      "norm": [
+        "None",
+        "ortho"
+      ]
+    },
+    "hp_filter": {
+      "lamb": [
+        1600
+      ]
+    }
+  },
+  "detection_algorithm": {
+    "pyod_ae": {
+      "epochs": [
+        10,
+        20
+      ],
+      "dropout_rate": [
+        0.1,
+        0.2
+      ],
+      "contamination": [
+        0.01, 
+        0.02, 
+        0.05
+      ]
+    },
+    "pyod_loda": {
+      "n_bins": [
+        10,
+        20
+      ]
+    }
+  }
+}

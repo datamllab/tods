@@ -1,0 +1,77 @@
+{
+  "data_processing": {
+    "time_interval_transform": {
+      "time_interval": [
+        "5T",
+        "3T",
+        "6T"
+      ]
+    }
+  },
+  "timeseries_processing": {
+    "seasonality_trend_decomposition": {
+      "period": [
+        5,
+        10,
+        15
+      ],
+      "model": [
+        "additive",
+        "multiplicative"
+      ]
+    },
+    "moving_average_transform": {
+      "window_size": [
+        30,
+        50,
+        70,
+        120
+      ]
+    }
+  },
+  "feature_analysis": {
+    "statistical_Hmean": {
+      "window_size": [
+        10,
+        20,
+        30,
+        40
+      ]
+    },
+    "fast_fourier_transform": {
+      "norm": [
+        "None",
+        "ortho"
+      ]
+    },
+    "hp_filter": {
+      "lamb": [
+        1600,
+        2000,
+        3000,
+        5400
+      ]
+    }
+  },
+  "detection_algorithm": {
+    "isolation_forest": {
+      "num_tree": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "learning_rate": [
+        0.01,
+        0.025,
+        0.3
+      ]
+    },
+    "pyod_cof": {
+      "n_neighbors": [
+        5,
+        6
+      ]
+    }
+  }
+}

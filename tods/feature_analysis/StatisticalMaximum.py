@@ -122,6 +122,8 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Returns:
             Container DataFrame containing maximum of  time series
         """
+        print('input in statistical maximum')
+        print(inputs)
         self.logger.info('Statistical Maximum  Primitive called')
 
         # Get cols to fit.
