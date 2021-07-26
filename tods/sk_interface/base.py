@@ -61,7 +61,7 @@ class BaseSKI:
             raise AttributeError('type object ' + self.__class__.__name__ + ' has no attribute \'predict\'')
 
         data = self._sys_data_check(data)
-        output_data = self._forward(data, 'produce')
+        output_data = self._forward(data, '_produce')
 
         return output_data
     
@@ -71,7 +71,7 @@ class BaseSKI:
             raise AttributeError('type object ' + self.__class__.__name__ + ' has no attribute \'predict_score\'')
 
         data = self._sys_data_check(data)
-        output_data = self._forward(data, 'produce_score')
+        output_data = self._forward(data, '_produce_score')
 
         return output_data
 
