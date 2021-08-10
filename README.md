@@ -19,6 +19,7 @@ TODS is featured for:
 ## Resources
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 * Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
+* Related Project: [AutoVideo: An Automated Video Action Recognition System](https://github.com/datamllab/autovideo)
 
 ## Cite this Work:
 If you find this  work useful, you may cite this work:
