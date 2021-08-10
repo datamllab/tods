@@ -18,6 +18,7 @@ TODS具有如下特点：
 ## 相关资源
 * API文档: [http://tods-doc.github.io](http://tods-doc.github.io)
 * 论文: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
+* 相关项目：[AutoVideo: An Automated Video Action Recognition System](https://github.com/datamllab/autovideo)
 
 ## 引用该工作：
 如何您觉得我们的工作有用，请引用该工作：
