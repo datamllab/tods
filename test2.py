@@ -10,7 +10,7 @@ from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from axolotl.backend.simple import SimpleRunner
 from tods import generate_dataset, generate_problem
-from tods.searcher import BruteForceSearch
+# from tods.searcher import BruteForceSearch
 
 from tods import generate_dataset, load_pipeline, evaluate_pipeline
 
@@ -44,10 +44,10 @@ pipeline_description = Pipeline()
 pipeline_description.add_input(name='inputs')
 
 # Step 0: dataset_to_dataframe
-step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe'))
-step_0.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='inputs.0')
-step_0.add_output('produce')
-pipeline_description.add_step(step_0)
+temp = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe'))
+temp.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='inputs.0')
+temp.add_output('produce')
+pipeline_description.add_step(temp)
 
 # Step 1: column_parser
 step_1 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.column_parser'))
@@ -80,7 +80,16 @@ print('step 4')
 
 
 
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.timestamp_validation'))
+# step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.timestamp_validation'))
+# step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+# step_4.add_output('produce')
+# pipeline_description.add_step(step_4)
+
+import sys
+this = sys.modules[__name__] # this is now your current namespace
+
+setattr(this, 'step_%s' % 4, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_h_mean')))
+
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
@@ -118,7 +127,7 @@ pipeline_description.add_output(name='output predictions', data_reference='steps
 data = pipeline_description.to_json()
 with open('autoencoder_pipeline.json', 'w') as f:
     f.write(data)
-    # print(data)
+    print(data)
 
 
 DEFAULT_PIPELINE_DIR = os.path.join('autoencoder_pipeline.json')
@@ -129,6 +138,8 @@ pipeline = pipeline_utils.load_pipeline(DEFAULT_PIPELINE_DIR)
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
 
 print(pipeline_result)
+print('-------------------------')
+print(pipeline_result.scores.value[0])
 
 # raise pipeline_result.error
 

@@ -10,13 +10,13 @@ from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from axolotl.backend.simple import SimpleRunner
 from tods import generate_dataset, generate_problem
-from tods.searcher import BruteForceSearch
+# from tods.searcher import BruteForceSearch
 
 from tods import generate_dataset, load_pipeline, evaluate_pipeline
 
 
 
-table_path = 'yahoo_sub_5.csv'
+table_path = '../../yahoo_sub_5.csv'
 target_index = 6 # what column is the target
 metric = 'F1_MACRO' # F1 on both label 0 and 1
 
@@ -63,14 +63,14 @@ step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALU
 							  data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
 pipeline_description.add_step(step_2)
 
-print('step 3')
-# Step 3: extract_columns_by_semantic_types(targets)
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
-step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
-step_3.add_output('produce')
-step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
-							data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'])
-pipeline_description.add_step(step_3)
+# print('step 3')
+# # Step 3: extract_columns_by_semantic_types(targets)
+# step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.extract_columns_by_semantic_types'))
+# step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.0.produce')
+# step_3.add_output('produce')
+# step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
+# 							data=['https://metadata.datadrivendiscovery.org/types/TrueTarget'])
+# pipeline_description.add_step(step_3)
 
 attributes = 'steps.2.produce'
 targets = 'steps.3.produce'
@@ -80,10 +80,19 @@ print('step 4')
 
 
 
+# step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.time_interval_transform'))
+# step_3.add_hyperparameter(name="time_interval", argument_type=ArgumentType.VALUE, data = 'T')
+# step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+# step_3.add_output('produce')
+# pipeline_description.add_step(step_3)
 
 
-
-
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform'))
+step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+# step_3.add_hyperparameter(name="use_columns", argument_type=ArgumentType.VALUE, data = (2, 3))
+# step_3.add_hyperparameter(name="use_semantic_types", argument_type=ArgumentType.VALUE, data = True)
+step_3.add_output('produce')
+pipeline_description.add_step(step_3)
 
 
 
@@ -91,7 +100,7 @@ print('step 4')
 
 # Step 4: processing
 step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_maximum'))
-step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=attributes)
+step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
@@ -127,5 +136,5 @@ pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
 
 print(pipeline_result)
 
-# raise pipeline_result.error
+raise pipeline_result.error[0]
 
