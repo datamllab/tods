@@ -6,11 +6,22 @@ config = {
   "num_samples": 15,
 }
 
+
+
+
+
+
+
+
 # dataset = datapath_to_dataset('../../datasets/anomaly/kpi/kpi_dataset/tables/learningData.csv', 3)
 
 dataset = datapath_to_dataset('../../yahoo_sub_5.csv', 6)
 
-search_space = json_to_searchspace(path = 'test2.json', config = config, mode = 'simple', ignore_hyperparams = False)
+
+
+
+
+search_space = json_to_searchspace(path = 'test2.json', config = config, all_combination = False, ignore_hyperparams = False)
 
 # search_space2 = {
 #   "timeseries_processing": tune.choice(["moving_average_transform"]),
