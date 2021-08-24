@@ -87,25 +87,41 @@ print('step 4')
 # pipeline_description.add_step(step_3)
 
 
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform'))
+# Step 3: holt smoothing
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.simple_exponential_smoothing'))
 step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
-# step_3.add_hyperparameter(name="use_columns", argument_type=ArgumentType.VALUE, data = (2, 3))
+# step_3.add_hyperparameter(name="exclude_columns", argument_type=ArgumentType.VALUE, data = (2, 3))
 # step_3.add_hyperparameter(name="use_semantic_types", argument_type=ArgumentType.VALUE, data = True)
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)
+
+#works:
+# moving_average_transform
+# holt_winters_exponential_smoothing
+# simple_exponential_smoothing
+# decomposition.time_series_seasonality_trend_decomposition
+# subsequence_segmentation
+
+# not
+# holt_smoothing
+# axiswise_scaler
+# standard_scaler
+# power_transformer
+# quantile_transformer
+
 
 
 
 
 
 # Step 4: processing
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_maximum'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_h_mean'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
 # Step 5: algorithm`
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_ae'))
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_loda'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
@@ -133,8 +149,9 @@ from axolotl.utils import pipeline as pipeline_utils
 pipeline = pipeline_utils.load_pipeline(DEFAULT_PIPELINE_DIR)
 
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
-
 print(pipeline_result)
+print(pipeline_result.scores.value[0])
 
-raise pipeline_result.error[0]
-
+# raise pipeline_result.error[0]
+# 
+# {"id": "c9ff3096-5d52-4226-b9b9-52c81443d524", "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json", "created": "2021-08-24T04:03:52.594989Z", "inputs": [{"name": "inputs"}], "outputs": [{"data": "steps.6.produce", "name": "output predictions"}], "steps": [{"type": "PRIMITIVE", "primitive": {"id": "c78138d9-9377-31dc-aee8-83d9df049c60", "version": "0.3.0", "python_path": "d3m.primitives.tods.data_processing.dataset_to_dataframe", "name": "Extract a DataFrame from a Dataset"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "inputs.0"}}, "outputs": [{"id": "produce"}]}, {"type": "PRIMITIVE", "primitive": {"id": "81235c29-aeb9-3828-911a-1b25319b6998", "version": "0.6.0", "python_path": "d3m.primitives.tods.data_processing.column_parser", "name": "Parses strings into their types"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.0.produce"}}, "outputs": [{"id": "produce"}]}, {"type": "PRIMITIVE", "primitive": {"id": "a996cd89-ddf0-367f-8e7f-8c013cbc2891", "version": "0.4.0", "python_path": "d3m.primitives.tods.data_processing.extract_columns_by_semantic_types", "name": "Extracts columns by semantic type"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.1.produce"}}, "outputs": [{"id": "produce"}], "hyperparams": {"semantic_types": {"type": "VALUE", "data": ["https://metadata.datadrivendiscovery.org/types/Attribute"]}}}, {"type": "PRIMITIVE", "primitive": {"id": "b72dab84-5bdf-3bdd-88f4-1f959c384a63", "version": "0.0.1", "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing", "name": "statsmodels.preprocessing.HoltSmoothing"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.2.produce"}}, "outputs": [{"id": "produce"}], "hyperparams": {"endog": {"type": "VALUE", "data": 2}}}, {"type": "PRIMITIVE", "primitive": {"id": "4793224a-d71b-33c3-b39c-cc849262fc5d", "version": "0.1.0", "python_path": "d3m.primitives.tods.feature_analysis.statistical_h_mean", "name": "Time Series Decompostional"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.3.produce"}}, "outputs": [{"id": "produce"}], "hyperparams": {"window_size": {"type": "VALUE", "data": 10}}}, {"type": "PRIMITIVE", "primitive": {"id": "0303d5ef-5d6a-3880-85ec-f519e8effc55", "version": "0.0.1", "python_path": "d3m.primitives.tods.detection_algorithm.pyod_loda", "name": "TODS.anomaly_detection_primitives.LODAPrimitive"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.4.produce"}}, "outputs": [{"id": "produce"}], "hyperparams": {"n_bins": {"type": "VALUE", "data": 10}}}, {"type": "PRIMITIVE", "primitive": {"id": "2530840a-07d4-3874-b7d8-9eb5e4ae2bf3", "version": "0.3.0", "python_path": "d3m.primitives.tods.data_processing.construct_predictions", "name": "Construct pipeline predictions output"}, "arguments": {"inputs": {"type": "CONTAINER", "data": "steps.5.produce"}, "reference": {"type": "CONTAINER", "data": "steps.1.produce"}}, "outputs": [{"id": "produce"}]}], "digest": "d91ab567b50e7dd8315cb625c1e35d90f4369dd72bd1547530a09c4b5da0ccd4"}

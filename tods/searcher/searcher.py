@@ -53,7 +53,6 @@ class RaySearcher():
 
     best_config = analysis.get_best_config(metric="accuracy")
     self.clearer_best_config(best_config)
-    # print(self.clearer_best_config(best_config))
     return best_config
 
   def _evaluate(self, search_space):
@@ -67,6 +66,24 @@ class RaySearcher():
     from d3m.metadata.base import ArgumentType
     from d3m.metadata.pipeline import Pipeline, PrimitiveStep
     import sys
+
+    primitive_map = {'axiswise_scaler': 'transformation',
+    'standard_scaler': 'transformation',
+    'power_transformer': 'transformation',
+    'quantile_transformer': 'transformation',
+    'moving_average_transform': 'transformation',
+    'simple_exponential_smoothing': 'transformation',
+    'holt_smoothing': 'transformation',
+    'holt_winters_exponential_smoothing': 'transformation',
+    'time_series_seasonality_trend_decomposition': 'decomposition',
+    'subsequence_segmentation': ''
+    }
+
+
+
+
+
+
 
     pipeline_description = Pipeline()
     pipeline_description.add_input(name='inputs')
@@ -97,33 +114,38 @@ class RaySearcher():
     counter += 1
 
 
-    timeseries_processing_list = []
 
-    timeseries_processing = search_space.pop('timeseries_processing', None)
-    if ' ' in timeseries_processing:
-      timeseries_processing_list = timeseries_processing.split(' ')
-    else:
-      timeseries_processing_list.append(timeseries_processing)
+    if 'timeseries_processing' in search_space.keys():
+      timeseries_processing_list = []
 
-    for x in range(len(timeseries_processing_list)):
-      this = sys.modules[__name__]
-      name = 'step_' + str(counter)
-      print(name)
-      setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.' + timeseries_processing_list[x])))
-      this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.transformation.' + timeseries_processing_list[x]))
+      timeseries_processing = search_space.pop('timeseries_processing', None)
+      if ' ' in timeseries_processing:
+        timeseries_processing_list = timeseries_processing.split(' ')
+      else:
+        timeseries_processing_list.append(timeseries_processing)
 
-      this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
-      for key, value in search_space.items():
-        if timeseries_processing_list[x] in key:
-          hp_name = key.replace(timeseries_processing_list[x] + '_', '')
-          if value != "None":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
-          else:
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
-      this.name.add_output('produce')
-      pipeline_description.add_step(this.name)
-      counter += 1
-    
+      for x in range(len(timeseries_processing_list)):
+        this = sys.modules[__name__]
+        name = 'step_' + str(counter)
+        setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x])))
+        this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x]))
+
+        this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
+        for key, value in search_space.items():
+          if timeseries_processing_list[x] in key:
+            hp_name = key.replace(timeseries_processing_list[x] + '_', '')
+            if value == "None":
+              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
+            elif value == "True":
+              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
+            elif value == "False":
+              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
+            else:
+              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
+        this.name.add_output('produce')
+        pipeline_description.add_step(this.name)
+        counter += 1
+
 
 
 
@@ -149,14 +171,17 @@ class RaySearcher():
       for key, value in search_space.items():
         if feature_analysis_list[x] in key:
           hp_name = key.replace(feature_analysis_list[x] + '_', '')
-          if value != "None":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
-          else:
+          if value == "None":
             this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
+          elif value == "True":
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
+          elif value == "False":
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
+          else:
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
       this.name.add_output('produce')
       pipeline_description.add_step(this.name)
       counter += 1
-
 
 
 
@@ -181,10 +206,14 @@ class RaySearcher():
       for key, value in search_space.items():
         if detection_algorithm_list[x] in key:
           hp_name = key.replace(detection_algorithm_list[x] + '_', '')
-          if value != "None":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
-          else:
+          if value == "None":
             this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
+          elif value == "True":
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
+          elif value == "False":
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
+          else:
+            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
       this.name.add_output('produce')
       pipeline_description.add_step(this.name)
       counter += 1
@@ -213,7 +242,7 @@ class RaySearcher():
 
     pipeline_description.add_output(name='output predictions', data_reference='steps.' + str(counter - 1) + '.produce')
     data = pipeline_description.to_json()
-    print(data)
+    # print(data)
     return pipeline_description
 
   def clearer_best_config(self, best_config):
@@ -247,7 +276,7 @@ def datapath_to_dataset(path, target_index):
   df = pd.read_csv(path)
   return generate_dataset(df, target_index)
 
-def json_to_searchspace(path):
+def json_to_searchspace(path, config, mode):
   import json
 
   with open(path) as f:
@@ -256,47 +285,38 @@ def json_to_searchspace(path):
   def get_all_comb(stuff):
     import itertools
     temp = []
-    
     for L in range(0, len(stuff)+1):
       for subset in itertools.permutations(stuff, L):
         subset = list(subset)
         temp2 = ''
         for i in subset:
           temp2 = temp2 + (i + ' ')
-
         temp2 = temp2[:-1]
         if temp2 != '':
           temp.append(temp2)
-
     return temp
 
   search_space = {}
   from itertools import permutations
   for primitive_type, primitive_list in data.items():
-      # print(key, value)
-      temp = []
-      for primitive_name, hyperparams in primitive_list.items():
-          temp.append(primitive_name)
-          for hyperparams_name, hyperparams_value in hyperparams.items():
-              name = primitive_name + '_' + hyperparams_name
-              search_space[name] = tune.choice(hyperparams_value)
-      search_space[primitive_type] = tune.choice(get_all_comb(temp))
+    temp = []
+    for primitive_name, hyperparams in primitive_list.items():
+      temp.append(primitive_name)
+      for hyperparams_name, hyperparams_value in hyperparams.items():
+        name = primitive_name + '_' + hyperparams_name
+        if config['searching_algorithm'] == 'hyperopt':
+          search_space[name] = tune.choice(hyperparams_value)
+        else:
+          search_space[name] = tune.grid_search(hyperparams_value)
+    if mode == 'all_combination':
+      if config['searching_algorithm'] == 'hyperopt':
+        search_space[primitive_type] = tune.choice(get_all_comb(temp))
+      else:
+        search_space[primitive_type] = tune.grid_search(get_all_comb(temp))
+    elif mode == 'simple':
+      if config['searching_algorithm'] == 'hyperopt':
+        search_space[primitive_type] = tune.choice(temp)
+      else:
+        search_space[primitive_type] = tune.grid_search(temp)
 
   return search_space
-
-
-
-
-# config = {
-#   "searching_algorithm": 'hyperopt',
-#   "num_samples": 15,
-# }
-
-# dataset = datapath_to_dataset('../../yahoo_sub_5.csv', 6)
-
-# search_space = json_to_searchspace('test2.json')
-
-# s = RaySearcher(dataset, 'F1_MACRO')
-
-# print(s.search(search_space=search_space,
-#         config=config))

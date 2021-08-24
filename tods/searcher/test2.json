@@ -1,13 +1,12 @@
 {
   "timeseries_processing": {
-    "moving_average_transform": {
-      "window_size": [
-        2,
-        3
+    "time_series_seasonality_trend_decomposition": {
+      "use_semantic_types": [
+        "True",
+        "False"
       ]
     }
   },
-
   "feature_analysis": {
     "statistical_h_mean": {
       "window_size": [
