@@ -276,7 +276,7 @@ def datapath_to_dataset(path, target_index):
   df = pd.read_csv(path)
   return generate_dataset(df, target_index)
 
-def json_to_searchspace(path, config, mode):
+def json_to_searchspace(path, config, mode, ignore_hyperparams):
   import json
 
   with open(path) as f:
@@ -300,14 +300,15 @@ def json_to_searchspace(path, config, mode):
   from itertools import permutations
   for primitive_type, primitive_list in data.items():
     temp = []
-    for primitive_name, hyperparams in primitive_list.items():
-      temp.append(primitive_name)
-      for hyperparams_name, hyperparams_value in hyperparams.items():
-        name = primitive_name + '_' + hyperparams_name
-        if config['searching_algorithm'] == 'hyperopt':
-          search_space[name] = tune.choice(hyperparams_value)
-        else:
-          search_space[name] = tune.grid_search(hyperparams_value)
+    if not ignore_hyperparams:
+      for primitive_name, hyperparams in primitive_list.items():
+        temp.append(primitive_name)
+        for hyperparams_name, hyperparams_value in hyperparams.items():
+          name = primitive_name + '_' + hyperparams_name
+          if config['searching_algorithm'] == 'hyperopt':
+            search_space[name] = tune.choice(hyperparams_value)
+          else:
+            search_space[name] = tune.grid_search(hyperparams_value)
     if mode == 'all_combination':
       if config['searching_algorithm'] == 'hyperopt':
         search_space[primitive_type] = tune.choice(get_all_comb(temp))
