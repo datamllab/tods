@@ -16,7 +16,7 @@ from tods import generate_dataset, load_pipeline, evaluate_pipeline
 
 
 
-table_path = '../../yahoo_sub_5.csv'
+table_path = 'yahoo_sub_5.csv'
 target_index = 6 # what column is the target
 metric = 'F1_MACRO' # F1 on both label 0 and 1
 
