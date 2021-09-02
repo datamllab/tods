@@ -13,7 +13,7 @@ config = {
 
 #2 dataset for test
 # dataset = datapath_to_dataset('../../datasets/anomaly/kpi/kpi_dataset/tables/learningData.csv', 3)
-dataset = datapath_to_dataset('../../yahoo_sub_5.csv', 6)
+dataset = datapath_to_dataset('../../datasets/anomaly/raw_data/yahoo_sub_5.csv', 6)
 
 
 
@@ -21,7 +21,7 @@ dataset = datapath_to_dataset('../../yahoo_sub_5.csv', 6)
 #transform json to search space
 #all_combination True means calculating all possibilities
 #ignore_hyperparams False means not adding hyperparams into search space
-search_space = json_to_searchspace(path = 'test2.json', config = config, all_combination = False, ignore_hyperparams = False)
+search_space = json_to_searchspace(path = 'test.json', config = config, all_combination = False, ignore_hyperparams = False)
 
 #a self defined seach space
 # search_space2 = {
