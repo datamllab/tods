@@ -1,0 +1,106 @@
+{'pipeline': <d3m.metadata.pipeline.Pipeline object at 0x7f4231249ef0>, 
+'hyperparams': None, 
+'problem_description': Problem(id='3d9a1f1c-28e6-4216-826f-fe4db38f9c8f_problem'), 
+'context': <Context.TESTING: 'TESTING'>, 
+'random_seed': 0, 
+'volumes_dir': None, 
+'scratch_dir': None, 
+'is_standard_pipeline': True, 
+'users': None, 
+'environment': {'worker_id': '1dfee227-d988-5fc6-a0a6-0325dbd60df8', 'resources': {'cpu': {'devices': [
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          },
+          {'name': 'Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz'
+          }
+        ], 'physical_present': 8, 'logical_present': 16, 'constraints': {'cpu_shares': 1024
+        }
+      }, 'memory': {'total_memory': 33606049792
+      }, 'gpu': {'devices': [
+          {'name': 'GeForce RTX 2070', 'memory': 8366587904
+          }
+        ], 'total_memory': 8366587904
+      }
+    }, 
+'reference_engine_version': '2021.02.12', 
+'engine_version': '2021.02.12', 'id': 'a2cb6b9e-2f88-5365-83dc-8a5ae510d0e8'
+  }, 
+'steps_state': [None, None, None, None, None, Params_ODBase({'left_inds_': array([
+        0,
+        1,
+        2, ...,
+        1397,
+        1398,
+        1399
+      ]), 'right_inds_': array([
+        1,
+        2,
+        3, ...,
+        1398,
+        1399,
+        1400
+      ]), 'clf_': AutoEncoder(batch_size=32, contamination=0.1, dropout_rate=0.2, epochs=1,
+  hidden_activation='relu', hidden_neurons=[
+        1,
+        4,
+        1
+      ],
+  l2_regularizer=0.1,
+  loss=<function mean_squared_error at 0x7f423c1d9bf8>,
+  optimizer='adam', output_activation='sigmoid', preprocessing=True,
+  random_state=None, validation_size=0.1, verbose=1), 'input_column_names': Index(['timestamp', 'value_0', 'value_1', 'value_2', 'value_3', 'value_4',
+   'timestamp_maximum', 'value_0_maximum', 'value_1_maximum',
+   'value_2_maximum', 'value_3_maximum', 'value_4_maximum'
+      ],
+  dtype='object'), 'training_indices_': [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ], 'target_names_': None, 'target_column_indices_': None, 'target_columns_metadata_': None
+    }), None
+  ],  
+'_previous_pipeline_run': <d3m.metadata.pipeline_run.PipelineRun object at 0x7f423105f898>, 
+'current_step': 0, 
+'phase': None, 
+'return_values': None, 
+'data_values': {}, 
+'_base_temporary_directory': None, 
+'_base_temporary_directory_path': None, 
+'pipeline_run': None
+}
