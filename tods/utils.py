@@ -95,16 +95,6 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-import json
-class Resultt:
-    def __init__(self, runtime, metadata):
-        self.runtime = runtime
-        self.metadata = metadata
-    
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
-
 def sampling(args):
     from tensorflow.keras import backend as K
     """Reparametrisation by sampling from Gaussian, N(0,I)
@@ -172,7 +162,7 @@ def save(dataset, pipeline, metric='F1', seed=0):
 
             # steps_state[i]['clf_'] = 'place_holder'
 
-    print(steps_state[model_index]['clf_'])
+    print(steps_state)
 
     model_name = type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_']).__name__
     print(model_name)
@@ -511,6 +501,8 @@ def save2(dataset, pipeline, metric='F1', seed=0):
     from tensorflow import keras
     import os
 
+    import dill as pickle
+
     # from dill import dumps, loads
 
     problem_description = generate_problem(dataset, metric)
@@ -528,10 +520,160 @@ def save2(dataset, pipeline, metric='F1', seed=0):
         'dataset_metadata': dataset.metadata
     }
 
-    
+    print(fitted_pipeline['runtime'].steps_state)
+
+    steps_state = backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state
+
     pipeline_id = backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].pipeline.id
-    # joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
-    path = 'fitted_pipelines/' + str(pipeline_id)
-    if not os.path.exists(path):
-        os.makedirs(path)
+
+    model_index = {}
+
+    for i in range(len(steps_state)):
+        if steps_state[i] != None:
+            model_name = type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']).__name__
+            model_index[str(model_name)] = i
+
+            if 'AutoEncoder' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+            elif 'VAE' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+            elif 'SO_GAAL' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].combine_model.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].combine_model = None
+
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].discriminator.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].discriminator = None
+
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].generator.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].generator = None
+
+
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+            elif 'MO_GAAL' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                print(vars(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']))
+
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].discriminator.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].discriminator = None
+
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+            else:
+                pass
+
+    if not os.path.isdir('fitted_pipelines/' + str(pipeline_id) + '/'):
+        os.mkdir('fitted_pipelines/' + str(pipeline_id) + '/')
     joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+    joblib.dump(model_index, 'fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
+
+    return pipeline_id
+
+
+def load2(dataset, pipeline_id):
+    from d3m.metadata import base as metadata_base
+    from axolotl.backend.simple import SimpleRunner
+    import uuid
+    import joblib
+    import tensorflow as tf
+    from tensorflow import keras
+    import os
+
+    from d3m.runtime import Runtime
+
+
+    orders = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
+    print('orders', orders)
+
+    fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+
+    for model_name, model_index in orders.items():
+        print(model_name, model_index)
+        if model_name == 'AutoEncoder':
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+            print(model)
+            model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+            fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
+        elif model_name == 'VAE':
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            print(model)
+            model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name), custom_objects = {'sampling': sampling})
+            fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
+        elif model_name == 'SO_GAAL':
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            print(model)
+            
+            model.discriminator = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+            model.combine_model = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
+            model.generator = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
+            fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
+        elif model_name == 'MO_GAAL':
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            model.discriminator = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+
+            fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
+        else:
+            pass
+
+
+    print(fitted_pipeline['runtime'].steps_state)
+
+
+
+
+
+
+    # path = 'fitted_pipelines/' + str(pipeline_id) + '/model'
+
+    # model_list = [name for name in os.listdir(path) if os.path.isdir(os.path.join(path, name))]
+
+    # print(model_list)
+
+    # if model_list[0] == 'VAE':
+    #     fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+    #     model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+    #     model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]), custom_objects={'sampling': sampling})
+    # elif model_list[0] == 'AutoEncoder':
+    #     fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+    #     model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+    #     model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]))
+
+    # steps_state = fitted_pipeline['runtime'].steps_state
+
+    # for i in range(len(steps_state)):
+    #     if steps_state[i] != None:
+    #         if steps_state[i]['clf_'] == 'place_holder':
+    #             steps_state[i]['clf_'] = model
+
+
+    dataset.metadata = fitted_pipeline['dataset_metadata']
+
+    metadata_dict = dataset.metadata.query(('learningData', metadata_base.ALL_ELEMENTS, 1))
+    metadata_dict = {key: metadata_dict[key] for key in metadata_dict}
+    # metadata_dict['location_base_uris'] = [pathlib.Path(os.path.abspath(test_media_dir)).as_uri()+'/']
+    dataset.metadata = dataset.metadata.update(('learningData', metadata_base.ALL_ELEMENTS, 1), metadata_dict)
+
+    # Start backend
+    backend = SimpleRunner(random_seed=0)
+
+    _id = str(uuid.uuid4())
+    backend.fitted_pipelines[_id] = fitted_pipeline['runtime']
+
+    # Produce
+    pipeline_result = backend.produce_pipeline(_id, [dataset])
+    if pipeline_result.status == "ERRORED":
+        raise pipeline_result.error
+    return pipeline_result
