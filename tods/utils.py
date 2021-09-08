@@ -161,6 +161,8 @@ def save(dataset, pipeline, metric='F1', seed=0):
 
     model_index = -1
 
+    
+
     for i in range(len(steps_state)):
         if steps_state[i] != None:
             model_index = i
@@ -172,9 +174,11 @@ def save(dataset, pipeline, metric='F1', seed=0):
 
     print(steps_state[model_index]['clf_'])
 
+    model_name = type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_']).__name__
+    print(model_name)
 
     if 'AutoEncoder' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'])):
-        backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/keras_model')
+        backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
         backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_ = None
         joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
 
@@ -182,7 +186,7 @@ def save(dataset, pipeline, metric='F1', seed=0):
 
         joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
     elif 'VAE' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'])):
-        backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/keras_model')
+        backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
         backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'].model_ = None
         joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[model_index]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
 
@@ -216,16 +220,24 @@ def load(dataset, pipeline_id):
     import joblib
     import tensorflow as tf
     from tensorflow import keras
+    import os
 
     from d3m.runtime import Runtime
 
-    fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+    path = 'fitted_pipelines/' + str(pipeline_id) + '/model'
 
-    model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+    model_list = [name for name in os.listdir(path) if os.path.isdir(os.path.join(path, name))]
 
-    model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/keras_model', custom_objects={'sampling': sampling})
+    print(model_list)
 
-    print(model)
+    if model_list[0] == 'VAE':
+        fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+        model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+        model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]), custom_objects={'sampling': sampling})
+    elif model_list[0] == 'AutoEncoder':
+        fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+        model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+        model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]))
 
     steps_state = fitted_pipeline['runtime'].steps_state
 
