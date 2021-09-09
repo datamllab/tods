@@ -501,7 +501,7 @@ def save2(dataset, pipeline, metric='F1', seed=0):
     from tensorflow import keras
     import os
 
-    import dill as pickle
+    # import dill as pickle
 
     # from dill import dumps, loads
 
