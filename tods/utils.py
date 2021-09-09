@@ -151,8 +151,6 @@ def save(dataset, pipeline, metric='F1', seed=0):
 
     model_index = -1
 
-    
-
     for i in range(len(steps_state)):
         if steps_state[i] != None:
             model_index = i
