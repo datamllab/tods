@@ -100,13 +100,13 @@ dataset = generate_dataset(df, 6)
 # pipeline = schemas_utils.load_default_pipeline()
 pipeline = load_pipeline('autoencoder_pipeline.json')
 
-id_ = save(dataset, pipeline, 'F1_MACRO')
+id_ = save2(dataset, pipeline, 'F1_MACRO')
 
 table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, 5)
 
-print(testss(dataset, id_))
+print(load2(dataset, id_))
 
 # print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
 

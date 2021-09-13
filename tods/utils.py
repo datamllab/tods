@@ -617,11 +617,39 @@ def save2(dataset, pipeline, metric='F1', seed=0):
 
                 steps_state[i]['clf_'] = 'place_holder'
 
-            else:
-                pass
+            elif 'LSTMOutlierDetector' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
 
-    if not os.path.isdir('fitted_pipelines/' + str(pipeline_id) + '/'):
-        os.mkdir('fitted_pipelines/' + str(pipeline_id) + '/')
+                steps_state[i]['clf_'] = 'place_holder'
+
+                joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            elif 'DeeplogLstm' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+                joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            elif 'Detector' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']._model.model.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']._model.model = None
+                joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+
+                steps_state[i]['clf_'] = 'place_holder'
+
+                joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            
+            else:
+                print(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])
+                if not os.path.isdir('fitted_pipelines/' + str(pipeline_id) + '/'):
+                    os.mkdir('fitted_pipelines/' + str(pipeline_id) + '/')
+                joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+
+
+    
     joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
     joblib.dump(model_index, 'fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
 
@@ -670,8 +698,20 @@ def load2(dataset, pipeline_id):
             model.discriminator = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
 
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
+        elif model_name == 'LSTMOutlierDetector':
+            fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+            model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]))
+        elif model_name == 'DeeplogLstm':
+            fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+            model.model_ = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]))
+        elif  model_name == 'Detector':
+            fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            model = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/model/model.pkl')
+            model._model.model = keras.models.load_model('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_list[0]))
         else:
-            pass
+            fitted_pipeline = joblib.load('fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
 
 
     print(fitted_pipeline['runtime'].steps_state)
