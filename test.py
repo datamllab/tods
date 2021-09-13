@@ -1,7 +1,7 @@
 import pandas as pd
 
 from tods import schemas as schemas_utils
-from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_fitted_pipeline_by_pipeline, load_fitted_pipeline_by_id, save, load, save2, load_pipeline, load2
+from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_fitted_pipeline_by_pipeline, load_fitted_pipeline_by_id, save, load, save2, load_pipeline, load2, testss
 
 
 from d3m.metadata import base as metadata_base
@@ -57,7 +57,7 @@ step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
 # Step 5: algorithm`
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_mogaal'))
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.matrix_profile'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
@@ -100,15 +100,15 @@ dataset = generate_dataset(df, 6)
 # pipeline = schemas_utils.load_default_pipeline()
 pipeline = load_pipeline('autoencoder_pipeline.json')
 
-id_ = save2(dataset, pipeline, 'F1_MACRO')
+id_ = save(dataset, pipeline, 'F1_MACRO')
 
 table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, 5)
 
-print(load2(dataset, id_))
+print(testss(dataset, id_))
 
-print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
+# print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
 
 # works:
 # pyod_ae
@@ -126,13 +126,15 @@ print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
 # pyod_sogaal
 # pyod_mogaal
 
+# AutoRegODetector
 
+# LSTMOutlierDetector
+# PCAODetector
 
-
-
-
-
-
+# KDiscordODetector
+# DeeplogLstm
+# matrix profile
+# telemnon
 
 # not working
 
