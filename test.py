@@ -57,12 +57,12 @@ step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
 # Step 5: algorithm`
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.matrix_profile'))
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
-# step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_ae'))
+# step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.matrix_profile'))
 # step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
 # step_6.add_output('produce')
 # pipeline_description.add_step(step_6)
