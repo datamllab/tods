@@ -31,8 +31,8 @@ pipeline_description.add_step(step_2)
 
 # Step 3: telemanom
 step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
-# step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
-# step_3.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(2,3,4,5,6))
+step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
+# step_3.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(2,3,4,5))
 step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)

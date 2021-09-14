@@ -565,6 +565,8 @@ def save2(dataset, pipeline, metric='F1', seed=0):
         'dataset_metadata': dataset.metadata
     }
 
+    original_fitted_pipeline = fitted_pipeline
+
     print(fitted_pipeline['runtime'].steps_state)
 
     steps_state = backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state
@@ -579,18 +581,21 @@ def save2(dataset, pipeline, metric='F1', seed=0):
             model_index[str(model_name)] = i
 
             if 'AutoEncoder' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
+                print('---------------------------------------------------------------------------------------------------------')
+                print(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_)
+                print('---------------------------------------------------------------------------------------------------------')
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
             elif 'VAE' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
             elif 'SO_GAAL' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].combine_model.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
@@ -605,7 +610,7 @@ def save2(dataset, pipeline, metric='F1', seed=0):
 
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
             elif 'MO_GAAL' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
                 print(vars(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']))
@@ -615,14 +620,14 @@ def save2(dataset, pipeline, metric='F1', seed=0):
 
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
             elif 'LSTMOutlierDetector' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_.save('fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
                 joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
             elif 'DeeplogLstm' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
@@ -630,7 +635,7 @@ def save2(dataset, pipeline, metric='F1', seed=0):
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'].model_ = None
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
                 joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
             elif 'Detector' in str(type(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'])):
@@ -638,7 +643,7 @@ def save2(dataset, pipeline, metric='F1', seed=0):
                 backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_']._model.model = None
                 joblib.dump(backend.fitted_pipelines[pipeline_result.fitted_pipeline_id].steps_state[i]['clf_'], 'fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                steps_state[i]['clf_'] = 'place_holder'
+                # steps_state[i]['clf_'] = 'place_holder'
 
                 joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
             
@@ -653,7 +658,9 @@ def save2(dataset, pipeline, metric='F1', seed=0):
     joblib.dump(fitted_pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
     joblib.dump(model_index, 'fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
 
-    return pipeline_id
+    # joblib.dump(pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/original_description.pkl'))
+
+    return pipeline_id, original_fitted_pipeline
 
 
 def load2(dataset, pipeline_id):
@@ -765,11 +772,13 @@ def load2(dataset, pipeline_id):
     _id = str(uuid.uuid4())
     backend.fitted_pipelines[_id] = fitted_pipeline['runtime']
 
+    print(fitted_pipeline['runtime'].pipeline.description)
+
     # Produce
     pipeline_result = backend.produce_pipeline(_id, [dataset])
     if pipeline_result.status == "ERRORED":
         raise pipeline_result.error
-    return pipeline_result
+    return pipeline_result, fitted_pipeline
 
 
 def testss(dataset, pipeline_id):
@@ -827,3 +836,25 @@ def testss(dataset, pipeline_id):
     if pipeline_result.status == "ERRORED":
         raise pipeline_result.error
     return pipeline_result
+
+
+def check_runtime_diff(saved_runtime, loaded_runtime):
+    #first check attributes of pipeline
+    print(saved_runtime['runtime'].__dict__)
+    print(loaded_runtime['runtime'].__dict__)
+    #then check steps state
+    print(saved_runtime['runtime'].steps_state)
+    print(loaded_runtime['runtime'].steps_state)
+    #then check clf
+    model_indexes = []
+    for i in range(len(saved_runtime['runtime'].steps_state)):  
+        if saved_runtime['runtime'].steps_state[i] != None:
+            model_indexes.append(i)
+
+    for i in model_indexes:
+        print(saved_runtime['runtime'].steps_state[i]['clf_'])
+        print(loaded_runtime['runtime'].steps_state[i]['clf_'])
+    #then comapre model based on model
+    for i in model_indexes:
+        print(saved_runtime['runtime'].steps_state[i]['clf_'].model_)
+        print(loaded_runtime['runtime'].steps_state[i]['clf_'].model_)

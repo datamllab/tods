@@ -1,7 +1,7 @@
 import pandas as pd
 
 from tods import schemas as schemas_utils
-from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_fitted_pipeline_by_pipeline, load_fitted_pipeline_by_id, save, load, save2, load_pipeline, load2, testss
+from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_fitted_pipeline_by_pipeline, load_fitted_pipeline_by_id, save, load, save2, load_pipeline, load2, testss, check_runtime_diff
 
 
 from d3m.metadata import base as metadata_base
@@ -57,7 +57,7 @@ step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
 # Step 5: algorithm`
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_ae'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
@@ -100,13 +100,18 @@ dataset = generate_dataset(df, 6)
 # pipeline = schemas_utils.load_default_pipeline()
 pipeline = load_pipeline('autoencoder_pipeline.json')
 
-id_ = save2(dataset, pipeline, 'F1_MACRO')
+id_, fitted_pipeline = save2(dataset, pipeline, 'F1_MACRO')
 
 table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, 5)
 
-print(load2(dataset, id_))
+pipeline_result, loaded_fitted_pipeline = load2(dataset, id_)
+
+print(pipeline_result)
+
+
+check_runtime_diff(fitted_pipeline, loaded_fitted_pipeline)
 
 # print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
 

@@ -9,7 +9,6 @@ from numpy import ndarray
 from collections import OrderedDict
 from scipy import sparse
 import os
-import uuid
 
 import numpy
 import typing
@@ -23,7 +22,6 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
-from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalMaximumPrimitive',)
 
@@ -88,42 +86,50 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalMaximumPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find maximum of time series
     """
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_maximum',
-        'keywords': ['Time Series','Maximum'],
-        'source': {
-            'name': 'DATA Lab @ Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        "hyperparams_to_tune": ['window_size'],
-        'version': '0.1.0',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMaximumPrimitive')),
-    })
+    metadata = metadata_base.PrimitiveMetadata(
+        {
+            'id': '3b448057-ac26-4f1b-96b6-141782f16a54',
+            'version': '0.1.0',
+            'name': 'Time Series Decompostional',
+            'python_path': 'd3m.primitives.tods.feature_analysis.statistical_maximum',
+            'keywords': ['Time Series','Maximum'],
+            "hyperparams_to_tune": ['window_size'],
+            'source': {
+                'name': 'DATA Lab at Texas A&M University',
+                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/StatisticalMaximum.py'],
+                'contact': 'mailto:khlai037@tamu.edu'
 
-    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+            },
+            'installation': [
+                {'type': metadata_base.PrimitiveInstallationType.PIP,
+                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
+                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
+                 ),
+                 }
+
+            ],
+            'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
+            ],
+            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+
+        }
+    )
+
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
-
         Args:
             inputs: Container DataFrame
             timeout: Default
             iterations: Default
-
         Returns:
             Container DataFrame containing maximum of  time series
         """
-        print('input in statistical maximum')
-        print(inputs)
         self.logger.info('Statistical Maximum  Primitive called')
 
         # Get cols to fit.
@@ -134,7 +140,7 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -158,15 +164,15 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
             output_columns = [outputs]
 
 
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
-
         outputs = base_utils.combine_columns(return_result=self.hyperparams['return_result'],
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
+
         self.logger.info('Statistical Maximum  Primitive returned')
 
         return base.CallResult(outputs)
@@ -178,7 +184,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -208,7 +213,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -241,7 +245,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -259,7 +262,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -276,7 +278,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             outputs_metadata: metadata.base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             List[OrderedDict]
         """
@@ -294,7 +295,7 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
 
         return target_columns_metadata
 
-    def _write(self, inputs: Inputs): # pragma: no cover
+    def _write(self, inputs: Inputs):
         inputs.to_csv(str(time.time()) + '.csv')
 
 
@@ -317,6 +318,6 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
                 sequence = column_value[iter-window_size+1:iter+1]
                 column_maximum[iter] = np.max(sequence)
             column_maximum[:window_size-1] = column_maximum[window_size-1]
-            transformed_X[str(column) + "_maximum"] = column_maximum
+            transformed_X[column + "_maximum"] = column_maximum
 
         return transformed_X

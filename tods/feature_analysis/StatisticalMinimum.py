@@ -13,7 +13,6 @@ import os
 import numpy
 import typing
 import time
-import uuid
 
 from d3m import container
 from d3m.primitive_interfaces import base, transformer
@@ -23,7 +22,6 @@ from d3m.metadata import hyperparams, params, base as metadata_base
 
 from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
-from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 __all__ = ('StatisticalMinimumPrimitive',)
 
@@ -88,43 +86,50 @@ class Hyperparams(hyperparams.Hyperparams):
 
 
 
-class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+class StatisticalMinimumPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     Primitive to find minimum of time series
     """
+    __author__ = "DATA Lab at Texas A&M University",
+    metadata = metadata_base.PrimitiveMetadata(
+        {
+            'id': '255955d0-1d64-433b-b9f0-e2a1b679be45',
+            'version': '0.1.0',
+            'name': 'Time Series Decompostional',
+            'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum',
+            'keywords': ['Time Series','Minimum'],
+            "hyperparams_to_tune": ['window_size'],
+            'source': {
+                'name': 'DATA Lab at Texas A&M University',
+                'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/StatisticalMinimum.py'],
+                'contact': 'mailto:khlai037@tamu.edu'
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum',
-        'keywords': ['Time Series','Minimum'],
-        'source': {
-            'name': 'DATA Lab at Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        'version': '0.1.0',
-        "hyperparams_to_tune": ['window_size'],
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMinimumPrimitive')),
-    })
+            },
+            'installation': [
+                {'type': metadata_base.PrimitiveInstallationType.PIP,
+                 'package_uri': 'git+https://gitlab.com/lhenry15/tods.git@{git_commit}#egg=TODS'.format(
+                     git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
+                 ),
+                 }
 
-    def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
+            ],
+            'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.DATA_PROFILING,
+            ],
+            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+
+        }
+    )
+
+    def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
-
         Args:
             inputs: Container DataFrame
             timeout: Default
             iterations: Default
-
         Returns:
             Container DataFrame containing minimum of  time series
         """
-
-        print('input in statistical maximum')
-        print(inputs)
         self.logger.info('Statistical Minimum  Primitive called')
 
         # Get cols to fit.
@@ -135,7 +140,7 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         if len(self._training_indices) > 0:
             # self._clf.fit(self._training_inputs)
             self._fitted = True
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -159,7 +164,7 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
             output_columns = [outputs]
 
 
-        else: # pragma: no cover
+        else:
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
             self.logger.warn("No input columns were selected")
@@ -170,8 +175,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
 
         self.logger.info('Statistical Minimum  Primitive returned')
 
-        # exit()
-
         return base.CallResult(outputs)
 
     @classmethod
@@ -181,7 +184,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -211,7 +213,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -244,7 +245,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -262,7 +262,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -279,7 +278,6 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             outputs_metadata: metadata.base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             List[OrderedDict]
         """
@@ -297,7 +295,7 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
 
         return target_columns_metadata
 
-    def _write(self, inputs: Inputs): # pragma: no cover
+    def _write(self, inputs: Inputs):
         inputs.to_csv(str(time.time()) + '.csv')
 
 

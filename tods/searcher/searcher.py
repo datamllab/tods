@@ -45,7 +45,7 @@ class RaySearcher():
       self._evaluate,
       config = search_space,
       num_samples = config["num_samples"],
-      resources_per_trial = {"cpu": 2, "gpu": 1},
+      resources_per_trial = {"cpu": 4, "gpu": 0},
       mode = 'max',
       search_alg = searcher,
       name = config["searching_algorithm"] + "_" + str(config["num_samples"])
