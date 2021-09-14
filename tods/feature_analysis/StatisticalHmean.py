@@ -116,12 +116,10 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
-
         Args:
             inputs: Container DataFrame
             timeout: Default
             iterations: Default
-
         Returns:
             Container DataFrame containing hmean of  time series
         """
@@ -179,7 +177,6 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -209,7 +206,6 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -242,7 +238,6 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -260,7 +255,6 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -277,7 +271,6 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
         Args:
             outputs_metadata: metadata.base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             List[OrderedDict]
         """
