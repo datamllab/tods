@@ -5,6 +5,7 @@ df = pd.read_csv(table_path)
 dataset = generate_dataset(df, 6)
 # pipeline = schemas_utils.load_default_pipeline()
 pipeline = load_pipeline('example_pipeline.json')
+# pipeline = load_pipeline('autoencoder_pipeline.json')
 
 print(pipeline)
 
