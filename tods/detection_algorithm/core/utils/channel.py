@@ -99,7 +99,7 @@ class Channel:
         data = np.array(data)
         # print("data shape",data.shape)
         print('data', data)
-        np.savetxt("foo.txt", arr, delimiter=",")
+        # np.savetxt("foo.txt", arr, delimiter=",")
         self.X_test = data[:, :-self._n_predictions, :]
         print('x test')
         print(self.X_test)
