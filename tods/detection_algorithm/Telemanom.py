@@ -380,7 +380,16 @@ class Detector(CollectiveBaseDetector):
 						)
 
 		self.decision_scores_, self.left_inds_, self.right_inds_ = self.decision_function(X)
+		print('decision score, left ind, right ind')
+		print(self.decision_scores_, self.left_inds_, self.right_inds_)
+		print('left inds len')
+		print(len(self.left_inds_))
+		print('right inds len')
+		print(len(self.right_inds_))
 		self._process_decision_scores()
+
+		print('decision score, left ind, right ind after')
+		print(self.decision_scores_, self.left_inds_, self.right_inds_)
 
 		return self
 
@@ -409,8 +418,29 @@ class Detector(CollectiveBaseDetector):
 		self._set_n_classes(None)
 
 		inputs = X
+
+		# print(inputs)
+		print(type(inputs))
+		print(inputs.shape)
+
+
 		self._channel.shape_test_data(inputs)
+
+		print(self._channel.X_test.shape)
+		print(self._channel.X_train.shape)
 		self._channel = self._model.batch_predict(channel = self._channel)
+
+		print('y hat in telemanom')
+		print(self._channel.y_hat)
+		# print(len(self._channel.y_hat))
+
+
+		print('channel')
+		print(self._channel)
+
+		print(self._channel.X_test.shape[0])
+
+		print(self._channel.X_test.shape[2])
 
 		errors = Errors(channel = self._channel,
 						window_size = self._window_size,
@@ -422,9 +452,21 @@ class Detector(CollectiveBaseDetector):
 						p = self._p
 						)
 
+		print('error es')
+		print(errors.e_s)
+		print(len(errors.e_s))
 		# prediciton smoothed error
 		prediction_errors = np.reshape(errors.e_s,(self._channel.X_test.shape[0],self._channel.X_test.shape[2]))
+
+		print('prediction error')
+		print(prediction_errors)
+		print(len(prediction_errors))
+
 		prediction_errors = np.sum(prediction_errors,axis=1)
+
+		print('prediction error')
+		print(prediction_errors)
+		print(len(prediction_errors))
 
 		left_indices = []
 		right_indices = []

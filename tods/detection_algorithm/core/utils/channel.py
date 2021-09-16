@@ -85,12 +85,24 @@ class Channel:
 
     def shape_test_data(self, arr):
         data = []
+        print('len arr')
+        print(len(arr))
 
+        print('l_s')
+        print(self._l_s)
+
+        print('n_predictions')
+        print(self._n_predictions)
+        print(len(arr) - self._l_s - self._n_predictions)
         for i in range(len(arr) - self._l_s - self._n_predictions):
             data.append(arr[i:i + self._l_s + self._n_predictions])
         data = np.array(data)
         # print("data shape",data.shape)
+        print('data', data)
+        np.savetxt("foo.txt", arr, delimiter=",")
         self.X_test = data[:, :-self._n_predictions, :]
+        print('x test')
+        print(self.X_test)
         self.y_test = data[:, -self._n_predictions:, :]  # telemetry value is at position 0
         self.y_test = np.reshape(self.y_test,(self.y_test.shape[0],self.y_test.shape[1]*self.y_test.shape[2]))
 

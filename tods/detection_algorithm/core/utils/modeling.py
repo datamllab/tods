@@ -83,6 +83,9 @@ class Model:
 
         self.model = Sequential()
 
+        print('input size')
+        print(channel.X_train.shape[2])
+
         self.model.add(LSTM(
             self._layers[0],
             input_shape=(None, channel.X_train.shape[2]),
@@ -199,8 +202,12 @@ class Model:
 
         # return channel
 
-        self.y_hat = self.model.predict(channel.X_test)        
+        self.y_hat = self.model.predict(channel.X_test)     
+        print('y_hat')
+        print(self.y_hat.shape)   
         self.y_hat = np.reshape(self.y_hat,(channel.X_test.shape[0],self._n_predictions,channel.X_test.shape[2]))
         # print("shape before ",self.y_hat.shape)
+        print('y_hat')
+        print(self.y_hat.shape)
         channel.y_hat = self.y_hat
         return channel

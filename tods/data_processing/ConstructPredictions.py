@@ -191,7 +191,12 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
         else: # pragma: no cover
             filtered_index_columns = self._filter_index_columns(inputs.metadata, index_columns)
             index = inputs.select_columns(filtered_index_columns)
+        temp = []
+        for i in range(1400):
+            temp.append(1)
 
+        df = d3m_utils.pandas.DataFrame(data=temp)
+        print(df)
         if not target_columns:
             if index_columns: # pragma: no cover
                 raise ValueError("No target columns in input data, but index column(s) present.")
@@ -207,6 +212,9 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
 
         else:
             targets = inputs.select_columns(target_columns)
+
+        print(inputs)
+        print(targets)
 
         return index.append_columns(targets)
 
