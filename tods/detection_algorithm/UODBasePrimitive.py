@@ -47,7 +47,7 @@ Outputs = d3m_dataframe
 
 # import abc
 # import typing
-
+import pdb
 from d3m.primitive_interfaces.base import *
 
 __all__ = ('UnsupervisedOutlierDetectorBase',)
@@ -264,7 +264,7 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
             # print('Fit: ', self._clf)
             # print('Fit: ', self._training_inputs.values.shape)
             # print('Fit: ', self._clf.fit(self._training_inputs.values))
-
+            # pdb.set_trace()
             self._clf.fit(X=self._training_inputs.values, **self._clf_fit_parameter)
             self._fitted = True
             self._set_subseq_inds()
@@ -286,9 +286,11 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
             Container DataFrame
             1 marks Outliers, 0 marks normal.
         """
-
+        # pdb.set_trace()
         if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
+        print('inputs in uodbase primitive produce')
+        print(inputs)
         sk_inputs = inputs
         if self.hyperparams['use_semantic_types']:
             sk_inputs = inputs.iloc[:, self._training_indices]
@@ -320,6 +322,11 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
 
                 else:
                     sk_output, _, _ = self._clf.predict(sk_inputs.values)
+                    # temp = []
+                    # for i in range(1400):
+                    #     temp.append(0)
+                    # temp = np.array(temp)
+                    # sk_output = temp
 
             #print("sk output ", sk_output)
             if sparse.issparse(sk_output): # pragma: no cover
@@ -338,7 +345,8 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
-        
+        print('outputs in uodbase primitive produce')
+        print(outputs)
         return CallResult(outputs)
 
     def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]: # pragma: no cover
