@@ -276,7 +276,7 @@ def datapath_to_dataset(path, target_index):
   df = pd.read_csv(path)
   return generate_dataset(df, target_index)
 
-def json_to_searchspace(path, config, all_combination, ignore_hyperparams):
+def json_to_searchspace(path, config, use_all_combination, ignore_hyperparams):
   import json
 
   with open(path) as f:
@@ -309,12 +309,12 @@ def json_to_searchspace(path, config, all_combination, ignore_hyperparams):
             search_space[name] = tune.choice(hyperparams_value)
           else:
             search_space[name] = tune.grid_search(hyperparams_value)
-    if all_combination == True:
+    if use_all_combination == True:
       if config['searching_algorithm'] == 'hyperopt':
         search_space[primitive_type] = tune.choice(get_all_comb(temp))
       else:
         search_space[primitive_type] = tune.grid_search(get_all_comb(temp))
-    elif all_combination == False:
+    elif use_all_combination == False:
       if config['searching_algorithm'] == 'hyperopt':
         search_space[primitive_type] = tune.choice(temp)
       else:
