@@ -289,8 +289,8 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
         # pdb.set_trace()
         if not self._fitted: # pragma: no cover
             raise PrimitiveNotFittedError("Primitive not fitted.")
-        print('inputs in uodbase primitive produce')
-        print(inputs)
+        # print('inputs in uodbase primitive produce')
+        # print(inputs)
         sk_inputs = inputs
         if self.hyperparams['use_semantic_types']:
             sk_inputs = inputs.iloc[:, self._training_indices]
@@ -345,8 +345,8 @@ class UnsupervisedOutlierDetectorBase(TODSUnsupervisedLearnerPrimitiveBase[Input
                                              add_index_columns=self.hyperparams['add_index_columns'],
                                              inputs=inputs, column_indices=self._training_indices,
                                              columns_list=output_columns)
-        print('outputs in uodbase primitive produce')
-        print(outputs)
+        # print('outputs in uodbase primitive produce')
+        # print(outputs)
         return CallResult(outputs)
 
     def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]: # pragma: no cover
