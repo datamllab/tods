@@ -6,6 +6,7 @@ import abc
 from d3m.primitive_interfaces import generator, transformer 
 from d3m.primitive_interfaces.base import *
 from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
+from tods.common.supervised_learning import SupervisedLearnerPrimitiveBase
 
 from d3m.metadata import base as metadata_base, hyperparams, params
 from d3m import container
@@ -198,3 +199,59 @@ class TODSUnsupervisedLearnerPrimitiveBase(UnsupervisedLearnerPrimitiveBase[Inpu
             out = produce_func(inputs=sys_data)
             data.iloc[i][col_name] = out.value
         return data
+
+
+class TODSSupervisedLearnerPrimitiveBase(SupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+    def __init__(self, *, hyperparams: Hyperparams,
+                 random_seed: int = 0,
+                 docker_containers: Dict[str, DockerContainer] = None) -> None:
+        super().__init__(hyperparams=hyperparams, random_seed=random_seed, docker_containers=docker_containers)
+
+    def produce(self, *, inputs: container.DataFrame, timeout: float = None, iterations: int = None) -> CallResult[container.DataFrame]:
+        """
+            A noop.
+        """
+        return self._produce(inputs=inputs, timeout=timeout, iterations=iterations)
+
+    def produce_score(self, *, inputs: container.DataFrame, timeout: float = None, iterations: int = None) -> CallResult[container.DataFrame]:
+        """
+            A noop.
+        """
+        return self._produce(inputs=inputs, timeout=timeout, iterations=iterations)
+
+    def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
+
+        """
+        A noop.
+        """
+        return self._fit(timeout=timeout, iterations=iterations)
+
+    def fit_multi_produce(self, *, produce_methods: typing.Sequence[str], inputs: Inputs, outputs: Outputs, timeout: float = None, iterations: int = None) -> MultiCallResult:
+
+        return self._fit_multi_produce(produce_methods=produce_methods, timeout=timeout, iterations=iterations, inputs=inputs, outputs=outputs)
+
+    # def _produce(self, *, inputs: container.DataFrame, timeout: float = None, iterations: int = None) -> CallResult[container.DataFrame]:
+    #
+    #     pass
+    #
+    # def _produce_score(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
+    #
+    #     pass
+    #
+    # def _fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
+    #
+    #     pass
+
+    def get_params(self) -> None:
+        """
+        A noop.
+        """
+
+        return None
+
+    def set_params(self, *, params: None) -> None:
+        """
+        A noop.
+        """
+
+        return
