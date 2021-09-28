@@ -193,6 +193,7 @@ class MultiAutoRegOD(CollectiveBaseDetector):
         # scale the decision mat
         decison_mat_scaled = self._score_scalar.transform(decison_mat)
         decision_scores = self._score_combination(decison_mat_scaled)
+        decision_scores = np.append(decision_scores, min(decision_scores))
 
         return decision_scores, X_left_inds, X_right_inds
 
