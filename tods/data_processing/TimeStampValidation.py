@@ -53,89 +53,38 @@ class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
             Container DataFrame sorted by Time Stamp
 
         """
+
         import pandas as pd
         self.logger.info('Time Stamp order validation called')
         outputs = inputs
-        print('intput in time stamp validation')
-        print(inputs)
-        print(inputs.dtypes)
-        print(type(outputs.at[0, 'timestamp']))
-        print(type(outputs.at[1, 'timestamp']))
         try:
-
             if self._is_time_stamp_valid(inputs, 'timestamp'):
                 outputs = inputs
             else:
-                # outputs.at[0, 'timestamp'] = numpy.int64('1')
                 for i in range(len(outputs['timestamp'])):
-                    # outputs.at[i, 'timestamp'] = numpy.int64(outputs.at[i, 'timestamp'])
-                    # print(i)
                     if '/' in outputs['timestamp'][i] or '-' in outputs['timestamp'][i] or ':' in outputs['timestamp'][i]:
-                        print(outputs['timestamp'][i])
-                        print('contains')
                         unix_stamp = numpy.int64(pd.Timestamp(outputs.at[i, 'timestamp']).timestamp())
-                        print(unix_stamp)
                         outputs.at[i, 'timestamp'] = unix_stamp
                     else:
                         outputs.at[i, 'timestamp'] = numpy.int64(outputs.at[i, 'timestamp'])
-                    # print(unix_stamp)
-                    # print(type(unix_stamp))
-                    # outputs.at[i, 'timestamp'] = numpy.int64(pd.Timestamp(outputs.at[i, 'timestamp']).timestamp())
-                # outputs.astype({'timestamp': 'int64'}).dtypes
-                print(type(outputs.at[0, 'timestamp']))
-                print(type(outputs.at[1, 'timestamp']))
-
-
 
             if (self._is_time_stamp_sorted(inputs, 'timestamp')):
                 outputs = inputs
             else:
                 outputs = inputs.sort_values(by=["timestamp"])
 
-            # print('after sort')
-            # print(outputs)
-
-            # self._update_metadata(outputs)
-
-            # outputs.reset_index(drop=True, inplace=True)
-
-
-            
-
-
-
 
             self._update_metadata(outputs)
 
             outputs.reset_index(drop=True, inplace=True)
-
-            # print('output in time stamp validation')
-            # print(outputs)
-
-            # print(type(outputs.at[0, 'timestamp']) == type(outputs.at[1, 'timestamp']))
-
-
-
-
-
-
-
-
-
-
             self.logger.info('Type of data : %s',type(outputs))
 
         except Exception as e :
             self.logger.error('Time Stamp order validation error  %s :',e)
         print(self.logger.info(base.CallResult(outputs).value))
-        print('before return of produce function')
-        print(outputs)
-        print(type(outputs))
-        print(outputs.dtypes)
-        print(base.CallResult(outputs).value)
         return base.CallResult(outputs)
 
-    def _is_time_stamp_sorted(self, input:Inputs,column:str = 'timestamp') -> bool :
+    def _is_time_stamp_sorted(self,input:Inputs,column:str = 'timestamp') -> bool :
         """
 
         Args:
@@ -150,19 +99,9 @@ class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
 
     def _is_time_stamp_valid(self, input:Inputs, column:str = 'timestamp') -> bool :
         for i in range(len(input[column])-1):
-            # print(type(input[column][i]))
             if '/' in str(input[column][i]) or '-' in str(input[column][i]):
-                # print(i, ' element errrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
-                # print(type(input[column][i]))
-                # print('original')
-                # print(input[column][i])
-                # input[column][i] = '1'
-                # print('after')
-                # print(input[column][i])
                 return False
         return True
 
     def _update_metadata(self, outputs):
-        print('in update meta data of time stamp validation')
-        print(outputs)
         outputs.metadata = outputs.metadata.generate(outputs)
