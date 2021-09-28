@@ -436,14 +436,11 @@ class Detector(CollectiveBaseDetector):
 
 		# filling empty values
 		low = min(scores)
-		# print(X.shape[0])
-		# print(len(scores))
 		difference = X.shape[0] - len(scores)
 		missing = []
 		# print(difference)
 		for i in range(difference):
 			missing.append(low)
-
 		missing.extend(scores)
 		
 		return np.asarray(missing),np.asarray(left_indices),np.asarray(right_indices)
