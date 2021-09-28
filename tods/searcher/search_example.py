@@ -1,45 +1,6 @@
 from searcher import RaySearcher, datapath_to_dataset, json_to_searchspace
 import argparse
 import os
-#config for ray searcher
-# config = {
-#   "searching_algorithm": 'hyperopt',
-#   "num_samples": 15,
-# }
-
-
-
-
-
-
-#2 dataset for test
-# dataset = datapath_to_dataset('../../datasets/anomaly/kpi/kpi_dataset/tables/learningData.csv', 3)
-# dataset = datapath_to_dataset('../../datasets/anomaly/raw_data/yahoo_sub_5.csv', 6)
-
-
-
-
-#transform json to search space
-#all_combination True means calculating all possibilities
-#ignore_hyperparams False means not adding hyperparams into search space
-# search_space = json_to_searchspace(path = 'test.json', config = config, all_combination = False, ignore_hyperparams = False)
-
-#a self defined seach space
-# search_space2 = {
-#   "timeseries_processing": tune.choice(["moving_average_transform"]),
-#   "feature_analysis": tune.choice(["statistical_maximum", "statistical_minumum"]),
-#   "detection_algorithm": tune.choice(["pyod_ae"])
-# }
-
-
-
-# print(search_space)
-# #create instance
-# s = RaySearcher(dataset, 'F1_MACRO')
-# #run search function
-# print(s.search(search_space=search_space,
-#         config=config))
-
 
 def argsparser():
   parser = argparse.ArgumentParser("Automatically searching hyperparameters for video recognition")
@@ -52,13 +13,12 @@ def argsparser():
   parser.add_argument('--target_index', help = 'Target index', type = int, default = 6)
   parser.add_argument('--metric', help = 'pipeline evaluation metric', type = str, default = 'F1_MACRO')
 
-  parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = 'test.json')
+  parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = 'example_search_space.json')
   parser.add_argument('--use_all_combinations', help = 'generate all possible combinations when reading search space from json', type = bool, default = False)
   parser.add_argument('--ignore_hyperparameters', help = 'if you want to ignore hyperparmeter when reading search space from json', type = bool, default = False)
 
+  parser.add_argument('--run_mode', help = 'mode of tune.run', type = str, default = 'min', choices = ['min', 'max'])
   return parser
-
-
 
 def run(args):
   # get the dataset
@@ -71,6 +31,7 @@ def run(args):
   config = {
     "searching_algorithm": args.alg,
     "num_samples": args.num_samples,
+    "mode": args.run_mode
   }
 
   # define the search space

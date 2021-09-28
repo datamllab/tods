@@ -41,12 +41,15 @@ class RaySearcher():
     else:
       raise ValueError("Searching algorithm not supported.")
 
+    import multiprocessing
+    num_cores =  multiprocessing.cpu_count()
+
     analysis = tune.run(
       self._evaluate,
       config = search_space,
       num_samples = config["num_samples"],
-      resources_per_trial = {"cpu": 4, "gpu": 0},
-      mode = 'max',
+      resources_per_trial = {"cpu": num_cores, "gpu": 1},
+      mode = config["mode"],
       search_alg = searcher,
       name = config["searching_algorithm"] + "_" + str(config["num_samples"])
     )
@@ -163,7 +166,6 @@ class RaySearcher():
     for x in range(len(feature_analysis_list)):
       this = sys.modules[__name__]
       name = 'step_' + str(counter)
-      print(name)
       setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x])))
       this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x]))
 
@@ -198,7 +200,6 @@ class RaySearcher():
     for x in range(len(detection_algorithm_list)):
       this = sys.modules[__name__]
       name = 'step_' + str(counter) 
-      print(name)
       setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.' + detection_algorithm_list[x])))
       this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.' + detection_algorithm_list[x]))
 
@@ -227,7 +228,6 @@ class RaySearcher():
     for i in range(1):
       this = sys.modules[__name__]
       name = 'step_' + str(counter)
-      print(name)
       setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions')))
       this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
 
