@@ -745,3 +745,13 @@ def produce_fitted_pipeline(dataset, fitted_pipeline):
     if pipeline_result.status == "ERRORED":
         raise pipeline_result.error
     return pipeline_result
+
+def fit_and_save_pipeline(dataset, pipeline, metric='F1', seed=0):
+    fitted_pipeline = fit_pipeline(dataset, pipeline, 'F1_MACRO', 0)
+    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
+    return fitted_pipeline_id
+
+def load_and_produce_pipeline(dataset, fitted_pipeline_id):
+    fitted_pipeline = load_fitted_pipeline(fitted_pipeline_id)
+    pipeline_result = produce_fitted_pipeline(dataset, fitted_pipeline)
+    return pipeline_result
