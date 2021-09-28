@@ -176,6 +176,7 @@ class StatisticalMinimumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
+
         Returns:
             list
         """
