@@ -1,8 +1,7 @@
 import pandas as pd
 
 from tods import schemas as schemas_utils
-from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_fitted_pipeline_by_pipeline, load_fitted_pipeline_by_id, save, load, save2, load_pipeline, load2, testss, check_runtime_diff
-
+from tods import generate_dataset, evaluate_pipeline, fit_pipeline, save2, load_pipeline, load2, produce_fitted_pipeline, load_fitted_pipeline, save_fitted_pipeline, fit_pipeline
 
 from d3m.metadata import base as metadata_base
 from axolotl.backend.simple import SimpleRunner
@@ -81,8 +80,6 @@ step_6.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data
 step_6.add_output('produce')
 pipeline_description.add_step(step_6)
 
-
-
 # Final Output
 pipeline_description.add_output(name='output predictions', data_reference='steps.6.produce')
 
@@ -100,51 +97,12 @@ dataset = generate_dataset(df, 6)
 # pipeline = schemas_utils.load_default_pipeline()
 pipeline = load_pipeline('autoencoder_pipeline.json')
 
-id_, fitted_pipeline = save2(dataset, pipeline, 'F1_MACRO')
+fitted_pipeline = fit_pipeline(dataset, pipeline, 'F1_MACRO')
 
+fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
 
+loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
 
-
-
-
-table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
-df = pd.read_csv(table_path)
-dataset = generate_dataset(df, 5)
-
-pipeline_result, loaded_fitted_pipeline = load2(dataset, id_)
+pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
 
 print(pipeline_result)
-
-
-check_runtime_diff(fitted_pipeline, loaded_fitted_pipeline)
-
-# print(evaluate_pipeline(dataset, pipeline, 'F1_MACRO'))
-
-# works:
-# pyod_ae
-# pyod_vae
-# pyod_cof
-# pyod_sod
-# pyod_abod
-# pyod_hbos
-# pyod_iforest
-# pyod_lof
-# pyod_knn
-# pyod_ocsvm
-# pyod_loda
-# pyod_cblof
-# pyod_sogaal
-# pyod_mogaal
-
-# AutoRegODetector
-
-# LSTMOutlierDetector
-# PCAODetector
-
-# KDiscordODetector
-# DeeplogLstm
-# matrix profile
-# telemnon
-
-# not working
-
