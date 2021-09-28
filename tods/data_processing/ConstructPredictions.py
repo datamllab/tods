@@ -191,7 +191,7 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
         else: # pragma: no cover
             filtered_index_columns = self._filter_index_columns(inputs.metadata, index_columns)
             index = inputs.select_columns(filtered_index_columns)
-        
+
         if not target_columns:
             if index_columns: # pragma: no cover
                 raise ValueError("No target columns in input data, but index column(s) present.")

@@ -216,11 +216,7 @@ class CollectiveBaseDetector(metaclass=ABCMeta):
         check_is_fitted(self, ['decision_scores_', 'threshold_', 'labels_'])
 
         pred_score, X_left_inds, X_right_inds = self.decision_function(X)
-        # print('in collective base')
-        # print('pred_score, X_left_inds, X_right_inds')
-        # print(pred_score, X_left_inds, X_right_inds)
-        # print(len(pred_score))
-        # print(X)
+
         return (pred_score > self.threshold_).astype(
             'int').ravel(), X_left_inds.ravel(), X_right_inds.ravel()
 
