@@ -50,7 +50,9 @@ from d3m import exceptions
 import pandas
 
 from d3m import container, utils as d3m_utils
+from .SODBasePrimitive import Params_SODBase, Hyperparams_SODBase, SupervisedOutlierDetectorBase
 
+from ..common.TODSBasePrimitives import TODSSupervisedLearnerPrimitiveBase, TODSUnsupervisedLearnerPrimitiveBase
 from .UODBasePrimitive import Params_ODBase, Hyperparams_ODBase, UnsupervisedOutlierDetectorBase
 from pyod.models.xgbod import XGBOD 
 # from typing import Union
@@ -59,13 +61,13 @@ Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
 
-class Params(Params_ODBase):
+class Params(Params_SODBase):
     ### Add more Attributes ###
 
     pass
 
 
-class Hyperparams(Hyperparams_ODBase):
+class Hyperparams(Hyperparams_SODBase):
     ### Add more Hyperparamters ###
     estimator_list = hyperparams.Union[Union[int, None]]( 
         configuration=OrderedDict(
@@ -207,7 +209,7 @@ class Hyperparams(Hyperparams_ODBase):
     # )
 
 ### Name of your algorithm ###
-class XGBODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
+class XGBODPrimitive(SupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     XGBOD class for outlier detection.
     It first uses the passed in unsupervised outlier detectors to extract
@@ -342,7 +344,7 @@ class XGBODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
                         )
                         
 
-    def set_training_data(self, *, inputs: Inputs) -> None:
+    def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
         """
         Set training data for outlier detection.
         Args:
@@ -351,7 +353,7 @@ class XGBODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Returns:
             None
         """
-        super().set_training_data(inputs=inputs)
+        super().set_training_data(inputs=inputs, outputs = outputs)
 
     def fit(self, *, timeout: float = None, iterations: int = None) -> CallResult[None]:
         """

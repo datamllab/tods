@@ -48,16 +48,17 @@ step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
 
-
-# Step 3: change
-step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_xgbod'))
-# step_5.add_hyperparameter(name='contamination', argument_type=ArgumentType.VALUE, data=0.1)
-# step_5.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
-# step_5.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(2,))
+# Step 5: supervised outlier detection algorithm
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.sod_primitive'))
 step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
 step_5.add_argument(name='outputs', argument_type=ArgumentType.CONTAINER, data_reference=targets)
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
+
+# step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_knn'))
+# step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
+# step_5.add_output('produce')
+# pipeline_description.add_step(step_5)
 
 # Step 6: Predictions
 step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
@@ -69,11 +70,9 @@ pipeline_description.add_step(step_6)
 # Final Output
 pipeline_description.add_output(name='output predictions', data_reference='steps.6.produce')
 
-# Output to JSON
+# Output to json
 data = pipeline_description.to_json()
-with open('example_pipeline.json', 'w') as f:
+with open('./examples/axolotl_interface/example_pipelines/sod_pipeline.json', 'w') as f:
     f.write(data)
     print(data)
-
-
 
