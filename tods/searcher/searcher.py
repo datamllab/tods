@@ -1,4 +1,4 @@
-# from ray import tune
+from ray import tune
 import ray
 import uuid
 import random

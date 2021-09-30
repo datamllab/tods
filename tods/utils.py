@@ -95,26 +95,15 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
 
 
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# functions to load when loading VAE model, useful
 def sampling(args):
     from tensorflow.keras import backend as K
-    """Reparametrisation by sampling from Gaussian, N(0,I)
-    To sample from epsilon = Norm(0,I) instead of from likelihood Q(z|X)
-    with latent variables z: z = z_mean + sqrt(var) * epsilon
-    Parameters
-    ----------
-    args : tensor
-        Mean and log of variance of Q(z|X).
 
-    Returns
-    -------
-    z : tensor
-        Sampled latent variable.
-    """
     from tensorflow.keras import backend as K
     z_mean, z_log = args
-    batch = K.shape(z_mean)[0]  # batch size
-    dim = K.int_shape(z_mean)[1]  # latent dimension
-    epsilon = K.random_normal(shape=(batch, dim))  # mean=0, std=1.0
+    batch = K.shape(z_mean)[0]
+    dim = K.int_shape(z_mean)[1]
+    epsilon = K.random_normal(shape=(batch, dim))
 
     return z_mean + K.exp(0.5 * z_log) * epsilon
 
@@ -570,18 +559,22 @@ def fit_pipeline(dataset, pipeline, metric='F1', seed=0):
 
     return fitted_pipeline
 
-def save_fitted_pipeline(fitted_pipeline):
+
+def find_save_folder():
+    from pathlib import Path
+
+    BASE_DIR = Path(__file__).parent.parent.absolute()
+    TEMPLATES_DIR = BASE_DIR.joinpath('fitted_pipelines')
+
+    return str(TEMPLATES_DIR)
+
+def save_fitted_pipeline(fitted_pipeline, save_path = find_save_folder()):
     from axolotl.utils import schemas as schemas_utils
     from axolotl.backend.simple import SimpleRunner
     import joblib
     import tensorflow as tf
     from tensorflow import keras
     import os
-
-    from pathlib import Path
-
-    path = Path(__file__).parent.absolute()
-    print(path)
 
     runtime = fitted_pipeline['runtime']
 
@@ -599,65 +592,65 @@ def save_fitted_pipeline(fitted_pipeline):
             model_index[str(model_name)] = i
 
             if 'AutoEncoder' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].model_.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                runtime.steps_state[i]['clf_'].model_.save(save_path + str(pipeline_id) + '/model/' + str(model_name))
                 runtime.steps_state[i]['clf_'].model_ = None
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
             elif 'VAE' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].model_.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                runtime.steps_state[i]['clf_'].model_.save(save_path + str(pipeline_id) + '/model/' + str(model_name))
                 runtime.steps_state[i]['clf_'].model_ = None
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
             elif 'SO_GAAL' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].combine_model.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
+                runtime.steps_state[i]['clf_'].combine_model.save(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
                 runtime.steps_state[i]['clf_'].combine_model = None
 
-                runtime.steps_state[i]['clf_'].discriminator.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+                runtime.steps_state[i]['clf_'].discriminator.save(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
                 runtime.steps_state[i]['clf_'].discriminator = None
 
-                runtime.steps_state[i]['clf_'].generator.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
+                runtime.steps_state[i]['clf_'].generator.save(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
                 runtime.steps_state[i]['clf_'].generator = None
 
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
             elif 'MO_GAAL' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].discriminator.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+                runtime.steps_state[i]['clf_'].discriminator.save(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
                 runtime.steps_state[i]['clf_'].discriminator = None
 
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
             elif 'LSTMOutlierDetector' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].model_.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                runtime.steps_state[i]['clf_'].model_.save(save_path + str(pipeline_id) + '/model/' + str(model_name))
                 runtime.steps_state[i]['clf_'].model_ = None
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                joblib.dump(fitted_pipeline, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+                joblib.dump(fitted_pipeline, save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
             elif 'DeeplogLstm' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_'].model_.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                runtime.steps_state[i]['clf_'].model_.save(save_path + str(pipeline_id) + '/model/' + str(model_name))
                 runtime.steps_state[i]['clf_'].model_ = None
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                joblib.dump(fitted_pipeline, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+                joblib.dump(fitted_pipeline, save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
             elif 'Detector' in str(type(runtime.steps_state[i]['clf_'])):
-                runtime.steps_state[i]['clf_']._model.model.save('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+                runtime.steps_state[i]['clf_']._model.model.save(save_path + str(pipeline_id) + '/model/' + str(model_name))
                 runtime.steps_state[i]['clf_']._model.model = None
-                joblib.dump(runtime.steps_state[i]['clf_'], '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+                joblib.dump(runtime.steps_state[i]['clf_'], save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-                joblib.dump(fitted_pipeline, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+                joblib.dump(fitted_pipeline, save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
 
             else:
-                if not os.path.isdir('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/'):
-                    os.mkdir('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/')
-                joblib.dump(fitted_pipeline, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+                if not os.path.isdir(save_path + str(pipeline_id) + '/'):
+                    os.mkdir(save_path + str(pipeline_id) + '/')
+                joblib.dump(fitted_pipeline, save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
 
-    joblib.dump(fitted_pipeline, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
-    joblib.dump(model_index, '/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
+    joblib.dump(fitted_pipeline, save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
+    joblib.dump(model_index, save_path + str(pipeline_id) + '/orders.pkl')
 
     # joblib.dump(pipeline, 'fitted_pipelines/' + str(pipeline_id) + '/original_description.pkl')
 
     return pipeline_id
 
-def load_fitted_pipeline(pipeline_id):
+def load_fitted_pipeline(pipeline_id, save_path = find_save_folder()):
     from d3m.metadata import base as metadata_base
     from axolotl.backend.simple import SimpleRunner
     import uuid
@@ -668,56 +661,56 @@ def load_fitted_pipeline(pipeline_id):
 
     from d3m.runtime import Runtime
 
-    orders = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/orders.pkl')
+    orders = joblib.load(save_path + str(pipeline_id) + '/orders.pkl')
 
-    fitted_pipeline = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+    fitted_pipeline = joblib.load(save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
 
     for model_name, model_index in orders.items():
         if model_name == 'AutoEncoder':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+            model = joblib.load(save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-            model.model_ = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+            model.model_ = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name))
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         elif model_name == 'VAE':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            model = joblib.load(save_path + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
 
-            model.model_ = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name), custom_objects = {'sampling': sampling})
+            model.model_ = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name), custom_objects = {'sampling': sampling})
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         elif model_name == 'SO_GAAL':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
-            model.discriminator = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
-            model.combine_model = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
-            model.generator = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
+            model = joblib.load(save_path + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            model.discriminator = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+            model.combine_model = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_combine_model')
+            model.generator = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_generator')
 
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         elif model_name == 'MO_GAAL':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
-            model.discriminator = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
+            model = joblib.load(save_path + str(pipeline_id) +  '/model/' + str(model_name) + '.pkl')
+            model.discriminator = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name) + '_discriminator')
 
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
         elif model_name == 'LSTMOutlierDetector':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+            model = joblib.load(save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-            model.model_ = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+            model.model_ = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name))
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         elif model_name == 'DeeplogLstm':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+            model = joblib.load(save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-            model.model_ = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+            model.model_ = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name))
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         elif model_name == 'Detector':
-            model = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
+            model = joblib.load(save_path + str(pipeline_id) + '/model/' + str(model_name) + '.pkl')
 
-            model._model.model = keras.models.load_model('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/model/' + str(model_name))
+            model._model.model = keras.models.load_model(save_path + str(pipeline_id) + '/model/' + str(model_name))
             fitted_pipeline['runtime'].steps_state[model_index]['clf_'] = model
 
         else:
-            fitted_pipeline = joblib.load('/home/jjjzy/Desktop/tods/tods/fitted_pipelines/' + str(pipeline_id) + '/fitted_pipeline.pkl')
+            fitted_pipeline = joblib.load(save_path + str(pipeline_id) + '/fitted_pipeline.pkl')
 
     return fitted_pipeline
 
@@ -760,3 +753,6 @@ def load_and_produce_pipeline(dataset, fitted_pipeline_id):
     fitted_pipeline = load_fitted_pipeline(fitted_pipeline_id)
     pipeline_result = produce_fitted_pipeline(dataset, fitted_pipeline)
     return pipeline_result
+
+
+

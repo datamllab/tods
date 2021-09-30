@@ -2,6 +2,7 @@ from searcher import RaySearcher, datapath_to_dataset, json_to_searchspace
 import argparse
 import os
 import ray
+from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_pipeline, produce_fitted_pipeline, load_fitted_pipeline, save_fitted_pipeline, fit_pipeline
 def argsparser():
   parser = argparse.ArgumentParser("Automatically searching hyperparameters for video recognition")
   parser.add_argument('--alg', type=str, default='hyperopt',
@@ -36,24 +37,32 @@ def run(args):
   }
 
   # define the search space
-  # search_space = json_to_searchspace(path = args.search_space_path,
-  #                                   config = config,
-  #                                   use_all_combination = args.ignore_hyperparameters,
-  #                                   ignore_hyperparams = args.ignore_hyperparameters
-  # )
+  search_space = json_to_searchspace(path = args.search_space_path,
+                                    config = config,
+                                    use_all_combination = args.ignore_hyperparameters,
+                                    ignore_hyperparams = args.ignore_hyperparameters
+  )
 
   # or you can define seach space here like this
-  from ray import tune
-  search_space = {
-    "feature_analysis": ray.tune.choice(["statistical_maximum", "statistical_minimum"]),
-    "detection_algorithm": ray.tune.choice(["pyod_ae"])
-  }
+  # from ray import tune
+  # search_space = {
+  #   "feature_analysis": ray.tune.choice(["statistical_maximum", "statistical_minimum"]),
+  #   "detection_algorithm": ray.tune.choice(["pyod_ae"])
+  # }
 
   # start searching
   best_config, best_pipeline_id = searcher.search(search_space=search_space, config=config)
 
   print("Best config: ", best_config)
   print("best config pipeline id: ", best_pipeline_id)
+
+  # load the fitted pipeline based on id
+  loaded = load_fitted_pipeline(best_pipeline_id)
+
+  # use the loaded fitted pipeline
+  result = produce_fitted_pipeline(dataset, loaded)
+
+  print(result)
 
 if __name__ == '__main__':
   parser = argsparser()
