@@ -565,8 +565,7 @@ def find_save_folder():
 
     BASE_DIR = Path(__file__).parent.parent.absolute()
     TEMPLATES_DIR = BASE_DIR.joinpath('fitted_pipelines')
-
-    return str(TEMPLATES_DIR)
+    return str(TEMPLATES_DIR) + '/'
 
 def save_fitted_pipeline(fitted_pipeline, save_path = find_save_folder()):
     from axolotl.utils import schemas as schemas_utils
@@ -756,3 +755,4 @@ def load_and_produce_pipeline(dataset, fitted_pipeline_id):
 
 
 
+find_save_folder()
