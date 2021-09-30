@@ -1,5 +1,5 @@
-from ray import tune
-
+# from ray import tune
+import ray
 import uuid
 import random
 
@@ -10,7 +10,7 @@ from axolotl.utils import  schemas as schemas_utils
 
 
 import pandas as pd
-
+import numpy as np
 from tods import schemas as schemas_utils
 from tods import generate_dataset, evaluate_pipeline
 
@@ -25,11 +25,27 @@ from axolotl.backend.simple import SimpleRunner
 from tods import generate_dataset, generate_problem
 
 from tods import generate_dataset, load_pipeline, evaluate_pipeline
+from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_pipeline, produce_fitted_pipeline, load_fitted_pipeline, save_fitted_pipeline, fit_pipeline
+import pdb
+
+@ray.remote
+class GlobalStats:
+  def __init__(self):
+    self.fitted_pipeline_list = []
+
+  def append_id(self, val):
+    self.fitted_pipeline_list.append(val)
+
+  def get_list(self):
+    return self.fitted_pipeline_list
+
 
 class RaySearcher():
   def __init__(self, dataset, metric):
+    ray.init(local_mode=True)
     self.dataset = dataset
     self.metric = metric
+    self.stats = GlobalStats.remote()
 
   def search(self, search_space, config):
     if config["searching_algorithm"] == "random":
@@ -44,7 +60,7 @@ class RaySearcher():
     import multiprocessing
     num_cores =  multiprocessing.cpu_count()
 
-    analysis = tune.run(
+    analysis = ray.tune.run(
       self._evaluate,
       config = search_space,
       num_samples = config["num_samples"],
@@ -55,14 +71,27 @@ class RaySearcher():
     )
 
     best_config = analysis.get_best_config(metric="accuracy")
-    self.clearer_best_config(best_config)
-    return best_config
+
+    df = analysis.results_df
+    df = analysis.dataframe(metric="accuracy", mode="max")
+    
+    best_config_pipeline_id = self.find_best_pipeline_id(best_config, df)
+    
+    return best_config, best_config_pipeline_id
 
   def _evaluate(self, search_space):
     pipeline = self.build_pipeline(search_space)
+
+    fitted_pipeline = fit_pipeline(self.dataset, pipeline, self.metric)
+
+    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
+
+    self.stats.append_id.remote(fitted_pipeline_id)
+
     pipeline_result = evaluate_pipeline(self.dataset, pipeline, self.metric)
+
     score = pipeline_result.scores.value[0]
-    tune.report(accuracy=score)
+    ray.tune.report(accuracy=score, id = fitted_pipeline_id)
 
   def build_pipeline(self, search_space):
     from d3m import index
@@ -269,6 +298,12 @@ class RaySearcher():
         if (i + '_') in key:
           print("the best" + key.replace(i + '_', " ") + " for " + 
           i + ": " + str(value))
+
+  def find_best_pipeline_id(self, best_config, df):
+    for key, value in best_config.items():
+        df = df.loc[df['config/' + str(key)] == value]
+
+    return ray.get(self.stats.get_list.remote())[df.index[0]]
 
 
 
