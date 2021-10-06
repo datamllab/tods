@@ -37,18 +37,18 @@ def run(args):
   }
 
   # define the search space
-  search_space = json_to_searchspace(path = args.search_space_path,
-                                    config = config,
-                                    use_all_combination = args.ignore_hyperparameters,
-                                    ignore_hyperparams = args.ignore_hyperparameters
-  )
+  # search_space = json_to_searchspace(path = args.search_space_path,
+  #                                   config = config,
+  #                                   use_all_combination = args.ignore_hyperparameters,
+  #                                   ignore_hyperparams = args.ignore_hyperparameters
+  # )
 
   # or you can define seach space here like this
   # from ray import tune
-  # search_space = {
-  #   "feature_analysis": ray.tune.choice(["statistical_maximum", "statistical_minimum"]),
-  #   "detection_algorithm": ray.tune.choice(["pyod_ae"])
-  # }
+  search_space = {
+    "feature_analysis": ray.tune.choice(["statistical_maximum", "statistical_minimum"]),
+    "detection_algorithm": ray.tune.choice(["pyod_ae"])
+  }
 
   # start searching
   best_config, best_pipeline_id = searcher.search(search_space=search_space, config=config)

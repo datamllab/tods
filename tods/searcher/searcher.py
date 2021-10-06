@@ -32,17 +32,31 @@ import pdb
 class GlobalStats:
   def __init__(self):
     self.fitted_pipeline_list = []
+    self.pipeline_description_list = []
+    self.scores = []
 
-  def append_id(self, val):
+  def append_fitted_pipeline_id(self, val):
     self.fitted_pipeline_list.append(val)
 
-  def get_list(self):
+  def append_pipeline_description(self, description):
+    self.pipeline_description_list.append(description.to_json())
+
+  def append_score(self, score):
+    self.scores.append(score)
+
+  def get_fitted_pipeline_list(self):
     return self.fitted_pipeline_list
+  
+  def get_pipeline_description_list(self):
+    return self.pipeline_description_list
+
+  def get_scores(self):
+    return self.scores
 
 
 class RaySearcher():
   def __init__(self, dataset, metric):
-    ray.init(local_mode=True)
+    ray.init(local_mode=True, ignore_reinit_error=True)
     self.dataset = dataset
     self.metric = metric
     self.stats = GlobalStats.remote()
@@ -86,12 +100,18 @@ class RaySearcher():
 
     fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
 
-    self.stats.append_id.remote(fitted_pipeline_id)
+    self.stats.append_fitted_pipeline_id.remote(fitted_pipeline_id)
+
+    self.stats.append_pipeline_description.remote(pipeline)
 
     pipeline_result = evaluate_pipeline(self.dataset, pipeline, self.metric)
 
     score = pipeline_result.scores.value[0]
-    ray.tune.report(accuracy=score, id = fitted_pipeline_id)
+
+    self.stats.append_score.remote(score)
+
+
+    ray.tune.report(accuracy=score)
 
   def build_pipeline(self, search_space):
     from d3m import index
@@ -303,7 +323,7 @@ class RaySearcher():
     for key, value in best_config.items():
         df = df.loc[df['config/' + str(key)] == value]
 
-    return ray.get(self.stats.get_list.remote())[df.index[0]]
+    return ray.get(self.stats.get_fitted_pipeline_list.remote())[df.index[0]]
 
 
 

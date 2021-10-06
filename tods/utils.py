@@ -753,6 +753,17 @@ def load_and_produce_pipeline(dataset, fitted_pipeline_id):
     pipeline_result = produce_fitted_pipeline(dataset, fitted_pipeline)
     return pipeline_result
 
+def compare_two_pipeline_description(one, two):
+    import json
+    one = json.loads(one)
+    two = json.loads(two)
 
+    one['id'] = ''
+    one['created'] = ''
+    one['digest'] = ''
 
-find_save_folder()
+    two['id'] = ''
+    two['created'] = ''
+    two['digest'] = ''
+
+    return one == two
