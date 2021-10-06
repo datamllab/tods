@@ -150,14 +150,14 @@ class SeacherTest(unittest.TestCase):
       self.pipeline_description_list[i]['id'] = ''
       self.pipeline_description_list[i]['created'] = ''
       self.pipeline_description_list[i]['digest'] = ''
+      self.pipeline_description_list[i]['schema'] = ''
 
+    for i in range(len(self.pipess)):
       self.pipess[i] = json.loads(self.pipess[i])
       self.pipess[i]['id'] = ''
       self.pipess[i]['created'] = ''
       self.pipess[i]['digest'] = ''
-
-    print(self.pipess)
-    print(self.pipeline_description_list)
+      self.pipess[i]['schema'] = ''
 
     res = True
     for i in self.pipess:
@@ -167,10 +167,6 @@ class SeacherTest(unittest.TestCase):
         res = False
 
     self.assertTrue(res)
-
-  def test_score(self):
-    self.assertTrue(evaluate_pipeline(self.data, self.pipeline_description, 'F1_MACRO').scores.value[0] == self.scores[0])
-
 
 if __name__ == '__main__':
   unittest.main()
