@@ -31,7 +31,7 @@ Outputs = container.DataFrame
 class Hyperparams(hyperparams.Hyperparams):
     # Tuning
     window_size = hyperparams.Hyperparameter[int](
-        default=1,
+        default=10,
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter'],
         description="The moving window size.",
     )
@@ -241,7 +241,8 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
         #                                        inputs=inputs, column_indices=self._training_indices,
         #                                        columns_list=output_columns)
         
-        print(outputs.shape)
+        # print(outputs.shape)
+        # self._write(outputs)
         return CallResult(outputs)
         
     
@@ -396,8 +397,10 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
             The number of subsequences.
 
         """
-        valid_len = int(np.floor((n_samples - window_size) / step)) + 1
+        # valid_len = int(np.floor((n_samples - window_size) / step)) + 1
+        valid_len = int(np.ceil(n_samples / step))
         return valid_len
+        # 
 
 
     def _get_sub_matrices(self, X, window_size, step=1, flatten_order='F'): # pragma: no cover
@@ -439,6 +442,9 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
         X_left_inds = []
         X_right_inds = []
 
+        # Added by JJ
+        X = np.append(X, np.zeros([window_size, n_sequences]), axis=0)
+
         # exclude the edge
         steps = list(range(0, n_samples, step))
         steps = steps[:valid_len]
@@ -451,8 +457,6 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
 
         X_sub = np.asarray(X_sub)
 
-        # if return_numpy:
-    #     if flatten:
 
         temp_array = np.zeros([valid_len, window_size * n_sequences])
         if flatten_order == 'C':

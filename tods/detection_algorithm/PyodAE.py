@@ -95,7 +95,7 @@ class Hyperparams(Hyperparams_ODBase):
     )
 
     epochs = hyperparams.Hyperparameter[int](
-        default=1,
+        default=20,
         description='Number of epochs to train the model.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
@@ -298,7 +298,7 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
             raise ValueError('AE only suports mean squered error for now')
 
         self._clf = PyODAutoEncoder(contamination=hyperparams['contamination'],
-                        hidden_neurons=hyperparams['hidden_neurons'],
+                        hidden_neurons=list(hyperparams['hidden_neurons']),
                         hidden_activation=hyperparams['hidden_activation'],
                         output_activation=hyperparams['output_activation'],
                         loss=loss,

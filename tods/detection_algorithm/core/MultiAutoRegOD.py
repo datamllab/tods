@@ -154,6 +154,12 @@ class MultiAutoRegOD(CollectiveBaseDetector):
         self.decision_scores_ = self._score_combination(
             self._decison_mat_scalaled)
 
+        # print(self.decision_scores_.shape, self.left_inds_.shape, self.right_inds_.shape)
+        self.decision_scores_ = np.concatenate((np.zeros((self.window_size,)), self.decision_scores_))
+        self.left_inds_ = np.concatenate(((-self.window_size) * np.ones((self.window_size,)).astype(np.int), self.left_inds_))
+        self.right_inds_ = np.concatenate((np.zeros((self.window_size,)).astype(np.int), self.right_inds_))
+        # print(self.decision_scores_.shape, self.left_inds_.shape, self.right_inds_.shape)
+
         self._process_decision_scores()
         return self
 
@@ -193,7 +199,12 @@ class MultiAutoRegOD(CollectiveBaseDetector):
         # scale the decision mat
         decison_mat_scaled = self._score_scalar.transform(decison_mat)
         decision_scores = self._score_combination(decison_mat_scaled)
-        decision_scores = np.append(decision_scores, min(decision_scores))
+
+        # print(decision_scores.shape, X_left_inds.shape, X_right_inds.shape)
+        decision_scores = np.concatenate((np.zeros((self.window_size,)), decision_scores))
+        X_left_inds = np.concatenate(((-self.window_size)*np.ones((self.window_size,)).astype(np.int), X_left_inds))
+        X_right_inds = np.concatenate((np.zeros((self.window_size,)).astype(np.int), X_right_inds))
+        # print(decision_scores.shape, X_left_inds.shape, X_right_inds.shape)
 
         return decision_scores, X_left_inds, X_right_inds
 

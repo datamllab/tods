@@ -25,8 +25,8 @@ class AutoEncoderSKI_TestCase(unittest.TestCase):
         self.X_train, self.y_train, self.X_test, self.y_test = generate_data(
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
-
-        self.transformer = AutoEncoderSKI(contamination=self.contamination)
+        input_dim = self.X_train.shape[1]
+        self.transformer = AutoEncoderSKI(contamination=self.contamination, hidden_neurons=[input_dim,32,16,32, input_dim])
         self.transformer.fit(self.X_train)
 
     def test_prediction_labels(self):

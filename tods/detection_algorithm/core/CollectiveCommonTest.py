@@ -94,7 +94,6 @@ class CollectiveCommonTest:
 
     def test_prediction_scores(self):
         pred_scores, _, _ = self.clf.decision_function(self.X_test)
-
         # check score shapes
         assert_equal(pred_scores.shape[0], self.y_test.shape[0])
 

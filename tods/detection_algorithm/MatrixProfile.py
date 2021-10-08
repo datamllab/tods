@@ -130,10 +130,12 @@ class MP(CollectiveBaseDetector):
     def decision_function(self, X):
 
         """
+
         Args:
             data: dataframe column
         Returns:
             nparray
+
         """
         """
         #only keep first two columns of MP results, the second column is left index, use windowsize to get right index
@@ -178,8 +180,10 @@ class MP(CollectiveBaseDetector):
         
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
+
     A primitive that performs matrix profile on a DataFrame using Stumpy package
     Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
+
      Parameters
         ----------
         T_A : ndarray
@@ -233,6 +237,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
+
         Returns:
             None
         """
@@ -243,6 +248,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
+
         Returns:
             None
         """
@@ -253,6 +259,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
+
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -264,6 +271,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Return parameters.
         Args:
             None
+
         Returns:
             class Params
         """
@@ -274,6 +282,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Set parameters for outlier detection.
         Args:
             params: class Params
+
         Returns:
             None
         """
