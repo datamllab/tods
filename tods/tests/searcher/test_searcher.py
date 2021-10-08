@@ -32,7 +32,7 @@ class SeacherTest(unittest.TestCase):
     from ray import tune
     self.search_space = {
     "timeseries_processing": tune.choice(["time_series_seasonality_trend_decomposition"]),
-    "feature_analysis": tune.choice(["statistical_maximum", "statistical_minimum"]),
+    "feature_analysis": tune.choice(["statistical_maximum"]),
     "detection_algorithm": tune.choice(["pyod_ae"])
     }
 
@@ -124,13 +124,18 @@ class SeacherTest(unittest.TestCase):
     step_5.add_output('produce')
     self.pipeline_description.add_step(step_5)
 
-    step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
-    step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
-    step_6.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+    step_6= PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
+    step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
     step_6.add_output('produce')
     self.pipeline_description.add_step(step_6)
 
-    self.pipeline_description.add_output(name='output predictions', data_reference='steps.6.produce')
+    step_7 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
+    step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
+    step_7.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+    step_7.add_output('produce')
+    self.pipeline_description.add_step(step_7)
+
+    self.pipeline_description.add_output(name='output predictions', data_reference='steps.7.produce')
 
     self.descrip = self.pipeline_description.to_json()
 

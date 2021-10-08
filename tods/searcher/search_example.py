@@ -46,7 +46,7 @@ def run(args):
   # or you can define seach space here like this
   # from ray import tune
   search_space = {
-    "feature_analysis": ray.tune.choice(["statistical_maximum", "statistical_minimum"]),
+    "feature_analysis": ray.tune.choice(["statistical_maximum"]),
     "detection_algorithm": ray.tune.choice(["pyod_ae"])
   }
 
