@@ -196,7 +196,7 @@ class LSTMODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         "python_path": "d3m.primitives.tods.detection_algorithm.LSTMODetector",
         "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
         'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/LSTMOD.py']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.ISOLATION_FOREST, ], # up to update
+        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE ], # up to update
         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         "version": "0.0.1",
         "hyperparams_to_tune": ['contamination', 'train_contamination', 'min_attack_time',

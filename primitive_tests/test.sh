@@ -1,9 +1,8 @@
 #!/bin/bash
 
-#modules="data_processing timeseries_processing feature_analysis detection_algorithms reinforcement"
+modules="data_processing timeseries_processing feature_analysis detection_algorithm reinforcement"
 #modules="data_processing timeseries_processing"
-modules="detection_algorithm"
-#test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
+#modules="detection_algorithm"
 
 for module in $modules
 do
