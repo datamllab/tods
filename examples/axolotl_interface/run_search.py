@@ -9,7 +9,7 @@ from tods.searcher import BruteForceSearch
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
 #target_index = 2 # what column is the target
 
-table_path = 'datasets/yahoo_sub_5.csv'
+table_path = '../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
 target_index = 6 # what column is the target
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search

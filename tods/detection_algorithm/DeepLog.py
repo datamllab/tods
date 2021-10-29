@@ -7,10 +7,10 @@ import sklearn
 import numpy
 import typing
 import numpy as np
-from keras.models import Sequential
-from keras.layers import Dense, Dropout , LSTM
-from keras.regularizers import l2
-from keras.losses import mean_squared_error
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout , LSTM
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.losses import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import check_array
 from sklearn.utils.validation import check_is_fitted

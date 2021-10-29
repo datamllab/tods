@@ -35,13 +35,14 @@ setup(
                  ]
     },
     install_requires=[
-        'tamu_d3m',
-        'tamu_axolotl',
-        'Jinja2',
+        #'tamu_d3m',
+        #'tamu_axolotl',
+        #'Jinja2',
         'numpy==1.18.2',
         'combo',
         'simplejson==3.12.0',
-        'scikit-learn==0.22.0',
+        #'scikit-learn==0.22.0',
+        'scikit-learn',
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
         'pillow==7.1.2',

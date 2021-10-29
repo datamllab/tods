@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/datamllab/tods.svg?branch=master)](https://travis-ci.org/datamllab/tods)
 
+[中文文档](README.zh-CN.md)
+
 TODS is a full-stack automated machine learning system for outlier detection on multivariate time-series data. TODS provides exhaustive modules for building machine learning-based outlier detection systems, including: data processing, time series processing, feature analysis (extraction), detection algorithms, and reinforcement module. The functionalities provided via these modules include data preprocessing for general purposes, time series data smoothing/transformation, extracting features from time/frequency domains, various detection algorithms, and involving human expertise to calibrate the system. Three common outlier detection scenarios on time-series data can be performed: point-wise detection (time points as outliers), pattern-wise detection (subsequences as outliers), and system-wise detection (sets of time series as outliers), and a wide-range of corresponding algorithms are provided in TODS. This package is developed by [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html).
 
 TODS is featured for:
@@ -16,18 +18,21 @@ TODS is featured for:
 ## Resources
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 * Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
+* Related Project: [AutoVideo: An Automated Video Action Recognition System](https://github.com/datamllab/autovideo)
 
 ## Cite this Work:
 If you find this  work useful, you may cite this work:
 ```
-@misc{lai2020tods,
-    title={TODS: An Automated Time Series Outlier Detection System},
-    author={Kwei-Harng Lai and Daochen Zha and Guanchu Wang and Junjie Xu and Yue Zhao and Devesh Kumar and Yile Chen and Purav Zumkhawaka and Minyang Wan and Diego Martinez and Xia Hu},
-    year={2020},
-    eprint={2009.09822},
-    archivePrefix={arXiv},
-    primaryClass={cs.DB}
+@article{Lai_Zha_Wang_Xu_Zhao_Kumar_Chen_Zumkhawaka_Wan_Martinez_Hu_2021, 
+	title={TODS: An Automated Time Series Outlier Detection System}, 
+	volume={35}, 
+	number={18}, 
+	journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+	author={Lai, Kwei-Herng and Zha, Daochen and Wang, Guanchu and Xu, Junjie and Zhao, Yue and Kumar, Devesh and Chen, Yile and Zumkhawaka, Purav and Wan, Minyang and Martinez, Diego and Hu, Xia}, 
+	year={2021}, month={May}, 
+	pages={16060-16062} 
 }
+
 ```
 
 ## Installation
@@ -37,7 +42,7 @@ This package works with **Python 3.6** and pip 19+. You need to have the followi
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
 
-Clone the repository:
+Clone the repository (if you are in China and Github is slow, you can use the mirror in [Gitee](https://gitee.com/daochenzha/tods)):
 ```
 git clone https://github.com/datamllab/tods.git
 ```
