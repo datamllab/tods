@@ -52,25 +52,19 @@ step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
-# step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.matrix_profile'))
-# step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
-# step_6.add_output('produce')
-# pipeline_description.add_step(step_6)
-
-# step_7 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
-# step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
-# step_7.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
-# step_7.add_output('produce')
-# pipeline_description.add_step(step_7)
-
-step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
+step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
 step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
-step_6.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
 step_6.add_output('produce')
 pipeline_description.add_step(step_6)
 
+step_7 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
+step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
+step_7.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+step_7.add_output('produce')
+pipeline_description.add_step(step_7)
+
 # Final Output
-pipeline_description.add_output(name='output predictions', data_reference='steps.6.produce')
+pipeline_description.add_output(name='output predictions', data_reference='steps.7.produce')
 
 # Output to json
 data = pipeline_description.to_json()
@@ -105,3 +99,5 @@ dataset = generate_dataset(df, 6)
 pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
 
 print(pipeline_result)
+
+print(evaluate_pipeline(dataset, pipeline))

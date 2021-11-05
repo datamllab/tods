@@ -47,7 +47,7 @@ def run(args):
   # from ray import tune
   search_space = {
     "feature_analysis": ray.tune.choice(["statistical_maximum"]),
-    "detection_algorithm": ray.tune.choice(["pyod_ae"])
+    "detection_algorithm": ray.tune.choice(["pyod_ae", "telemanom"])
   }
 
   # start searching
@@ -60,7 +60,7 @@ def run(args):
   loaded = load_fitted_pipeline(best_pipeline_id)
 
   # use the loaded fitted pipeline
-  result = produce_fitted_pipeline(dataset, loaded)
+  result = evaluate_pipeline(dataset, loaded)
 
   print(result)
 

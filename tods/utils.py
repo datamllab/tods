@@ -76,7 +76,6 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
     """
     from axolotl.utils import schemas as schemas_utils
     from axolotl.backend.simple import SimpleRunner
-
     problem_description = generate_problem(dataset, metric)
     data_preparation_pipeline = schemas_utils.get_splitting_pipeline("TRAINING_DATA")
     scoring_pipeline = schemas_utils.get_scoring_pipeline()
