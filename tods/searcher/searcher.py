@@ -67,7 +67,7 @@ class RaySearcher():
       searcher = BasicVariantGenerator() #Random/Grid Searcher
     elif config["searching_algorithm"] == "hyperopt":
       from ray.tune.suggest.hyperopt import HyperOptSearch
-      searcher = HyperOptSearch(max_concurrent=2, metric="accuracy") #HyperOpt Searcher
+      searcher = HyperOptSearch(max_concurrent=2, metric="wait_what") #HyperOpt Searcher
     else:
       raise ValueError("Searching algorithm not supported.")
 
@@ -84,10 +84,12 @@ class RaySearcher():
       name = config["searching_algorithm"] + "_" + str(config["num_samples"])
     )
 
-    best_config = analysis.get_best_config(metric="accuracy")
+    best_config = analysis.get_best_config(metric="wait_what")
 
     df = analysis.results_df
-    df = analysis.dataframe(metric="accuracy", mode="max")
+    df = analysis.dataframe(metric="wait_what", mode="max")
+    print(df)
+    df.to_csv('out.csv')  
     
     best_config_pipeline_id = self.find_best_pipeline_id(best_config, df)
     
@@ -110,8 +112,26 @@ class RaySearcher():
 
     self.stats.append_score.remote(score)
 
+    # ray.tune.report(score = score * 100)
+    # ray.tune.report(accuracy=1)
 
-    ray.tune.report(accuracy=score)
+    from random import seed
+    from random import random
+    from datetime import datetime
+    seed(datetime.now())
+
+    # import random
+    # from datetime import datetime
+    # temp = random.seed(datetime.now())
+
+    temp = random()
+
+    yield {"wait_what": temp,
+    "accuracy": 1,
+    "score": score,
+    "yes_plz": score * 1000,
+    "random": 2
+    }
 
   def build_pipeline(self, search_space):
     from d3m import index

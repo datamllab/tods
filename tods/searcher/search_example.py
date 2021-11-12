@@ -7,7 +7,7 @@ def argsparser():
   parser = argparse.ArgumentParser("Automatically searching hyperparameters for video recognition")
   parser.add_argument('--alg', type=str, default='hyperopt',
           choices=['random', 'hyperopt'])
-  parser.add_argument('--num_samples', type=int, default=3)
+  parser.add_argument('--num_samples', type=int, default=4)
   parser.add_argument('--gpu', help='Which gpu device to use. Empty string for CPU', type=str, default='0')
   parser.add_argument('--data_dir', help='The path of CSV file', type=str, default='datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
@@ -18,7 +18,7 @@ def argsparser():
   parser.add_argument('--use_all_combinations', help = 'generate all possible combinations when reading search space from json', type = bool, default = False)
   parser.add_argument('--ignore_hyperparameters', help = 'if you want to ignore hyperparmeter when reading search space from json', type = bool, default = False)
 
-  parser.add_argument('--run_mode', help = 'mode of tune.run', type = str, default = 'max', choices = ['min', 'max'])
+  parser.add_argument('--run_mode', help = 'mode of tune.run', type = str, default = 'min', choices = ['min', 'max'])
   return parser
 
 def run(args):
@@ -47,7 +47,7 @@ def run(args):
   # from ray import tune
   search_space = {
     "feature_analysis": ray.tune.choice(["statistical_maximum"]),
-    "detection_algorithm": ray.tune.choice(["pyod_ae", "telemanom"])
+    "detection_algorithm": ray.tune.choice(["pyod_ae", "telemanom", "pyod_loda", 'pyod_cof'])
   }
 
   # start searching
@@ -60,7 +60,7 @@ def run(args):
   loaded = load_fitted_pipeline(best_pipeline_id)
 
   # use the loaded fitted pipeline
-  result = evaluate_pipeline(dataset, loaded)
+  result = produce_fitted_pipeline(dataset, loaded)
 
   print(result)
 
@@ -68,6 +68,8 @@ if __name__ == '__main__':
   parser = argsparser()
   args = parser.parse_args()
   os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
+
+  os.environ["TUNE_DISABLE_STRICT_METRIC_CHECKING"] = "1"
 
   # Search
   run(args)
