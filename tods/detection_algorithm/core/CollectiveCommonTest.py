@@ -9,13 +9,13 @@ import sys
 import numpy as np
 import unittest
 # noinspection PyProtectedMember
-from sklearn.utils.testing import assert_allclose
-from sklearn.utils.testing import assert_array_less
-from sklearn.utils.testing import assert_equal
-from sklearn.utils.testing import assert_greater
-from sklearn.utils.testing import assert_greater_equal
-from sklearn.utils.testing import assert_less_equal
-from sklearn.utils.testing import assert_raises
+
+from numpy.testing import assert_equal
+from numpy.testing import assert_allclose
+from numpy.testing import assert_array_less
+from numpy.testing import assert_raises
+
+from unittest import TestCase
 
 from sklearn.utils.estimator_checks import check_estimator
 
@@ -27,6 +27,12 @@ from scipy.stats import rankdata
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from pyod.utils.data import generate_data
+
+_dummy = TestCase('__init__')
+assert_greater = _dummy.assertGreater
+assert_greater_equal = _dummy.assertGreaterEqual
+assert_less = _dummy.assertLess
+assert_less_equal = _dummy.assertLessEqual
 
 
 class CollectiveCommonTest:

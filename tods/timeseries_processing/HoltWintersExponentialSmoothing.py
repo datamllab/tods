@@ -9,7 +9,7 @@ import uuid
 import typing
 import pandas as pd
 # Custom import commands if any
-from sklearn.preprocessing.data import Normalizer
+from sklearn.preprocessing import Normalizer
 from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
 
 

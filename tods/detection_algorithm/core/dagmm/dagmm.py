@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.externals import joblib
+import joblib
 
 from  .compression_net import CompressionNet
 from .estimation_net import EstimationNet

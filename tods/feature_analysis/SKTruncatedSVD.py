@@ -10,7 +10,7 @@ import time
 import uuid
 
 # Custom import commands if any
-from sklearn.decomposition.truncated_svd import TruncatedSVD
+from sklearn.decomposition import TruncatedSVD
 
 
 from d3m.container.numpy import ndarray as d3m_ndarray

@@ -35,19 +35,17 @@ setup(
                  ]
     },
     install_requires=[
-        #'tamu_d3m',
-        #'tamu_axolotl',
-        #'Jinja2',
-        'numpy==1.18.2',
+        'tamu_d3m==2021.11.24',
+        'tamu_axolotl',
+        'numpy<=1.21.2',
         'combo',
         'simplejson==3.12.0',
-        #'scikit-learn==0.22.0',
         'scikit-learn',
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
         'pillow==7.1.2',
-        'tensorflow==2.2', # should be removed later
-        'keras', # should be removed later
+        'tensorflow==2.4',
+        'keras==2.4.0',
         'pyod',
         'nimfa==1.4.0',
         'stumpy==1.4.0',

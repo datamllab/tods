@@ -113,7 +113,7 @@ class DAGMMPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         'python_path': 'd3m.primitives.tods.detection_algorithm.dagmm',
         'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
                    'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/DAGMM.py']},
-        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.DEEPLOG],
+        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE],
         'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
         'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DAGMMPrimitive')),
         'hyperparams_to_tune': ['comp_hiddens','est_hiddens','est_dropout_ratio','minibatch_size','epoch_size','rand_seed',

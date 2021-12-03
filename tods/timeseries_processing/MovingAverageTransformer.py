@@ -9,7 +9,7 @@ import typing
 import pandas as pd
 import uuid
 # Custom import commands if any
-from sklearn.preprocessing.data import Normalizer
+from sklearn.preprocessing import Normalizer
 
 
 from d3m.container.numpy import ndarray as d3m_ndarray

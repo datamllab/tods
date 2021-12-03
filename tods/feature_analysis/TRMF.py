@@ -10,8 +10,6 @@ import time
 import uuid
 
 # Custom import commands if any
-from sklearn.decomposition.truncated_svd import TruncatedSVD
-
 
 from d3m.container.numpy import ndarray as d3m_ndarray
 from d3m.container import DataFrame as d3m_dataframe
@@ -21,7 +19,6 @@ from d3m.base import utils as base_utils
 from d3m.exceptions import PrimitiveNotFittedError
 from d3m.primitive_interfaces.base import CallResult, DockerContainer
 from d3m.primitive_interfaces import base, transformer
-# from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPrimitiveBase
 from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 
@@ -249,7 +246,7 @@ class TRMFPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             inputs: Container DataFrame.
 
         Returns:
-            Container DataFrame after Truncated SVD.
+            Container DataFrame after TRMF.
         """
         self._clf = trmf(
             lags=self.hyperparams['lags'],

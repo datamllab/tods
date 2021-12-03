@@ -8,7 +8,7 @@ import numpy
 import typing
 
 # Custom import commands if any
-from sklearn.preprocessing.data import QuantileTransformer
+from sklearn.preprocessing import QuantileTransformer
 
 
 from d3m.container.numpy import ndarray as d3m_ndarray
