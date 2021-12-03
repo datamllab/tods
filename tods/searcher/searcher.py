@@ -67,12 +67,89 @@ class RaySearcher():
       searcher = BasicVariantGenerator() #Random/Grid Searcher
     elif config["searching_algorithm"] == "hyperopt":
       from ray.tune.suggest.hyperopt import HyperOptSearch
-      searcher = HyperOptSearch(max_concurrent=2, metric="wait_what") #HyperOpt Searcher
+      searcher = HyperOptSearch(max_concurrent=2, metric="RECALL") #HyperOpt Searcher
     else:
       raise ValueError("Searching algorithm not supported.")
 
     import multiprocessing
     num_cores =  multiprocessing.cpu_count()
+
+    # from ray.tune.schedulers import AsyncHyperBandScheduler
+    # scheduler = AsyncHyperBandScheduler(grace_period=10, max_t=100, metric="RECALL")
+
+    # from ray.tune.schedulers import HyperBandScheduler
+    # scheduler = HyperBandScheduler(max_t=100, metric="RECALL")
+
+    # from ray.tune.schedulers import MedianStoppingRule
+    # scheduler = MedianStoppingRule(grace_period=60, metric="RECALL")
+
+    # from ray.tune.schedulers import PopulationBasedTraining
+    # scheduler = PopulationBasedTraining(
+    #     time_attr='time_total_s',
+    #     metric='RECALL',
+    #     perturbation_interval=600.0)
+
+    # from ray.tune.schedulers.pb2 import PB2
+    # scheduler = PB2(
+    #     time_attr='time_total_s',
+    #     metric='RECALL',
+    #     perturbation_interval=600.0,
+    #     hyperparam_bounds={
+    #         "lr": [1e-3, 1e-5],
+    #         "alpha": [0.0, 1.0],
+    #     ...
+    #     })
+    # pip install GPy sklearn
+    # this one doesnt work and this needs hyperparam_bounds
+
+    # from ray.tune.schedulers import HyperBandForBOHB
+    # scheduler = HyperBandForBOHB(max_t=100, metric="RECALL")
+    # this one doesnt work
+
+
+
+    # from ray.tune.suggest.bayesopt import BayesOptSearch
+    # seacher = BayesOptSearch(metric="RECALL")
+
+    # from ray.tune.suggest.ax import AxSearch
+    # seacher = AxSearch(metric="RECALL")
+
+    # from ray.tune.suggest.flaml import B  lendSearch
+    # searcher = BlendSearch(metric="RECALL")
+    # package dependency issue, same for cfo
+
+    # from ray.tune.suggest.dragonfly import DragonflySearch
+    # seacher = DragonflySearch(metric="RECALL")
+
+    # from ray.tune.suggest.hebo import HEBOSearch
+    # seacher = HEBOSearch(metric="RECALL")
+    # error
+
+    # import nevergrad as ng
+    # from ray.tune.suggest.nevergrad import NevergradSearch
+    # seacher = NevergradSearch(
+    #   optimizer=ng.optimizers.OnePlusOne,
+    # metric="RECALL")
+
+    # from ray.tune.suggest.optuna import OptunaSearch
+    # seacher = OptunaSearch(metric="RECALL")
+
+    # from ray.tune.suggest.sigopt import SigOptSearch
+    # seacher = SigOptSearch(metric="RECALL")
+    # error
+
+    # from ray.tune.suggest.skopt import SkOptSearch
+    # seacher = SkOptSearch(metric="RECALL")
+
+    from ray.tune.suggest.zoopt import ZOOptSearch
+    seacher = ZOOptSearch(metric="RECALL", budget=20,)
+
+
+
+
+
+
+
 
     analysis = ray.tune.run(
       self._evaluate,
@@ -82,17 +159,18 @@ class RaySearcher():
       mode = config["mode"],
       search_alg = searcher,
       name = config["searching_algorithm"] + "_" + str(config["num_samples"])
+      # scheduler=scheduler
     )
 
-    best_config = analysis.get_best_config(metric="wait_what")
+    best_config = analysis.get_best_config(metric="RECALL")
 
     df = analysis.results_df
-    df = analysis.dataframe(metric="wait_what", mode="max")
+    df = analysis.dataframe(metric="RECALL", mode="min")
     print(df)
     df.to_csv('out.csv')  
-    
+
     best_config_pipeline_id = self.find_best_pipeline_id(best_config, df)
-    
+
     return best_config, best_config_pipeline_id
 
   def _evaluate(self, search_space):
@@ -126,12 +204,14 @@ class RaySearcher():
 
     temp = random()
 
-    yield {"wait_what": temp,
-    "accuracy": 1,
-    "score": score,
-    "yes_plz": score * 1000,
-    "random": 2
+    yield {"F1_MACRO": pipeline_result.scores.value[2],
+    "RECALL": pipeline_result.scores.value[1],
+    "PRECISION": pipeline_result.scores.value[0],
+    "F1": pipeline_result.scores.value[3]
+    # "recall": 
     }
+
+    # tune.report()
 
   def build_pipeline(self, search_space):
     from d3m import index

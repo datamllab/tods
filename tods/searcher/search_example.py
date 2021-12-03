@@ -12,7 +12,7 @@ def argsparser():
   parser.add_argument('--data_dir', help='The path of CSV file', type=str, default='datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
   parser.add_argument('--target_index', help = 'Target index', type = int, default = 6)
-  parser.add_argument('--metric', help = 'pipeline evaluation metric', type = str, default = 'F1_MACRO')
+  parser.add_argument('--metric', help = 'pipeline evaluation metric', type = str, default = 'ALL')
 
   parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = 'tods/searcher/example_search_space.json')
   parser.add_argument('--use_all_combinations', help = 'generate all possible combinations when reading search space from json', type = bool, default = False)
@@ -50,8 +50,13 @@ def run(args):
     "detection_algorithm": ray.tune.choice(["pyod_ae", "telemanom", "pyod_loda", 'pyod_cof'])
   }
 
+  import time
+  start_time = time.time()
+
   # start searching
   best_config, best_pipeline_id = searcher.search(search_space=search_space, config=config)
+
+  print("--- %s seconds ---" % (time.time() - start_time))
 
   print("Best config: ", best_config)
   print("best config pipeline id: ", best_pipeline_id)
