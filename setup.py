@@ -35,7 +35,7 @@ setup(
                  ]
     },
     install_requires=[
-        'tamu_d3m',
+        'tamu_d3m==2021.2.12',
         'tamu_axolotl',
         'Jinja2',
         'numpy==1.18.2',
