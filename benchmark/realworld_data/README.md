@@ -3,8 +3,7 @@
 This branch is the source code of  experiment part of our paper. We provide everything needed when running the experiments: Dataset, Dataset Generator, Pipeline json, Python script, runner and the result (in "./result") we get from the experiments.
 
 ## Resources
-* Paper: Under review
-
+* Paper: [Revisiting Time Series Outlier Detection: Definitions and Benchmarks](https://openreview.net/forum?id=r8IvOsnHchr)
 
 ## Datasets
 To get the dataset, please go to "data/script" to run all of the python scripts. They will download and preprocess the data automatically into "data/" folder.
@@ -39,13 +38,14 @@ sh run.sh
 ## Cite this Work:
 If you find this  work useful, you may cite this work:
 ```
-@misc{lai2020tods,
-    title={TODS: An Automated Time Series Outlier Detection System},
-    author={Kwei-Harng Lai and Daochen Zha and Guanchu Wang and Junjie Xu and Yue Zhao and Devesh Kumar and Yile Chen and Purav Zumkhawaka and Minyang Wan and Diego Martinez and Xia Hu},
-    year={2020},
-    eprint={2009.09822},
-    archivePrefix={arXiv},
-    primaryClass={cs.DB}
+@inproceedings{
+    lai2021revisiting,
+    title={Revisiting Time Series Outlier Detection: Definitions and Benchmarks},
+    author={Kwei-Herng Lai and Daochen Zha and Junjie Xu and Yue Zhao and Guanchu Wang and Xia Hu},
+    booktitle={Thirty-fifth Conference on Neural Information Processing Systems Datasets and Benchmarks Track (Round 1)},
+    year={2021},
+    url={https://openreview.net/forum?id=r8IvOsnHchr}
 }
 ```
+
 *Please refer master branch of TODS for details of running pipelines.
