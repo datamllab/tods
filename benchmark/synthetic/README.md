@@ -3,7 +3,7 @@
 This branch is the source code of  experiment part of our paper. We provide everything needed when running the experiments: Dataset, Dataset Generator, Pipeline json, Python script, runner and the result we get from the experiments.
 
 ## Resources
-* Paper: Under review
+* Paper: [Revisiting Time Series Outlier Detection: Definitions and Benchmarks](https://openreview.net/forum?id=r8IvOsnHchr)
 
 ## Cite this Work:
 If you find this  work useful, you may cite this work:
