@@ -2,7 +2,9 @@
 
 <img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
 
-[![Build Status](https://travis-ci.org/datamllab/tods.svg?branch=master)](https://travis-ci.org/datamllab/tods)
+[![Actions Status](https://github.com/datamllab/tods/workflows/Build/badge.svg)](https://github.com/datamllab/tods/actions)
+
+[![codecov](https://codecov.io/gh/datamllab/tods/branch/dev/graph/badge.svg?token=M90ZCVTRBF)](https://codecov.io/gh/datamllab/tods)
 
 [中文文档](README.zh-CN.md)
 
