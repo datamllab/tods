@@ -11,8 +11,8 @@ from .CollectiveBase import CollectiveBaseDetector
 
 # from tod.utility import get_sub_matrices
 
-from keras.layers import Dense, LSTM
-from keras.models import Sequential
+from tensorflow.keras.layers import Dense, LSTM
+from tensorflow.keras.models import Sequential
 
 class LSTMOutlierDetector(CollectiveBaseDetector):
 

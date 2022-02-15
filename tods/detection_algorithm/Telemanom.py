@@ -9,11 +9,11 @@ import typing
 import pandas as pd
 
 
-from keras.models import Sequential, load_model
-from keras.callbacks import History, EarlyStopping, Callback
-from keras.layers.recurrent import LSTM
-from keras.layers.core import Dense, Activation, Dropout
-from keras.layers import Flatten
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.callbacks import History, EarlyStopping, Callback
+from tensorflow.keras.layers import LSTM
+from tensorflow.keras.layers import Dense, Activation, Dropout
+from tensorflow.keras.layers import Flatten
 
 from d3m import container, utils
 from d3m.base import utils as base_ut
