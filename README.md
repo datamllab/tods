@@ -17,6 +17,11 @@ TODS is featured for:
 
 * **Automated Machine Learning** aims to provide knowledge-free process that construct optimal pipeline based on the given data by automatically searching the best combination from all of the existing modules.
 
+## Examples and Tutorials
+* General Usage: [View in Colab](https://colab.research.google.com/drive/1oKKRqAQnkATsALffaf54zkDGpRseNVGZ?usp=sharing)
+* Fraud Detection: [View in Colab](https://colab.research.google.com/drive/15c1Rj60XESwkC2P-BVXUocsXaBJ3M1sr?usp=sharing)
+* BlockChain: [View in Colab](https://colab.research.google.com/drive/1fm6yTayjTssSMb6t0VcplBBHl5MrgLFR?usp=sharing)
+
 ## Resources
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 * Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
