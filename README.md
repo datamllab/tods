@@ -43,7 +43,7 @@ If you find this  work useful, you may cite this work:
 
 ## Installation
 
-This package works with **Python 3.6** and pip 19+. You need to have the following packages installed on the system (for Debian/Ubuntu):
+This package works with **Python 3.7+** and pip 19+. You need to have the following packages installed on the system (for Debian/Ubuntu):
 ```
 sudo apt-get install libssl-dev libcurl4-openssl-dev libyaml-dev build-essential libopenblas-dev libcap-dev ffmpeg
 ```
