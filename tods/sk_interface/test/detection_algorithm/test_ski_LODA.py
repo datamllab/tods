@@ -5,17 +5,20 @@ from tods.sk_interface.detection_algorithm.LODA_skinterface import LODASKI
 
 from pyod.utils.data import generate_data
 import unittest
-from sklearn.utils.testing import assert_allclose
-from sklearn.utils.testing import assert_array_less
-from sklearn.utils.testing import assert_equal
-from sklearn.utils.testing import assert_greater
-from sklearn.utils.testing import assert_greater_equal
-from sklearn.utils.testing import assert_less_equal
-from sklearn.utils.testing import assert_raises
+from numpy.testing import assert_allclose
+from numpy.testing import assert_array_less
+from unittest import TestCase
 from sklearn.metrics import roc_auc_score
 
 class LODASKI_TestCase(unittest.TestCase):
     def setUp(self):
+
+        _dummy = TestCase('__init__')
+        self.assert_greater_equal = _dummy.assertGreaterEqual
+        self.assert_greater = _dummy.assertGreater
+        self.assert_less_equal = _dummy.assertLessEqual
+        self.assert_less = _dummy.assertLess
+        self.assert_equal = _dummy.assertEqual
 
         self.maxDiff = None
         self.n_train = 200
@@ -31,12 +34,12 @@ class LODASKI_TestCase(unittest.TestCase):
 
     def test_prediction_labels(self):
         pred_labels = self.transformer.predict(self.X_test)
-        assert_equal(pred_labels.shape[0], self.y_test.shape[0])
+        self.assert_equal(pred_labels.shape[0], self.y_test.shape[0])
 
     def test_prediction_score(self):
         pred_scores = self.transformer.predict_score(self.X_test)
-        assert_equal(pred_scores.shape[0], self.y_test.shape[0])
-        assert_greater_equal(roc_auc_score(self.y_test, pred_scores), self.roc_floor)
+        self.assert_equal(pred_scores.shape[0], self.y_test.shape[0])
+        self.assert_greater_equal(roc_auc_score(self.y_test, pred_scores), self.roc_floor)
 
 
 if __name__ == '__main__':
