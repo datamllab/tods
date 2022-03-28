@@ -35,7 +35,7 @@ __all__ = ('ColumnFilterPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 
@@ -112,21 +112,7 @@ class ColumnFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 		Decides what semantic type to attach to generated attributes
 	"""
 
-	metadata = metadata_base.PrimitiveMetadata({
-		'__author__': "DATA Lab @ Texas A&M University",
-		'name': "Column Filter",
-		'python_path': 'd3m.primitives.tods.data_processing.column_filter',
-		'source': {
-                    'name': "DATA Lab @ Texas A&M University", 
-                    'contact': 'mailto:khlai037@tamu.edu',
-                },
-		'algorithm_types': [
-                    metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
-                ], 
-		'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-		'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ColumnFilterPrimitive')),
-		'version': '0.0.1',		
-		})
+	metadata = construct_primitive_metadata(module='data_processing', name='column_filter', id='ColumnFilterPrimitive', primitive_family='data_preprocessing')
 
 
 	def __init__(self, *, hyperparams: Hyperparams) -> None:
@@ -140,7 +126,6 @@ class ColumnFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 		Process the testing data.
 		Args:
 			inputs: Container DataFrame.
-
 		Returns:
 			Container DataFrame after AutoCorrelation.
 		"""
@@ -167,3 +152,9 @@ class ColumnFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 		outputs.metadata = outputs.metadata.generate(outputs)
  
 	
+
+    
+    
+    
+    
+    

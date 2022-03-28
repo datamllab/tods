@@ -40,7 +40,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -129,7 +129,6 @@ Parameters
         Number of neighbors to use by default for `kneighbors` queries.
         If n_neighbors is larger than the number of samples provided,
         all samples will be used.
-
     algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}, optional
         Algorithm used to compute the nearest neighbors:
         
@@ -140,13 +139,11 @@ Parameters
           based on the values passed to :meth:`fit` method.
         Note: fitting on sparse input will override the setting of
         this parameter, using brute force.
-
     leaf_size : int, optional (default=30)
         Leaf size passed to `BallTree` or `KDTree`. This can
         affect the speed of the construction and query, as well as the memory
         required to store the tree. The optimal value depends on the
         nature of the problem.
-
     metric : string or callable, default 'minkowski'
         metric used for the distance computation. Any metric from scikit-learn
         or scipy.spatial.distance can be used.
@@ -169,22 +166,18 @@ Parameters
         See the documentation for scipy.spatial.distance for details on these
         metrics:
         http://docs.scipy.org/doc/scipy/reference/spatial.distance.html
-
     p : integer, optional (default = 2)
         Parameter for the Minkowski metric from
         sklearn.metrics.pairwise.pairwise_distances. When p = 1, this is
         equivalent to using manhattan_distance (l1), and euclidean_distance
         (l2) for p = 2. For arbitrary p, minkowski_distance (l_p) is used.
         See http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.pairwise_distances
-
     metric_params : dict, optional (default = None)
         Additional keyword arguments for the metric function.
-
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set, i.e. the proportion
         of outliers in the data set. When fitting this is used to define the
         threshold on the decision function.
-
     n_jobs : int, optional (default = 1)
         The number of parallel jobs to run for neighbors search.
         If ``-1``, then the number of jobs is set to the number of CPU cores.
@@ -208,22 +201,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "TODS.anomaly_detection_primitives.LOFPrimitive",
-        "python_path": "d3m.primitives.tods.detection_algorithm.pyod_lof",
-        "source": {
-            'name': "DATALAB @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "hyperparams_to_tune": ['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination'],
-        "version": "0.0.1",
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'LOFPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_lof', id='LOFPrimitive', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -247,7 +225,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -258,7 +235,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -269,7 +245,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -281,7 +256,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -292,7 +266,6 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """

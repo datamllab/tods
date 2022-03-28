@@ -45,6 +45,8 @@ Inputs = d3m_dataframe
 # Inputs = container.Dataset
 Outputs = d3m_dataframe
 
+from tods.utils import construct_primitive_metadata
+
 # import abc
 # import typing
 

@@ -40,7 +40,7 @@ from pyod.models.so_gaal import SO_GAAL
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -161,22 +161,7 @@ Parameters
     """
 
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        'name': 'So_Gaal Anomaly Detection',
-        'python_path': 'd3m.primitives.tods.detection_algorithm.pyod_sogaal',
-        'source': {
-            'name': 'DATA Lab at Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        "hyperparams_to_tune": ['contamination', 'stop_epochs','lr_d','lr_g','decay','momentum'],
-        'version': '0.1.0',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'So_GaalPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sogaal', id='So_GaalPrimitive', primitive_family='feature_construct', hyperparams=['contamination', 'stop_epochs','lr_d','lr_g','decay','momentum'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -200,7 +185,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -211,7 +195,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -222,7 +205,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -234,7 +216,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -245,8 +226,10 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
+
+

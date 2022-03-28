@@ -23,7 +23,7 @@ __all__ = ('FastFourierTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 
@@ -196,22 +196,9 @@ Parameters
         Decides what semantic type to attach to generated attributes'
     """
     
-    metadata = metadata_base.PrimitiveMetadata({
-        '__author__' : "DATA Lab @ Texas A&M University",
-        'name': "Fast Fourier Transform",
-        'python_path': 'd3m.primitives.tods.feature_analysis.fast_fourier_transform',
-        'source': {
-            'name': 'DATA Lab @ Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        'hyperparameters_to_tune':['n','norm','axis'],
-        'version': '0.0.1',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'FastFourierTransformPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='fast_fourier_transform', id='FastFourierTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis'])
+    
+    
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

@@ -20,7 +20,7 @@ __all__ = ('DAGMMPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
-
+from tods.utils import construct_primitive_metadata
 class Params(Params_ODBase):
     ######## Add more Attributes #######
 
@@ -128,21 +128,7 @@ Parameters
     """
 
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-        '__author__': "DATA Lab @Texas A&M University",
-        'name': "DAGMM",
-        'python_path': 'd3m.primitives.tods.detection_algorithm.dagmm',
-        'source': {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-                   'uris': ['https://gitlab.com/lhenry15/tods/-/blob/Yile/anomaly-primitives/anomaly_primitives/DAGMM.py']},
-        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE],
-        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DAGMMPrimitive')),
-        'hyperparams_to_tune': ['comp_hiddens','est_hiddens','est_dropout_ratio','minibatch_size','epoch_size','rand_seed',
-                                'learning_rate','lambda1','lambda2','contamination'],
-        'version': '0.0.1',
-        }
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='dagmm', id='DAGMMPrimitive', primitive_family='anomaly_detect', hyperparams=['comp_hiddens','est_hiddens','est_dropout_ratio','minibatch_size','epoch_size','rand_seed','learning_rate','lambda1','lambda2','contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams,  #
@@ -167,7 +153,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -178,7 +163,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -190,7 +174,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -202,7 +185,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -213,7 +195,6 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """

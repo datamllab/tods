@@ -41,7 +41,7 @@ from pyod.models.sod import SOD
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
 	######## Add more Attributes #######
@@ -113,22 +113,7 @@ Parameters
 		``threshold_`` on ``decision_scores_``.
 	"""
 
-	metadata = metadata_base.PrimitiveMetadata({
-	    "__author__": "DATA Lab at Texas A&M University",
-	    "name": "Subspace Outlier Detection Primitive",
-	    "python_path": "d3m.primitives.tods.detection_algorithm.pyod_sod",			
-	    "source": {
-                'name': 'DATA Lab at Texas A&M University', 
-                'contact': 'mailto:khlai037@tamu.edu', 
-            },
-	    "hyperparams_to_tune": ['contamination', 'n_neighbors', 'ref_set', 'alpha'],
-	    "version": "0.0.1",
-	    "algorithm_types": [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
-            ],
-	    "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-	    "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SODPrimitive')),
-	})
+	metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sod', id='SODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'ref_set', 'alpha'])
 
 
 	def __init__(self, *,
@@ -148,7 +133,6 @@ Parameters
 		Set training data for outlier detection.
 		Args:
 			inputs: Container DataFrame
-
 		Returns:
 			None
 		"""
@@ -159,7 +143,6 @@ Parameters
 		Fit model with training data.
 		Args:
 			*: Container DataFrame. Time series data up to fit.
-
 		Returns:
 			None
 		"""
@@ -170,7 +153,6 @@ Parameters
 		Process the testing data.
 		Args:
 			inputs: Container DataFrame. Time series data up to outlier detection.
-
 		Returns:
 			Container DataFrame
 			1 marks Outliers, 0 marks normal.
@@ -182,7 +164,6 @@ Parameters
 		Return parameters.
 		Args:
 			None
-
 		Returns:
 			class Params
 		"""
@@ -193,8 +174,10 @@ Parameters
 		Set parameters for outlier detection.
 		Args:
 			params: class Params
-
 		Returns:
 			None
 		"""
 		super().set_params(params=params)
+
+
+

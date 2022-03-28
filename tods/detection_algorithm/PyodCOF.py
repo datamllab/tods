@@ -141,7 +141,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -152,7 +151,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -163,7 +161,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -189,7 +186,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -200,7 +196,6 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """

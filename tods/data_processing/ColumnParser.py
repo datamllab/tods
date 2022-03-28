@@ -17,6 +17,7 @@ __all__ = ('ColumnParserPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     parse_semantic_types = hyperparams.Set(
@@ -110,21 +111,8 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
         Use fuzzy time parsing.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-	    '__author__': "DATA Lab @Texas A&M University",
-            'version': '0.6.0',
-            'name': "Parses strings into their types",
-            'python_path': 'd3m.primitives.tods.data_processing.column_parser',
-            'source': {
-                'name': "DATA Lab @ Texas A&M University",
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
-            ], 
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ColumnParserPrimitive')),
-            })
+   
+    metadata = construct_primitive_metadata(module='data_processing', name='column_parser', id='ColumnParserPrimitive', primitive_family='data_transform')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         columns_to_use, output_columns = self._produce_columns(inputs)

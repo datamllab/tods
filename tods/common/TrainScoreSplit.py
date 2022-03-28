@@ -9,7 +9,7 @@ from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.base import primitives
 
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('TrainScoreDatasetSplitPrimitive',)
 
 
@@ -44,33 +44,8 @@ class TrainScoreDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyper
     A primitive which splits a tabular Dataset into random train and score subsets.
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '3fcc6dc4-6681-4c86-948e-066d14e7d803',
-            'version': '0.1.0',
-            'name': "Train-score tabular dataset splits",
-            'python_path': 'd3m.primitives.tods.evaluation.train_score_dataset_split',
-            'source': {
-                'name': 'DATALab@Texas A&M University',
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/train_score_split.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
-            },
-            'installation': [{
-               'type': metadata_base.PrimitiveInstallationType.PIP,
-               'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
-                   git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
-               ),
-            }],
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.HOLDOUT,
-                metadata_base.PrimitiveAlgorithmType.DATA_SPLITTING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.EVALUATION,
-        },
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='train_score_dataset_split', id='3fcc6dc4-6681-4c86-948e-066d14e7d803', primitive_family='evaluation', algorithm= ['holdout','data_split'])
+    
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:
         if self.hyperparams['stratified'] and not len(targets.columns):

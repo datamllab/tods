@@ -31,7 +31,7 @@ from d3m.primitive_interfaces import base, transformer
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(params.Params):
     input_column_names: Optional[Any]
@@ -138,22 +138,7 @@ Parameters
         Decides what semantic type to attach to generated attributes
     """
     
-    metadata = metadata_base.PrimitiveMetadata({
-         "__author__": "DATA Lab at Texas A&M University",
-         "name": "Ensemble",
-         "python_path": "d3m.primitives.tods.detection_algorithm.Ensemble",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "version": "0.0.1",
-         "hyperparams_to_tune": ['use_columns'],
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'EnsemblePrimitive')),
-     })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='Ensemble', id='EnsemblePrimitive', primitive_family='anomaly_detect', hyperparams=['use_columns'])
 
     def __init__(self, *, # pragma: no cover
                  hyperparams: Hyperparams,
@@ -388,3 +373,8 @@ Parameters
 
 
 EnsemblePrimitive.__doc__ = Normalizer.__doc__
+
+
+
+
+

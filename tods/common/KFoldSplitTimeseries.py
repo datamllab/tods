@@ -10,7 +10,7 @@ from sklearn import model_selection
 from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.base import primitives
-
+from tods.utils import construct_primitive_metadata
 from .utils import parse_datetime_to_float
 
 __all__ = ('KFoldTimeSeriesSplitPrimitive',)
@@ -92,28 +92,8 @@ class KFoldTimeSeriesSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperpa
     __version__ = '0.3.0'
     __contact__ = 'mailto:jeffrey.gleason@yonder.co'
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '002f9ad1-46e3-40f4-89ed-eeffbb3a102b',
-            'version': __version__,
-            'name': "K-fold cross-validation timeseries dataset splits",
-            'python_path': 'd3m.primitives.tods.evaluation.kfold_time_series_split',
-            'source': {
-                'name': 'DATALab@Texas A&M University',
-                'contact': __contact__,
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/kfold_split_timeseries.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.K_FOLD,
-                metadata_base.PrimitiveAlgorithmType.CROSS_VALIDATION,
-                metadata_base.PrimitiveAlgorithmType.DATA_SPLITTING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.EVALUATION,
-        },
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_time_series_split', id='002f9ad1-46e3-40f4-89ed-eeffbb3a102b', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'])
+    
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:
         time_column_indices = dataset.metadata.list_columns_with_semantic_types(['https://metadata.datadrivendiscovery.org/types/Time'], at=(main_resource_id,))

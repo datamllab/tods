@@ -34,7 +34,7 @@ __all__ = ('HoltWintersExponentialSmoothingPrimitive',)
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(params.Params):
     input_column_names: Optional[Any]
@@ -115,22 +115,9 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
     """
     
-    metadata = metadata_base.PrimitiveMetadata({ 
-         "__author__": "DATA Lab at Texas A&M University",
-         "name": "statsmodels.preprocessing.data.HoltWintersExponentialSmoothing",
-         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_winters_exponential_smoothing",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         "version": "0.0.1",
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltWintersExponentialSmoothingPrimitive')),
-         "hyperparams_to_tune": ['endog','use_columns'],
-         })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_winters_exponential_smoothing', id='HoltWintersExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'])
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

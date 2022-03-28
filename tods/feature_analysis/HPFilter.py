@@ -29,7 +29,7 @@ __all__ = ('HPFilterPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     # Tuning
@@ -129,22 +129,9 @@ Parameters
         Decides what semantic type to attach to generated attributes'
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-         "__author__": "DATA Lab at Texas A&M University",
-         "name": "Hodrick-Prescott filter Primitive",
-         "python_path": "d3m.primitives.tods.feature_analysis.hp_filter",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "hyperparams_to_tune": ['lamb'],
-         "version": "0.0.1",
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HPFilterPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='hp_filter', id='HPFilterPrimitive', primitive_family='feature_construct', hyperparams=['lamb'])
+    
+    
 
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:

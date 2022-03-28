@@ -25,6 +25,7 @@ __all__ = ('CategoricalToBinaryPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 
@@ -139,24 +140,8 @@ class CategoricalToBinaryPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     """
 
     __author__ = "DATA LAB"
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            "__author__ " : "DATALAB @ Texas A&M University",
-            'name': "Converting Categorical to Binary",
-            'python_path': 'd3m.primitives.tods.data_processing.categorical_to_binary',
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-            'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'CategoricalToBinaryPrimitive')),
-            'hyperparameters_to_tune':"None",
-            'version': '0.0.1',
-        },
-    )
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='categorical_to_binary', id='CategoricalToBinaryPrimitive', primitive_family='data_preprocessing')
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

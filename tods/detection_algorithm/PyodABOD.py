@@ -40,7 +40,7 @@ from pyod.models.abod import ABOD
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -71,9 +71,7 @@ class ABODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     For an observation, the variance of its weighted cosine scores to all
     neighbors could be viewed as the outlying score.
     See :cite:`kriegel2008angle` for details.
-
     Two versions of ABOD are supported:
-
     - Fast ABOD: use k nearest neighbors to approximate.
     - Original ABOD: consider all training points with high time complexity at
       O(n^3).
@@ -88,7 +86,6 @@ Parameters
         Number of neighbors to use by default for k neighbors queries.
     method: str, optional (default='fast')
         Valid values for metric are:
-
         - 'fast': fast ABOD. Only consider n_neighbors of training points
         - 'default': original ABOD with all training points, which could be
           slow
@@ -112,22 +109,7 @@ Parameters
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = metadata_base.PrimitiveMetadata({
-         "__author__": "DATA Lab at Texas A&M University",
-         "name": "Angle-base Outlier Detection Primitive",
-         "python_path": "d3m.primitives.tods.detection_algorithm.pyod_abod",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "hyperparams_to_tune": ['contamination', 'n_neighbors', 'method'],
-         "version": "0.0.1",
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ABODPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_abod', id='ABODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'method'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -146,7 +128,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -157,7 +138,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -168,7 +148,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -191,7 +170,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -202,8 +180,10 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
+
+

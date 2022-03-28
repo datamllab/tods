@@ -12,6 +12,8 @@ __all__ = ('DatasetToDataFramePrimitive',)
 Inputs = container.Dataset
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
+
 
 class Hyperparams(hyperparams.Hyperparams):
     dataframe_resource = hyperparams.Hyperparameter[typing.Union[str, None]](
@@ -30,22 +32,8 @@ class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, O
     dataframe_resource
         Resource ID of a DataFrame to extract if there are multiple tabular resources inside a Dataset and none is a dataset entry point.
     """
-
-    metadata = metadata_base.PrimitiveMetadata({
-            "__author__ " : "DATA Lab @ Texas A&M University",
-            'version': '0.3.0',
-            'name': "Extract a DataFrame from a Dataset",
-            'python_path': 'd3m.primitives.tods.data_processing.dataset_to_dataframe',
-            'source': {
-                'name': "DATA Lab @ Texas A&M University",
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DatasetToDataFramePrimitive')),
-        })
+    
+    metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         dataframe_resource_id, dataframe = base_utils.get_tabular_resource(inputs, self.hyperparams['dataframe_resource'])

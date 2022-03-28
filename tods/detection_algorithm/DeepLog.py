@@ -52,7 +52,7 @@ __all__ = ('DeepLogPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -186,25 +186,7 @@ Parameters
 
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        '__author__': "DATA Lab @Texas A&M University",
-        'name': "DeepLog Anomolay Detection",
-        'python_path': 'd3m.primitives.tods.detection_algorithm.deeplog',
-        'source': {
-            'name': "DATALAB @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        'hyperparams_to_tune': ['hidden_size', 'loss', 'optimizer', 'epochs', 'batch_size',
-                                'l2_regularizer', 'validation_size', 
-                                'window_size', 'features', 'stacked_layers', 'preprocessing', 'verbose', 'dropout_rate','contamination'],
-        'version': '0.0.1', 
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE
-        ], 
-        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DeepLogPrimitive')),
-        }
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='deeplog', id='DeepLogPrimitive', primitive_family='anomaly_detect', hyperparams=['hidden_size', 'loss', 'optimizer', 'epochs', 'batch_size','l2_regularizer', 'validation_size', 'window_size', 'features', 'stacked_layers', 'preprocessing', 'verbose', 'dropout_rate','contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams,  #
@@ -232,7 +214,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -243,7 +224,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -254,7 +234,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -266,7 +245,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -277,7 +255,6 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
@@ -319,7 +296,6 @@ class DeeplogLstm(BaseDetector):
         Builds Stacked LSTM model.
         Args:
             inputs : Self object containing model parameters
-
         Returns:
             return : model
         """
@@ -349,7 +325,6 @@ class DeeplogLstm(BaseDetector):
         Fit data to  LSTM model.
         Args:
             inputs : X , ndarray of size (number of sample,features)
-
         Returns:
             return : self object with trained model
         """
@@ -387,7 +362,6 @@ class DeeplogLstm(BaseDetector):
         Preposses data and prepare sequence of data based on number of samples needed in a window
         Args:
             inputs : X , ndarray of size (number of sample,features)
-
         Returns:
             return : X , Y  X being samples till (t-1) of data and Y the t time data
         """
@@ -435,8 +409,6 @@ class DeeplogLstm(BaseDetector):
         Y_norm_for_decision_scores = np.zeros(X.shape)
         Y_norm_for_decision_scores[self.window_size:] = Y_norm
         return pairwise_distances_no_broadcast(Y_norm_for_decision_scores, pred_scores)
-
-
 
 
 

@@ -48,7 +48,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -124,22 +124,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "AutoRegODetector",
-        "python_path": "d3m.primitives.tods.detection_algorithm.AutoRegODetector",
-        "source": {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',       
-        },
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['window_size', 'contamination', 'step_size', 'method', 'weights'],
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'AutoRegODetector'))
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='AutoRegODetector', id='AutoRegODetector', primitive_family='anomaly_detect', hyperparams=['window_size', 'contamination', 'step_size', 'method', 'weights'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -161,7 +146,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -172,7 +156,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -183,7 +166,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -195,7 +177,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             Outlier score of input DataFrame.
@@ -207,7 +188,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -218,9 +198,7 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
-

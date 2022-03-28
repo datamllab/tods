@@ -34,7 +34,7 @@ __all__= ('MovingAverageTransformerPrimitive',)
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
     input_column_names: Optional[Any]
     target_names_: Optional[Sequence[Any]]
@@ -130,20 +130,9 @@ Parameters
             
     """
     
-    metadata = metadata_base.PrimitiveMetadata({ 
-         "__author__": "DATA Lab @ Texas A&M University",
-         "name": "pandas.preprocessing.data.MovingAverageTransform",
-         "python_path": "d3m.primitives.tods.timeseries_processing.transformation.moving_average_transform",
-         "source": {
-             'name': 'DATA Lab @ Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "hyperparams_to_tune": ['window_size'],
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MovingAverageTransformerPrimitive')),
-         "version": "0.0.1",
-    })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='moving_average_transform', id='MovingAverageTransformerPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size'])
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

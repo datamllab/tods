@@ -48,7 +48,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -188,20 +188,7 @@ Parameters
             ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "name": "LSTMODetector",
-        "python_path": "d3m.primitives.tods.detection_algorithm.LSTMODetector",
-        "source": {'name': "DATALAB @Taxes A&M University", 'contact': 'mailto:khlai037@tamu.edu',
-        'uris': ['https://gitlab.com/lhenry15/tods.git', 'https://gitlab.com/lhenry15/tods/-/blob/Junjie/anomaly-primitives/anomaly_primitives/LSTMOD.py']},
-        "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE ], # up to update
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['contamination', 'train_contamination', 'min_attack_time',
-                                'danger_coefficient_weight', 'loss_func', 'optimizer',
-                                'epochs', 'batch_size', 'dropout_rate', 'feature_dim', 'hidden_dim',
-                                'n_hidden_layer', 'activation', 'diff_group_method'],
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'LSTMODetector')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='LSTMODetector', id='LSTMODetector', primitive_family='anomaly_detect', hyperparams=['contamination', 'train_contamination', 'min_attack_time', 'danger_coefficient_weight', 'loss_func', 'optimizer', 'epochs', 'batch_size', 'dropout_rate', 'feature_dim', 'hidden_dim', 'n_hidden_layer', 'activation', 'diff_group_method'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -232,7 +219,6 @@ Parameters
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -243,7 +229,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -254,7 +239,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -266,7 +250,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -277,9 +260,12 @@ Parameters
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
+
+
+
 
