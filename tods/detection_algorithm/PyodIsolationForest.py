@@ -40,7 +40,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -122,12 +122,10 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
     Random partitioning produces noticeably shorter paths for anomalies.
     Hence, when a forest of random trees collectively produce shorter path
     lengths for particular samples, they are highly likely to be anomalies.
-
     Parameters
     ----------
     n_estimators : int, optional (default=100)
         The number of base estimators in the ensemble.
-
     max_samples : int or float, optional (default="auto")
         The number of samples to draw from X to train each base estimator.
             - If int, then draw `max_samples` samples.
@@ -135,22 +133,18 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
             - If "auto", then `max_samples=min(256, n_samples)`.
         If max_samples is larger than the number of samples provided,
         all samples will be used for all trees (no sampling).
-
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set, i.e. the proportion
         of outliers in the data set. Used when fitting to define the threshold
         on the decision function.
-
     max_features : int or float, optional (default=1.0)
         The number of features to draw from X to train each base estimator.
             - If int, then draw `max_features` features.
             - If float, then draw `max_features * X.shape[1]` features.
-
     bootstrap : bool, optional (default=False)
         If True, individual trees are fit on random subsets of the training
         data sampled with replacement. If False, sampling without replacement
         is performed.
-
     behaviour : str, default='old'
         Behaviour of the ``decision_function`` which can be either 'old' or
         'new'. Passing ``behaviour='new'`` makes the ``decision_function``
@@ -159,7 +153,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         ``offset_`` attribute documentation, the ``decision_function`` becomes
         dependent on the contamination parameter, in such a way that 0 becomes
         its natural threshold to detect outliers.
-
     random_state : int, RandomState instance or None, optional (default=None)
         If int, random_state is the seed used by the random number generator;
         If RandomState instance, random_state is the random number generator;
@@ -167,7 +160,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         by `np.random`.
     verbose : int, optional (default=0)
         Controls the verbosity of the tree building process.
-
     Attributes
     ----------
     decision_scores_ : numpy array of shape (n_samples,)
@@ -186,22 +178,7 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "TODS.anomaly_detection_primitives.IsolationForest",
-        "python_path": "d3m.primitives.tods.detection_algorithm.pyod_iforest",
-        "source": {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['n_estimators', 'contamination'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'IsolationForest'))
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_iforest', id='IsolationForest', primitive_family='anomaly_detect', hyperparams=['n_estimators', 'contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -227,7 +204,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -238,7 +214,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -249,7 +224,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -261,7 +235,6 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -272,10 +245,10 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
 
 

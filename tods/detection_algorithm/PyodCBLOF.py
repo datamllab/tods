@@ -41,7 +41,7 @@ import uuid
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-
+from tods.utils import construct_primitive_metadata
 class Params(Params_ODBase):
     ######## Add more Attributes #######
 
@@ -130,18 +130,15 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
     By default, kMeans is used for clustering algorithm instead of
     Squeezer algorithm mentioned in the original paper for multiple reasons.
     See :cite:`he2003discovering` for details.
-
     Parameters
     ----------
     n_clusters : int, optional (default=8)
         The number of clusters to form as well as the number of
         centroids to generate.
-
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set,
         i.e. the proportion of outliers in the data set. Used when fitting to
         define the threshold on the decision function.
-
     clustering_estimator : Estimator, optional (default=None)
         The base clustering algorithm for performing data clustering.
         A valid clustering algorithm should be passed in. The estimator should
@@ -151,32 +148,26 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         it is calculated as the mean of the samples in a cluster.
         If not set, CBLOF uses KMeans for scalability. See
         https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html
-
     alpha : float in (0.5, 1), optional (default=0.9)
         Coefficient for deciding small and large clusters. The ratio
         of the number of samples in large clusters to the number of samples in
         small clusters.
-
     beta : int or float in (1,), optional (default=5).
         Coefficient for deciding small and large clusters. For a list
         sorted clusters by size `|C1|, \|C2|, ..., |Cn|, beta = |Ck|/|Ck-1|`
-
     use_weights : bool, optional (default=False)
         If set to True, the size of clusters are used as weights in
         outlier score calculation.
-
     check_estimator : bool, optional (default=False)
         If set to True, check whether the base estimator is consistent with
         sklearn standard.
         .. warning::
             check_estimator may throw errors with scikit-learn 0.20 above.
-
     random_state : int, RandomState or None, optional (default=None)
         If int, random_state is the seed used by the random
         number generator; If RandomState instance, random_state is the random
         number generator; If None, the random number generator is the
         RandomState instance used by `np.random`.
-
     Attributes
     ----------
     decision_scores_ : numpy array of shape (n_samples,)
@@ -195,21 +186,7 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "name": "TODS.anomaly_detection_primitives.CBLOFPrimitive",
-        "python_path": "d3m.primitives.tods.detection_algorithm.pyod_cblof",
-        "source": {
-            'name': "DATALAB @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',       
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['contamination'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'CBLOFPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_cblof', id='CBLOFPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -233,7 +210,6 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -244,7 +220,6 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -255,7 +230,6 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -267,7 +241,6 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -278,10 +251,10 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
 
 

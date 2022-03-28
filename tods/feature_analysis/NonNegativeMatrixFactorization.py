@@ -22,7 +22,7 @@ __all__ = ('NonNegativeMatrixFactorizationPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 
@@ -268,22 +268,9 @@ class NonNegativeMatrixFactorizationPrimitive(TODSTransformerPrimitiveBase[Input
 
 
 
-	metadata = metadata_base.PrimitiveMetadata({
-	    '__author__' : "DATA Lab @ Texas A&M University",
-	    'name': "Fast Fourier Transform",
-	    'python_path': 'd3m.primitives.tods.feature_analysis.non_negative_matrix_factorization',
-	    'source': {
-		'name': 'DATA Lab @ Texas A&M University',
-		'contact': 'mailto:khlai037@tamu.edu',
-	    },
-	    'hyperparameters_to_tune':['rank','update','objective','max_iter','learning_rate'],
-	    'version': '0.0.1',
-	    'algorithm_types': [
-		metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-	    ],
-	    'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'NonNegativeMatrixFactorizationPrimitive')),
-	})
+	metadata = construct_primitive_metadata(module='feature_analysis', name='non_negative_matrix_factorization', id='NonNegativeMatrixFactorizationPrimitive', primitive_family='feature_construct', hyperparams=['rank','update','objective','max_iter','learning_rate'])
+    
+    
 
 	def __init__(self, *, hyperparams: Hyperparams) -> None:
 		super().__init__(hyperparams=hyperparams)

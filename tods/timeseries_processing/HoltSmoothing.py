@@ -35,7 +35,7 @@ __all__ = ('HoltSmoothingPrimitive',)
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
     input_column_names: Optional[Any]
     target_names_: Optional[Sequence[Any]]
@@ -111,22 +111,9 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
     
     """
     
-    metadata = metadata_base.PrimitiveMetadata({ 
-        "__author__": "DATA Lab @ Texas A&M University",
-        "name": "statsmodels.preprocessing.HoltSmoothing",
-        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.holt_smoothing",
-        "source": {
-            'name': 'DATA Lab @ Texas A&M University', 
-            'contact': 'mailto:khlai037@tamu.edu', 
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['endog','use_columns'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'HoltSmoothingPrimitive')),
-     })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_smoothing', id='HoltSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'])
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

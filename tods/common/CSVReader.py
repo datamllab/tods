@@ -9,7 +9,7 @@ from d3m import container, utils as d3m_utils
 from d3m.metadata import base as metadata_base
 from d3m.base import primitives
 
-
+from tods.utils import construct_primitive_metadata
 
 class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no cover
     """
@@ -26,24 +26,8 @@ class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no co
     _file_structural_type = container.DataFrame
     _file_semantic_types = ('https://metadata.datadrivendiscovery.org/types/Table', 'https://metadata.datadrivendiscovery.org/types/Timeseries')
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '989562ac-b50f-4462-99cb-abef80d765b2',
-            'version': '0.1.0',
-            'name': 'Columns CSV reader',
-            'python_path': 'd3m.primitives.tods.common.csv_reader',
-            'keywords': ['CSV', 'reader'],
-            'source': {
-                'name': "DATALab@Texas A&M University",
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.FILE_MANIPULATION,
-            ],
-            'supported_media_types': _supported_media_types,
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        }
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='csv_reader', id='989562ac-b50f-4462-99cb-abef80d765b2', primitive_family='data_transform', algorithm=['file_manipulate'])
+    
 
     def _read_fileuri(self, metadata: frozendict.FrozenOrderedDict, fileuri: str) -> container.DataFrame:
         # This is the same logic as used in D3M core package.

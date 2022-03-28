@@ -40,7 +40,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -70,20 +70,16 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     """
     Wrap of Pyod loda. Loda: Lightweight on-line detector of anomalies. See
     :cite:`pevny2016loda` for more information.
-
     Parameters
     ----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set,
         i.e. the proportion of outliers in the data set. Used when fitting to
         define the threshold on the decision function.
-
     n_bins : int, optional (default = 10)
         The number of bins for the histogram.
-
     n_random_cuts : int, optional (default = 100)
         The number of random cuts.
-
     Attributes
     ----------
     decision_scores_ : numpy array of shape (n_samples,)
@@ -102,23 +98,7 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "TODS.anomaly_detection_primitives.LODAPrimitive",
-        "python_path": "d3m.primitives.anomaly_detection.LODAPrimitive",
-        "python_path": "d3m.primitives.tods.detection_algorithm.pyod_loda",
-        "source": {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "hyperparams_to_tune": ['n_bins', 'n_random_cuts', 'contamination'],
-        "version": "0.0.1",
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'LODAPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_loda', id='LODAPrimitive', primitive_family='anomaly_detect', hyperparams=['n_bins', 'n_random_cuts', 'contamination'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -138,7 +118,6 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -149,7 +128,6 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -160,7 +138,6 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -172,7 +149,6 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -183,10 +159,10 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
 
 

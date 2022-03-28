@@ -27,7 +27,7 @@ __all__ = ('TimeSeriesSeasonalityTrendDecompositionPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
        #to-do : how to make params dynamic
        use_column_names: Optional[Any]
@@ -93,25 +93,9 @@ class TimeSeriesSeasonalityTrendDecompositionPrimitive(transformer.TransformerPr
     The columns for which decomposition is done is passed as hyperparameter .Default is all value columns
 
     """
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition',
-        'keywords': ['Time Series', 'Trend', 'Seasonality','Residual'],
-        'source': {
-            'name': 'DATA Lab at Texas A&M University',
-            'uris': ['https://gitlab.com/lhenry15/tods.git','https://gitlab.com/lhenry15/tods/-/blob/devesh/tods/feature_analysis/TimeSeriesSeasonalityTrendDecomposition.py'],
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeSeriesSeasonalityTrendDecompositionPrimitive')),
-        'version': '0.1.0',
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='time_series_seasonality_trend_decomposition', id='TimeSeriesSeasonalityTrendDecompositionPrimitive', primitive_family='data_preprocessing')
+    
 
-        }
-    )
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

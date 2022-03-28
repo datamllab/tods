@@ -45,7 +45,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 
 class Params(Params_ODBase):
@@ -130,12 +130,10 @@ class MP(CollectiveBaseDetector):
     def decision_function(self, X):
 
         """
-
         Args:
             data: dataframe column
         Returns:
             nparray
-
         """
         """
         #only keep first two columns of MP results, the second column is left index, use windowsize to get right index
@@ -180,10 +178,8 @@ class MP(CollectiveBaseDetector):
         
 class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
-
     A primitive that performs matrix profile on a DataFrame using Stumpy package
     Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
-
      Parameters
         ----------
         T_A : ndarray
@@ -206,22 +202,7 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
     
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        '__author__': "DATA Lab @Texas A&M University",
-        'name': "Matrix Profile",
-        'python_path': 'd3m.primitives.tods.detection_algorithm.matrix_profile',
-        'source': {
-                'name': "DATA Lab @Taxes A&M University", 
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-        'hyperparams_to_tune': ['window_size'],
-        'version': '0.0.2',        
-        'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ], 
-        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'])
 
 
     def __init__(self, *,
@@ -237,7 +218,6 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -248,7 +228,6 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -259,7 +238,6 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -271,7 +249,6 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -282,8 +259,11 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
+
+
+

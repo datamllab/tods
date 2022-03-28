@@ -26,7 +26,7 @@ __all__ = ('SubsequenceSegmentationPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     # Tuning
@@ -167,22 +167,9 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
         Decides what semantic type to attach to generated attributes'
     """
 
-    metadata = metadata_base.PrimitiveMetadata({ 
-        "__author__": "DATA Lab @ Texas A&M University",
-        "name": "Subsequence Segmentation Primitive",
-        "python_path": "d3m.primitives.tods.timeseries_processing.subsequence_segmentation",
-        "source": {
-            'name': 'DATA Lab @ Texas A&M University', 
-            'contact': 'mailto:khlai037@tamu.edu', 
-        },
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SubsequenceSegmentationPrimitive')),
-        "hyperparams_to_tune": ['window_size', 'step', 'flatten_order'],
-        "version": "0.0.1",
-    })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='subsequence_segmentation', id='SubsequenceSegmentationPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size', 'step', 'flatten_order'])
+    
+    
 
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:

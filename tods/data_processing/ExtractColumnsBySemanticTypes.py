@@ -12,6 +12,7 @@ __all__ = ('ExtractColumnsBySemanticTypesPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     semantic_types = hyperparams.Set(
@@ -66,24 +67,10 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
     It uses ``use_columns`` and ``exclude_columns`` to control which columns it considers.
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            "__author__ " : "DATA Lab @ Texas A&M University",
-            'version': '0.4.0',
-            'name': "Extracts columns by semantic type",
-            'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types',
-            'source': {
-                'name': "DATA Lab @ Texas A&M University",
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-            'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ExtractColumnsBySemanticTypesPrimitive')),
-        },
-    )
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='extract_columns_by_semantic_types', id='ExtractColumnsBySemanticTypesPrimitive', primitive_family='data_transform')
 
+    
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         columns_to_use = self._get_columns(inputs.metadata)
 

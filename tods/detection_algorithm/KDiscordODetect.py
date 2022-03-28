@@ -48,7 +48,7 @@ from combo.utils.utility import standardizer
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-
+from tods.utils import construct_primitive_metadata
 class Params(Params_ODBase):
     ######## Add more Attributes #######
 
@@ -133,96 +133,72 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
     viewed as the outlying score. It could be viewed as a way to measure
     the density. See :cite:`ramaswamy2000efficient,angiulli2002fast` for
     details.
-
     See :cite:`aggarwal2015outlier,zhao2020using` for details.
-
     Parameters
     ----------
     window_size : int
         The moving window size.
-
     step_size : int, optional (default=1)
         The displacement for moving window.
-
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set,
         i.e. the proportion of outliers in the data set. Used when fitting to
         define the threshold on the decision function.
-
     n_neighbors : int, optional (default = 5)
         Number of neighbors to use by default for k neighbors queries.
-
     method : str, optional (default='largest')
         {'largest', 'mean', 'median'}
-
         - 'largest': use the distance to the kth neighbor as the outlier score
         - 'mean': use the average of all k neighbors as the outlier score
         - 'median': use the median of the distance to k neighbors as the
           outlier score
-
     radius : float, optional (default = 1.0)
         Range of parameter space to use by default for `radius_neighbors`
         queries.
-
     algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}, optional
         Algorithm used to compute the nearest neighbors:
-
         - 'ball_tree' will use BallTree
         - 'kd_tree' will use KDTree
         - 'brute' will use a brute-force search.
         - 'auto' will attempt to decide the most appropriate algorithm
           based on the values passed to :meth:`fit` method.
-
         Note: fitting on sparse input will override the setting of
         this parameter, using brute force.
-
         .. deprecated:: 0.74
            ``algorithm`` is deprecated in PyOD 0.7.4 and will not be
            possible in 0.7.6. It has to use BallTree for consistency.
-
     leaf_size : int, optional (default = 30)
         Leaf size passed to BallTree. This can affect the
         speed of the construction and query, as well as the memory
         required to store the tree.  The optimal value depends on the
         nature of the problem.
-
     metric : string or callable, default 'minkowski'
         metric to use for distance computation. Any metric from scikit-learn
         or scipy.spatial.distance can be used.
-
         If metric is a callable function, it is called on each
         pair of instances (rows) and the resulting value recorded. The callable
         should take two arrays as input and return one value indicating the
         distance between them. This works for Scipy's metrics, but is less
         efficient than passing the metric name as a string.
-
         Distance matrices are not supported.
-
         Valid values for metric are:
-
         - from scikit-learn: ['cityblock', 'cosine', 'euclidean', 'l1', 'l2',
           'manhattan']
-
         - from scipy.spatial.distance: ['braycurtis', 'canberra', 'chebyshev',
           'correlation', 'dice', 'hamming', 'jaccard', 'kulsinski',
           'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto',
           'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath',
           'sqeuclidean', 'yule']
-
         See the documentation for scipy.spatial.distance for details on these
         metrics.
-
     p : integer, optional (default = 2)
         Parameter for the Minkowski metric from
         sklearn.metrics.pairwise.pairwise_distances. When p = 1, this is
         equivalent to using manhattan_distance (l1), and euclidean_distance
         (l2) for p = 2. For arbitrary p, minkowski_distance (l_p) is used.
         See http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.pairwise_distances
-
     metric_params : dict, optional (default = None)
         Additional keyword arguments for the metric function.
-
-
     Attributes
     ----------
     decision_scores_ : numpy array of shape (n_samples,)
@@ -230,36 +206,18 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         The higher, the more abnormal. Outliers tend to have higher
         scores. This value is available once the detector is
         fitted.
-
     threshold_ : float
         The threshold is based on ``contamination``. It is the
         ``n_samples * contamination`` most abnormal samples in
         ``decision_scores_``. The threshold is calculated for generating
         binary outlier labels.
-
     labels_ : int, either 0 or 1
         The binary labels of the training data. 0 stands for inliers
         and 1 for outliers/anomalies. It is generated by applying
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "KDiscordODetector",
-        "python_path": "d3m.primitives.tods.detection_algorithm.KDiscordODetector",
-        "source": {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',       
-            'uris': ['https://gitlab.com/lhenry15/tods.git']
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination', 'window_size', 'step_size', 'method', 'radius'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'KDiscordODetector')),
-    })
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='KDiscordODetector', id='KDiscordODetector', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination', 'window_size', 'step_size', 'method', 'radius'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #
@@ -287,7 +245,6 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -298,7 +255,6 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -309,7 +265,6 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -321,7 +276,6 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             Outlier score of input DataFrame.
@@ -333,7 +287,6 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -344,9 +297,12 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """
         super().set_params(params=params)
+
+
+
+
 

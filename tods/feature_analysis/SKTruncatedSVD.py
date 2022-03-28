@@ -25,7 +25,7 @@ from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPr
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('SKTruncatedSVDPrimitive',)
 
 class PrimitiveCount:
@@ -157,22 +157,9 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Decides what semantic type to attach to generated attributes'
     """    
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "Truncated SVD",
-        "python_path": "d3m.primitives.tods.feature_analysis.truncated_svd",
-        "source": {
-            'name': 'DATA Lab at Texas A&M University', 
-            'contact': 'mailto:khlai037@tamu.edu', 
-        },
-        "hyperparams_to_tune": ['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'],
-        "version": "0.0.1",
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKTruncatedSVDPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='truncated_svd', id='SKTruncatedSVDPrimitive', primitive_family='feature_construct', hyperparams=['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'])
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,
