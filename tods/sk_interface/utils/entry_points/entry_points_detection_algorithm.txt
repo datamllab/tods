@@ -12,6 +12,7 @@ tods.detection_algorithm.pyod_loda = tods.detection_algorithm.PyodLODA:LODAPrimi
 tods.detection_algorithm.pyod_cblof = tods.detection_algorithm.PyodCBLOF:CBLOFPrimitive
 tods.detection_algorithm.pyod_sogaal = tods.detection_algorithm.PyodSoGaal:So_GaalPrimitive
 tods.detection_algorithm.pyod_mogaal = tods.detection_algorithm.PyodMoGaal:Mo_GaalPrimitive
+tods.detection_algorithm.pyod_xgbod = tods.detection_algorithm.PyodXGBOD:XGBODPrimitive
 tods.detection_algorithm.matrix_profile = tods.detection_algorithm.MatrixProfile:MatrixProfilePrimitive
 tods.detection_algorithm.AutoRegODetector = tods.detection_algorithm.AutoRegODetect:AutoRegODetectorPrimitive
 tods.detection_algorithm.LSTMODetector = tods.detection_algorithm.LSTMODetect:LSTMODetectorPrimitive

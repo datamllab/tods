@@ -18,7 +18,7 @@ class PyodXGBODTestCase(unittest.TestCase):
         self.n_train = 200
         self.n_test = 100
         self.contamination = 0.1
-        self.roc_floor = 0.0 #0.8???
+        self.roc_floor = 0.8 
         self.X_train, self.y_train, self.X_test, self.y_test = generate_data(
             n_train=self.n_train, n_test=self.n_test,
             contamination=self.contamination, random_state=42)
@@ -26,7 +26,6 @@ class PyodXGBODTestCase(unittest.TestCase):
         self.X_train = d3m_dataframe(self.X_train, generate_metadata=True)
         self.y_train = d3m_dataframe(self.y_train, generate_metadata=True)
         self.X_test = d3m_dataframe(self.X_test, generate_metadata=True)
-        self.y_test = d3m_dataframe(self.y_test, generate_metadata=True)
 
         hyperparams_default = XGBODPrimitive.metadata.get_hyperparams().defaults()
         hyperparams = hyperparams_default.replace({'contamination': self.contamination, })
@@ -39,9 +38,9 @@ class PyodXGBODTestCase(unittest.TestCase):
         self.prediction_score = self.primitive.produce_score(inputs=self.X_test).value
 
         self.sodbase_test = SODCommonTest(model=self.primitive._clf,
-                                          X_train=self.X_train,
-                                          y_train=self.y_train,
-                                          X_test=self.X_test,
+                                          X_train=self.X_train.values, # added .values
+                                          y_train=self.y_train.values, # added .values
+                                          X_test=self.X_test.values, # added .values
                                           y_test=self.y_test,
                                           roc_floor=self.roc_floor,
                                           )
@@ -49,12 +48,13 @@ class PyodXGBODTestCase(unittest.TestCase):
     def test_detector(self):
         self.sodbase_test.test_detector()
 
+
     def test_metadata(self):
-        print(self.prediction_labels.metadata.to_internal_simple_structure())
-        self.assertEqual(utils.to_json_structure(self.prediction_labels.metadata.to_internal_simple_structure()), [{
+        # print(utils.to_json_structure(self.prediction_labels.metadata.to_internal_simple_structure()))
+
+        metadata_one = [{
             'selector': [],
             'metadata': {
-                # 'top_level': 'main',
                 'schema': metadata_base.CONTAINER_SCHEMA_VERSION,
                 'structural_type': 'd3m.container.pandas.DataFrame',
                 'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Table'],
@@ -69,18 +69,48 @@ class PyodXGBODTestCase(unittest.TestCase):
             'metadata': {
                 'dimension': {
                     'name': 'columns',
-                    'semantic_types': 'https://metadata.datadrivendiscovery.org/types/TabularColumn',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularColumn'],
                     'length': 1,
                 },
             },
         }, {
             'selector': ['__ALL_ELEMENTS__', 0],
             'metadata': {
-                'name': 'XGBOD Anomaly Detection0_0',
-                'semantic_types': 'https://metadata.datadrivendiscovery.org/types/Attribute',
                 'structural_type': 'numpy.float64',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Attribute', 'https://metadata.datadrivendiscovery.org/types/PredictedTarget'],
             },
-        }])
+        }]
+
+        metadata_two = [{
+            'selector': [],
+            'metadata': {
+                'schema': metadata_base.CONTAINER_SCHEMA_VERSION,
+                'structural_type': 'd3m.container.pandas.DataFrame',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/Table'],
+                'dimension': {
+                    'name': 'rows',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularRow'],
+                    'length': 100,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__'],
+            'metadata': {
+                'dimension': {
+                    'name': 'columns',
+                    'semantic_types': ['https://metadata.datadrivendiscovery.org/types/TabularColumn'],
+                    'length': 1,
+                },
+            },
+        }, {
+            'selector': ['__ALL_ELEMENTS__', 0],
+            'metadata': {
+                'structural_type': 'numpy.float64',
+                'semantic_types': ['https://metadata.datadrivendiscovery.org/types/PredictedTarget', 'https://metadata.datadrivendiscovery.org/types/Attribute'],
+            },
+        }]
+
+        self.assertTrue(utils.to_json_structure(self.prediction_labels.metadata.to_internal_simple_structure()) in [metadata_one, metadata_two])
 
     def test_params(self):
         params = self.primitive.get_params()
