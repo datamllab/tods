@@ -107,7 +107,7 @@ class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     Primitive to find abs_energy of time series
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='system_wise_detection', id='Sytem_Wise_Anomaly_Detection_Primitive', primitive_family='anomaly_detect', hyperparams=['window_size','method_type','contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='system_wise_detection', id='Sytem_Wise_Anomaly_Detection_Primitive', primitive_family='anomaly_detect', hyperparams=['window_size','method_type','contamination'], description='Sytem_Wise_Anomaly_Detection_Primitive')
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

@@ -46,7 +46,7 @@ class RedactColumnsPrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
     It operates only on DataFrame resources inside datasets.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='redact_columns', id='744c4090-e2f6-489e-8efc-8b1e051bfad6', primitive_family='evaluation', algorithm= ['data_convert'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='redact_columns', id='744c4090-e2f6-489e-8efc-8b1e051bfad6', primitive_family='evaluation', algorithm= ['data_convert'], description='Redact columns for evaluation')
     
     
 

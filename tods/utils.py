@@ -8,6 +8,7 @@ primitive_families = {'data_transform': metadata_base.PrimitiveFamily.DATA_TRANS
     'anomaly_detect': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
     'feature_construct': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
     'evaluation': metadata_base.PrimitiveFamily.EVALUATION,
+    'feature_extract': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
 }
 
 algorithm_type = {'file_manipulate': metadata_base.PrimitiveAlgorithmType.FILE_MANIPULATION,
@@ -21,7 +22,7 @@ algorithm_type = {'file_manipulate': metadata_base.PrimitiveAlgorithmType.FILE_M
 }
 
 
-def construct_primitive_metadata(module, name, id, primitive_family, hyperparams =None, algorithm = None):
+def construct_primitive_metadata(module, name, id, primitive_family, hyperparams =None, algorithm = None, flag_hyper = False, description = None):
     print("Constructing metadata")
     if algorithm == None:
         temp = [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE]
@@ -33,7 +34,7 @@ def construct_primitive_metadata(module, name, id, primitive_family, hyperparams
     meta_dict = {
             "__author__ " : "DATA Lab @ Texas A&M University",
             'version': '0.3.0',
-            'name': "Implementation of " + name,
+            'name': description,
             'python_path': 'd3m.primitives.tods.' + module + '.' + name,
             'source': {
                 'name': "DATA Lab @ Texas A&M University",
@@ -44,9 +45,14 @@ def construct_primitive_metadata(module, name, id, primitive_family, hyperparams
             'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, id)),
             
         }
+    #if name1 != None:
+        #meta_dict['name'] = name1
     if hyperparams!=None:
-        meta_dict['hyperparams_to_tune'] = hyperparams
-    #print(meta_dict)
+        if flag_hyper == False:
+            meta_dict['hyperparams_to_tune'] = hyperparams
+        else:
+            meta_dict['hyperparameters_to_tune'] = hyperparams
+    print(meta_dict)
     metadata = metadata_base.PrimitiveMetadata(meta_dict,)
     return metadata
     

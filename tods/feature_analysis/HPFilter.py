@@ -133,7 +133,7 @@ class HPFilterPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparam
         Decides what semantic type to attach to generated attributes'
     """
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='hp_filter', id='HPFilterPrimitive', primitive_family='feature_construct', hyperparams=['lamb'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='hp_filter', id='HPFilterPrimitive', primitive_family='feature_construct', hyperparams=['lamb'], description='Hodrick-Prescott filter Primitive')
     
     
 

@@ -25,7 +25,7 @@ __all__ = ('WaveletTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     wavelet = hyperparams.Enumeration(
@@ -175,22 +175,9 @@ class WaveletTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
         None
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        "name": "Wavelet_transformation",
-        "python_path": "d3m.primitives.tods.feature_analysis.wavelet_transform",
-        "source": {
-            'name': "DATA Lab @ Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['wavelet', 'mode', 'axis', 'level'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'WaveletTransformer')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='wavelet_transform', id='WaveletTransformer', primitive_family='feature_extract', hyperparams=['wavelet', 'mode', 'axis', 'level'], description='Wavelet_transformation')
+    
+    
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams) # , random_seed=random_seed, docker_containers=docker_containers)

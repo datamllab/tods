@@ -47,7 +47,7 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
 
     
     
-    metadata = construct_primitive_metadata(module='data_processing', name='construct_predictions', id='ConstructPredictionsPrimitive', primitive_family='data_transform')
+    metadata = construct_primitive_metadata(module='data_processing', name='construct_predictions', id='ConstructPredictionsPrimitive', primitive_family='data_transform', description='Construct pipeline predictions output')
 
     def produce(self, *, inputs: Inputs, reference: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:  # type: ignore
         index_columns = inputs.metadata.get_index_columns()

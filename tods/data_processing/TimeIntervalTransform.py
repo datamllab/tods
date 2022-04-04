@@ -87,7 +87,7 @@ class TimeIntervalTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs
     Resample the timestamps based on the time_interval passed as hyperparameter
     """
     
-    metadata = construct_primitive_metadata(module='data_processing', name='time_interval_transform', id='TimeIntervalTransformPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='data_processing', name='time_interval_transform', id='TimeIntervalTransformPrimitive', primitive_family='data_preprocessing', description='Time Interval Transform')
 
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:

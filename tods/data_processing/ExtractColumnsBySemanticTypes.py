@@ -68,7 +68,7 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
     """
 
     
-    metadata = construct_primitive_metadata(module='data_processing', name='extract_columns_by_semantic_types', id='ExtractColumnsBySemanticTypesPrimitive', primitive_family='data_transform')
+    metadata = construct_primitive_metadata(module='data_processing', name='extract_columns_by_semantic_types', id='ExtractColumnsBySemanticTypesPrimitive', primitive_family='data_transform', description='Extracts columns by semantic type')
 
     
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:

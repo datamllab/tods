@@ -44,7 +44,7 @@ class TrainScoreDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyper
     A primitive which splits a tabular Dataset into random train and score subsets.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='train_score_dataset_split', id='3fcc6dc4-6681-4c86-948e-066d14e7d803', primitive_family='evaluation', algorithm= ['holdout','data_split'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='train_score_dataset_split', id='3fcc6dc4-6681-4c86-948e-066d14e7d803', primitive_family='evaluation', algorithm= ['holdout','data_split'], description='Train-score tabular dataset splits')
     
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:

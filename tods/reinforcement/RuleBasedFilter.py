@@ -110,7 +110,7 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = construct_primitive_metadata(module='reinforcement', name='rule_filter', id='42744c37-8879-4785-9f18-6de9d612ea93', primitive_family='anomaly_detect', hyperparams=['rule'])
+    metadata = construct_primitive_metadata(module='reinforcement', name='rule_filter', id='42744c37-8879-4785-9f18-6de9d612ea93', primitive_family='anomaly_detect', hyperparams=['rule'], description='Rule-Based Filtering')
     
     
 

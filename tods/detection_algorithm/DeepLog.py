@@ -156,7 +156,7 @@ class DeepLogPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
         ----------
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='deeplog', id='DeepLogPrimitive', primitive_family='anomaly_detect', hyperparams=['hidden_size', 'loss', 'optimizer', 'epochs', 'batch_size','l2_regularizer', 'validation_size', 'window_size', 'features', 'stacked_layers', 'preprocessing', 'verbose', 'dropout_rate','contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='deeplog', id='DeepLogPrimitive', primitive_family='anomaly_detect', hyperparams=['hidden_size', 'loss', 'optimizer', 'epochs', 'batch_size','l2_regularizer', 'validation_size', 'window_size', 'features', 'stacked_layers', 'preprocessing', 'verbose', 'dropout_rate','contamination'], description='DeepLog Anomolay Detection')
 
     def __init__(self, *,
                  hyperparams: Hyperparams,  #

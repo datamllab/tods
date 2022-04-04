@@ -178,7 +178,7 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_iforest', id='IsolationForest', primitive_family='anomaly_detect', hyperparams=['n_estimators', 'contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_iforest', id='IsolationForest', primitive_family='anomaly_detect', hyperparams=['n_estimators', 'contamination'],description='TODS.anomaly_detection_primitives.IsolationForest')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

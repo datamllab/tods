@@ -25,7 +25,7 @@ class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     A primitive to check time series is sorted by time stamp , if not then return sorted time series
     """
     
-    metadata = construct_primitive_metadata(module='data_processing', name='timestamp_validation', id='TimeStampValidationPrimitive', primitive_family='data_validate')
+    metadata = construct_primitive_metadata(module='data_processing', name='timestamp_validation', id='TimeStampValidationPrimitive', primitive_family='data_validate', description='Time Stamp Validation')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

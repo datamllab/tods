@@ -93,7 +93,7 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
     Primitive to find maximum of time series
     """
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_maximum', id='StatisticalMaximumPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_maximum', id='StatisticalMaximumPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
     
     
 

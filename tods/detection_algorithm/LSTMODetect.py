@@ -186,7 +186,7 @@ class LSTMODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='LSTMODetector', id='LSTMODetector', primitive_family='anomaly_detect', hyperparams=['contamination', 'train_contamination', 'min_attack_time', 'danger_coefficient_weight', 'loss_func', 'optimizer', 'epochs', 'batch_size', 'dropout_rate', 'feature_dim', 'hidden_dim', 'n_hidden_layer', 'activation', 'diff_group_method'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='LSTMODetector', id='LSTMODetector', primitive_family='anomaly_detect', hyperparams=['contamination', 'train_contamination', 'min_attack_time', 'danger_coefficient_weight', 'loss_func', 'optimizer', 'epochs', 'batch_size', 'dropout_rate', 'feature_dim', 'hidden_dim', 'n_hidden_layer', 'activation', 'diff_group_method'],description='LSTMODetector')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

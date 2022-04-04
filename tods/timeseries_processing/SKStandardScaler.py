@@ -142,7 +142,7 @@ class SKStandardScalerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs
         The number of samples processed by the estimator for each feature. If there are not missing samples, the n_samples_seen will be an integer, otherwise it will be an array. Will be reset on new calls to fit, but increments across partial_fit calls.
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='standard_scaler', id='SKStandardScaler', primitive_family='data_transform',hyperparams=['with_mean', 'with_std'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='standard_scaler', id='SKStandardScaler', primitive_family='data_transform',hyperparams=['with_mean', 'with_std'], description='Standard_scaler')
     
     
 

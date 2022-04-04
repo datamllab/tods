@@ -268,7 +268,7 @@ class NonNegativeMatrixFactorizationPrimitive(TODSTransformerPrimitiveBase[Input
 
 
 
-	metadata = construct_primitive_metadata(module='feature_analysis', name='non_negative_matrix_factorization', id='NonNegativeMatrixFactorizationPrimitive', primitive_family='feature_construct', hyperparams=['rank','update','objective','max_iter','learning_rate'])
+	metadata = construct_primitive_metadata(module='feature_analysis', name='non_negative_matrix_factorization', id='NonNegativeMatrixFactorizationPrimitive', primitive_family='feature_construct', hyperparams=['rank','update','objective','max_iter','learning_rate'], description='Fast Fourier Transform')
     
     
 

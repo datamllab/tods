@@ -111,7 +111,7 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 		``threshold_`` on ``decision_scores_``.
 	"""
 
-	metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sod', id='SODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'ref_set', 'alpha'])
+	metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sod', id='SODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'ref_set', 'alpha'], description='Subspace Outlier Detection Primitive')
 
 
 	def __init__(self, *,

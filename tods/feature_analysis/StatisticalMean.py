@@ -93,7 +93,7 @@ class StatisticalMeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyp
     Primitive to find mean of time series
     """
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_mean', id='StatisticalMeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_mean', id='StatisticalMeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
     
     
 

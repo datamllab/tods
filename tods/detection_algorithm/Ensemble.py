@@ -116,7 +116,7 @@ class EnsemblePrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params
     
     """
     
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='Ensemble', id='EnsemblePrimitive', primitive_family='anomaly_detect', hyperparams=['use_columns'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='Ensemble', id='EnsemblePrimitive', primitive_family='anomaly_detect', hyperparams=['use_columns'], description='Ensemble')
 
     def __init__(self, *, # pragma: no cover
                  hyperparams: Hyperparams,

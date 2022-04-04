@@ -138,7 +138,7 @@ class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
         If True, scale the data to unit variance (or equivalently, unit standard deviation).
     """
 
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='axiswise_scaler', id='SKAxiswiseScaler', primitive_family='data_transform', hyperparams=['with_mean', 'with_std', 'axis'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='axiswise_scaler', id='SKAxiswiseScaler', primitive_family='data_transform', hyperparams=['with_mean', 'with_std', 'axis'], description='Axis_wise_scale')
     
     
 

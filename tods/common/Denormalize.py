@@ -63,7 +63,7 @@ class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs,
     primitive continues to join table 3 into the main table.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='denormalize', id='f31f8c1f-d1c5-43e5-a4b2-2ae4a761ef2e', primitive_family='data_transform', algorithm = ['data_denormalize'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='denormalize', id='f31f8c1f-d1c5-43e5-a4b2-2ae4a761ef2e', primitive_family='data_transform', algorithm = ['data_denormalize'], description='Denormalize datasets')
     
     
 

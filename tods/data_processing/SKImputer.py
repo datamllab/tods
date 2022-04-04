@@ -132,7 +132,7 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
     """
     
     
-    metadata = construct_primitive_metadata(module='data_processing', name='impute_missing', id='SKImputerPrimitive', primitive_family='data_cleaning')
+    metadata = construct_primitive_metadata(module='data_processing', name='impute_missing', id='SKImputerPrimitive', primitive_family='data_cleaning', description='sklearn.impute.SimpleImputer')
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

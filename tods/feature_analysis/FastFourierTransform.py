@@ -206,7 +206,7 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
         Decides what semantic type to attach to generated attributes'
     """
     
-    metadata = construct_primitive_metadata(module='feature_analysis', name='fast_fourier_transform', id='FastFourierTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='fast_fourier_transform', id='FastFourierTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis'], description='Fast Fourier Transform')
     
     
 

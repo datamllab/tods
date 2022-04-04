@@ -93,7 +93,7 @@ class TimeSeriesSeasonalityTrendDecompositionPrimitive(transformer.TransformerPr
     The columns for which decomposition is done is passed as hyperparameter .Default is all value columns
 
     """
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='time_series_seasonality_trend_decomposition', id='TimeSeriesSeasonalityTrendDecompositionPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='time_series_seasonality_trend_decomposition', id='TimeSeriesSeasonalityTrendDecompositionPrimitive', primitive_family='data_preprocessing', description='Time Series Decompostional')
     
 
 

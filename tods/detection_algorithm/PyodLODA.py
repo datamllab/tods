@@ -98,7 +98,7 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_loda', id='LODAPrimitive', primitive_family='anomaly_detect', hyperparams=['n_bins', 'n_random_cuts', 'contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_loda', id='LODAPrimitive', primitive_family='anomaly_detect', hyperparams=['n_bins', 'n_random_cuts', 'contamination'],description='TODS.anomaly_detection_primitives.LODAPrimitive')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

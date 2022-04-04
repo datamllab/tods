@@ -111,7 +111,7 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
     
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_smoothing', id='HoltSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_smoothing', id='HoltSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'], description='statsmodels.preprocessing.HoltSmoothing')
     
     
 

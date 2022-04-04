@@ -95,7 +95,7 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
      Harmonic mean only defined if all elements greater than or equal to zero
     """
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_h_mean', id='StatisticalHmeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_h_mean', id='StatisticalHmeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
     
     
 

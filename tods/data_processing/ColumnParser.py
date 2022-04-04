@@ -93,7 +93,7 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
     """
 
    
-    metadata = construct_primitive_metadata(module='data_processing', name='column_parser', id='ColumnParserPrimitive', primitive_family='data_transform')
+    metadata = construct_primitive_metadata(module='data_processing', name='column_parser', id='ColumnParserPrimitive', primitive_family='data_transform', description='Parses strings into their types')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         columns_to_use, output_columns = self._produce_columns(inputs)

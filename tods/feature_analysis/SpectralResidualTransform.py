@@ -92,7 +92,7 @@ class SpectralResidualTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Ou
     """
     Primitive to find Spectral Residual Transform of time series
     """
-    metadata = construct_primitive_metadata(module='feature_analysis', name='spectral_residual_transform', id='SpectralResidualTransformPrimitive', primitive_family='feature_construct', hyperparams=['avg_filter_dimension'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='spectral_residual_transform', id='SpectralResidualTransformPrimitive', primitive_family='feature_construct', hyperparams=['avg_filter_dimension'], description='Time Series Spectral Residual')
     
     
 

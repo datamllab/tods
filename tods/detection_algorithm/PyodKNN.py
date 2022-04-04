@@ -214,7 +214,7 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_knn', id='KNNPrimitive', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'method', 'radius', 'algorithm', 'leaf_size', 'p'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_knn', id='KNNPrimitive', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'method', 'radius', 'algorithm', 'leaf_size', 'p'],description='TODS.anomaly_detection_primitives.KNNPrimitive')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

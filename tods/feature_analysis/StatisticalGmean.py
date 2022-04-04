@@ -94,7 +94,7 @@ class StatisticalGmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
     Primitive to find gmean of time series .
     Will only take positive values as inputs .
     """
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_g_mean', id='StatisticalGmeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_g_mean', id='StatisticalGmeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
     
     
 

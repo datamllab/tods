@@ -152,7 +152,7 @@ class SKQuantileTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Ou
         Quantiles of references.
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='quantile_transformer', id='SKQuantileTransformer', primitive_family='data_preprocessing', hyperparams=['n_quantiles', 'output_distribution', 'ignore_implicit_zeros', 'subsample', 'random_state'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='quantile_transformer', id='SKQuantileTransformer', primitive_family='data_preprocessing', hyperparams=['n_quantiles', 'output_distribution', 'ignore_implicit_zeros', 'subsample', 'random_state'], description='Quantile_transformation')
     
     
 

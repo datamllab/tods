@@ -110,7 +110,7 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_winters_exponential_smoothing', id='HoltWintersExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_winters_exponential_smoothing', id='HoltWintersExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'], description='statsmodels.preprocessing.data.HoltWintersExponentialSmoothing')
     
     
 

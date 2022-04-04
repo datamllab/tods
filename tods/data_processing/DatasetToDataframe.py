@@ -28,7 +28,7 @@ class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, O
     A primitive which extracts a DataFrame out of a Dataset.
     """
     
-    metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing')
+    metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing', description='Extract a DataFrame from a Dataset')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         dataframe_resource_id, dataframe = base_utils.get_tabular_resource(inputs, self.hyperparams['dataframe_resource'])

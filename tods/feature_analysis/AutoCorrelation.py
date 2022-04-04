@@ -216,7 +216,7 @@ class AutoCorrelationPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyp
 		-------
 	"""
 	
-	metadata = construct_primitive_metadata(module='feature_analysis', name='auto_correlation', id='AutocorrelationPrimitive', primitive_family='feature_construct', hyperparams=['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'])
+	metadata = construct_primitive_metadata(module='feature_analysis', name='auto_correlation', id='AutocorrelationPrimitive', primitive_family='feature_construct', hyperparams=['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'], description='AutoCorrelation of values')
     
     
 

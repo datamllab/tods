@@ -249,7 +249,7 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_ae', id='AutoEncoderPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'hidden_activation', 'output_activation', 'loss'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_ae', id='AutoEncoderPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'hidden_activation', 'output_activation', 'loss'],description='TODS.anomaly_detection_primitives.AutoEncoder')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

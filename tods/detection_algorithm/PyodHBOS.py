@@ -114,7 +114,7 @@ class HBOSPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_hbos', id='HBOSPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_bins', 'alpha', 'tol'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_hbos', id='HBOSPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_bins', 'alpha', 'tol'],description='HBOS')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

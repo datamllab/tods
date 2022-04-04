@@ -193,7 +193,7 @@ class TelemanomPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params
 		----------
 	"""
 
-	metadata = construct_primitive_metadata(module='detection_algorithm', name='telemanom', id='TelemanomPrimitive', primitive_family='anomaly_detect', hyperparams=['layers','loss_metric','optimizer','epochs','p','l_s','patience','min_delta','dropout','smoothing_perc'])
+	metadata = construct_primitive_metadata(module='detection_algorithm', name='telemanom', id='TelemanomPrimitive', primitive_family='anomaly_detect', hyperparams=['layers','loss_metric','optimizer','epochs','p','l_s','patience','min_delta','dropout','smoothing_perc'], description='Telemanom')
 
 	def __init__(self, *,
 				 hyperparams: Hyperparams,  #
