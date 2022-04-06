@@ -5,7 +5,7 @@ import os
 with open('../utils/entry_points/entry_points_detection_algorithm.txt','r',encoding='utf-8') as f:
     entry_file = f.read()
 
-output_dir = '../primitiveSKI/detection_algorithm'
+output_dir = '../detection_algorithm'
 
 
 primitive_folder_start_loc_buf = [i.start()+2 for i in re.finditer('=', entry_file)]
