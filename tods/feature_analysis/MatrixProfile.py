@@ -40,7 +40,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 	######## Add more Attributes #######
@@ -159,22 +159,9 @@ class MatrixProfilePrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
             the right matrix profile indices.
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        '__author__': "DATA Lab @Texas A&M University",
-        'name': "Matrix Profile",
-        'python_path': 'd3m.primitives.tods.feature_analysis.matrix_profile',
-        'source': {
-                'name': "DATA Lab @Taxes A&M University", 
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-        'hyperparams_to_tune': ['window_size'],
-        'version': '0.0.2',		
-        'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ], 
-        'primitive_family': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'MatrixProfilePrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'], description='Matrix Profile')
+    
+    
 
 
     def __init__(self, *,

@@ -1,4 +1,61 @@
+import uuid
+from d3m.metadata import base as metadata_base
 
+primitive_families = {'data_transform': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+    'data_preprocessing': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
+    'data_validate': metadata_base.PrimitiveFamily.DATA_VALIDATION,
+    'data_cleaning': metadata_base.PrimitiveFamily.DATA_CLEANING,
+    'anomaly_detect': metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
+    'feature_construct': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
+    'evaluation': metadata_base.PrimitiveFamily.EVALUATION,
+    'feature_extract': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+}
+
+algorithm_type = {'file_manipulate': metadata_base.PrimitiveAlgorithmType.FILE_MANIPULATION,
+                  'data_denormalize': metadata_base.PrimitiveAlgorithmType.DATA_DENORMALIZATION,
+                  'data_split': metadata_base.PrimitiveAlgorithmType.DATA_SPLITTING,
+                  'k_fold': metadata_base.PrimitiveAlgorithmType.K_FOLD,
+                  'cross_validate': metadata_base.PrimitiveAlgorithmType.CROSS_VALIDATION,
+                  'identity': metadata_base.PrimitiveAlgorithmType.IDENTITY_FUNCTION,
+                  'data_convert': metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,
+                  'holdout': metadata_base.PrimitiveAlgorithmType.HOLDOUT,
+}
+
+
+def construct_primitive_metadata(module, name, id, primitive_family, hyperparams =None, algorithm = None, flag_hyper = False, description = None):
+    print("Constructing metadata")
+    if algorithm == None:
+        temp = [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE]
+    else:
+        temp = []
+        for alg in algorithm:
+            temp.append(algorithm_type[alg])
+        print(temp)
+    meta_dict = {
+            "__author__ " : "DATA Lab @ Texas A&M University",
+            'version': '0.3.0',
+            'name': description,
+            'python_path': 'd3m.primitives.tods.' + module + '.' + name,
+            'source': {
+                'name': "DATA Lab @ Texas A&M University",
+                'contact': 'mailto:khlai037@tamu.edu',
+            },
+            'algorithm_types': temp,
+            'primitive_family': primitive_families[primitive_family],#metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+            'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, id)),
+            
+        }
+    #if name1 != None:
+        #meta_dict['name'] = name1
+    if hyperparams!=None:
+        if flag_hyper == False:
+            meta_dict['hyperparams_to_tune'] = hyperparams
+        else:
+            meta_dict['hyperparameters_to_tune'] = hyperparams
+    print(meta_dict)
+    metadata = metadata_base.PrimitiveMetadata(meta_dict,)
+    return metadata
+    
 def load_pipeline(pipeline_path): # pragma: no cover
     """Load a pipeline given a path
 

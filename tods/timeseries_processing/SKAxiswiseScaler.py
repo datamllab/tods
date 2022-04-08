@@ -20,7 +20,7 @@ __all__ = ('SKAxiswiseScalerPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 class Hyperparams(hyperparams.Hyperparams):
     # Added by Guanchu
     axis = hyperparams.UniformInt(
@@ -138,22 +138,9 @@ class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
         If True, scale the data to unit variance (or equivalently, unit standard deviation).
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Taxes A&M University",
-        "name": "Axis_wise_scale",
-        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.axiswise_scaler",
-        "hyperparams_to_tune": ['with_mean', 'with_std', 'axis'],
-        "source": {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKAxiswiseScaler')),
-        "version": "0.0.1",
-    })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='axiswise_scaler', id='SKAxiswiseScaler', primitive_family='data_transform', hyperparams=['with_mean', 'with_std', 'axis'], description='Axis_wise_scale')
+    
+    
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams) # , random_seed=random_seed, docker_containers=docker_containers)

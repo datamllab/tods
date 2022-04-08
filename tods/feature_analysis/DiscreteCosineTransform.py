@@ -24,7 +24,7 @@ __all__ = ('DiscreteCosineTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
 
@@ -214,23 +214,9 @@ class DiscreteCosineTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outp
 
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-            "__author__ " : "DATA Lab @ Texas A&M University",
-            'name': "Discrete Cosine Transform",
-            'python_path': 'd3m.primitives.tods.feature_analysis.discrete_cosine_transform',
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-            'hyperparameters_to_tune':['n','norm','axis','type_'],
-            'version': '0.0.1',
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DiscreteCosineTransformPrimitive')),
-        },
-    )
+    metadata = construct_primitive_metadata(module='feature_analysis', name='discrete_cosine_transform', id='DiscreteCosineTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis','type_'], description='Discrete Cosine Transform')
+    
+    
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

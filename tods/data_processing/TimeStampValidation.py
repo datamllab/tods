@@ -15,6 +15,7 @@ __all__ = ('TimeStampValidationPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     pass
@@ -23,23 +24,8 @@ class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
     """
     A primitive to check time series is sorted by time stamp , if not then return sorted time series
     """
-    metadata = metadata_base.PrimitiveMetadata({
-            '__author__': "DATA Lab at Texas A&M University",
-            'version': '0.1.0',
-            'name': 'Time Stamp Validation',
-            'python_path': 'd3m.primitives.tods.data_processing.timestamp_validation',
-            'keywords': ['Time Stamp', 'Sort Order'],
-            'source': {
-                'name': 'DATA Lab at Texas A&M University',
-                'contact': 'mailto:khlai037@tamu.edu'
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_VALIDATION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeStampValidationPrimitive')),
-
-        })
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='timestamp_validation', id='TimeStampValidationPrimitive', primitive_family='data_validate', description='Time Stamp Validation')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

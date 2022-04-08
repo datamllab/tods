@@ -26,7 +26,7 @@ import re
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):   # pragma: no cover
     # Tuning
@@ -110,17 +110,9 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = metadata_base.PrimitiveMetadata({ 
-         "name": "Rule-Based Filtering",
-         "python_path": "d3m.primitives.tods.reinforcement.rule_filter",
-         "source": {'name': 'DATA Lab at Texas A&M University', 'contact': 'mailto:khlai037@tamu.edu', 
-         'uris': ['https://gitlab.com/lhenry15/tods.git', ]},
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,],
-         "primitive_family": metadata_base.PrimitiveFamily.ANOMALY_DETECTION,
-         "id": "42744c37-8879-4785-9f18-6de9d612ea93",
-         "hyperparams_to_tune": ['rule',],
-         "version": "0.0.1",
-    })
+    metadata = construct_primitive_metadata(module='reinforcement', name='rule_filter', id='42744c37-8879-4785-9f18-6de9d612ea93', primitive_family='anomaly_detect', hyperparams=['rule'], description='Rule-Based Filtering')
+    
+    
 
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:

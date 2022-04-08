@@ -29,7 +29,7 @@ __all__ = ('StatisticalMaximumPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
        #to-do : how to make params dynamic
        use_column_names: Optional[Any]
@@ -93,23 +93,9 @@ class StatisticalMaximumPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, 
     Primitive to find maximum of time series
     """
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_maximum',
-        'keywords': ['Time Series','Maximum'],
-        'source': {
-            'name': 'DATA Lab @ Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        "hyperparams_to_tune": ['window_size'],
-        'version': '0.1.0',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalMaximumPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_maximum', id='StatisticalMaximumPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
+    
+    
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

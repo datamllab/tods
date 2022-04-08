@@ -18,6 +18,7 @@ __all__ = ('TimeIntervalTransformPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 """
 TODO: Implementation for up-sampling the data (when time_interval is less than current time series interval)
@@ -85,21 +86,8 @@ class TimeIntervalTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs
     A primitive which configures the time interval of the dataframe.
     Resample the timestamps based on the time_interval passed as hyperparameter
     """
-
-    metadata = metadata_base.PrimitiveMetadata({
-        '__author__': "DATA Lab @Texas A&M University",
-        'name': "Time Interval Transform",
-        'python_path': 'd3m.primitives.tods.data_processing.time_interval_transform',
-        'source': {
-            'name': "DATA Lab @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        'algorithm_types': [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,], 
-        'primitive_family': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-        'hyperparams_to_tune': ['time_interval'],
-        'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TimeIntervalTransformPrimitive')),
-        'version': '0.0.2' 
-        })
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='time_interval_transform', id='TimeIntervalTransformPrimitive', primitive_family='data_preprocessing', description='Time Interval Transform')
 
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:

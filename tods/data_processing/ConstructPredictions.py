@@ -13,6 +13,7 @@ __all__ = ('ConstructPredictionsPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     use_columns = hyperparams.Set(
@@ -44,21 +45,9 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     assumes that all ``inputs`` columns are predicted targets, without confidence column(s).
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-            "__author__ " : "DATA Lab @ Texas A&M University",
-            'version': '0.3.0',
-            'name': "Construct pipeline predictions output",
-            'python_path': 'd3m.primitives.tods.data_processing.construct_predictions',
-            'source': {
-                'name': "DATA Lab @ Texas A&M University",
-                'contact': 'mailto:khlai037@tamu.edu',
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-	    'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ConstructPredictionsPrimitive')),
-        })
+    
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='construct_predictions', id='ConstructPredictionsPrimitive', primitive_family='data_transform', description='Construct pipeline predictions output')
 
     def produce(self, *, inputs: Inputs, reference: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:  # type: ignore
         index_columns = inputs.metadata.get_index_columns()

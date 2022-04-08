@@ -32,7 +32,7 @@ import uuid
 Inputs = d3m_dataframe
 # Inputs = container.Dataset
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('SKStandardScalerPrimitive',)
 
 
@@ -142,22 +142,9 @@ class SKStandardScalerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs
         The number of samples processed by the estimator for each feature. If there are not missing samples, the n_samples_seen will be an integer, otherwise it will be an array. Will be reset on new calls to fit, but increments across partial_fit calls.
     """
     
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @Taxes A&M University",
-        "name": "Standard_scaler",
-        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.standard_scaler",
-        "source": {
-            'name': "DATA Lab @ Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "hyperparams_to_tune": ['with_mean', 'with_std'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
-        "version": "0.0.1",
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKStandardScaler')),
-    })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='standard_scaler', id='SKStandardScaler', primitive_family='data_transform',hyperparams=['with_mean', 'with_std'], description='Standard_scaler')
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

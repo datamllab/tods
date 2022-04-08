@@ -8,6 +8,7 @@ from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.base import primitives
 
+from tods.utils import construct_primitive_metadata
 __all__ = ('FixedSplitDatasetSplitPrimitive',)
 
 
@@ -38,26 +39,8 @@ class FixedSplitDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyper
     resource to be used. All other rows are added used for the train split.
     """
 
-    metadata = metadata_base.PrimitiveMetadata(
-        {
-            'id': '1654f000-2178-4520-be4c-a95bc26b8d3a',
-            'version': '0.1.0',
-            'name': "Fixed split tabular dataset splits",
-            'python_path': 'd3m.primitives.tods.evaluation.fixed_split_dataset_split',
-            'source': {
-                'name': "DATALab@TexasA&M University",
-                'contact': 'mailto:mitar.commonprimitives@tnode.com',
-                'uris': [
-                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/fixed_split.py',
-                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
-                ],
-            },
-            'algorithm_types': [
-                metadata_base.PrimitiveAlgorithmType.DATA_SPLITTING,
-            ],
-            'primitive_family': metadata_base.PrimitiveFamily.EVALUATION,
-        },
-    )
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='fixed_split_dataset_split', id='1654f000-2178-4520-be4c-a95bc26b8d3a', primitive_family='evaluation', algorithm= ['data_split'], description='Fixed split tabular dataset splits')
+    
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:
         # This should be handled by "Set" hyper-parameter, but we check it here again just to be sure.

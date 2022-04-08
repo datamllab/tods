@@ -13,6 +13,7 @@ __all__ = ('DuplicationValidationPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     """
@@ -37,21 +38,9 @@ class DuplicationValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs
     """
  
     __author__: "DATA Lab at Texas A&M University"
-    metadata = metadata_base.PrimitiveMetadata({
-         "name": "duplication validation primitive",
-         "python_path": "d3m.primitives.tods.data_processing.duplication_validation",
-         "source": {
-             'name': 'DATALAB @ Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'DuplicationValidationPrimitive')),
-         "hyperparams_to_tune": ['keep_option'],
-         "version": "0.0.1",
-    })
+    
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='duplication_validation', id='DuplicationValidationPrimitive', primitive_family='data_preprocessing', description='duplication validation primitive')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

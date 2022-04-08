@@ -25,7 +25,7 @@ from d3m.primitive_interfaces.unsupervised_learning import UnsupervisedLearnerPr
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('SKTruncatedSVDPrimitive',)
 
 class PrimitiveCount:
@@ -126,12 +126,10 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
     """
     Primitive wrapping for sklearn TruncatedSVD
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html>`_   
-
     Parameters
     ----------
     n_components: int
         Desired dimensionality of output data. Must be strictly less than the number of features. The default value is useful for visualisation. For LSA, a value of 100 is recommended.
-
     algorithm: hyperparams.Choice
        SVD solver to use. Either "arpack" for the ARPACK wrapper in SciPy (scipy.sparse.linalg.svds), or "randomized" for the randomized algorithm due to Halko (2009).
     
@@ -157,22 +155,8 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Decides what semantic type to attach to generated attributes'
     """    
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab at Texas A&M University",
-        "name": "Truncated SVD",
-        "python_path": "d3m.primitives.tods.feature_analysis.truncated_svd",
-        "source": {
-            'name': 'DATA Lab at Texas A&M University', 
-            'contact': 'mailto:khlai037@tamu.edu', 
-        },
-        "hyperparams_to_tune": ['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'],
-        "version": "0.0.1",
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKTruncatedSVDPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='truncated_svd', id='SKTruncatedSVDPrimitive', primitive_family='feature_construct', hyperparams=['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'], description='Truncated SVD')
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,
@@ -212,7 +196,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Set training data for SKTruncatedSVD.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -225,7 +208,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -255,7 +237,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Process the testing data.
         Args:
             inputs: Container DataFrame.
-
         Returns:
             Container DataFrame after Truncated SVD.
         """
@@ -296,7 +277,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -330,7 +310,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Set parameters for SKTruncatedSVD.
         Args:
             params: class Params
-
         Returns:
             None
         """
@@ -362,7 +341,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -388,7 +366,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -452,7 +429,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -470,7 +446,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -487,7 +462,6 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
         Args:
             outputs_metadata: metadata.base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             List[OrderedDict]
         """
@@ -504,4 +478,3 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
             target_columns_metadata.append(column_metadata)
 
         return target_columns_metadata
-

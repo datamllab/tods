@@ -139,7 +139,6 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Set training data for outlier detection.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -150,7 +149,6 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -161,7 +159,6 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Process the testing data.
         Args:
             inputs: Container DataFrame. Time series data up to outlier detection.
-
         Returns:
             Container DataFrame
             1 marks Outliers, 0 marks normal.
@@ -187,7 +184,6 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -198,7 +194,6 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Set parameters for outlier detection.
         Args:
             params: class Params
-
         Returns:
             None
         """

@@ -29,7 +29,7 @@ __all__ = ('SpectralResidualTransformPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
        #to-do : how to make params dynamic
        use_column_names: Optional[Any]
@@ -92,24 +92,9 @@ class SpectralResidualTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Ou
     """
     Primitive to find Spectral Residual Transform of time series
     """
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Spectral Residual',
-        'python_path': 'd3m.primitives.tods.feature_analysis.spectral_residual_transform',
-        'keywords': ['Time Series','FFT'],
-        'source': {
-            'name': 'DATA Lab @ Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-
-        },
-        "hyperparams_to_tune": ['avg_filter_dimension'],
-        'version': '0.1.0',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE,
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SpectralResidualTransformPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='spectral_residual_transform', id='SpectralResidualTransformPrimitive', primitive_family='feature_construct', hyperparams=['avg_filter_dimension'], description='Time Series Spectral Residual')
+    
+    
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

@@ -40,6 +40,7 @@ from pyod.models.mo_gaal import MO_GAAL
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
+from tods.utils import construct_primitive_metadata
 
 class Params(Params_ODBase):
     ######## Add more Attributes #######
@@ -197,6 +198,8 @@ class Mo_GaalPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
 
         }
     )
+    
+    #metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_mogaal', id='906b96ea-f260-4ede-8f55-c26d1367eb32', primitive_family='feature_construct', hyperparams=['stop_epochs','lr_d','lr_g','decay','momentum','k'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

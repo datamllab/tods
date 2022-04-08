@@ -24,7 +24,7 @@ import uuid
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('SKQuantileTransformerPrimitive',)
 
 
@@ -152,22 +152,9 @@ class SKQuantileTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Ou
         Quantiles of references.
     """
     
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Taxes A&M University",
-        "name": "Quantile_transformation",
-        "python_path": "d3m.primitives.tods.timeseries_processing.transformation.quantile_transformer",
-        "source": {
-            'name': "DATALAB @Taxes A&M University", 
-            'contact': 'mailto:khlai037@tamu.edu',
-        },
-        "hyperparams_to_tune": ['n_quantiles', 'output_distribution', 'ignore_implicit_zeros', 'subsample', 'random_state'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-        "id": str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKQuantileTransformer')),
-        "version": "0.0.1",
-    })
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='quantile_transformer', id='SKQuantileTransformer', primitive_family='data_preprocessing', hyperparams=['n_quantiles', 'output_distribution', 'ignore_implicit_zeros', 'subsample', 'random_state'], description='Quantile_transformation')
+    
+    
 
     def __init__(self, *,
                  hyperparams: Hyperparams,

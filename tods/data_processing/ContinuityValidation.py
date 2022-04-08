@@ -13,6 +13,7 @@ __all__ = ('ContinuityValidationPrimitive',)
 Inputs = container.DataFrame
 Outputs = container.DataFrame
 
+from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     continuity_option = hyperparams.Enumeration(
@@ -46,21 +47,9 @@ class ContinuityValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = metadata_base.PrimitiveMetadata({
-         "name": "continuity validation primitive",
-         "python_path": "d3m.primitives.tods.data_processing.continuity_validation",
-         "source": {
-             'name': 'DATA Lab at Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "algorithm_types": [
-             metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-         ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
-         "hyperparams_to_tune": ['continuity_option', 'interval'],
-         "version": "0.0.1",
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'ContinuityValidationPrimitive')),
-    })
+    
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='continuity_validation', id='ContinuityValidationPrimitive', primitive_family='data_preprocessing', description='continuity validation primitive')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

@@ -29,7 +29,7 @@ __all__ = ('StatisticalZeroCrossingPrimitive',)
 
 Inputs = container.DataFrame
 Outputs = container.DataFrame
-
+from tods.utils import construct_primitive_metadata
 class Params(params.Params):
        #to-do : how to make params dynamic
        use_column_names: Optional[Any]
@@ -89,22 +89,9 @@ class StatisticalZeroCrossingPrimitive(TODSTransformerPrimitiveBase[Inputs, Outp
     Primitive to find zero_crossing of time series. A column indicating zero crossing on ith row . 1 indicates crossing 0 is for normal
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        'name': 'Time Series Decompostional',
-        'python_path': 'd3m.primitives.tods.feature_analysis.statistical_zero_crossing',
-        'keywords': ['Time Series','ZeroCrossing'],
-        'source': {
-            'name': 'DATA Lab @ Texas A&M University',
-            'contact': 'mailto:khlai037@tamu.edu'
-        },
-        'version': '0.1.0',
-        'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'StatisticalZeroCrossingPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_zero_crossing', id='StatisticalZeroCrossingPrimitive', primitive_family='feature_construct', description='Time Series Decompostional')
+    
+    
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

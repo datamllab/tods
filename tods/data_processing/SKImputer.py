@@ -28,6 +28,7 @@ __all__ = ('SKImputerPrimitive',)
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
+from tods.utils import construct_primitive_metadata
 
 class Params(params.Params):
     statistics_: Optional[ndarray]
@@ -130,20 +131,8 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
     
     """
     
-    metadata = metadata_base.PrimitiveMetadata({ 
-         "__author__": "DATA Lab @ Texas A&M University",
-         "name": "sklearn.impute.SimpleImputer",
-         "python_path": "d3m.primitives.tods.data_processing.impute_missing",
-         "source": {
-             'name': 'DATA Lab @ Texas A&M University', 
-             'contact': 'mailto:khlai037@tamu.edu', 
-         },
-         "version": "2019.11.13",
-         "hyperparams_to_tune": ['strategy'],
-         "algorithm_types": [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, ],
-         "primitive_family": metadata_base.PrimitiveFamily.DATA_CLEANING,
-	 'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'SKImputerPrimitive')),
-    })
+    
+    metadata = construct_primitive_metadata(module='data_processing', name='impute_missing', id='SKImputerPrimitive', primitive_family='data_cleaning', description='sklearn.impute.SimpleImputer')
 
     def __init__(self, *,
                  hyperparams: Hyperparams,
