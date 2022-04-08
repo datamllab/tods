@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#modules="data_processing timeseries_processing feature_analysis detection_algorithms reinforcement"
+modules="data_processing timeseries_processing feature_analysis detection_algorithm reinforcement"
 #modules="data_processing timeseries_processing"
-modules="data_processing"
+#modules="data_processing"
 #test_scripts=$(ls primitive_tests | grep -v -f tested_file.txt)
 
 for module in $modules
@@ -21,7 +21,7 @@ do
 		#python primitive_tests/$file > tmp.txt 2>>tmp.txt
 		python $module/$file > tmp.txt 2>>tmp.txt
 		error=$(cat tmp.txt | grep 'Error' | wc -l) 
-		echo "\t#Pipeline Building Errors:" $error
+		echo "    #Pipeline Building Errors:" $error
 		if [ "$error" -gt "0" ]
 		then
 			cat tmp.txt
@@ -36,7 +36,7 @@ do
 		#python3 -m d3m runtime fit-produce -p pipeline.yml -r datasets/anomaly/yahoo_sub_5/TRAIN/problem_TRAIN/problemDoc.json -i datasets/anomaly/yahoo_sub_5/TRAIN/dataset_TRAIN/datasetDoc.json -t datasets/anomaly/yahoo_sub_5/TEST/dataset_TEST/datasetDoc.json -o results.csv -O pipeline_run.yml
 		python3 -m d3m runtime fit-produce -p example_pipeline.json -r ../datasets/anomaly/yahoo_sub_5/TRAIN/problem_TRAIN/problemDoc.json -i ../datasets/anomaly/yahoo_sub_5/TRAIN/dataset_TRAIN/datasetDoc.json -t ../datasets/anomaly/yahoo_sub_5/TEST/dataset_TEST/datasetDoc.json -o results.csv 2> tmp.txt
 		error=$(cat tmp.txt | grep 'Error' | wc -l) 
-		echo "\t#Pipeline Running Errors:" $error
+		echo "    #Pipeline Running Errors:" $error
 		if [ "$error" -gt "0" ]
 		then
 			cat tmp.txt
