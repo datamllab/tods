@@ -30,7 +30,7 @@ step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALU
 pipeline_description.add_step(step_2)
 
 # Step 3: time_series_seasonality_trend_decomposition
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition'))
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition'))
 step_3.add_hyperparameter(name='period', argument_type=ArgumentType.VALUE, data=5)
 # step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE, data=True)
 # step_3.add_hyperparameter(name='use_columns', argument_type=ArgumentType.VALUE, data=(8,9,10,11,12)) # There is sth wrong with multi-dimensional
