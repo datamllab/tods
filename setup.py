@@ -35,6 +35,7 @@ setup(
                  ]
     },
     install_requires=[
+        'autokeras==1.0.15',
         'tamu_d3m==2022.01.21',
         'tamu_axolotl',
         'numpy<=1.21.2',
@@ -44,12 +45,14 @@ setup(
 	'statsmodels==0.11.1',
         'PyWavelets>=1.1.1',
         'pillow==7.1.2',
-        'tensorflow==2.4',
+        'tensorflow==2.5',
         'keras==2.4.0',
+        'keras-tuner==1.0.4',
         'pyod',
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
+        'xgboost',
     ],
 
     entry_points = merge_entry_points()
