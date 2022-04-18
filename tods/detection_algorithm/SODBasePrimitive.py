@@ -61,7 +61,6 @@ class Hyperparams_SODBase(hyperparams.Hyperparams):
         description='If False, try to avoid a copy and do inplace scaling instead. This is not guaranteed to always work inplace; e.g. if the data is not a NumPy array or scipy.sparse CSR matrix, a copy may still be returned.',
         semantic_types=['https://metadata.datadrivendiscovery.org/types/TuningParameter']
     )
-
     # D3M hyperparameters
     use_columns = hyperparams.Set(
         elements=hyperparams.Hyperparameter[int](-1),
@@ -124,7 +123,7 @@ class SupervisedOutlierDetectorBase(TODSSupervisedLearnerPrimitiveBase[Inputs, O
         self._clf = None
         self._clf_fit_parameter = {}
         self.primitiveNo = 0
-
+        
         self._inputs = None
         self._outputs = None
         self._training_inputs = None
@@ -184,6 +183,7 @@ class SupervisedOutlierDetectorBase(TODSSupervisedLearnerPrimitiveBase[Inputs, O
 
             self._clf.fit(X=self._training_inputs.values, y=sk_training_output, **self._clf_fit_parameter)
             self._fitted = True
+
         else: # pragma: no cover
             if self.hyperparams['error_on_no_input']:
                 raise RuntimeError("No input columns were selected")
@@ -207,14 +207,16 @@ class SupervisedOutlierDetectorBase(TODSSupervisedLearnerPrimitiveBase[Inputs, O
         if len(sk_inputs.columns):
             try:
                 sk_output = self._clf.predict(X=sk_inputs.values)
-                # print(sk_output)
+
             except sklearn.exceptions.NotFittedError as error:
                 raise PrimitiveNotFittedError("Primitive not fitted.") from error
             # For primitives that allow predicting without fitting like GaussianProcessRegressor
             if not self._fitted: # pragma: no cover
                 raise PrimitiveNotFittedError("Primitive not fitted.")
+
             if sparse.issparse(sk_output):
                 sk_output = sk_output.toarray()
+            
             output = self._wrap_predictions(inputs, sk_output)
             output.columns = self._target_names
             output = [output]
