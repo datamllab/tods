@@ -21,6 +21,8 @@ from tensorflow.keras import layers
 from tods.sk_interface.timeseries_processing.SubsequenceSegmentation_skinterface import SubsequenceSegmentationSKI
 
 
+from tods.detection_algorithm.core.ak.blocks import AEBlock
+from tods.detection_algorithm.core.ak.heads import ReconstructionHead
 # load dataset yahoo
 # dataset = pd.read_csv("./yahoo_sub_5.csv")
 # data = dataset.to_numpy()
@@ -37,10 +39,10 @@ tods_output = transformer.produce(data)
 print('result from SubsequenceSegmentation primitive:\n', tods_output)
 print('tods output shape:\n', tods_output.shape)
 
-data = np.expand_dims(   #this is for convblock and rnn
-    data, axis=1
-) 
-print()
+# data = np.expand_dims(   #this is for convblock and rnn
+#     data, axis=1
+# ) 
+# print()
 class DenseBlock(block_module.Block): #AEBlock
 
     """Block for Dense layers.
@@ -761,7 +763,11 @@ class RNNBlock(block_module.Block):
 
 # inputs = ak.Input(shape=[38,]) #important!!! depends on data shape above
 inputs = ak.Input(shape=[38,])
-mlp_output = DenseBlock()([inputs])
+
+#below is testing for wrapping into tods
+mlp_output = AEBlock()([inputs])
+
+# mlp_output = DenseBlock()([inputs])
 # mlp_output = RNNBlock()([inputs]) #RNN datalab4
 
 # mlp_output = ConvBlock()([inputs]) #CNN datalab5
@@ -769,7 +775,9 @@ mlp_output = DenseBlock()([inputs])
 # mlp_output = DenseBlock()([mlp_input])
 
 # Step 2.3: Setup optimizer to handle the target task
-output = ak.RegressionHead()(mlp_output) 
+#below is testing for wrapping into tods
+output = ReconstructionHead()(mlp_output) 
+# output = ak.RegressionHead()(mlp_output) 
 # print('output:', output[0].__dict__)
 
 # Step 3: Build the searcher, which provides search algorithm
@@ -788,7 +796,7 @@ auto_model.fit(x=[data], #0 - n-1 tods output
 pred = auto_model.predict(x=[data])
 print(pred.shape)
 print('pred:', pred)
-data = np.squeeze(data, axis=1)
+# data = np.squeeze(data, axis=1)
 
 y_true = data
 y_pred = pred
