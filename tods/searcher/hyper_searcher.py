@@ -54,9 +54,9 @@ class GlobalStats:
     return self.scores
 
 
-class RaySearcher():
+class HyperSearcher():
   def __init__(self, dataset, metric):
-    ray.init(local_mode=True, ignore_reinit_error=True)
+    # ray.init(local_mode=True, ignore_reinit_error=True)
     self.dataset = dataset
     self.metric = metric
     self.stats = GlobalStats.remote()
@@ -293,72 +293,95 @@ class RaySearcher():
 
 
 
-    if 'timeseries_processing' in search_space.keys():
-      timeseries_processing_list = []
-
-      timeseries_processing = search_space.pop('timeseries_processing', None)
-      if ' ' in timeseries_processing:
-        timeseries_processing_list = timeseries_processing.split(' ')
-      else:
-        timeseries_processing_list.append(timeseries_processing)
-
-      for x in range(len(timeseries_processing_list)):
-        this = sys.modules[__name__]
-        name = 'step_' + str(counter)
-        setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x])))
-        this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x]))
-
-        this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
-        for key, value in search_space.items():
-          if timeseries_processing_list[x] in key:
-            hp_name = key.replace(timeseries_processing_list[x] + '_', '')
-            if value == "None":
-              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
-            elif value == "True":
-              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
-            elif value == "False":
-              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
-            else:
-              this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
-        this.name.add_output('produce')
-        pipeline_description.add_step(this.name)
-        counter += 1
 
 
 
 
+    # if 'timeseries_processing' in search_space.keys():
+    #   timeseries_processing_list = []
+
+    #   timeseries_processing = search_space.pop('timeseries_processing', None)
+    #   if ' ' in timeseries_processing:
+    #     timeseries_processing_list = timeseries_processing.split(' ')
+    #   else:
+    #     timeseries_processing_list.append(timeseries_processing)
+
+    #   for x in range(len(timeseries_processing_list)):
+    #     this = sys.modules[__name__]
+    #     name = 'step_' + str(counter)
+    #     setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x])))
+    #     this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.' + primitive_map[timeseries_processing_list[x]] + '.' +  timeseries_processing_list[x]))
+
+    #     this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
+    #     for key, value in search_space.items():
+    #       if timeseries_processing_list[x] in key:
+    #         hp_name = key.replace(timeseries_processing_list[x] + '_', '')
+    #         if value == "None":
+    #           this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
+    #         elif value == "True":
+    #           this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
+    #         elif value == "False":
+    #           this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
+    #         else:
+    #           this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
+    #     this.name.add_output('produce')
+    #     pipeline_description.add_step(this.name)
+    #     counter += 1
 
 
-    feature_analysis_list = []
+    # Step 2: extract_columns_by_semantic_types(attributes)
+    step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + search_space['feature_analysis']))
+    step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+    step_3.add_output('produce')
+    step_3.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
+                    data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
+    pipeline_description.add_step(step_3)
+    # counter += 1
 
-    feature_analysis = search_space.pop('feature_analysis', None)
-    if ' ' in feature_analysis:
-      feature_analysis_list = feature_analysis.split(' ')
-    else:
-      feature_analysis_list.append(feature_analysis)
+    # Step 2: extract_columns_by_semantic_types(attributes)
+    step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.' + search_space['detection_algorithm']))
+    step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
+    step_4.add_output('produce')
+    step_4.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
+                    data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
+    pipeline_description.add_step(step_4)
+
+    step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
+    step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
+    step_5.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+    step_5.add_output('produce')
+    pipeline_description.add_step(step_5)
+
+    # feature_analysis_list = []
+
+    # feature_analysis = search_space.pop('feature_analysis', None)
+    # if ' ' in feature_analysis:
+    #   feature_analysis_list = feature_analysis.split(' ')
+    # else:
+    #   feature_analysis_list.append(feature_analysis)
 
 
-    for x in range(len(feature_analysis_list)):
-      this = sys.modules[__name__]
-      name = 'step_' + str(counter)
-      setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x])))
-      this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x]))
+    # for x in range(len(feature_analysis_list)):
+    #   this = sys.modules[__name__]
+    #   name = 'step_' + str(counter)
+    #   setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x])))
+    #   this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.' + feature_analysis_list[x]))
 
-      this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
-      for key, value in search_space.items():
-        if feature_analysis_list[x] in key:
-          hp_name = key.replace(feature_analysis_list[x] + '_', '')
-          if value == "None":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
-          elif value == "True":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
-          elif value == "False":
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
-          else:
-            this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
-      this.name.add_output('produce')
-      pipeline_description.add_step(this.name)
-      counter += 1
+    #   this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
+    #   for key, value in search_space.items():
+    #     if feature_analysis_list[x] in key:
+    #       hp_name = key.replace(feature_analysis_list[x] + '_', '')
+    #       if value == "None":
+    #         this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=None)
+    #       elif value == "True":
+    #         this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=True)
+    #       elif value == "False":
+    #         this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=False)
+    #       else:
+    #         this.name.add_hyperparameter(name=hp_name, argument_type=ArgumentType.VALUE, data=value)
+    #   this.name.add_output('produce')
+    #   pipeline_description.add_step(this.name)
+    #   counter += 1
 
 
 
@@ -377,7 +400,7 @@ class RaySearcher():
       name = 'step_' + str(counter) 
       setattr(this, name, PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.' + detection_algorithm_list[x])))
       this.name = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.' + detection_algorithm_list[x]))
-      # print(this.name.metadata['hyperparams_to_tune'])
+
       this.name.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.' + str(counter - 1) + '.produce')
       for key, value in search_space.items():
         if detection_algorithm_list[x] in key:

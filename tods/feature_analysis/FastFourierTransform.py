@@ -162,15 +162,11 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
     """
     Compute the 1-D discrete Fourier Transform.
     This function computes the 1-D n-point discrete Fourier Transform (DFT) with the efficient Fast Fourier Transform (FFT) algorithm
-
     scipy documentation : https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fft.html#scipy.fft.fft
-
     Parameters
     ----------
-
     n: int
         Length of the transformed axis of the output. If n is smaller than the length of the input, the input is cropped. If it is larger, the input is padded with zeros.
-
     axis: int
         Axis over which to compute the FFT. If not given, the last axis is used.
     
@@ -179,29 +175,22 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
     
     overwrite_x: boolean
         If True, the contents of x can be destroyed; the default is False. See the notes below for more details.
-
     workers: int
         Maximum number of workers to use for parallel computation. If negative, the value wraps around from os.cpu_count(). Defualt is None.
     
     
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
-
     exclude_columns: Set
         A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-
     return_result: Enumeration
         Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
-
     use_semantic_types: Bool
         Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
-
     add_index_columns: Bool
         Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-
     error_on_no_input: Bool(
         Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-
     return_semantic_type: Enumeration[str](
         Decides what semantic type to attach to generated attributes'
     """
@@ -235,14 +224,11 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
 
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """
-
             Args:
                 inputs: Container DataFrame
-
             Returns:
                 Container DataFrame added with absolute and phase value in a columns named 'column_name_fft_abs' and 'column_name_fft_phse'.
                 These values correspnd to the absolute and angle values for a complex number we get as FFT coefficients
-
         """
         assert isinstance(inputs, container.DataFrame), type(dataframe)
 
@@ -299,7 +285,6 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -329,7 +314,6 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -368,7 +352,6 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
         Args:
             outputs_metadata: metadata_base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -402,7 +385,6 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -422,7 +404,6 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -459,6 +440,4 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
 
 
 FastFourierTransformPrimitive.__doc__ = FastFourierTransformPrimitive.__doc__
-
-
 

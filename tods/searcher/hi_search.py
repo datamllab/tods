@@ -1,4 +1,5 @@
 from searcher import RaySearcher, datapath_to_dataset, json_to_searchspace
+from hyper_searcher import HyperSearcher
 import argparse
 import os
 import ray
@@ -25,29 +26,17 @@ def run(args):
   # get the dataset
   dataset = datapath_to_dataset(args.data_dir, args.target_index)
 
-  # initialize the searcher
-
   searcher = RaySearcher(dataset, args.metric)
 
-  # get the ray searcher config
   config = {
     "searching_algorithm": args.alg,
     "num_samples": args.num_samples,
     "mode": args.run_mode
   }
 
-  # define the search space
-  # search_space = json_to_searchspace(path = args.search_space_path,
-  #                                   config = config,
-  #                                   use_all_combination = args.ignore_hyperparameters,
-  #                                   ignore_hyperparams = args.ignore_hyperparameters
-  # )
-
-  # or you can define seach space here like this
-  # from ray import tune
   search_space = {
     "feature_analysis": ray.tune.choice(["statistical_maximum"]),
-    "detection_algorithm": ray.tune.choice(["pyod_ae", "telemanom", "pyod_loda", 'pyod_cof'])
+    "detection_algorithm": ray.tune.choice(["pyod_loda", "telemanom"])
   }
 
   import time
@@ -59,15 +48,58 @@ def run(args):
   print("--- %s seconds ---" % (time.time() - start_time))
 
   print("Best config: ", best_config)
-  print("best config pipeline id: ", best_pipeline_id)
 
-  # load the fitted pipeline based on id
-  loaded = load_fitted_pipeline(best_pipeline_id)
 
-  # use the loaded fitted pipeline
-  result = produce_fitted_pipeline(dataset, loaded)
+  best_feature_analysis = best_config['feature_analysis']
+  best_detection_algorithm = best_config['detection_algorithm']
+  print(best_feature_analysis)
+  print(best_detection_algorithm)
 
-  print(result)
+  dictt = {"statistical_maximum_window_size": [1,2,3],
+  "telemanom_smoothing_perc": [0.05, 0.06, 0.07],
+  "telemanom_error_buffer": [55, 60, 65],
+  "telemanom_batch_size": [70, 80, 90],
+  "telemanom_dropout": [0.3, 0.4, 0.5],
+  "telemanom_validation_split": [0.2, 0.25, 0.3],
+  "telemanom_lstm_batch_size": [64, 60, 68],
+  "telemanom_patience": [10, 13, 16],
+  "pyod_loda_n_bins": [10, 20, 30],
+  "pyod_loda_n_random_cuts": [100, 110, 120]
+  }
+
+
+
+  hyperparam_search_space = {
+    "feature_analysis": ray.tune.choice([str(best_feature_analysis)]),
+    "detection_algorithm": ray.tune.choice([str(best_detection_algorithm)])
+
+  }
+
+  for key, value in dictt.items():
+    if str(best_feature_analysis) in str(key):
+      hyperparam_search_space[str(key)] = ray.tune.choice(value)
+    if str(best_detection_algorithm) in str(key):
+      hyperparam_search_space[str(key)] = ray.tune.choice(value)
+
+  # print(hyperparam_search_space)
+
+
+
+
+
+  # print(hyperparam_search_space)
+
+  # best_config, best_pipeline_id = searcher.search(search_space=hyperparam_search_space, config=config)
+
+  # print(best_config)
+
+  print()
+
+
+
+
+  # hyper_searcher = HyperSearcher(dataset, args.metric)
+
 
 if __name__ == '__main__':
   parser = argsparser()
