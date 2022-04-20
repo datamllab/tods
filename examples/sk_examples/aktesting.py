@@ -789,8 +789,6 @@ print(pred.shape)
 print('pred:', pred)
 data = np.squeeze(data, axis=1)
 
-print("y_true", data.shape, type(data))
-print("y_pred", pred.shape, type(pred))
 y_true = data
 y_pred = pred
 
