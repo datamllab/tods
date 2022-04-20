@@ -761,7 +761,10 @@ class RNNBlock(block_module.Block):
 
 # inputs = ak.Input(shape=[38,]) #important!!! depends on data shape above
 inputs = ak.Input(shape=[38,])
-mlp_output = RNNBlock()([inputs])
+# mlp_output = RNNBlock()([inputs]) #RNN datalab4
+
+mlp_output = ConvBlock()([inputs]) #CNN datalab5
+
 # mlp_output = DenseBlock()([mlp_input])
 
 # Step 2.3: Setup optimizer to handle the target task
@@ -784,7 +787,10 @@ auto_model.fit(x=[data], #0 - n-1 tods output
 pred = auto_model.predict(x=[data])
 print(pred.shape)
 print('pred:', pred)
+data = np.squeeze(data, axis=1)
 
+print("y_true", data.shape, type(data))
+print("y_pred", pred.shape, type(pred))
 y_true = data
 y_pred = pred
 
