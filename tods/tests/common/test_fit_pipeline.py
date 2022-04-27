@@ -7,7 +7,7 @@ from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from tods import generate_dataset, fit_pipeline
 from d3m import container, utils
 
-dataset container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
+dataset = container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
                                     columns=['a', 'b', 'c'],
                                     generate_metadata=True)
 
