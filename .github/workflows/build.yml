@@ -34,7 +34,7 @@ jobs:
         pip install pytest-cover
     - name: run pytest
       run: |
-        py.test tods/tests/ --cov=tods
+        py.test tods/tests/common --cov=tods
         coveralls
     - name: codecov
       uses: codecov/codecov-action@v1
