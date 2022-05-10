@@ -7,7 +7,7 @@ from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from tods import generate_dataset, fit_pipeline, evaluate_pipeline, load_pipeline
 from d3m import container, utils
 
-table_path = 'yahoo_sub_5.csv'
+table_path = 'dataset/anomaly/raw_data/yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
 # dataset = container.DataFrame({'a': [1,12183,0.0,3.7166666666667,5,2109,0]
 # , 'z': [2,12715,0.091757964510557,3.6108333333333,60,3229,0]

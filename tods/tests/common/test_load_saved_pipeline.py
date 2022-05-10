@@ -14,7 +14,7 @@ from d3m.container import DataFrame as d3m_dataframe
 from tods.detection_algorithm.PyodAE import AutoEncoderPrimitive
 from d3m import container, utils
 
-table_path = 'yahoo_sub_5.csv'
+table_path = 'dataset/anomaly/raw_data/yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, 6)
 
