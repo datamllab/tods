@@ -4,7 +4,7 @@ import pandas as pd
 from d3m import index
 from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
-from tods import generate_dataset, fit_pipeline, evaluate_pipeline
+from tods import generate_dataset, fit_pipeline, evaluate_pipeline, load_pipeline
 from d3m import container, utils
 
 dataset = container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
