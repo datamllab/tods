@@ -7,8 +7,23 @@ from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from tods import generate_dataset, fit_pipeline, evaluate_pipeline, load_pipeline
 from d3m import container, utils
 
-table_path = '../../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
+table_path = 'yahoo_sub_5.csv'
 df = pd.read_csv(table_path)
+# dataset = container.DataFrame({'a': [1,12183,0.0,3.7166666666667,5,2109,0]
+# , 'z': [2,12715,0.091757964510557,3.6108333333333,60,3229,0]
+# , 'b': [3,12736,0.17229675238449998,3.4813888888889,88,3637,0]
+# , 'c': [4,12716,0.22621935431999,3.3802777777778,84,1982,0]
+# , 'd': [5,12739,0.17635798469946,3.1933333333333,111,2751,0]
+# , 'e': [6,12737,0.090491245476051,2.7866666666667004,112,2128,0]
+# , 'f': [7,12857,0.08460994072769001,2.4627777777777995,1235,2109,0]
+# , 'g': [8,12884,0.06842699169496,2.2541666666667,710,2328,0]
+# , 'h': [9,12894,0.13330269689422,2.1180555555556,618,2453,0]
+# , 'i': [10,12675,0.085026586189321,2.0691666666667,84,2847,0]
+# , 'j': [11,13260,0.097073068447328,2.1972222222222,100,3659,0]
+# , 'k': [12,13470,0.0,2.3188888888889,125,5207,0]
+# },
+# columns=['timestamp', 'value_0', 'value_1', 'value_2', 'value_3', 'value_4', 'anomaly'])
+
 dataset = generate_dataset(df, 6)
 
 pipeline_description = Pipeline()
