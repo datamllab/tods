@@ -14,9 +14,9 @@ from d3m.container import DataFrame as d3m_dataframe
 from tods.detection_algorithm.PyodAE import AutoEncoderPrimitive
 from d3m import container, utils
 
-dataset = container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
-                                    columns=['a', 'b', 'c'],
-                                    generate_metadata=True)
+table_path = '../../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
+df = pd.read_csv(table_path)
+dataset = generate_dataset(df, 6)
 
 pipeline_description = Pipeline()
 pipeline_description.add_input(name='inputs')
