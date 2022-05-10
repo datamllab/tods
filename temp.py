@@ -1,3 +1,9 @@
+import pandas as pd
+
+from tods import schemas as schemas_utils
+from tods import generate_dataset, evaluate_pipeline
+from d3m.metadata.pipeline import Pipeline, PrimitiveStep
+
 import os
 import d3m
 import unittest
@@ -5,20 +11,20 @@ import pandas as pd
 from d3m import index
 from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
-from tods import generate_dataset, fit_pipeline, save_fitted_pipeline, load_fitted_pipeline, produce_fitted_pipeline, evaluate_pipeline, load_pipeline
+from tods import generate_dataset, fit_pipeline, save_fitted_pipeline
 
-from tods.detection_algorithm.core.UODCommonTest import UODCommonTest
-
-from pyod.utils.data import generate_data
-from d3m.container import DataFrame as d3m_dataframe
-from tods.detection_algorithm.PyodAE import AutoEncoderPrimitive
-
-from d3m.container.pandas import convert_lists, convert_ndarray
 from d3m import container, utils
 
-dataset = container.DataFrame({'a': [1., 2., 3., 4.,5,6,7,8,9], 'b': [2., 3., 4., 5.,6,7,8,9,10], 'c': [3., 4., 5., 6.,7,8,9,10,11]},
-                                    columns=['a', 'b', 'c'],
-                                    generate_metadata=True)
+table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
+target_index = 6 # what column is the target
+metric = 'F1_MACRO' # F1 on both label 0 and 1
+
+# Read data and generate dataset
+df = pd.read_csv(table_path)
+dataset = generate_dataset(df, target_index)
+
+# Load the default pipeline
+# pipeline = schemas_utils.load_default_pipeline()
 
 pipeline_description = Pipeline()
 pipeline_description.add_input(name='inputs')
@@ -37,7 +43,7 @@ step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_p
 step_2.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
 step_2.add_output('produce')
 step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALUE,
-																													data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
+                                                          data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
 pipeline_description.add_step(step_2)
 
 step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition'))
@@ -45,7 +51,7 @@ step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)
 
-step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.fast_fourier_transform'))
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.feature_analysis.statistical_maximum'))
 step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
 step_4.add_output('produce')
 pipeline_description.add_step(step_4)
@@ -91,19 +97,8 @@ step_12.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, dat
 step_12.add_output('produce')
 pipeline_description.add_step(step_12)
 
-pipeline_description.add_output(name='output predictions', data_reference='steps.12.produce')
-descrip = pipeline_description.to_json()
+pipeline_description.add_output(name='output predictions', data_reference='steps.7.produce')
 
-class testProducePipeline(unittest.TestCase):
-	def test_Produce_Pipeline(self):
-		self.fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
-		fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline)
-		loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
-		pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
-
-		temp = evaluate_pipeline(dataset, pipeline_description)
-
-		assert(list(pd.DataFrame(pipeline_result.output.select_columns([1]))) == 
-		list(pd.DataFrame(temp.outputs[0]['outputs.0'].select_columns([1]))))
-if __name__ == '__main__':
-	unittest.main()
+# Run the pipeline
+pipeline_result = evaluate_pipeline(dataset, pipeline_description, metric)
+print(pipeline_result)

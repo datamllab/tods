@@ -62,13 +62,13 @@ descrip = pipeline_description.to_json()
 
 class testFitPipeline(unittest.TestCase):
   def testFit_happyCase(self):
-    self.fitted_pipeline = evaluate_pipeline(dataset, pipeline_description, 'F1_MACRO')
+    self.fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
 
-    # self.assertIsInstance(self.fitted_pipeline, dict)
-    # self.assertIsInstance(self.fitted_pipeline['runtime'], d3m.runtime.Runtime)
-    # self.assertIsInstance(self.fitted_pipeline['dataset_metadata'], d3m.metadata.base.DataMetadata)
+    self.assertIsInstance(self.fitted_pipeline, dict)
+    self.assertIsInstance(self.fitted_pipeline['runtime'], d3m.runtime.Runtime)
+    self.assertIsInstance(self.fitted_pipeline['dataset_metadata'], d3m.metadata.base.DataMetadata)
 
-    # assert(self.fitted_pipeline is not None)
+    assert(self.fitted_pipeline is not None)
 
 if __name__ == '__main__':
   unittest.main()
