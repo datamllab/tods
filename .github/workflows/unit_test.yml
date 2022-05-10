@@ -30,6 +30,8 @@ jobs:
       run: |
         pip install coveralls
         pip install pytest-cover
+        pip uninstall regex -y
+        pip install regex==2022.3.2
     - name: run pytest
       run: |
         py.test tods/tests/ --cov=tods

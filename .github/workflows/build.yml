@@ -26,6 +26,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         pip install -e .
+        pip uninstall regex -y
+        pip install regex==2022.3.2
     - name: coverall
       run: |
         pip install coveralls
