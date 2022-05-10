@@ -8,7 +8,7 @@ from d3m.metadata.pipeline import Pipeline, PrimitiveStep
 from tods import generate_dataset, fit_pipeline, save_fitted_pipeline
 
 from d3m import container, utils
-
+from pathlib import Path
 data = [
   [1,12183,0.0,3.7166666666667,5,2109,0],
   [2,12715,0.091757964510557,3.6108333333333,60,3229,0],
@@ -227,8 +227,16 @@ class testSaveFittedPipeline(unittest.TestCase):
     fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline)
 
     print('------------------------------------------------------------------------------------')
-    os.getcwd()
+    print(os.getcwd())
     print('------------------------------------------------------------------------------------')
+
+    
+
+    BASE_DIR = Path(__file__).parent.parent.absolute()
+    TEMPLATES_DIR = BASE_DIR.joinpath('fitted_pipelines')
+    path = str(TEMPLATES_DIR) + '/'
+
+    print("this path: ", path)
 
     self.assertTrue(os.path.exists('../../../fitted_pipelines/' + str(fitted_pipeline_id) + '/fitted_pipeline.pkl'))
     self.assertTrue(os.path.exists('../../../fitted_pipelines/' + str(fitted_pipeline_id) + '/orders.pkl'))
