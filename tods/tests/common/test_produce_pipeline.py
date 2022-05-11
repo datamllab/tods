@@ -1499,14 +1499,14 @@ descrip = pipeline_description.to_json()
 
 class testProducePipeline(unittest.TestCase):
   def test_Produce_Pipeline(self):
-    self.fitted_pipeline = fit_pipeline(dataset, load_pipeline('../../../examples/axolotl_interface/example_pipelines/autoencoder_pipeline.json'), 'F1_MACRO')
-    fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline)
+    fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
+    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
     loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
     pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
 
-    temp = evaluate_pipeline(dataset, load_pipeline('../../../examples/axolotl_interface/example_pipelines/autoencoder_pipeline.json'))
+    temp = evaluate_pipeline(dataset, pipeline_description)
     
-    print(temp)
+
     assert(list(pd.DataFrame(pipeline_result.output.select_columns([1]))) == 
     list(pd.DataFrame(temp.outputs[0]['outputs.0'].select_columns([1]))))
 if __name__ == '__main__':
