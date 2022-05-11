@@ -228,6 +228,15 @@ class testSaveFittedPipeline(unittest.TestCase):
 
     print('------------------------------------------------------------------------------------')
     print(os.getcwd())
+    parent = os.path.dirname(os.getcwd())
+    print("Parent directory", parent)
+
+    parent = os.path.dirname(parent)
+    print("Parent directory2", parent)
+
+    parent = os.path.dirname(parent)
+    print("Parent directory2", parent)
+    
     print('------------------------------------------------------------------------------------')
 
     
@@ -238,27 +247,27 @@ class testSaveFittedPipeline(unittest.TestCase):
 
     print("this path: ", path)
 
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/fitted_pipeline.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/orders.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/fitted_pipeline.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/orders.pkl'))
 
 
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/AutoEncoder.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/DeeplogLstm.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/Detector.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/LSTMOutlierDetector.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/MO_GAAL.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/SO_GAAL.pkl'))
-    self.assertTrue(os.path.exists(path + str(fitted_pipeline_id) + '/model/VAE.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/AutoEncoder.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/DeeplogLstm.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/Detector.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/LSTMOutlierDetector.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/MO_GAAL.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/SO_GAAL.pkl'))
+    self.assertTrue(os.path.exists(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/VAE.pkl'))
 
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/AutoEncoder'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/DeeplogLstm'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/Detector'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/LSTMOutlierDetector'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/MO_GAAL_discriminator'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/SO_GAAL_discriminator'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/SO_GAAL_generator'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/SO_GAAL_combine_model'))
-    self.assertTrue(os.path.isdir(path + str(fitted_pipeline_id) + '/model/VAE'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/AutoEncoder'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/DeeplogLstm'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/Detector'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/LSTMOutlierDetector'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/MO_GAAL_discriminator'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/SO_GAAL_discriminator'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/SO_GAAL_generator'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/SO_GAAL_combine_model'))
+    self.assertTrue(os.path.isdir(os.path.dirname(os.path.dirname(os.path.dirname(os.getcwd()))) + ('/fitted_pipelines/') + str(fitted_pipeline_id) + '/model/VAE'))
 
 
 
