@@ -136,6 +136,7 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
 
     problem_description = generate_problem(dataset, metric)
     data_preparation_pipeline = schemas_utils.get_splitting_pipeline("TRAINING_DATA")
+    print("data preparation pipeline == ", data_preparation_pipeline)
     scoring_pipeline = schemas_utils.get_scoring_pipeline()
     data_preparation_params = schemas_utils.DATA_PREPARATION_PARAMS['no_split']
     metrics = problem_description['problem']['performance_metrics']
@@ -153,7 +154,6 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
 def sampling(args):
     from tensorflow.keras import backend as K
 
-    from tensorflow.keras import backend as K
     z_mean, z_log = args
     batch = K.shape(z_mean)[0]
     dim = K.int_shape(z_mean)[1]
