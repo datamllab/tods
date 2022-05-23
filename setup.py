@@ -35,7 +35,7 @@ setup(
                  ]
     },
     install_requires=[
-        'tamu_d3m==2022.01.21',
+        'tamu_d3m==2022.05.23',
         'tamu_axolotl',
         'numpy<=1.21.2',
         'combo',
