@@ -50,7 +50,6 @@ setup(
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
-        'xgboost'
     ],
 
     entry_points = merge_entry_points()
