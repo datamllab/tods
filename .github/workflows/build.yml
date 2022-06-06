@@ -26,15 +26,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         pip install -e .
-        pip uninstall regex -y
-        pip install regex==2022.3.2
+        pip uninstall dateparser
+        pip install dateparser==1.1.1
     - name: coverall
       run: |
         pip install coveralls
         pip install pytest-cover
     - name: run pytest
       run: |
-        py.test tods/tests/common --cov=tods
+        py.test tods/tests/ --cov=tods
         coveralls
     - name: codecov
       uses: codecov/codecov-action@v1
