@@ -1506,7 +1506,7 @@ class testProducePipeline(unittest.TestCase):
 
     temp = evaluate_pipeline(dataset, pipeline_description)
     
-
+    print("ye")
     assert(list(pd.DataFrame(pipeline_result.output.select_columns([1]))) == 
     list(pd.DataFrame(temp.outputs[0]['outputs.0'].select_columns([1]))))
 if __name__ == '__main__':
