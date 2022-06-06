@@ -8,7 +8,7 @@ from sklearn import model_selection
 from d3m import container, exceptions, utils as d3m_utils
 from d3m.metadata import base as metadata_base, hyperparams
 from d3m.base import primitives
-from tods.utils import construct_primitive_metadata
+
 
 __all__ = ('KFoldDatasetSplitPrimitive',)
 
@@ -44,8 +44,28 @@ class KFoldDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperparam
     """
 
     __author__ = 'Mingjie Sun <sunmj15@gmail.com>'
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_dataset_split', id='bfedaf3a-6dd0-4a83-ad83-3a50fe882bf8', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'], description='K-fold cross-validation tabular dataset splits')
-    
+    metadata = metadata_base.PrimitiveMetadata(
+        {
+            'id': 'bfedaf3a-6dd0-4a83-ad83-3a50fe882bf8',
+            'version': '0.1.0',
+            'name': "K-fold cross-validation tabular dataset splits",
+            'python_path': 'd3m.primitives.tods.evaluation.kfold_dataset_split',
+            'source': {
+                'name': 'DATALab@Texas A&M University',
+                'contact': 'mailto:sunmj15@gmail.com',
+                'uris': [
+                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/kfold_split.py',
+                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
+                ],
+            },
+            'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.K_FOLD,
+                metadata_base.PrimitiveAlgorithmType.CROSS_VALIDATION,
+                metadata_base.PrimitiveAlgorithmType.DATA_SPLITTING,
+            ],
+            'primitive_family': metadata_base.PrimitiveFamily.EVALUATION,
+        },
+    )
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:
         if self.hyperparams['stratified']:
