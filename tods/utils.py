@@ -23,14 +23,12 @@ algorithm_type = {'file_manipulate': metadata_base.PrimitiveAlgorithmType.FILE_M
 
 
 def construct_primitive_metadata(module, name, id, primitive_family, hyperparams =None, algorithm = None, flag_hyper = False, description = None):
-    #print("Constructing metadata")
     if algorithm == None:
         temp = [metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE]
     else:
         temp = []
         for alg in algorithm:
             temp.append(algorithm_type[alg])
-        #print(temp)
     meta_dict = {
             "__author__ " : "DATA Lab @ Texas A&M University",
             'version': '0.3.0',
@@ -52,7 +50,6 @@ def construct_primitive_metadata(module, name, id, primitive_family, hyperparams
             meta_dict['hyperparams_to_tune'] = hyperparams
         else:
             meta_dict['hyperparameters_to_tune'] = hyperparams
-    print(meta_dict)
     metadata = metadata_base.PrimitiveMetadata(meta_dict,)
     return metadata
     
