@@ -9,7 +9,7 @@ from d3m.primitive_interfaces import base, transformer
 
 Inputs = container.List
 Outputs = container.List
-from tods.utils import construct_primitive_metadata
+
 
 class Hyperparams(hyperparams.Hyperparams):
     match_logic = hyperparams.Enumeration(
@@ -46,9 +46,32 @@ class RedactColumnsPrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
     It operates only on DataFrame resources inside datasets.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='redact_columns', id='744c4090-e2f6-489e-8efc-8b1e051bfad6', primitive_family='evaluation', algorithm= ['data_convert'], description='Redact columns for evaluation')
-    
-    
+    metadata = metadata_base.PrimitiveMetadata(
+        {
+            'id': '744c4090-e2f6-489e-8efc-8b1e051bfad6',
+            'version': '0.2.0',
+            'name': "Redact columns for evaluation",
+            'python_path': 'd3m.primitives.tods.evaluation.redact_columns',
+            'source': {
+                'name': 'DATALab@Texas A&M University',
+                'contact': 'mailto:sunmj15@gmail.com',
+                'uris': [
+                    'https://gitlab.com/datadrivendiscovery/common-primitives/blob/master/common_primitives/redact_columns.py',
+                    'https://gitlab.com/datadrivendiscovery/common-primitives.git',
+                ],
+            },
+            'installation': [{
+                'type': metadata_base.PrimitiveInstallationType.PIP,
+                'package_uri': 'git+https://gitlab.com/datadrivendiscovery/common-primitives.git@{git_commit}#egg=common_primitives'.format(
+                    git_commit=d3m_utils.current_git_commit(os.path.dirname(__file__)),
+                ),
+            }],
+            'algorithm_types': [
+                 metadata_base.PrimitiveAlgorithmType.DATA_CONVERSION,
+            ],
+            'primitive_family': metadata_base.PrimitiveFamily.EVALUATION,
+        },
+    )
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         output_datasets = container.List(generate_metadata=True)

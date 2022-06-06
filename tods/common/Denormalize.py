@@ -16,7 +16,6 @@ __all__ = ('DenormalizePrimitive',)
 Inputs = container.Dataset
 Outputs = container.Dataset
 
-from tods.utils import construct_primitive_metadata
 
 class Hyperparams(hyperparams.Hyperparams):
     starting_resource = hyperparams.Hyperparameter[typing.Union[str, None]](
@@ -63,9 +62,22 @@ class DenormalizePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs,
     primitive continues to join table 3 into the main table.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='denormalize', id='f31f8c1f-d1c5-43e5-a4b2-2ae4a761ef2e', primitive_family='data_transform', algorithm = ['data_denormalize'], description='Denormalize datasets')
-    
-    
+    metadata = metadata_base.PrimitiveMetadata(
+        {
+            'id': 'f31f8c1f-d1c5-43e5-a4b2-2ae4a761ef2e',
+            'version': '0.2.0',
+            'name': "Denormalize datasets",
+            'python_path': 'd3m.primitives.tods.common.denormalize',
+            'source': {
+                'name': "DATALab@Texas A&M University",
+                'contact': 'mailto:khlai037@tamu.edu',
+            },
+            'algorithm_types': [
+                metadata_base.PrimitiveAlgorithmType.DATA_DENORMALIZATION,
+            ],
+            'primitive_family': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+        },
+    )
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)
