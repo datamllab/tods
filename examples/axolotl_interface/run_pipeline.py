@@ -8,7 +8,7 @@ from tods import generate_dataset, load_pipeline, evaluate_pipeline
 this_path = os.path.dirname(os.path.abspath(__file__))
 default_data_path = os.path.join(this_path, '../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
-parser = argparse.ArgumentParser(description='Arguments for running predefined pipeline.')
+parser = argparse.ArgumentParser(description='Arguments for running predefined pipelin.')
 parser.add_argument('--table_path', type=str, default=default_data_path,
                     help='Input the path of the input data table')
 parser.add_argument('--target_index', type=int, default=6,
