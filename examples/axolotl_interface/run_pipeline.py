@@ -35,9 +35,6 @@ pipeline = load_pipeline(pipeline_path)
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
-print(list(pd.DataFrame(pipeline_result.outputs[0]['outputs.0'].select_columns([1]))))
-
-
-print(pipeline_result.outputs[0])
+print(pipeline_result.scores)
 #raise pipeline_result.error[0]
 
