@@ -161,7 +161,7 @@ descrip = pipeline_description.to_json()
 class testProducePipeline(unittest.TestCase):
   def test_Produce_Pipeline(self):
 
-    pipeline = load_pipeline('../../../examples/axolotl_interface/example_pipelines/autoencoder_pipeline.json')
+    # pipeline = load_pipeline('../../../examples/axolotl_interface/example_pipelines/autoencoder_pipeline.json')
 
 
     # df = pd.read_csv('../../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
@@ -169,12 +169,12 @@ class testProducePipeline(unittest.TestCase):
 
     # print(dataset)
     
-    fitted_pipeline = fit_pipeline(dataset, pipeline, 'F1_MACRO')
+    fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
     fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
     loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
     pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
 
-    temp = evaluate_pipeline(dataset, pipeline)
+    temp = evaluate_pipeline(dataset, pipeline_description)
 
     # # print(temp)
     
