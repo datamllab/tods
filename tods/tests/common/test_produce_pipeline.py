@@ -76,7 +76,6 @@ data = [
   [57,13007,0.16317996709063,2.1758333333333,92,2171,0],
   [58,13036,0.08671926699280201,2.3058333333333,67,2224,0],
   [59,13043,0.0733999511789,2.3983333333333,58,1967,0],
-
 ]
 
 df = pd.DataFrame (data, columns = ['timestamp','value_0','value_1','value_2','value_3','value_4','anomaly'])
@@ -119,36 +118,6 @@ step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_re
 step_5.add_output('produce')
 pipeline_description.add_step(step_5)
 
-# step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_vae'))
-# step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
-# step_6.add_output('produce')
-# pipeline_description.add_step(step_6)
-
-# step_7 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.LSTMODetector'))
-# step_7.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.6.produce')
-# step_7.add_output('produce')
-# pipeline_description.add_step(step_7)
-
-# step_8 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.deeplog'))
-# step_8.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.7.produce')
-# step_8.add_output('produce')
-# pipeline_description.add_step(step_8)
-
-# step_9 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_mogaal'))
-# step_9.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.8.produce')
-# step_9.add_output('produce')
-# pipeline_description.add_step(step_9)
-
-# step_10 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.pyod_sogaal'))
-# step_10.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.9.produce')
-# step_10.add_output('produce')
-# pipeline_description.add_step(step_10)
-
-# step_11 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.telemanom'))
-# step_11.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.10.produce')
-# step_11.add_output('produce')
-# pipeline_description.add_step(step_11)
-
 step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
 step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.5.produce')
 step_6.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
@@ -161,14 +130,6 @@ descrip = pipeline_description.to_json()
 class testProducePipeline(unittest.TestCase):
   def test_Produce_Pipeline(self):
 
-    # pipeline = load_pipeline('../../../examples/axolotl_interface/example_pipelines/autoencoder_pipeline.json')
-
-
-    # df = pd.read_csv('../../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
-    # dataset = generate_dataset(df, 6)
-
-    # print(dataset)
-    
     fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
     fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
     loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
@@ -176,17 +137,8 @@ class testProducePipeline(unittest.TestCase):
 
     temp = evaluate_pipeline(dataset, pipeline_description)
 
-    # # print(temp)
-    
-
-    # print(list(pd.DataFrame(pipeline_result.output.select_columns([1]))))
-
-    # print(pd.DataFrame(pipeline_result.output).iloc[: , -1])
-
-    # print(pd.DataFrame(temp.outputs[0]['outputs.0']).iloc[: , -1])
-
-
     assert(list(pd.DataFrame(pipeline_result.output).iloc[: , -1]) == 
     list(pd.DataFrame(temp.outputs[0]['outputs.0']).iloc[: , -1]))
+
 if __name__ == '__main__':
   unittest.main()
