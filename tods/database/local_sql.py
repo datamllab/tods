@@ -70,6 +70,19 @@ def read_csv_into_mysql(connection, path, tablename):
             else:
                 insert_query += ("'" + str(cur_row[cols[j]].values[0]) + "'" + ");")
         execute_query(connection, insert_query)
+
+
+def read_table_from_sql(connection, table):
+    select_query = "SELECT * FROM " + table
+
+    mycursor = connection.cursor()
+
+    mycursor.execute(select_query)
+
+    myresult = mycursor.fetchall()
+
+    return myresult
+
     
 
 
@@ -77,6 +90,11 @@ def read_csv_into_mysql(connection, path, tablename):
 connection = create_db_connection("localhost", "usertods", "P@ssW0rd", "tods")
 
 this_path = os.path.dirname(os.path.abspath(__file__))
-path = os.path.join(this_path, '../../datasets/anomaly/raw_data/kpi.csv')
+path = os.path.join(this_path, '../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
-read_csv_into_mysql(connection, path, "kpi")
+# read_csv_into_mysql(connection, path, "yahoo_sub_5")
+
+yahoo_sub_5_data = read_table_from_sql(connection, "yahoo_sub_5")
+
+for i in yahoo_sub_5_data:
+    print(i)
