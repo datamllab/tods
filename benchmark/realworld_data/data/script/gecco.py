@@ -4,15 +4,12 @@ import requests
 
 def preprocess_gecco():
     def get_data():
-        link="https://ndownloader.figshare.com/articles/12451142/versions/1"
+        link= "https://zenodo.org/record/3884398/files/1_gecco2018_water_quality.csv?download=1"
         r = requests.get(link)
-        with open('./raw_data/gecco.zip', 'wb') as f:
+        with open('./raw_data/gecco.csv', 'wb') as f:
                 f.write(r.content)
-        os.system("unzip ./raw_data/gecco.zip -d ./raw_data")
-        os.system("rm ./raw_data/*.pdf ./raw_data/4_ResourcePackage_GECCO_Industrial_Challenge_2018.zip")
-
     get_data()
-    df = pd.read_csv("./raw_data/1_gecco2018_water_quality.csv")
+    df = pd.read_csv("./raw_data/gecco.csv")
     # drop nan and str columns
     df = df.dropna()
     df = df.drop(columns=['Time', df.columns[0]])
