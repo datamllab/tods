@@ -55,8 +55,8 @@ class ReconstructionHead(head_module.Head):
         dropout: Optional[float] = None,
         **kwargs
     ):
-        print('hi..')
-        input()
+        # print('hi..')
+        # input()
         if metrics is None:
             metrics = ["mean_squared_error"]
         super().__init__(loss=loss, metrics=metrics, **kwargs)
@@ -71,8 +71,8 @@ class ReconstructionHead(head_module.Head):
     def build(self, hp, inputs=None):
         inputs = nest.flatten(inputs)
         utils.validate_num_inputs(inputs, 1)
-        print('input:',inputs)
-        input()
+        # print('input:',inputs)
+        # input()
         input_node = inputs[0]
         output_node = input_node
 
@@ -106,4 +106,3 @@ class ReconstructionHead(head_module.Head):
                 hpps_module.DefaultHyperPreprocessor(preprocessors.AddOneDimension())
             )
         return hyper_preprocessors
-        

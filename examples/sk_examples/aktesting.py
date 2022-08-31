@@ -794,6 +794,12 @@ auto_model.fit(x=[data], #0 - n-1 tods output
                epochs=5)#20
 
 pred = auto_model.predict(x=[data])
+# pred_prob = auto_model.export_model()
+# print('probbbbbbb',pred_prob)
+
+# prob = pred_prob.predict(data)
+# print('probability', prob)
+
 print(pred.shape)
 print('pred:', pred)
 # data = np.squeeze(data, axis=1)

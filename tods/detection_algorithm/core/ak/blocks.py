@@ -92,13 +92,13 @@ class AEBlock(block_module.Block): #AEBlock
         # middle_unit = self.middle_unit.random_sample()
         # multiplier = self.multiplier.random_sample()
         nueral_arch = [middle_unit]
-        print('initial arch:', nueral_arch)
+        # print('initial arch:', nueral_arch)
 
         for i in range(int((layer_range - 1) / 2)):
             num_u = multiplier**(i+1) * middle_unit
             nueral_arch.append(num_u)
             nueral_arch.insert(0, num_u)
-        print('final arch:', nueral_arch)
+        # print('final arch:', nueral_arch)
 
         return nueral_arch
 
@@ -122,7 +122,7 @@ class AEBlock(block_module.Block): #AEBlock
     
         for i in range(num_layers):
             units = utils.add_to_hp(arch[i], hp)
-            print('units:',units)
+            # print('units:',units)
             output_node = layers.Dense(units)(output_node)
             if use_batchnorm:
                 output_node = layers.BatchNormalization()(output_node)

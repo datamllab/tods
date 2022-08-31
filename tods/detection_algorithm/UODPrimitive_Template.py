@@ -117,7 +117,7 @@ class DetectionAlgorithmPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Output
     """
 
     ### Modify the metadata ###
-    __author__: "DATA Lab at Texas A&M University"
+    # __author__: "DATA Lab at Texas A&M University"
     metadata = metadata_base.PrimitiveMetadata({
          "__author__": "DATA Lab at Texas A&M University",
          "name": "Angle-base Outlier Detection Primitive",
@@ -235,11 +235,11 @@ class DetectionAlgorithm(BaseDetector):
         ``threshold_`` on ``decision_scores_``.
     """
 
-    def __init__():
+    def __init__(self):
         pass       
 
-    def fit():
+    def fit(self, X):
         pass
 
-    def decision_function(self):
+    def decision_function(self, X):
         pass
