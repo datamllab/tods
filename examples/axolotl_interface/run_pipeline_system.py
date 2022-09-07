@@ -4,6 +4,7 @@ import os
 import pandas as pd
 
 from tods import generate_dataset, load_pipeline, evaluate_pipeline
+from tods.utils import build_system_pipeline
 
 this_path = os.path.dirname(os.path.abspath(__file__))
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
@@ -34,8 +35,20 @@ metric = args.metric # F1 on both label 0 and 1
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, target_index ,system_dir)
 
-# Load the default pipeline
-pipeline = load_pipeline(pipeline_path)
+# Build pipeline using config
+config = {'algorithm':[
+                    ('pyod_ocsvm',)
+                    ],
+                    
+          'processing':[
+                    ('statistical_maximum',),
+                    ], #Specify hyperparams as k,v pairs
+                    
+#          'timeseries_processing':[
+#                    ('standard_scaler',)
+#                    ],
+}
+pipeline = build_system_pipeline(config)
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)

@@ -4,7 +4,7 @@ import os
 import pandas as pd
 
 from tods import generate_dataset, load_pipeline, evaluate_pipeline
-
+from tods.utils import build_pipeline
 this_path = os.path.dirname(os.path.abspath(__file__))
 default_data_path = os.path.join(this_path, '../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
@@ -30,8 +30,19 @@ metric = args.metric # F1 on both label 0 and 1
 df = pd.read_csv(table_path)
 dataset = generate_dataset(df, target_index)
 
-# Load the default pipeline
-pipeline = load_pipeline(pipeline_path)
+# Build pipeline using config
+config = {'algorithm':[
+                    ('pyod_ae',{'hidden_neurons':[32,16,8,16,32]})],
+                    
+          'processing':[
+                    ('statistical_maximum',),
+                    ('statistical_minimum',)], #Specify hyperparams as k,v pairs
+                    
+          'timeseries_processing':[
+                    ('standard_scaler',)],
+          
+}
+pipeline = build_pipeline(config)
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
