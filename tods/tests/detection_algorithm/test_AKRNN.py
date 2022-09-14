@@ -4,7 +4,7 @@ from d3m import container, utils
 from d3m.metadata import base as metadata_base
 from d3m.container import DataFrame as d3m_dataframe
 from d3m.container import ndarray as d3m_numpy
-from tods.detection_algorithm.AKAutoEncoder import AKAutoEncoderPrimitive
+from tods.detection_algorithm.AKRNN import AKRNNPrimitive
 # from tods.detection_algorithm.PyodAE import AutoEncoderPrimitive
 from pyod.utils.data import generate_data
 
@@ -12,7 +12,7 @@ from tods.detection_algorithm.core.UODCommonTest import UODCommonTest
 
 import numpy as np
 
-class AKAutoEncoderCase(unittest.TestCase):
+class AKRNNCase(unittest.TestCase):
     def setUp(self):
 
         self.maxDiff = None
@@ -29,11 +29,11 @@ class AKAutoEncoderCase(unittest.TestCase):
         self.X_train = d3m_dataframe(self.X_train, generate_metadata=True)
         self.X_test = d3m_dataframe(self.X_test, generate_metadata=True)
 
-        hyperparams_default = AKAutoEncoderPrimitive.metadata.get_hyperparams().defaults()
+        hyperparams_default = AKRNNPrimitive.metadata.get_hyperparams().defaults()
         hyperparams = hyperparams_default.defaults()
         hyperparams = hyperparams.replace({'epochs': 4})
 
-        self.primitive = AKAutoEncoderPrimitive(hyperparams=hyperparams)
+        self.primitive = AKRNNPrimitive(hyperparams=hyperparams)
         print('to numpy after result:',self.X_train)
         print('type afterwards:',type(self.X_train))
         # print('xtrain shape:',self.X_train.shape)
@@ -98,5 +98,5 @@ if __name__ == '__main__':
     # for test_case in (
     #     'test_metadata',
     # ):
-    #     suite.addTest(AKAutoEncoderCase(test_case))
+    #     suite.addTest(AKRNNCase(test_case))
     # unittest.TextTestRunner(verbosity=2).run(suite)

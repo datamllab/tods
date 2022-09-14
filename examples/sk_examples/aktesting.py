@@ -39,9 +39,9 @@ tods_output = transformer.produce(data)
 print('result from SubsequenceSegmentation primitive:\n', tods_output)
 print('tods output shape:\n', tods_output.shape)
 
-# data = np.expand_dims(   #this is for convblock and rnn
-#     data, axis=1
-# ) 
+data = np.expand_dims(   #this is for convblock and rnn
+    data, axis=1
+) 
 # print()
 class DenseBlock(block_module.Block): #AEBlock
 
@@ -765,7 +765,7 @@ class RNNBlock(block_module.Block):
 inputs = ak.Input(shape=[38,])
 
 #below is testing for wrapping into tods
-mlp_output = AEBlock()([inputs])
+mlp_output = RNNBlock()([inputs])
 
 # mlp_output = DenseBlock()([inputs])
 # mlp_output = RNNBlock()([inputs]) #RNN datalab4

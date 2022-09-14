@@ -22,3 +22,6 @@ from tods.detection_algorithm.PyodVAE import VariationalAutoEncoderPrimitive
 from tods.detection_algorithm.SystemWiseDetection import SystemWiseDetectionPrimitive
 from tods.detection_algorithm.Telemanom import TelemanomPrimitive
 from tods.detection_algorithm.PyodXGBOD import XGBODPrimitive
+from tods.detection_algorithm.AKAutoEncoder import AKAutoEncoderPrimitive
+from tods.detection_algorithm.AKRNN import AKRNNPrimitive
+
