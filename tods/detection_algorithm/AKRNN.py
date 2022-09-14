@@ -1,6 +1,6 @@
 from tods.detection_algorithm.core.ak.blocks import AEBlock
 from tods.detection_algorithm.core.ak.heads import ReconstructionHead
-from tods.detection_algorithm.core.ak.autoencoder import AKRNN
+from tods.detection_algorithm.core.ak.akrnn import AKRNN
 
 from typing import Any, Callable, List, Dict, Union, Optional, Sequence, Tuple
 from numpy import ndarray
