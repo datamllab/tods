@@ -31,10 +31,10 @@ df = pd.read_csv(table_path)
 dataset = generate_dataset(df, target_index)
 
 # Build pipeline using config
-config = {'algorithm':[
+config = {'detection_algorithm':[
                     ('pyod_ae',{'hidden_neurons':[32,16,8,16,32]})],
                     
-          'processing':[
+          'feature_analysis':[
                     ('statistical_maximum',),
                     ('statistical_minimum',)], #Specify hyperparams as k,v pairs
                     

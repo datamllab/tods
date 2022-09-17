@@ -174,16 +174,17 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
 
-
 def build_pipeline(config):
-    """Build a pipline based on the config
     """
-    from d3m import index
-    from d3m.metadata.base import ArgumentType
-    from d3m.metadata.pipeline import Pipeline, PrimitiveStep
+        Build a pipline based on the user defined config
+
+        Args:
+            config: A user defined config specifying various primitives/hyperparams
+                    to be used for pipeline construction
+    """
     
-    algorithm = config.pop('algorithm', [('pyod_ae',None)])
-    
+    #Extract detection algorithm and its hyperparameters
+    algorithm = config.pop('detection_algorithm', [('pyod_ae',None)])
     if len(algorithm)>1:
         raise Exception("We currently only support one detection algorithm per pipeline. Please modify the config")
     
@@ -191,9 +192,10 @@ def build_pipeline(config):
     alg = algorithm[0]
     alg_hyper = algorithm[1]
 
-    processing = config.pop('processing',[('statistical_maximum',)])
+    #Extract all feature analysis primitives and their respective hyperparameters
+    processing = config.pop('feature_analysis',[('statistical_maximum',)])
     processing_methods = [processing[i][0] for i in range(len(processing))]
-    # Read augmentation hyperparameters
+    # Read hyperparameters
     processing_configs = []
     for i in range(len(processing)):
         if len(processing[i]) > 1:
@@ -201,7 +203,7 @@ def build_pipeline(config):
         else:
             processing_configs.append(None)
     
-    #time-series processing
+    #Extract all time-series processing primitives and their respective hyperparameters
     timeseries_processing = config.pop('timeseries_processing',[])
     timeseries_processing_methods = [timeseries_processing[i][0] for i in range(len(timeseries_processing))]
     # Read time series processing hyperparameters
@@ -212,7 +214,7 @@ def build_pipeline(config):
         else:
             timeseries_processing_configs.append(None)
     
-    #data_processing
+    #Extract all data processing primitives and their respective hyperparameters
     data_processing = config.pop('data_processing',[])
     data_processing_methods = [data_processing[i][0] for i in range(len(data_processing))]
     # Read data processing hyperparameters
@@ -240,7 +242,8 @@ def build_pipeline(config):
     pipeline_description.add_step(step_1)
     
     
-    #    #Step 4: data processing
+    # TODO: Figure out where to use data_processing in pipeline   
+    # #Step 4: data processing
 #    for i in range(len(data_processing_methods)):
 #
 #        process_python_path = 'd3m.primitives.tods.data_processing.'+data_processing_methods[i]
@@ -275,12 +278,11 @@ def build_pipeline(config):
 
     attributes = 'steps.2.produce'
     targets = 'steps.3.produce'
-    
-        
+     
     curr_step_no = 2
     flag = 1
 
-    # Step 4: processing
+    # Step 4: Feature analysis
     for i in range(len(processing_methods)):
     
         process_python_path = 'd3m.primitives.tods.feature_analysis.'+processing_methods[i]
@@ -298,7 +300,7 @@ def build_pipeline(config):
         curr_step_no+=1
      
          
-    # Step 4: processing
+    # Step 5: time series processing
     for i in range(len(timeseries_processing_methods)):
     
         process_python_path = 'd3m.primitives.tods.timeseries_processing.'+timeseries_processing_methods[i]
@@ -315,10 +317,7 @@ def build_pipeline(config):
             flag=0
         curr_step_no+=1
         
-    
-    
-    
-    # Step 5: algorithm
+    # Step 6: detectionn algorithm
     alg_python_path = 'd3m.primitives.tods.detection_algorithm.' + alg
     
     step_5 = PrimitiveStep(primitive=index.get_primitive(alg_python_path))
@@ -330,7 +329,7 @@ def build_pipeline(config):
     pipeline_description.add_step(step_5)
     curr_step_no+=1
 
-    # Step 6: Predictions
+    # Step 7: Predictions
     step_6 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
     step_6.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference=f'steps.{step_5.index}.produce')
     step_6.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
@@ -341,25 +340,21 @@ def build_pipeline(config):
     # Final Output
     pipeline_description.add_output(name='output predictions', data_reference=f'steps.{step_6.index}.produce')
 
-
-#    print(pipeline_description)
-    # Output to json
-    data = pipeline_description.to_json()
-    print("----------------------BUILD PIPELINE DATA: ", data)
-#    with open('autoencoder_pipeline.json', 'w') as f:
-#        f.write(data)
-#        print(data)
     return pipeline_description
 
 
 
-
-#Build System Pipeline
 def build_system_pipeline(config):
+    """
+        Build system pipline based on the user defined config
 
+        Args:
+            config: A user defined config specifying various primitives/hyperparams
+                    to be used for pipeline construction
+    """
 
-    algorithm = config.pop('algorithm', [('pyod_ae',None)])
-    
+    #Extract detection algorithm and its hyperparameters
+    algorithm = config.pop('detection_algorithm', [('pyod_ae',None)])
     if len(algorithm)>1:
         raise Exception("We currently only support one detection algorithm per pipeline. Please modify the config")
     
@@ -369,16 +364,18 @@ def build_system_pipeline(config):
         alg_hyper={}
     else: alg_hyper = algorithm[1]
 
-    processing = config.pop('processing',[('statistical_maximum',)])
+    #Extract feature analysis primitives and their hyperparameters
+    processing = config.pop('feature_analysis',[('statistical_maximum',)])
     processing_methods = [processing[i][0] for i in range(len(processing))]
-    # Read augmentation hyperparameters
+    # Read hyperparameters
     processing_configs = []
     for i in range(len(processing)):
         if len(processing[i]) > 1:
             processing_configs.append(processing[i][1])
         else:
             processing_configs.append(None)
-    #time-series processing
+    
+    #Extract time-series processing and its hyperparameters
     timeseries_processing = config.pop('timeseries_processing',[])
     timeseries_processing_methods = [timeseries_processing[i][0] for i in range(len(timeseries_processing))]
     # Read time series processing hyperparameters
@@ -389,7 +386,7 @@ def build_system_pipeline(config):
         else:
             timeseries_processing_configs.append(None)
     
-    #data_processing
+    #Extract data processing and its hyperparameters
     data_processing = config.pop('data_processing',[])
     data_processing_methods = [data_processing[i][0] for i in range(len(data_processing))]
     # Read data processing hyperparameters
@@ -457,7 +454,7 @@ def build_system_pipeline(config):
     curr_step_no = 4
     flag = 1
 
-    # Step 6: processing
+    # Step 6: feature analysis
     for i in range(len(processing_methods)):
     
         process_python_path = 'd3m.primitives.tods.feature_analysis.'+processing_methods[i]
@@ -475,10 +472,10 @@ def build_system_pipeline(config):
         curr_step_no+=1
      
          
-    # Step 6: processing
+    # Step 7: time_series processing
     for i in range(len(timeseries_processing_methods)):
 
-        process_python_path = 'd3m.primitives.tods.timeseries_processing.transformation.'+timeseries_processing_methods[i]
+        process_python_path = 'd3m.primitives.tods.timeseries_processing.'+timeseries_processing_methods[i]
         step_processing = PrimitiveStep(primitive=index.get_primitive(process_python_path))
         step_processing.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.'+str(curr_step_no)+'.produce')
         if timeseries_processing_configs[i] != None:
@@ -495,7 +492,7 @@ def build_system_pipeline(config):
     
     
     
-    # Step 7: algorithm
+    # Step 8: detection algorithm
     alg_python_path = 'd3m.primitives.tods.detection_algorithm.' + alg
 
     step_alg = PrimitiveStep(primitive=index.get_primitive(alg_python_path))
@@ -508,7 +505,7 @@ def build_system_pipeline(config):
     curr_step_no+=1
 
 
-    # Step 8: Predictions
+    # Step 9: Predictions
     #step_8 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
     step_8 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.detection_algorithm.system_wise_detection'))
     step_8.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.'+str(step_alg.index)+'.produce_score')
@@ -516,6 +513,7 @@ def build_system_pipeline(config):
     step_8.add_output('produce')
     pipeline_description.add_step(step_8)
 
+    # Step 10: Output
     step_9 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.construct_predictions'))
     step_9.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.'+str(step_8.index)+'.produce')
     step_9.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
@@ -525,15 +523,5 @@ def build_system_pipeline(config):
     # Final Output
     pipeline_description.add_output(name='output predictions', data_reference='steps.'+str(step_9.index)+'.produce')
     
-    
-
-
-#    print(pipeline_description)
-    # Output to json
-    data = pipeline_description.to_json()
-    print("----------------------BUILD System PIPELINE DATA: ", data)
-#    with open('autoencoder_pipeline.json', 'w') as f:
-#        f.write(data)
-#        print(data)
     return pipeline_description
 
