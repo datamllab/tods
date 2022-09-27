@@ -22,6 +22,7 @@ from tods.sk_interface.timeseries_processing.SubsequenceSegmentation_skinterface
 
 
 from tods.detection_algorithm.core.ak.blocks import AEBlock
+from tods.detection_algorithm.core.ak.blocks import RNNBlock
 from tods.detection_algorithm.core.ak.heads import ReconstructionHead
 # load dataset yahoo
 # dataset = pd.read_csv("./yahoo_sub_5.csv")
@@ -31,17 +32,19 @@ from tods.detection_algorithm.core.ak.heads import ReconstructionHead
 #another dataset
 data = np.loadtxt("./machine-1-2-test.txt", delimiter=',')
 label = np.loadtxt("./machine-1-2-label.txt")
-
+# print(data.shape)
 # pdb.set_trace()
+data_copy = data
+# transformer = SubsequenceSegmentationSKI()
+# tods_output = transformer.produce(data)
+# print('result from SubsequenceSegmentation primitive:\n', tods_output)
+# print('tods output shape:\n', tods_output.shape)
 
-transformer = SubsequenceSegmentationSKI()
-tods_output = transformer.produce(data)
-print('result from SubsequenceSegmentation primitive:\n', tods_output)
-print('tods output shape:\n', tods_output.shape)
+data = np.expand_dims(   #this is for convblock and rnn
+    data, axis=2
+) 
+# print(data.shape)
 
-# data = np.expand_dims(   #this is for convblock and rnn
-#     data, axis=1
-# ) 
 # print()
 class DenseBlock(block_module.Block): #AEBlock
 
@@ -656,7 +659,7 @@ class Transformer(block_module.Block):
         return positions
 
 
-class RNNBlock(block_module.Block):
+class RNNBlock_ak(block_module.Block):
     """An RNN Block.
     # Arguments
         return_sequences: Boolean. Whether to return the last output in the
@@ -762,10 +765,11 @@ class RNNBlock(block_module.Block):
 
 
 # inputs = ak.Input(shape=[38,]) #important!!! depends on data shape above
+# inputs = ak.Input(shape=[38,], batch_size = 32, )
 inputs = ak.Input(shape=[38,])
 
 #below is testing for wrapping into tods
-mlp_output = AEBlock()([inputs])
+mlp_output = RNNBlock()([inputs])
 
 # mlp_output = DenseBlock()([inputs])
 # mlp_output = RNNBlock()([inputs]) #RNN datalab4
@@ -790,8 +794,9 @@ auto_model = ak.AutoModel(inputs=inputs,
 # Step 4: Use the searcher to search the recommender
 auto_model.fit(x=[data], #0 - n-1 tods output
                y=data,  # 1 - n tods output, or data
-               batch_size=128,
-               epochs=5)#20
+               batch_size=32,#128
+            #    time_steps = 10,
+               epochs=1)#20
 
 pred = auto_model.predict(x=[data])
 # pred_prob = auto_model.export_model()
@@ -804,7 +809,7 @@ print(pred.shape)
 print('pred:', pred)
 # data = np.squeeze(data, axis=1)
 
-y_true = data
+y_true = data_copy
 y_pred = pred
 
 # Using 'auto'/'sum_over_batch_size' reduction type.
