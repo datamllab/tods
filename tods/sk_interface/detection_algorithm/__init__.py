@@ -20,3 +20,5 @@ from tods.sk_interface.detection_algorithm.So_Gaal_skinterface import So_GaalSKI
 from tods.sk_interface.detection_algorithm.SystemWiseDetection_skinterface import SystemWiseDetectionSKI
 from tods.sk_interface.detection_algorithm.Telemanom_skinterface import TelemanomSKI
 from tods.sk_interface.detection_algorithm.VariationalAutoEncoder_skinterface import VariationalAutoEncoderSKI
+from tods.sk_interface.detection_algorithm.AKAutoEncoder_skinterface import AKAutoEncoderSKI
+from tods.sk_interface.detection_algorithm.AKRNN_skinterface import AKRNNSKI

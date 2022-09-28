@@ -1,5 +1,3 @@
-from tods.detection_algorithm.core.ak.blocks import AEBlock
-from tods.detection_algorithm.core.ak.heads import ReconstructionHead
 from tods.detection_algorithm.core.ak.akrnn import AKRNN
 
 from typing import Any, Callable, List, Dict, Union, Optional, Sequence, Tuple
@@ -133,7 +131,7 @@ class AKRNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
     metadata = metadata_base.PrimitiveMetadata({
          "__author__": "DATA Lab at Texas A&M University",
          "name": "AutoKeras Auto Encoder Primitive",
-         "python_path": "d3m.primitives.tods.detection_algorithm.ak_ae",
+         "python_path": "d3m.primitives.tods.detection_algorithm.ak_rnn",
          "source": {
              'name': 'DATA Lab at Texas A&M University', 
              'contact': 'mailto:khlai037@tamu.edu', 

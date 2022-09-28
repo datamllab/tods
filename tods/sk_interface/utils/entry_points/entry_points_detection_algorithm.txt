@@ -21,3 +21,5 @@ tods.detection_algorithm.deeplog = tods.detection_algorithm.DeepLog:DeepLogPrimi
 tods.detection_algorithm.telemanom = tods.detection_algorithm.Telemanom:TelemanomPrimitive
 tods.detection_algorithm.system_wise_detection = tods.detection_algorithm.SystemWiseDetection:SystemWiseDetectionPrimitive
 tods.detection_algorithm.pyod_xgbod = tods.detection_algorithm.PyodXGBOD:XGBODPrimitive
+tods.detection_algorithm.ak_ae = tods.detection_algorithm.AKAutoEncoder:AKAutoEncoderPrimitive
+tods.detection_algorithm.ak_rnn = tods.detection_algorithm.AKRNN:AKRNNPrimitive
