@@ -5,6 +5,7 @@ import numpy as np
 from numpy import percentile
 # import pandas as pd
 import pdb
+from sklearn import metrics
 
 from keras_tuner.engine import hyperparameters
 from autokeras.engine import block as block_module
@@ -30,8 +31,42 @@ from tods.detection_algorithm.core.ak.heads import ReconstructionHead
 # label = dataset.iloc[:,6]
 
 #another dataset
-data = np.loadtxt("./machine-1-2-test.txt", delimiter=',')
-label = np.loadtxt("./machine-1-2-label.txt")
+# data = np.loadtxt("./machine-1-2-test.txt", delimiter=',')
+# label = np.loadtxt("./machine-1-2-label.txt")
+# data = np.loadtxt("./omni/test/machine-1-1.txt", delimiter=',')
+# label = np.loadtxt("./omni/label/machine-1-1.txt")
+
+# data = np.loadtxt("./omni/test/machine-2-1.txt", delimiter=',')
+# label = np.loadtxt("./omni/label/machine-2-1.txt")
+
+# data = np.loadtxt("./omni/test/machine-3-1.txt", delimiter=',')
+# label = np.loadtxt("./omni/label/machine-3-1.txt")
+
+# data = np.loadtxt("./ucr/005_UCR_Anomaly_DISTORTEDCIMIS44AirTemperature1_4000_5391_5392.txt")
+data = np.loadtxt("./ucr/012_UCR_Anomaly_DISTORTEDECG2_15000_16000_16100.txt")
+# data = np.loadtxt("./ucr/019_UCR_Anomaly_DISTORTEDGP711MarkerLFM5z1_5000_6168_6212.txt")
+
+data = np.expand_dims(data[:15000], axis=1)
+X_test = np.expand_dims(data[15000:30000], axis=1)
+
+# X_train = np.expand_dims(   #this is for convblock and rnn
+#     X_train, axis=2
+# )
+# labels = np.expand_dims(data[5000:10000], axis=1)
+label = np.zeros(15000,)
+label[1000:1100] = 1
+print(label)
+# data = np.loadtxt("./omni/test/machine-1-1.txt", delimiter=',')
+# label = np.loadtxt("./omni/label/machine-1-1.txt")
+
+
+# data = np.loadtxt("./ucr/005_UCR_Anomaly_DISTORTEDCIMIS44AirTemperature1_4000_5391_5392.txt")
+# # X_train = data[:4000]
+# # X_test = data[4000:]
+
+# X_train = np.expand_dims(data[:4000], axis=1)
+# X_test = np.expand_dims(data[4000:8000], axis=1)
+
 # print(data.shape)
 # pdb.set_trace()
 data_copy = data
@@ -769,10 +804,10 @@ class RNNBlock_ak(block_module.Block):
 inputs = ak.Input(shape=[38,])
 
 #below is testing for wrapping into tods
-mlp_output = RNNBlock()([inputs])
+# mlp_output = AEBlock()([inputs])
 
 # mlp_output = DenseBlock()([inputs])
-# mlp_output = RNNBlock()([inputs]) #RNN datalab4
+mlp_output = RNNBlock()([inputs]) #RNN datalab4
 
 # mlp_output = ConvBlock()([inputs]) #CNN datalab5
 
@@ -799,6 +834,7 @@ auto_model.fit(x=[data], #0 - n-1 tods output
                epochs=1)#20
 
 pred = auto_model.predict(x=[data])
+# label = auto_model.predict(x=[X_test])
 # pred_prob = auto_model.export_model()
 # print('probbbbbbb',pred_prob)
 
@@ -809,7 +845,7 @@ print(pred.shape)
 print('pred:', pred)
 # data = np.squeeze(data, axis=1)
 
-y_true = data_copy
+y_true = label
 y_pred = pred
 
 # Using 'auto'/'sum_over_batch_size' reduction type.
@@ -817,9 +853,14 @@ mse = tf.keras.losses.MeanSquaredError(reduction=tf.keras.losses.Reduction.NONE)
 decision_scores_ = mse(y_true, y_pred).numpy()
 
 
-
-threshold_ = percentile(decision_scores_, 100 * (1 - 0.01)) #0.01 = contamination
+threshold_ = percentile(decision_scores_, 100 * (1 - 0.1)) #0.01 = contamination
 y_pred = (decision_scores_ > threshold_).astype('int').ravel()
+# y_true = (decision_scores_ > threshold_).astype('int').ravel()
 
-print('confusion matrix:\n', confusion_matrix(label, y_pred))
-print('classification report:\n', classification_report(label, y_pred))
+print('confusion matrix:\n', confusion_matrix(y_true, y_pred))
+print('classification report:\n', classification_report(y_true, y_pred))
+
+fpr, tpr, threshold = metrics.roc_curve(y_true, y_pred)
+roc_auc = metrics.auc(fpr, tpr)
+
+print('AUC_score: \n', roc_auc)
