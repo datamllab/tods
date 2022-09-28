@@ -67,7 +67,7 @@ class AKRNN(BaseDetector):
         ) #ASK if this is needed
 
         # ak model initialization
-        shape = X.shape[1]
+        shape = X.shape[-1]
         inputs = ak.Input(shape=[shape,])
         mlp_output = RNNBlock()([inputs])
         output = ReconstructionHead()(mlp_output)
@@ -76,12 +76,12 @@ class AKRNN(BaseDetector):
                           outputs=output, 
                           project_name="auto_model_ak_rnn",
                           objective='val_mean_squared_error',
-                          max_trials=100
+                          max_trials=1
                           )
         self.auto_model.fit(x=[X],
                y=X,
                batch_size=128,
-               epochs=5)
+               epochs=2)
 
         pred = self.auto_model.predict(x=[X])
 

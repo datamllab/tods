@@ -43,8 +43,8 @@ class AKAutoEncoder(BaseDetector):
         ``threshold_`` on ``decision_scores_``.
     """
 
-    def __init__(self, batch_size:int = 32, 
-                    epochs:int = 10, 
+    def __init__(self, batch_size:int = 128, 
+                    epochs:int = 50, 
                     validation_split:float = 0.2,
                     contamination = 0.1
                     ):
@@ -63,7 +63,7 @@ class AKAutoEncoder(BaseDetector):
         # X = X.to_numpy() #assume input is d3m container df
 
         # ak model initialization
-        shape = X.shape[1]
+        shape = X.shape[-1]
         inputs = ak.Input(shape=[shape,])
         mlp_output = AEBlock()([inputs])
         output = ReconstructionHead()(mlp_output)
@@ -72,12 +72,12 @@ class AKAutoEncoder(BaseDetector):
                           outputs=output, 
                           project_name="auto_model_ak_ae",
                           objective='val_mean_squared_error',
-                          max_trials=100
+                          max_trials=5 #100
                           )
         self.auto_model.fit(x=[X],
                y=X,
-               batch_size=128,
-               epochs=5)
+               batch_size=128, #128
+               epochs=50)
 
         pred = self.auto_model.predict(x=[X])
 
