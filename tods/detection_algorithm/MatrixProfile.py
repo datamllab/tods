@@ -184,25 +184,26 @@ class MatrixProfilePrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Pa
     A primitive that performs matrix profile on a DataFrame using Stumpy package
     Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
 
-     Parameters
-        ----------
-        T_A : ndarray
-            The time series or sequence for which to compute the matrix profile
-        m : int
-            Window size
-        T_B : ndarray
-            The time series or sequence that contain your query subsequences
-            of interest. Default is `None` which corresponds to a self-join.
-        ignore_trivial : bool
-            Set to `True` if this is a self-join. Otherwise, for AB-join, set this
-            to `False`. Default is `True`.
-        Returnsfdsf
-        -------
-        out : ndarray
-            The first column consists of the matrix profile, the second column
-            consists of the matrix profile indices, the third column consists of
-            the left matrix profile indices, and the fourth column consists of
-            the right matrix profile indices.
+Parameters
+----------
+    T_A : ndarray
+        The time series or sequence for which to compute the matrix profile
+    m : int
+        Window size
+    T_B : ndarray
+        The time series or sequence that contain your query subsequences
+        of interest. Default is `None` which corresponds to a self-join.
+    ignore_trivial : bool
+        Set to `True` if this is a self-join. Otherwise, for AB-join, set this
+        to `False`. Default is `True`.
+      
+.. dropdown:: Returns  
+    
+    out : ndarray
+        The first column consists of the matrix profile, the second column
+        consists of the matrix profile indices, the third column consists of
+        the left matrix profile indices, and the fourth column consists of
+        the right matrix profile indices.
     
     """
 

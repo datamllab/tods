@@ -119,29 +119,24 @@ class SKStandardScalerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs
     Standardize features by removing the mean and scaling to unit variance.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html?highlight=standardscaler#sklearn.preprocessing.StandardScaler>`_ for more details.
     
-    Parameters
-    ----------
+Parameters
+----------
     with_mean : bool
         If True, center the data before scaling. This does not work (and will raise an exception) when attempted on sparse matrices, because centering them entails building a dense matrix which in common use cases is likely to be too large to fit in memory.
-
     with_std : bool
         If True, scale the data to unit variance (or equivalently, unit standard deviation).
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+
     scale_: ndarray or None, shape (n_features,)
         Per feature relative scaling of the data. This is calculated using np.sqrt(var_). Equal to None when with_std=False.
-
     mean_: ndarray or None, shape (n_features,)
         The mean value for each feature in the training set. Equal to None when with_mean=False.
-
     var_: ndarray or None, shape (n_features,)
         The variance for each feature in the training set. Used to compute scale_. Equal to None when with_std=False.
-
     n_samples_seen_: int or array, shape (n_features,)
         The number of samples processed by the estimator for each feature. If there are not missing samples, the n_samples_seen will be an integer, otherwise it will be an array. Will be reset on new calls to fit, but increments across partial_fit calls.
     """
-    
     metadata = metadata_base.PrimitiveMetadata({
         "__author__": "DATA Lab @Taxes A&M University",
         "name": "Standard_scaler",

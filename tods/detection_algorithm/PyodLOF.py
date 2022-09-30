@@ -123,8 +123,8 @@ class LOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
     density than their neighbors. These are considered outliers.
     See :cite:`breunig2000lof` for details.
 
-    Parameters
-    ----------
+Parameters
+----------
     n_neighbors : int, optional (default=20)
         Number of neighbors to use by default for `kneighbors` queries.
         If n_neighbors is larger than the number of samples provided,
@@ -132,6 +132,7 @@ class LOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 
     algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}, optional
         Algorithm used to compute the nearest neighbors:
+        
         - 'ball_tree' will use BallTree
         - 'kd_tree' will use KDTree
         - 'brute' will use a brute-force search.
@@ -157,6 +158,7 @@ class LOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         distance between them. This works for Scipy's metrics, but is less
         efficient than passing the metric name as a string.
         Valid values for metric are:
+        
         - from scikit-learn: ['cityblock', 'cosine', 'euclidean', 'l1', 'l2',
           'manhattan']
         - from scipy.spatial.distance: ['braycurtis', 'canberra', 'chebyshev',
@@ -188,8 +190,8 @@ class LOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         If ``-1``, then the number of jobs is set to the number of CPU cores.
         Affects only kneighbors and kneighbors_graph methods.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

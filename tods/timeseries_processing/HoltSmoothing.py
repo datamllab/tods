@@ -109,6 +109,11 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
     Holt Smoothing
     `statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.Holt.html#statsmodels.tsa.holtwinters.Holt>`_
     
+    Parameters
+    ----------
+    endog :Bounded[int]
+        Array like time series.'
+    
     """
     
     metadata = metadata_base.PrimitiveMetadata({ 

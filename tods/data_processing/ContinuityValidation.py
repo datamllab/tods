@@ -36,11 +36,11 @@ class ContinuityValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     Check whether the seires data is consitent in time interval and provide processing if not consistent.
 
     Parameters
-    ----------
+    -----------
     continuity_option: enumeration
         Choose ablation or imputation.
-            ablation: delete some rows and increase timestamp interval to keep the timestamp consistent
-            imputation: linearly imputate the absent timestamps to keep the timestamp consistent
+        ablation: delete some rows and increase timestamp interval to keep the timestamp consistent
+        imputation: linearly imputate the absent timestamps to keep the timestamp consistent
     interval: float
         Only used in imputation, give the timestamp interval. ‘interval’ should be an integral multiple of 'timestamp' or 'timestamp' should be an integral multiple of ‘interval’
     """

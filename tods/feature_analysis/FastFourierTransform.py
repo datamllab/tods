@@ -165,43 +165,33 @@ class FastFourierTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs
 
     scipy documentation : https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.fft.html#scipy.fft.fft
 
-    Parameters
-    ----------
-
+Parameters
+----------
     n: int
         Length of the transformed axis of the output. If n is smaller than the length of the input, the input is cropped. If it is larger, the input is padded with zeros.
-
     axis: int
-        Axis over which to compute the FFT. If not given, the last axis is used.
-    
+        Axis over which to compute the FFT. If not given, the last axis is used.    
     norm: str
-        Normalization mode. Default is None, meaning no normalization on the forward transforms and scaling by 1/n on the ifft. For norm=""ortho"", both directions are scaled by 1/sqrt(n).
-    
+        Normalization mode. Default is None, meaning no normalization on the forward transforms and scaling by 1/n on the ifft. For norm=""ortho"", both directions are scaled by 1/sqrt(n).   
     overwrite_x: boolean
         If True, the contents of x can be destroyed; the default is False. See the notes below for more details.
-
     workers: int
         Maximum number of workers to use for parallel computation. If negative, the value wraps around from os.cpu_count(). Defualt is None.
-    
-    
+        
+.. dropdown:: Control Parameter
+
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
-
     exclude_columns: Set
         A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-
     return_result: Enumeration
         Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
-
     use_semantic_types: Bool
         Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
-
     add_index_columns: Bool
         Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-
     error_on_no_input: Bool(
         Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-
     return_semantic_type: Enumeration[str](
         Decides what semantic type to attach to generated attributes'
     """

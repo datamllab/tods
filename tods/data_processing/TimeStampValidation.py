@@ -21,7 +21,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 class TimeStampValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
-    A primitive to check time series is sorted by time stamp , if not then return sorted time series
+    A primitive to check time series is sorted by time stamp , if not then return sorted time series.
     """
     metadata = metadata_base.PrimitiveMetadata({
             '__author__': "DATA Lab at Texas A&M University",

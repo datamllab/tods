@@ -64,6 +64,21 @@ class ExtractColumnsBySemanticTypesPrimitive(transformer.TransformerPrimitiveBas
     through a pipeline. Or something else has to mark them at some point in a pipeline.
 
     It uses ``use_columns`` and ``exclude_columns`` to control which columns it considers.
+    
+    Parameters
+    -----------
+    semantic_types :Set
+        Semantic types to use to extract columns. If any of them matches, by default.
+    match_logic :Enumeration
+        Should a column have all of semantic types in \"semantic_types\" to be extracted, or any of them?
+    negate : Bool
+        Should columns which do not match semantic types in \"semantic_types\" be extracted?    
+    use_columns : Set
+        A set of column indices to force primitive to operate on. If any specified column does not match any semantic type, it is skipped.
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    add_index_columns :Bool
+        Also include primary index columns if input data has them.
     """
 
     metadata = metadata_base.PrimitiveMetadata(

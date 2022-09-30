@@ -134,8 +134,8 @@ class OCSVMPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
     See http://scikit-learn.org/stable/modules/svm.html#svm-outlier-detection
     and :cite:`scholkopf2001estimating`.
 
-    Parameters
-    ----------
+Parameters
+----------
     kernel : string, optional (default='rbf')
          Specifies the kernel type to be used in the algorithm.
          It must be one of 'linear', 'poly', 'rbf', 'sigmoid', 'precomputed' or
@@ -178,8 +178,8 @@ class OCSVMPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
     max_iter : int, optional (default=-1)
         Hard limit on iterations within solver, or -1 for no limit.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

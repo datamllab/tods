@@ -117,16 +117,16 @@ class SKPowerTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outpu
     """
     PowerTransformer primitive using sklearn to make data more Gaussian-like.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.PowerTransformer.html#>`_ for more details.
-    Parameters
-    ----------
+    
+Parameters
+----------
     method : str ('yeo-johnson' or 'box-cox')
         PowerTransforming algorithm to use.
-
     standardize : bool
         Set to True to apply zero-mean, unit-variance normalization to the transformed output.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+
     lambda_: numpy array of float, shape (n_features,)
         The parameters of the power transformation for the selected features.
 

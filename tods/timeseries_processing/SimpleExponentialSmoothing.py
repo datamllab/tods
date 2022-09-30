@@ -113,6 +113,11 @@ class SimpleExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Input
     Primitive wrapping for simple exponential smoothing
     `statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.SimpleExpSmoothing.html#statsmodels.tsa.holtwinters.SimpleExpSmoothing>`_
     
+Parameters
+----------
+    endog :int (lower = 2, upper = None, default = 3)
+        Array like time series
+    
     """
     
     metadata = metadata_base.PrimitiveMetadata({ 

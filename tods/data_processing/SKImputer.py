@@ -126,8 +126,32 @@ class Hyperparams(hyperparams.Hyperparams):
 class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Primitive wrapping for sklearn SimpleImputer
-    `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html>`_
+    sklearn documentation :https://scikit-learn.org/stable/modules/generated/sklearn.impute.SimpleImputer.html
     
+    Parameters
+    -----------
+    missing_values :Union
+        The placeholder for the missing values. All occurrences of `missing_values` will be imputed.      
+    strategy :Enumeration[str]
+        The imputation strategy.  - If "mean", then replace missing values using the mean along each column. Can only be used with numeric data. - If "median", then replace missing values using the median along each column. Can only be used with numeric data. - If "most_frequent", then replace missing using the most frequent value along each column. Can be used with strings or numeric data. - If "constant", then replace missing values with fill_value. Can be used with strings or numeric data.  .. versionadded:: 0.20 strategy="constant" for fixed value imputation.
+    add_indicator: Bool
+    fill_value: Union
+        When strategy == "constant", fill_value is used to replace all occurrences of missing_values. If left to the default, fill_value will be 0 when imputing numerical data and "missing_value" for strings or object data types.'    
+    use_columns :Set
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.        
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.        
+    return_result :Enumeration
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.       
+    use_semantic_types :Bool
+        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe   
+    add_index_columns :Bool
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".        
+    error_on_no_input :Bool
+        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.   
+    return_semantic_type :Enumeration[str]
+        Decides what semantic type to attach to generated attributes'
+
     """
     
     metadata = metadata_base.PrimitiveMetadata({ 

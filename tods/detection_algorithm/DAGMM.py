@@ -99,9 +99,31 @@ class Hyperparams(Hyperparams_ODBase):
 class DAGMMPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     Deep Autoencoding Gaussian Mixture Model
-    Parameters
-        ----------
 
+Parameters
+----------
+    comp_hiddens :List(default=[16,8,1])
+        Sizes of hidden layers of compression network.'
+    est_hiddens :List(default=[8,4])
+        Sizes of hidden layers of estimation network.
+    est_dropout_ratio :float(default=0.25)
+        Dropout rate of estimation network
+    minibatch_size :int(default=3)
+        Mini Batch size
+    epoch_size :int(default=100)
+        Epoch
+    rand_seed int(default=0)
+        (optional )random seed used when fit() is called
+    learning_rate :float(default=0.0001)
+        learning rate
+    lambda1 :float(default=0.1)
+        a parameter of loss function (for energy term)
+    lambda2 :float(default=0.1)
+        a parameter of loss function
+    normalize :bool(default=True)
+        Specify whether input data need to be normalized.
+    contamination :float(lower=0.,upper=0.5,default=0.1)
+        the amount of contamination of the data set, i.e.the proportion of outliers in the data set. Used when fitting to define the threshold on the decision function
 
     """
 

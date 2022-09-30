@@ -80,8 +80,8 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 	neighbors in this subspace.
 	See :cite:`kriegel2009outlier` for details.
 
-	Parameters
-	----------
+Parameters
+----------
 	n_neighbors : int, optional (default=20)
 		Number of neighbors to use by default for k neighbors queries.
 	ref_set: int, optional (default=10)
@@ -95,8 +95,8 @@ class SODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
 		the proportion of outliers in the data set. Used when fitting to
 		define the threshold on the decision function.
 
-	Attributes
-	----------
+.. dropdown:: Attributes
+	
 	decision_scores_ : numpy array of shape (n_samples,)
 		The outlier scores of the training data.
 		The higher, the more abnormal. Outliers tend to have higher

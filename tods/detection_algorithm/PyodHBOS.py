@@ -81,8 +81,8 @@ class HBOSPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     of outlyingness by building histograms. See :cite:`goldstein2012histogram`
     for details.
 
-    Parameters
-    ----------
+Parameters
+----------
     n_bins : int, optional (default=10)
         The number of bins.
 
@@ -98,8 +98,8 @@ class HBOSPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         i.e. the proportion of outliers in the data set. Used when fitting to
         define the threshold on the decision function.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     bin_edges_ : numpy array of shape (n_bins + 1, n_features )
         The edges of the bins.
 

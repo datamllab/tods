@@ -74,8 +74,9 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
     distance of k nearest neighbor of the data point, as the outlier score
     for observations.
     See :cite:`tang2002enhancing` for details.
-    Parameters
-    ----------
+    
+Parameters
+----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set, i.e.
         the proportion of outliers in the data set. Used when fitting to
@@ -85,8 +86,9 @@ class COFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Note that n_neighbors should be less than the number of samples.
         If n_neighbors is larger than the number of samples provided,
         all samples will be used.
-    Attributes
-    ----------
+    
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

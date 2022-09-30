@@ -139,7 +139,7 @@ class MatrixProfilePrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
     Stumpy documentation: https://stumpy.readthedocs.io/en/latest/index.html
 
     Parameters
-        ----------
+    ----------
         T_A : ndarray
             The time series or sequence for which to compute the matrix profile
         m : int
@@ -150,8 +150,8 @@ class MatrixProfilePrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
         ignore_trivial : bool
             Set to `True` if this is a self-join. Otherwise, for AB-join, set this
             to `False`. Default is `True`.
-        Returnsfdsf
-        -------
+    Returns
+    -------
         out : ndarray
             The first column consists of the matrix profile, the second column
             consists of the matrix profile indices, the third column consists of

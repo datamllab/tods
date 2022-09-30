@@ -131,8 +131,8 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
     Squeezer algorithm mentioned in the original paper for multiple reasons.
     See :cite:`he2003discovering` for details.
 
-    Parameters
-    ----------
+Parameters
+----------
     n_clusters : int, optional (default=8)
         The number of clusters to form as well as the number of
         centroids to generate.
@@ -177,8 +177,8 @@ class CBLOFPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hy
         number generator; If None, the random number generator is the
         RandomState instance used by `np.random`.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

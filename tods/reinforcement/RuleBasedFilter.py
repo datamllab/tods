@@ -83,28 +83,22 @@ class RuleBasedFilter(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hype
     Filter the selected columns according to the rule.
 
     Parameters
-    ---------- 
+    ----------
     rule: String
         The rule to follow when performing the filter. Write it like how we write 'if' in python. And wrap column index with two '#': #col_num#.
         e.g. "#1# > 10" means that the numbers in column 1 must be greater than 10.
         The indicies of columns should be same with those in 'use_columns'. 
-
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
         The indicies of columns should be same with those in 'rule'.
-    
     exclude_columns: Set
         A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-    
     return_result: Enumeration
         Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned?
-
     add_index_columns: Bool
         Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-    
     error_on_no_input: Bool(
         Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-    
     return_semantic_type: Enumeration[str](
         Decides what semantic type to attach to generated attributes'
     """

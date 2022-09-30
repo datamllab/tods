@@ -111,9 +111,31 @@ class Hyperparams(hyperparams.Hyperparams):
 
 class EnsemblePrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     """
-   Ensemble method 
-    `Calculate the Maximum/Minimum/Average and  Majority Voting for the detection algorithm based on the threshold set for the score`_
+    Ensemble method 
+    Calculate the Maximum/Minimum/Average and  Majority Voting for the detection algorithm based on the threshold set for the score
     
+Parameters
+----------
+    endog :int(lower = 2,upper = None,default = 3)
+        Array like time series.
+    threshold :float(lower = 0,upper = 1,default = 0.5)
+    
+    norm :str(default='l2',values=['l1', 'l2', 'max'])
+        The norm to use to normalize each non zero sample.
+    use_columns :Set
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    return_result :Enumeration
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
+    use_semantic_types :Bool
+        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe
+    add_index_columns :Bool
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+    error_on_no_input :Bool
+        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
+    return_semantic_type :Enumeration[str]
+        Decides what semantic type to attach to generated attributes
     """
     
     metadata = metadata_base.PrimitiveMetadata({

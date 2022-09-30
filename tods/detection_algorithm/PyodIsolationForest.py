@@ -108,6 +108,7 @@ class Hyperparams(Hyperparams_ODBase):
 
 class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 
+
     """
     Wrapper of Pyod Isolation Forest with more functionalities.
     The IsolationForest 'isolates' observations by randomly selecting a
@@ -123,8 +124,8 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
     Hence, when a forest of random trees collectively produce shorter path
     lengths for particular samples, they are highly likely to be anomalies.
 
-    Parameters
-    ----------
+Parameters
+----------
     n_estimators : int, optional (default=100)
         The number of base estimators in the ensemble.
 
@@ -168,8 +169,8 @@ class IsolationForestPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, 
     verbose : int, optional (default=0)
         Controls the verbosity of the tree building process.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

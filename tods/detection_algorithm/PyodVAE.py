@@ -193,8 +193,8 @@ class VariationalAutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Ou
     detect outlying objects in the data by calculating the reconstruction
     errors. See :cite:`aggarwal2015outlier` Chapter 3 for details.
 
-    Parameters
-    ----------
+Parameters
+----------
     hidden_neurons : list, optional (default=[4, 2, 4])
         The number of neurons per hidden layers.
 
@@ -254,8 +254,8 @@ class VariationalAutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Ou
         the proportion of outliers in the data set. When fitting this is used
         to define the threshold on the decision function.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     encoding_dim_ : int
         The number of neurons in the encoding layer.
 

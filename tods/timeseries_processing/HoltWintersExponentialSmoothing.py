@@ -108,6 +108,11 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     HoltWinter Exponential Smoothing
     `Statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.ExponentialSmoothing.html#statsmodels.tsa.holtwinters.ExponentialSmoothing>`_
     
+    Parameters
+    ----------
+    endog :Bounded[int]
+        Array like time seires.
+    
     """
     
     metadata = metadata_base.PrimitiveMetadata({ 

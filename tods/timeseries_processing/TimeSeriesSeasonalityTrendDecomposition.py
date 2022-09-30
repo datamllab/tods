@@ -91,7 +91,28 @@ class TimeSeriesSeasonalityTrendDecompositionPrimitive(transformer.TransformerPr
     A primitive to decompose time series in trend , seasonality and residual
     Decomposition is done based on period(frequency) passed as hyperparameter
     The columns for which decomposition is done is passed as hyperparameter .Default is all value columns
-
+    
+Parameters
+----------
+    period : int(default=1),
+        Window Size for decomposition
+    model :(default='additive')
+        Window Size for decomposition
+    use_columns :Set(elements=hyperparams.Hyperparameter[int](-1))
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
+    exclude_columns :Set(elements=hyperparams.Hyperparameter[int](-1))
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    return_result :Enumeration('append', 'replace', 'new')
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.    
+    use_semantic_types :Bool
+        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe
+    add_index_columns :Bool(default=False)
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+    error_on_no_input :Bool(default=True)
+        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
+    return_semantic_type :Enumeration[str]
+        Decides what semantic type to attach to generated attributes',
+           
     """
     metadata = metadata_base.PrimitiveMetadata({
         "__author__": "DATA Lab at Texas A&M University",

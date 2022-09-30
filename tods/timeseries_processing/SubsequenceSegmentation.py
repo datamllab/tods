@@ -123,20 +123,16 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
     """
     Subsequence Time Seires Segmentation.
 
-    Parameters
-    ----------
+Parameters
+----------
     window_size : int
         The moving window size.
-
     step : int, optional (default=1)
         The displacement for moving window.
-
-    # return_numpy : bool, optional (default=True)
-    #     If True, return the data format in 3d numpy array.
-
-    # flatten : bool, optional (default=True)
-    #     If True, flatten the returned array in 2d.
-
+    return_numpy : bool, optional (default=True)
+        If True, return the data format in 3d numpy array.
+    flatten : bool, optional (default=True)
+        If True, flatten the returned array in 2d.
     flatten_order : str, optional (default='F')
         Decide the order of the flatten for multivarite sequences.
         ‘C’ means to flatten in row-major (C-style) order.
@@ -144,29 +140,21 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
         ‘A’ means to flatten in column-major order if a is Fortran contiguous in memory,
         row-major order otherwise. ‘K’ means to flatten a in the order the elements occur in memory.
         The default is ‘F’. 
-
     use_columns: Set
-        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
-    
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.   
     exclude_columns: Set
-        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-    
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided. 
     return_result: Enumeration
-        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
-    
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.  
     use_semantic_types: Bool
         Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
-    
     add_index_columns: Bool
         Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-    
-    error_on_no_input: Bool(
+    error_on_no_input: Bool
         Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-    
     return_semantic_type: Enumeration[str](
         Decides what semantic type to attach to generated attributes'
     """
-
     metadata = metadata_base.PrimitiveMetadata({ 
         "__author__": "DATA Lab @ Texas A&M University",
         "name": "Subsequence Segmentation Primitive",

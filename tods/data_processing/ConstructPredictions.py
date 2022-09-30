@@ -42,6 +42,14 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     This is why the primitive takes also additional input of a reference DataFrame which should
     have metadata to help reconstruct missing metadata. If metadata is missing, the primitive
     assumes that all ``inputs`` columns are predicted targets, without confidence column(s).
+    
+    Parameters
+    ----------
+    use_columns: Set
+        A set of column indices to force primitive to operate on. If metadata reconstruction happens, this is used for reference columns.
+        If any specified column is not a primary index or a predicted target, it is skipped.
+    exclude_columns: Set
+        A set of column indices to not operate on. If metadata reconstruction happens, this is used for reference columns. Applicable only if \"use_columns\" is not provided.
     """
 
     metadata = metadata_base.PrimitiveMetadata({

@@ -71,8 +71,8 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     Wrap of Pyod loda. Loda: Lightweight on-line detector of anomalies. See
     :cite:`pevny2016loda` for more information.
 
-    Parameters
-    ----------
+Parameters
+----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set,
         i.e. the proportion of outliers in the data set. Used when fitting to
@@ -84,8 +84,8 @@ class LODAPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     n_random_cuts : int, optional (default = 100)
         The number of random cuts.
 
-    Attributes
-    ----------
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher
