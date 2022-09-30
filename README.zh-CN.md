@@ -6,7 +6,7 @@
 
 [English README](README.md)
 
-TODS是一个全栈的自动化机器学习系统，主要针对多变量时间序列数据的异常检测。TODS提供了详尽的用于构建基于机器学习的异常检测系统的模块，它们包括：数据处理（data processing），时间序列处理（ time series processing），特征分析（feature analysis)，检测算法（detection algorithms），和强化模块（ reinforcement module）。这些模块所提供的功能包括常见的数据预处理、时间序列数据的平滑或变换，从时域或频域中抽取特征、多种多样的检测算法以及让人类专家来校准系统。该系统可以处理三种常见的时间序列异常检测场景：点的异常检测（异常是时间点）、模式的异常检测（异常是子序列）、系统的异常检测（异常是时间序列的集合）。TODS提供了一系列相应的算法。该包由 [DATA Lab @ Texas A&M University](https://people.engr.tamu.edu/xiahu/index.html) 开发。
+TODS是一个全栈的自动化机器学习系统，主要针对多变量时间序列数据的异常检测。TODS提供了详尽的用于构建基于机器学习的异常检测系统的模块，它们包括：数据处理（data processing），时间序列处理（ time series processing），特征分析（feature analysis)，检测算法（detection algorithms），和强化模块（ reinforcement module）。这些模块所提供的功能包括常见的数据预处理、时间序列数据的平滑或变换，从时域或频域中抽取特征、多种多样的检测算法以及让人类专家来校准系统。该系统可以处理三种常见的时间序列异常检测场景：点的异常检测（异常是时间点）、模式的异常检测（异常是子序列）、系统的异常检测（异常是时间序列的集合）。TODS提供了一系列相应的算法。该包由 [DATA Lab @ Rice University](https://people.engr.tamu.edu/xiahu/index.html) 开发。
 
 TODS具有如下特点：
 * **全栈式机器学习系统**：支持从数据预处理、特征提取、到检测算法和人为规则每一个步骤并提供相应的接口。
