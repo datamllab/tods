@@ -127,9 +127,13 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
     Primitive wrapping for sklearn TruncatedSVD
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html>`_   
 <<<<<<< HEAD
+    Parameters
+    ----------
+=======
 
 Parameters
 ----------
+>>>>>>> c504881 (new doc-string)
     n_components: int
         Desired dimensionality of output data. Must be strictly less than the number of features. The default value is useful for visualisation. For LSA, a value of 100 is recommended.
     algorithm: hyperparams.Choice

@@ -149,6 +149,7 @@ Parameters
         Number of neighbors to use by default for k neighbors queries.
     method : str, optional (default='largest')
         {'largest', 'mean', 'median'}
+
         - 'largest': use the distance to the kth neighbor as the outlier score
         - 'mean': use the average of all k neighbors as the outlier score
         - 'median': use the median of the distance to k neighbors as the outlier score
