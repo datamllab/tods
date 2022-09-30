@@ -14,9 +14,8 @@ TODS High-level Design
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Following the typical machine learning pipeline, there are 6 modules lie in TODS: Data prociessing, time series processing, feature analysis, detection algorithms and reinforcement module.
 
-.. image:: img/tods_framework.pdf
+.. image:: img/tods_framework.png
    :width: 800
-
 
 
 Data Processing

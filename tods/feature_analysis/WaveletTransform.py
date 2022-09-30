@@ -153,26 +153,20 @@ class WaveletTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
     """
     A primitive of Multilevel 1D Discrete Wavelet Transform of data.
     See `PyWavelet documentation <https://pywavelets.readthedocs.io/en/latest/ref/>`_ for details.
-    Parameters
-        ----------
-        wavelet: str
-            Wavelet to use
+    
+Parameters
+----------
+    wavelet: str
+        Wavelet to use
+    mode: str
+        Signal extension mode, see https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#ref-modes for details.
+    axis: int
+        Axis over which to compute the DWT. If not given, transforming along columns.
+    window_size : int
+        The moving window size.
+    level: int
+        Decomposition level (must be > 0). If level is 0 (default) then it will be calculated using the maximum level.
 
-        mode: str
-            Signal extension mode, see https://pywavelets.readthedocs.io/en/latest/ref/signal-extension-modes.html#ref-modes for details.
-
-        axis: int
-            Axis over which to compute the DWT. If not given, transforming along columns.
-
-        window_size : int
-            The moving window size.
-
-        level: int
-            Decomposition level (must be > 0). If level is 0 (default) then it will be calculated using the maximum level.
-
-        Attributes
-        ----------
-        None
     """
 
     metadata = construct_primitive_metadata(module='feature_analysis', name='wavelet_transform', id='WaveletTransformer', primitive_family='feature_extract', hyperparams=['wavelet', 'mode', 'axis', 'level'], description='Wavelet_transformation')

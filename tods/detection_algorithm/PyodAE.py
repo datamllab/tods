@@ -175,8 +175,9 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
     representations unsupervisedly. Similar to PCA, AE could be used to
     detect outlying objects in the data by calculating the reconstruction
     errors. See :cite:`aggarwal2015outlier` Chapter 3 for details.
-    Parameters
-    ----------
+
+Parameters
+----------
     hidden_neurons : list, optional (default=[4,2,4])
         The number of neurons per hidden layers.
     hidden_activation : str, optional (default='relu')
@@ -222,8 +223,9 @@ class AutoEncoderPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Para
         The amount of contamination of the data set, i.e.
         the proportion of outliers in the data set. When fitting this is used
         to define the threshold on the decision function.
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+    
     encoding_dim_ : int
         The number of neurons in the encoding layer.
     compression_rate_ : float

@@ -169,9 +169,8 @@ class DiscreteCosineTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outp
     scipy documentation: https://docs.scipy.org/doc/scipy/reference/generated/scipy.fft.dct.html#scipy.fft.dct
 
 
-    Parameters
-    ----------
-
+Parameters
+----------
     type_: int
         Type of the DCT. Default is 2
 
@@ -180,16 +179,17 @@ class DiscreteCosineTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outp
 
     axis: int
         Axis over which to compute the DCT. If not given, the last axis is used.
-    
+
     norm: str
         Normalization mode. Default is None, meaning no normalization on the forward transforms and scaling by 1/n on the ifft. For norm=""ortho"", both directions are scaled by 1/sqrt(n).
-    
+
     overwrite_x: boolean
         If True, the contents of x can be destroyed; the default is False. See the notes below for more details.
 
     workers: int
         Maximum number of workers to use for parallel computation. If negative, the value wraps around from os.cpu_count(). Defualt is None.
     
+.. dropdown:: Control Parameter
 
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
@@ -212,7 +212,7 @@ class DiscreteCosineTransformPrimitive(TODSTransformerPrimitiveBase[Inputs, Outp
     return_semantic_type: Enumeration[str](
         Decides what semantic type to attach to generated attributes'
 
-    """
+    """  
 
     metadata = construct_primitive_metadata(module='feature_analysis', name='discrete_cosine_transform', id='DiscreteCosineTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis','type_'], description='Discrete Cosine Transform')
     

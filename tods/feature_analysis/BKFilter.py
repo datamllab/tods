@@ -123,16 +123,17 @@ class BKFilterPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparam
     """
     Filter a time series using the Baxter-King bandpass filter.
 
-    Parameters
-    ----------
+Parameters
+----------
     low: int
         Minimum period for oscillations, ie., Baxter and King suggest that the Burns-Mitchell U.S. business cycle has 6 for quarterly data and 1.5 for annual data.
     
     high: int
         Maximum period for oscillations BK suggest that the U.S. business cycle has 32 for quarterly data and 8 for annual data.
-
     K: int
         Lead-lag length of the filter. Baxter and King propose a truncation length of 12 for quarterly data and 3 for annual data.  
+    
+.. dropdown:: Control Parameter
 
     use_columns: Set
         A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.

@@ -155,8 +155,9 @@ class PCAODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Par
     For univariate data, it will be in shape of [valid_length, window_size].
     for multivariate data with d sequences, it will be in the shape of
     [valid_length, window_size].
-    Parameters
-    ----------
+
+Parameters
+----------
     window_size : int
         The moving window size.
     step_size : int, optional (default=1)
@@ -189,21 +190,22 @@ class PCAODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Par
         improve the predictive accuracy of the downstream estimators by
         making their data respect some hard-wired assumptions.
     svd_solver : string {'auto', 'full', 'arpack', 'randomized'}
-        auto :
+    
+        - auto :
             the solver is selected by a default policy based on `X.shape` and
             `n_components`: if the input data is larger than 500x500 and the
             number of components to extract is lower than 80% of the smallest
             dimension of the data, then the more efficient 'randomized'
             method is enabled. Otherwise the exact full SVD is computed and
             optionally truncated afterwards.
-        full :
+        - full :
             run exact full SVD calling the standard LAPACK solver via
             `scipy.linalg.svd` and select the components by postprocessing
-        arpack :
+        - arpack :
             run SVD truncated to n_components calling ARPACK solver via
             `scipy.sparse.linalg.svds`. It requires strictly
             0 < n_components < X.shape[1]
-        randomized :
+        - randomized :
             run randomized SVD by the method of Halko et al.
     tol : float >= 0, optional (default .0)
         Tolerance for singular values computed by svd_solver == 'arpack'.
@@ -223,8 +225,9 @@ class PCAODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Par
         If True, perform standardization first to convert
         data to zero mean and unit variance.
         See http://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

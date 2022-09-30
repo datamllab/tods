@@ -125,8 +125,9 @@ class So_GaalPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
     objectives (MO-GAAL) to generate a reasonable reference distribution for
     the whole dataset.
     Read more in the :cite:`liu2019generative`.
-    Parameters
-    ----------
+
+Parameters
+----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set, i.e.
         the proportion of outliers in the data set. Used when fitting to
@@ -141,8 +142,9 @@ class So_GaalPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
         The decay parameter for SGD.
     momentum : float, optional (default=0.9)
         The momentum parameter for SGD.
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

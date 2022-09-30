@@ -126,33 +126,30 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
     """
     Primitive wrapping for sklearn TruncatedSVD
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html>`_   
+    
     Parameters
     ----------
-    n_components: int
-        Desired dimensionality of output data. Must be strictly less than the number of features. The default value is useful for visualisation. For LSA, a value of 100 is recommended.
-    algorithm: hyperparams.Choice
-       SVD solver to use. Either "arpack" for the ARPACK wrapper in SciPy (scipy.sparse.linalg.svds), or "randomized" for the randomized algorithm due to Halko (2009).
-    
-    use_columns: Set
-        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
-    
-    exclude_columns: Set
-        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-    
-    return_result: Enumeration
-        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
-    
-    use_semantic_types: Bool
-        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
-    
-    add_index_columns: Bool
-        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-    
-    error_on_no_input: Bool(
-        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-    
-    return_semantic_type: Enumeration[str](
-        Decides what semantic type to attach to generated attributes'
+        n_components: int
+            Desired dimensionality of output data. Must be strictly less than the number of features. The default value is useful for visualisation. For LSA, a value of 100 is recommended.
+        algorithm: hyperparams.Choice
+            SVD solver to use. Either "arpack" for the ARPACK wrapper in SciPy (scipy.sparse.linalg.svds), or "randomized" for the randomized algorithm due to Halko (2009).   
+            
+    .. dropdown:: Control Parameter
+
+        use_columns: Set
+            A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped. 
+        exclude_columns: Set
+            A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+        return_result: Enumeration
+            Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.   
+        use_semantic_types: Bool
+            Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
+        add_index_columns: Bool
+            Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+        error_on_no_input: Bool(
+            Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
+        return_semantic_type: Enumeration[str](
+            Decides what semantic type to attach to generated attributes'
     """    
 
     metadata = construct_primitive_metadata(module='feature_analysis', name='truncated_svd', id='SKTruncatedSVDPrimitive', primitive_family='feature_construct', hyperparams=['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'], description='Truncated SVD')

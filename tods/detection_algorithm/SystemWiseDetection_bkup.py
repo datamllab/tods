@@ -104,7 +104,18 @@ class Hyperparams(hyperparams.Hyperparams): # pragma: no cover
 
 class SystemWiseDetectionPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]): # pragma: no cover
     """
-    Primitive to find abs_energy of time series
+    Primitive to find abs_energy of time series.
+
+    Parameters
+    ----------
+    window_size :int(default=10)
+        Window Size for decomposition
+
+    method_type :str ('max', 'avg', 'sliding_window_sum','majority_voting_sliding_window_sum','majority_voting_sliding_window_max')
+        The type of method used to find anomalous system
+
+    contamination : float in (0., 0.5), optional (default=0.1)
+           The amount of contamination of the data set, i.e. the proportion of outliers in the data set. 
     """
 
     metadata = construct_primitive_metadata(module='detection_algorithm', name='system_wise_detection', id='Sytem_Wise_Anomaly_Detection_Primitive', primitive_family='anomaly_detect', hyperparams=['window_size','method_type','contamination'], description='Sytem_Wise_Anomaly_Detection_Primitive')

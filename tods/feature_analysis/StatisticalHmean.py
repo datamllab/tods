@@ -93,6 +93,28 @@ class StatisticalHmeanPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hy
     """
     Primitive to find Harmonic mean of time series
      Harmonic mean only defined if all elements greater than or equal to zero
+     
+Parameters
+----------
+    window_size : int(default=-1),
+        Window Size for decomposition
+    
+.. dropdown:: Control Parameter
+
+    use_columns :Set
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    return_result :Enumeration
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
+    use_semantic_types :Bool
+        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe
+    add_index_columns :Bool
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+    error_on_no_input :Bool
+        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
+    return_semantic_type :str
+        Decides what semantic type to attach to generated attributes
     """
     __author__ = "DATA Lab at Texas A&M University",
     metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_h_mean', id='StatisticalHmeanPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')

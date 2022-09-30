@@ -105,7 +105,29 @@ class MovingAverageTransformerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs,
     """
     A primitive to generate moving average
     Genrates moving average based on the window_size passed as hyperparameter.
-    Columns for which moving average is calculated is passed as hyperparameter . Default is all values column    
+    Columns for which moving average is calculated is passed as hyperparameter . Default is all values column 
+
+Parameters
+----------
+    window_size :int (3 by default)
+        Size of moving window.'       
+    norm :str ('l1', 'l2' or 'max')
+        The norm to use to normalize each non zero sample.',     
+    use_columns :Set
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    return_result :Enumeration ('append', 'replace' or 'new'[by default])
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
+    use_semantic_types :Bool
+        Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe  
+    add_index_columns :Bool
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+    error_on_no_input :Bool
+        Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
+    return_semantic_type :str
+        Decides what semantic type to attach to generated attributes
+            
     """
     
     metadata = construct_primitive_metadata(module='timeseries_processing', name='moving_average_transform', id='MovingAverageTransformerPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size'], description='pandas.preprocessing.data.MovingAverageTransform')

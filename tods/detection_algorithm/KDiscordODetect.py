@@ -134,8 +134,9 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
     the density. See :cite:`ramaswamy2000efficient,angiulli2002fast` for
     details.
     See :cite:`aggarwal2015outlier,zhao2020using` for details.
-    Parameters
-    ----------
+
+Parameters
+----------
     window_size : int
         The moving window size.
     step_size : int, optional (default=1)
@@ -150,8 +151,7 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         {'largest', 'mean', 'median'}
         - 'largest': use the distance to the kth neighbor as the outlier score
         - 'mean': use the average of all k neighbors as the outlier score
-        - 'median': use the median of the distance to k neighbors as the
-          outlier score
+        - 'median': use the median of the distance to k neighbors as the outlier score
     radius : float, optional (default = 1.0)
         Range of parameter space to use by default for `radius_neighbors`
         queries.
@@ -165,6 +165,7 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         Note: fitting on sparse input will override the setting of
         this parameter, using brute force.
         .. deprecated:: 0.74
+        
            ``algorithm`` is deprecated in PyOD 0.7.4 and will not be
            possible in 0.7.6. It has to use BallTree for consistency.
     leaf_size : int, optional (default = 30)
@@ -199,8 +200,9 @@ class KDiscordODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs
         See http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.pairwise_distances
     metric_params : dict, optional (default = None)
         Additional keyword arguments for the metric function.
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher
