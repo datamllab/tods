@@ -24,7 +24,7 @@ from ..common.TODSBasePrimitives import TODSTransformerPrimitiveBase
 
 Inputs = d3m_dataframe
 Outputs = d3m_dataframe
-
+from tods.utils import construct_primitive_metadata
 __all__ = ('TRMFPrimitive',)
 
 # class Params(params.Params):
@@ -205,22 +205,9 @@ Parameters
     Which can be found there: http://www.cs.utexas.edu/~rofuyu/papers/tr-mf-nips.pdf
     """
 
-    metadata = metadata_base.PrimitiveMetadata({
-        "__author__": "DATA Lab @ Texas A&M University",
-        "name": "Temporal Regularized Matrix Factorization Primitive",
-        "python_path": "d3m.primitives.tods.feature_analysis.trmf",
-        "source": {
-            'name': 'DATA Lab @ Texas A&M University', 
-            'contact': 'mailto:khlai037@tamu.edu', 
-        },
-        "version": "0.0.1",
-        "hyperparams_to_tune": ['lags', 'K', 'lambda_f', 'lambda_x', 'lambda_w', 'alpha', 'eta', 'max_iter', 'F_step', 'X_step', 'W_step'],
-        "algorithm_types": [
-            metadata_base.PrimitiveAlgorithmType.TODS_PRIMITIVE, 
-        ],
-        "primitive_family": metadata_base.PrimitiveFamily.FEATURE_CONSTRUCTION,
-	'id': str(uuid.uuid3(uuid.NAMESPACE_DNS, 'TRMFPrimitive')),
-    })
+    metadata = construct_primitive_metadata(module='feature_analysis', name='trmf', id='TRMFPrimitive', primitive_family='feature_construct', hyperparams=['lags', 'K', 'lambda_f', 'lambda_x', 'lambda_w', 'alpha', 'eta', 'max_iter', 'F_step', 'X_step', 'W_step'], description='Temporal Regularized Matrix Factorization Primitive')
+    
+    
 
         
     def _produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:

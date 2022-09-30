@@ -33,7 +33,7 @@ class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, O
         Resource ID of a DataFrame to extract if there are multiple tabular resources inside a Dataset and none is a dataset entry point.
     """
     
-    metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing')
+    metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing', description='Extract a DataFrame from a Dataset')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         dataframe_resource_id, dataframe = base_utils.get_tabular_resource(inputs, self.hyperparams['dataframe_resource'])

@@ -115,7 +115,7 @@ Parameters
         Decides what semantic type to attach to generated attributes
     """
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_abs_energy', id='StatisticalAbsEnergyPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_abs_energy', id='StatisticalAbsEnergyPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Statistical Abs Energy')
     
     
 

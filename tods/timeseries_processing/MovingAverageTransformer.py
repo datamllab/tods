@@ -130,7 +130,7 @@ Parameters
             
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='moving_average_transform', id='MovingAverageTransformerPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='moving_average_transform', id='MovingAverageTransformerPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size'], description='pandas.preprocessing.data.MovingAverageTransform')
     
     
 

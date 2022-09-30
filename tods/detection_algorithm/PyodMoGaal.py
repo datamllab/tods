@@ -202,7 +202,7 @@ Parameters
         }
     )
     
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_mogaal', id='906b96ea-f260-4ede-8f55-c26d1367eb32', primitive_family='feature_construct', hyperparams=['stop_epochs','lr_d','lr_g','decay','momentum','k'])
+    #metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_mogaal', id='906b96ea-f260-4ede-8f55-c26d1367eb32', primitive_family='feature_construct', hyperparams=['stop_epochs','lr_d','lr_g','decay','momentum','k'])
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

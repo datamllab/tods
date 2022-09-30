@@ -41,7 +41,7 @@ class DuplicationValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs
     __author__: "DATA Lab at Texas A&M University"
     
     
-    metadata = construct_primitive_metadata(module='data_processing', name='duplication_validation', id='DuplicationValidationPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='data_processing', name='duplication_validation', id='DuplicationValidationPrimitive', primitive_family='data_preprocessing', description='duplication validation primitive')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

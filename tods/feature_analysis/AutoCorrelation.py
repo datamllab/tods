@@ -209,7 +209,7 @@ Parameters
 		A string in [“none”, “raise”, “conservative”, “drop”] specifying how the NaNs are to be treated. “none” performs no checks. “raise” raises an exception if NaN values are found. “drop” removes the missing observations and then estimates the autocovariances treating the non-missing as contiguous. “conservative” computes the autocovariance using nan-ops so that nans are removed when computing the mean and cross-products that are used to estimate the autocovariance. When using “conservative”, n is set to the number of non-missing observations.
 	"""
 	
-	metadata = construct_primitive_metadata(module='feature_analysis', name='auto_correlation', id='AutocorrelationPrimitive', primitive_family='feature_construct', hyperparams=['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'])
+	metadata = construct_primitive_metadata(module='feature_analysis', name='auto_correlation', id='AutocorrelationPrimitive', primitive_family='feature_construct', hyperparams=['unbiased', 'nlags', 'qstat', 'fft', 'alpha', 'missing'], description='AutoCorrelation of values')
     
     
 

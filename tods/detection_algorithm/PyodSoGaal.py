@@ -161,7 +161,7 @@ Parameters
     """
 
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sogaal', id='So_GaalPrimitive', primitive_family='feature_construct', hyperparams=['contamination', 'stop_epochs','lr_d','lr_g','decay','momentum'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_sogaal', id='So_GaalPrimitive', primitive_family='feature_construct', hyperparams=['contamination', 'stop_epochs','lr_d','lr_g','decay','momentum'], description='So_Gaal Anomaly Detection')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

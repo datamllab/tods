@@ -124,7 +124,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='AutoRegODetector', id='AutoRegODetector', primitive_family='anomaly_detect', hyperparams=['window_size', 'contamination', 'step_size', 'method', 'weights'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='AutoRegODetector', id='AutoRegODetector', primitive_family='anomaly_detect', hyperparams=['window_size', 'contamination', 'step_size', 'method', 'weights'],description='AutoRegODetector')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

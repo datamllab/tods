@@ -186,7 +186,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_ocsvm', id='OCSVMPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'kernel', 'nu', 'gamma', 'degree'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_ocsvm', id='OCSVMPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'kernel', 'nu', 'gamma', 'degree'],description='TODS.anomaly_detection_primitives.OCSVMPrimitive')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

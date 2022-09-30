@@ -132,7 +132,7 @@ Parameters
 
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='power_transformer', id='SKPowerTransformer', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='power_transformer', id='SKPowerTransformer', primitive_family='data_preprocessing', description='Power_transformation')
     
     
 

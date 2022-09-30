@@ -159,7 +159,7 @@ class MatrixProfilePrimitive(transformer.TransformerPrimitiveBase[Inputs, Output
             the right matrix profile indices.
     """
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'], description='Matrix Profile')
     
     
 

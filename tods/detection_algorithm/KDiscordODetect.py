@@ -220,7 +220,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='KDiscordODetector', id='KDiscordODetector', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination', 'window_size', 'step_size', 'method', 'radius'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='KDiscordODetector', id='KDiscordODetector', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination', 'window_size', 'step_size', 'method', 'radius'],description='KDiscordODetector')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

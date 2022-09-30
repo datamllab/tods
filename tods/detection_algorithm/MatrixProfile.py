@@ -204,7 +204,7 @@ Parameters
     
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='matrix_profile', id='MatrixProfilePrimitive', primitive_family='anomaly_detect', hyperparams=['window_size'], description='Matrix Profile')
 
 
     def __init__(self, *,

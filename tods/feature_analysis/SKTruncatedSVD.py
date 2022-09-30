@@ -126,6 +126,7 @@ class SKTruncatedSVDPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, 
     """
     Primitive wrapping for sklearn TruncatedSVD
     `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html>`_   
+<<<<<<< HEAD
 
 Parameters
 ----------
@@ -152,8 +153,7 @@ Parameters
         Decides what semantic type to attach to generated attributes'
     """    
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='truncated_svd', id='SKTruncatedSVDPrimitive', primitive_family='feature_construct', hyperparams=['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'])
-    
+    metadata = construct_primitive_metadata(module='feature_analysis', name='truncated_svd', id='SKTruncatedSVDPrimitive', primitive_family='feature_construct', hyperparams=['n_components', 'algorithm', 'use_columns', 'exclude_columns', 'return_result', 'use_semantic_types', 'add_index_columns', 'error_on_no_input', 'return_semantic_type'], description='Truncated SVD')
     
 
     def __init__(self, *,
@@ -194,7 +194,6 @@ Parameters
         Set training data for SKTruncatedSVD.
         Args:
             inputs: Container DataFrame
-
         Returns:
             None
         """
@@ -207,7 +206,6 @@ Parameters
         Fit model with training data.
         Args:
             *: Container DataFrame. Time series data up to fit.
-
         Returns:
             None
         """
@@ -237,7 +235,6 @@ Parameters
         Process the testing data.
         Args:
             inputs: Container DataFrame.
-
         Returns:
             Container DataFrame after Truncated SVD.
         """
@@ -278,7 +275,6 @@ Parameters
         Return parameters.
         Args:
             None
-
         Returns:
             class Params
         """
@@ -312,7 +308,6 @@ Parameters
         Set parameters for SKTruncatedSVD.
         Args:
             params: class Params
-
         Returns:
             None
         """
@@ -344,7 +339,6 @@ Parameters
         Args:
             inputs: Container DataFrame
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             list
         """
@@ -370,7 +364,6 @@ Parameters
         Args:
             inputs_metadata: d3m.metadata.base.DataMetadata
             column_index: int
-
         Returns:
             bool
         """
@@ -434,7 +427,6 @@ Parameters
             inputs_metadata: metadata_base.DataMetadata
             outputs: Container Dataframe
             target_columns_metadata: list
-
         Returns:
             d3m.metadata.base.DataMetadata
         """
@@ -452,7 +444,6 @@ Parameters
         Args:
             inputs: Container Dataframe
             predictions: array-like data (n_samples, n_features)
-
         Returns:
             Dataframe
         """
@@ -469,7 +460,6 @@ Parameters
         Args:
             outputs_metadata: metadata.base.DataMetadata
             hyperparams: d3m.metadata.hyperparams.Hyperparams
-
         Returns:
             List[OrderedDict]
         """
@@ -486,4 +476,3 @@ Parameters
             target_columns_metadata.append(column_metadata)
 
         return target_columns_metadata
-

@@ -115,7 +115,7 @@ Parameters
     return_semantic_type :str
         Decides what semantic type to attach to generated attributes
     """
-    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_kurtosis', id='StatisticalKurtosisPrimitive', primitive_family='feature_construct', hyperparams=['window_size'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='statistical_kurtosis', id='StatisticalKurtosisPrimitive', primitive_family='feature_construct', hyperparams=['window_size'], description='Time Series Decompostional')
     
     
 

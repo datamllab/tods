@@ -244,7 +244,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='PCAODetector', id='PCAODetector', primitive_family='anomaly_detect', hyperparams=['n_components', 'n_selected_components', 'contamination', 'whiten', 'svd_solver', 'tol', 'iterated_power', 'random_state', 'standardization'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='PCAODetector', id='PCAODetector', primitive_family='anomaly_detect', hyperparams=['n_components', 'n_selected_components', 'contamination', 'whiten', 'svd_solver', 'tol', 'iterated_power', 'random_state', 'standardization'],description='PCAODetector')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

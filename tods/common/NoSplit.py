@@ -22,7 +22,7 @@ class NoSplitDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperpar
     produces the same (full) Dataset. Useful for unsupervised learning tasks. .
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='no_split_dataset_split', id='48c683ad-da9e-48cf-b3a0-7394dba5e5d2', primitive_family='evaluation', algorithm= ['identity', 'data_split'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='no_split_dataset_split', id='48c683ad-da9e-48cf-b3a0-7394dba5e5d2', primitive_family='evaluation', algorithm= ['identity', 'data_split'], description='No-split tabular dataset splits')
     
     
 

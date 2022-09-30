@@ -156,7 +156,7 @@ Parameters
         Decides what semantic type to attach to generated attributes'
     """
 
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='subsequence_segmentation', id='SubsequenceSegmentationPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size', 'step', 'flatten_order'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='subsequence_segmentation', id='SubsequenceSegmentationPrimitive', primitive_family='data_preprocessing', hyperparams=['window_size', 'step', 'flatten_order'], description='Subsequence Segmentation Primitive')
     
     
 

@@ -115,7 +115,7 @@ Parameters
         Decides what semantic type to attach to generated attributes
 
     """
-    metadata = construct_primitive_metadata(module='feature_analysis', name='spectral_residual_transform', id='SpectralResidualTransformPrimitive', primitive_family='feature_construct', hyperparams=['avg_filter_dimension'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='spectral_residual_transform', id='SpectralResidualTransformPrimitive', primitive_family='feature_construct', hyperparams=['avg_filter_dimension'], description='Time Series Spectral Residual')
     
     
 

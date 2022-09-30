@@ -92,7 +92,7 @@ class KFoldTimeSeriesSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperpa
     __version__ = '0.3.0'
     __contact__ = 'mailto:jeffrey.gleason@yonder.co'
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_time_series_split', id='002f9ad1-46e3-40f4-89ed-eeffbb3a102b', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_time_series_split', id='002f9ad1-46e3-40f4-89ed-eeffbb3a102b', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'], description='K-fold cross-validation timeseries dataset splits')
     
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:

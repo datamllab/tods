@@ -108,7 +108,7 @@ class TimeIntervalTransformPrimitive(transformer.TransformerPrimitiveBase[Inputs
         Decides what semantic type to attach to generated attributes
     """
     
-    metadata = construct_primitive_metadata(module='data_processing', name='time_interval_transform', id='TimeIntervalTransformPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='data_processing', name='time_interval_transform', id='TimeIntervalTransformPrimitive', primitive_family='data_preprocessing', description='Time Interval Transform')
 
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:

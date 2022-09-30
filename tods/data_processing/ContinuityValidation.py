@@ -49,7 +49,7 @@ class ContinuityValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs,
     __author__: "DATA Lab at Texas A&M University"
     
     
-    metadata = construct_primitive_metadata(module='data_processing', name='continuity_validation', id='ContinuityValidationPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='data_processing', name='continuity_validation', id='ContinuityValidationPrimitive', primitive_family='data_preprocessing', description='continuity validation primitive')
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> base.CallResult[Outputs]:
         """

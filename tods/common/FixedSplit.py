@@ -39,7 +39,7 @@ class FixedSplitDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyper
     resource to be used. All other rows are added used for the train split.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='fixed_split_dataset_split', id='1654f000-2178-4520-be4c-a95bc26b8d3a', primitive_family='evaluation', algorithm= ['data_split'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='fixed_split_dataset_split', id='1654f000-2178-4520-be4c-a95bc26b8d3a', primitive_family='evaluation', algorithm= ['data_split'], description='Fixed split tabular dataset splits')
     
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:

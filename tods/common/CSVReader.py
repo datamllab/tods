@@ -26,7 +26,7 @@ class CSVReaderPrimitive(primitives.FileReaderPrimitiveBase):    # pragma: no co
     _file_structural_type = container.DataFrame
     _file_semantic_types = ('https://metadata.datadrivendiscovery.org/types/Table', 'https://metadata.datadrivendiscovery.org/types/Timeseries')
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='csv_reader', id='989562ac-b50f-4462-99cb-abef80d765b2', primitive_family='data_transform', algorithm=['file_manipulate'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='csv_reader', id='989562ac-b50f-4462-99cb-abef80d765b2', primitive_family='data_transform', algorithm=['file_manipulate'], description='Columns CSV reader')
     
 
     def _read_fileuri(self, metadata: frozendict.FrozenOrderedDict, fileuri: str) -> container.DataFrame:

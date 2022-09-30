@@ -268,7 +268,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_vae', id='AutoEncoderPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_vae', id='AutoEncoderPrimitive', primitive_family='anomaly_detect', flag_hyper= True, hyperparams=['contamination'],description='TODS.anomaly_detection_primitives.VariationalAutoEncoder')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

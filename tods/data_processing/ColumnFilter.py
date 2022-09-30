@@ -112,7 +112,7 @@ class ColumnFilterPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
 		Decides what semantic type to attach to generated attributes
 	"""
 
-	metadata = construct_primitive_metadata(module='data_processing', name='column_filter', id='ColumnFilterPrimitive', primitive_family='data_preprocessing')
+	metadata = construct_primitive_metadata(module='data_processing', name='column_filter', id='ColumnFilterPrimitive', primitive_family='data_preprocessing', description='Column Filter')
 
 
 	def __init__(self, *, hyperparams: Hyperparams) -> None:

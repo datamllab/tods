@@ -44,7 +44,7 @@ class KFoldDatasetSplitPrimitive(primitives.TabularSplitPrimitiveBase[Hyperparam
     """
 
     __author__ = 'Mingjie Sun <sunmj15@gmail.com>'
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_dataset_split', id='bfedaf3a-6dd0-4a83-ad83-3a50fe882bf8', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='kfold_dataset_split', id='bfedaf3a-6dd0-4a83-ad83-3a50fe882bf8', primitive_family='evaluation', algorithm= ['k_fold', 'cross_validate', 'data_split'], description='K-fold cross-validation tabular dataset splits')
     
 
     def _get_splits(self, attributes: pandas.DataFrame, targets: pandas.DataFrame, dataset: container.Dataset, main_resource_id: str) -> typing.List[typing.Tuple[numpy.ndarray, numpy.ndarray]]:

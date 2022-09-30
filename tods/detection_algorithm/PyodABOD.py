@@ -109,7 +109,7 @@ Parameters
     """
 
     __author__: "DATA Lab at Texas A&M University"
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_abod', id='ABODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'method'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_abod', id='ABODPrimitive', primitive_family='anomaly_detect', hyperparams=['contamination', 'n_neighbors', 'method'],description='Angle-base Outlier Detection Primitive')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

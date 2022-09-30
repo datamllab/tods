@@ -128,7 +128,7 @@ Parameters
     """
 
     __author__ = "DATA Lab at Texas A&M University",
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='dagmm', id='DAGMMPrimitive', primitive_family='anomaly_detect', hyperparams=['comp_hiddens','est_hiddens','est_dropout_ratio','minibatch_size','epoch_size','rand_seed','learning_rate','lambda1','lambda2','contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='dagmm', id='DAGMMPrimitive', primitive_family='anomaly_detect', hyperparams=['comp_hiddens','est_hiddens','est_dropout_ratio','minibatch_size','epoch_size','rand_seed','learning_rate','lambda1','lambda2','contamination'], description='DAGMM')
 
     def __init__(self, *,
                  hyperparams: Hyperparams,  #

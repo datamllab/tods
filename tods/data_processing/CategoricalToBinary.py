@@ -141,7 +141,7 @@ class CategoricalToBinaryPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
 
     __author__ = "DATA LAB"
     
-    metadata = construct_primitive_metadata(module='data_processing', name='categorical_to_binary', id='CategoricalToBinaryPrimitive', primitive_family='data_preprocessing')
+    metadata = construct_primitive_metadata(module='data_processing', name='categorical_to_binary', id='CategoricalToBinaryPrimitive', primitive_family='data_preprocessing', description='Converting Categorical to Binary')
 
     def __init__(self, *, hyperparams: Hyperparams) -> None:
         super().__init__(hyperparams=hyperparams)

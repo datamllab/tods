@@ -214,7 +214,7 @@ Parameters
 
     """  
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='discrete_cosine_transform', id='DiscreteCosineTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis','type_'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='discrete_cosine_transform', id='DiscreteCosineTransformPrimitive', primitive_family='feature_construct', hyperparams=['n','norm','axis','type_'], description='Discrete Cosine Transform')
     
     
 

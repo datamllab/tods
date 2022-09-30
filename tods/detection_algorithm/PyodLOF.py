@@ -201,7 +201,7 @@ Parameters
         ``threshold_`` on ``decision_scores_``.
     """
 
-    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_lof', id='LOFPrimitive', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination'])
+    metadata = construct_primitive_metadata(module='detection_algorithm', name='pyod_lof', id='LOFPrimitive', primitive_family='anomaly_detect', hyperparams=['n_neighbors', 'algorithm', 'leaf_size', 'p', 'contamination'],description='TODS.anomaly_detection_primitives.LOFPrimitive')
 
     def __init__(self, *,
                  hyperparams: Hyperparams, #

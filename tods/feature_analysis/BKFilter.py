@@ -157,7 +157,7 @@ Parameters
         Decides what semantic type to attach to generated attributes'
     """
 
-    metadata = construct_primitive_metadata(module='feature_analysis', name='bk_filter', id='BKFilterPrimitive', primitive_family='feature_construct', hyperparams=['low', 'high', 'K'])
+    metadata = construct_primitive_metadata(module='feature_analysis', name='bk_filter', id='BKFilterPrimitive', primitive_family='feature_construct', hyperparams=['low', 'high', 'K'], description='Baxter-King Filter Primitive')
     
     
 

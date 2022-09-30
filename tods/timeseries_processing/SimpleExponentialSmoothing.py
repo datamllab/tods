@@ -120,7 +120,7 @@ Parameters
     
     """
     
-    metadata = construct_primitive_metadata(module='timeseries_processing', name='simple_exponential_smoothing', id='SimpleExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'])
+    metadata = construct_primitive_metadata(module='timeseries_processing', name='simple_exponential_smoothing', id='SimpleExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'], description='statsmodels.preprocessing.data.SimpleExponentialSmoothing')
     
     
 
