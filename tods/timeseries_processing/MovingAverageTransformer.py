@@ -354,4 +354,4 @@ Parameters
         return target_columns_metadata
 
 
-MovingAverageTransformerPrimitive.__doc__ = Normalizer.__doc__
+# MovingAverageTransformerPrimitive.__doc__ = Normalizer.__doc__

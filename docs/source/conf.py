@@ -115,6 +115,9 @@ html_theme_options = {
 # }
 linkcode_resolve = make_linkcode_resolve('tods',
                                          'https://github.com/datamllab/'
-                                         'tods/blob/master/'
+                                         'tods/blob/dev/'
                                          '{package}/{path}#L{lineno}')
+# https://github.com/datamllab/tods/tree/master/todstods/data_processing/CategoricalToBinary.py#L119
+
+
 # https://github.com/datamllab/tods/tree/master/todstods/data_processing/CategoricalToBinary.py#L119

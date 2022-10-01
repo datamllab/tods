@@ -488,4 +488,4 @@ Parameters
         return target_columns_metadata
 
 
-SKPowerTransformerPrimitive.__doc__ = SKPowerTransformerPrimitive.__doc__
+# SKPowerTransformerPrimitive.__doc__ = SKPowerTransformerPrimitive.__doc__

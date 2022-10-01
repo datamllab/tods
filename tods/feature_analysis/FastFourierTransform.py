@@ -435,7 +435,7 @@ Parameters
         return target_columns_metadata
 
 
-FastFourierTransformPrimitive.__doc__ = FastFourierTransformPrimitive.__doc__
+# FastFourierTransformPrimitive.__doc__ = FastFourierTransformPrimitive.__doc__
 
 
 

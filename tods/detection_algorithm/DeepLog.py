@@ -155,7 +155,7 @@ class DeepLogPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, 
 
 Parameters
 ----------
-    hidden_size :int(default=64)
+    hidden_sizess :int(default=64)
         hidden state dimension
     loss :Union[str, None](default='mean_squared_error')
         loss function

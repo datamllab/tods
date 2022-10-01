@@ -401,4 +401,4 @@ class SKImputerPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, Param
         return target_columns_metadata
 
 
-SKImputerPrimitive.__doc__ = SimpleImputer.__doc__
+# SKImputerPrimitive.__doc__ = SimpleImputer.__doc__ 

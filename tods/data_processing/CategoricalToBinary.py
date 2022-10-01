@@ -369,5 +369,5 @@ class CategoricalToBinaryPrimitive(transformer.TransformerPrimitiveBase[Inputs, 
         return target_columns_metadata
 
 
-CategoricalToBinaryPrimitive.__doc__ = CategoricalToBinaryPrimitive.__doc__
+# CategoricalToBinaryPrimitive.__doc__ = CategoricalToBinaryPrimitive.__doc__
 

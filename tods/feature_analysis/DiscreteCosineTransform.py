@@ -455,7 +455,7 @@ Parameters
         return target_columns_metadata
 
 
-DiscreteCosineTransformPrimitive.__doc__ = DiscreteCosineTransformPrimitive.__doc__
+# DiscreteCosineTransformPrimitive.__doc__ = DiscreteCosineTransformPrimitive.__doc__
 
 
 

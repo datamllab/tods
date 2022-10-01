@@ -345,4 +345,4 @@ Parameters
         return target_columns_metadata
 
 
-SimpleExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__
+# SimpleExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__

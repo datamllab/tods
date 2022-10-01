@@ -334,4 +334,4 @@ class HoltSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[Inputs, Outputs, P
         return target_columns_metadata
 
 
-HoltSmoothingPrimitive.__doc__ = Normalizer.__doc__
+# HoltSmoothingPrimitive.__doc__ = Normalizer.__doc__

@@ -372,7 +372,7 @@ Parameters
         return target_columns_metadata
 
 
-EnsemblePrimitive.__doc__ = Normalizer.__doc__
+# EnsemblePrimitive.__doc__ = Normalizer.__doc__
 
 
 

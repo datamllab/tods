@@ -334,4 +334,4 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
         return target_columns_metadata
 
 
-HoltWintersExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__
+# HoltWintersExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__

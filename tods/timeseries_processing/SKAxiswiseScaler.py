@@ -383,4 +383,4 @@ Parameters
 
         return target_columns_metadata
 
-SKAxiswiseScalerPrimitive.__doc__ = SKAxiswiseScalerPrimitive.__doc__
+# SKAxiswiseScalerPrimitive.__doc__ = SKAxiswiseScalerPrimitive.__doc__

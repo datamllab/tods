@@ -490,4 +490,4 @@ Parameters
 			target_columns_metadata.append(column_metadata)
 		return target_columns_metadata
 
-NonNegativeMatrixFactorizationPrimitive.__doc__ = NonNegativeMatrixFactorizationPrimitive.__doc__
+# NonNegativeMatrixFactorizationPrimitive.__doc__ = NonNegativeMatrixFactorizationPrimitive.__doc__

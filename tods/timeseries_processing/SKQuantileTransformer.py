@@ -483,4 +483,4 @@ Parameters
         return target_columns_metadata
 
 
-SKQuantileTransformerPrimitive.__doc__ = QuantileTransformer.__doc__
+# SKQuantileTransformerPrimitive.__doc__ = QuantileTransformer.__doc__

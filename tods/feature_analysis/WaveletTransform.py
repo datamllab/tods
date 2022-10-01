@@ -421,7 +421,7 @@ Parameters
         # print(target_columns_metadata)
         return target_columns_metadata
 
-WaveletTransformPrimitive.__doc__ = WaveletTransformPrimitive.__doc__
+# WaveletTransformPrimitive.__doc__ = WaveletTransformPrimitive.__doc__
 
 class Wavelet:
 

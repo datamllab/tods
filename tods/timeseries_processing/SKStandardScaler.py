@@ -529,4 +529,4 @@ Parameters
         return target_columns_metadata
 
 
-SKStandardScalerPrimitive.__doc__ = SKStandardScalerPrimitive.__doc__
+# SKStandardScalerPrimitive.__doc__ = SKStandardScalerPrimitive.__doc__
