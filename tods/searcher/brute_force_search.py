@@ -58,13 +58,14 @@ class BruteForceSearch(PipelineSearchBase): # pragma: no cover
         # DEBUG
         ####################
         for pipeline_result in pipeline_results:
-            try:
-                for error in pipeline_result.error:
-                    if error is not None:
-                        raise error
-            except:
-                import traceback
-                traceback.print_exc()
+            if pipeline_result.error:
+                try:
+                    for error in pipeline_result.error:
+                        if error is not None:
+                            raise error
+                except:
+                    import traceback
+                    traceback.print_exc()
         ####################
 
         return [self.ranking_function(pipeline_result) for pipeline_result in pipeline_results]

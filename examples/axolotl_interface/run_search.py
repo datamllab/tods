@@ -58,4 +58,5 @@ print(best_output)
 print('Scores:')
 print(best_scores)
 print('*' * 52)
+print(best_pipeline_result)
 

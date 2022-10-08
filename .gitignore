@@ -95,6 +95,9 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# fitted pipeline
+fitted_pipelines/
+
 # Rope project settings
 .ropeproject
 
