@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+core
 # C extensions
 *.so
 
@@ -112,6 +112,7 @@ tmp/
 
 *.swp
 results.csv
+out.csv
 pipeline.yml
 pipeline_run.yml
 example_pipeline.json
@@ -119,3 +120,4 @@ example_pipeline.json
 tmp.txt
 
 benchmark/realworld_data/data/*.csv
+
