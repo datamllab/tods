@@ -16,6 +16,7 @@ class BruteForceSearch(PipelineSearchBase): # pragma: no cover
 
         # Find the candidates
         self.task_description = schemas_utils.get_task_description(self.problem_description['problem']['task_keywords'])
+        # FIXME stagnate
         self.available_pipelines = self._return_pipelines(
                             self.task_description['task_type'], self.task_description['task_subtype'], self.task_description['data_types'])
         
@@ -26,6 +27,7 @@ class BruteForceSearch(PipelineSearchBase): # pragma: no cover
 
         self.current_pipeline_index = 0
         self.offset = 1
+        print("---")
 
     def evaluate(self, pipeline_to_eval, input_data=None):
         if input_data is None:

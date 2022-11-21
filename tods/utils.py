@@ -9,6 +9,8 @@ import uuid
 
 import numpy as np
 
+import os
+
 from d3m.container import DataFrame as d3m_dataframe
 from d3m.primitive_interfaces.base import Hyperparams
 from d3m.metadata import base as metadata_base
@@ -18,6 +20,7 @@ import argparse
 from d3m import index
 from d3m.metadata.base import ArgumentType
 from d3m.metadata.pipeline import Pipeline, PrimitiveStep
+from sklearn import datasets
 
 primitive_families = {'data_transform': metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
                       'data_preprocessing': metadata_base.PrimitiveFamily.DATA_PREPROCESSING,
@@ -218,6 +221,22 @@ def build_pipeline(config):
     curr_step_no = 2
     flag = 1
 
+
+    #Step 5: time series processing
+    timeseries_processing_methods = get_primitive_list(config,'timeseries_processing')
+    timeseries_processing_hyperparams = get_primitives_hyperparam_list(config,'timeseries_processing')
+    for i in range(len(timeseries_processing_methods)):
+
+        step_processing = build_step(arguments={'inputs':'steps.' + str(curr_step_no) + '.produce'},
+                                     primitive_path='timeseries_processing.'+ timeseries_processing_methods[i],
+                                     hyperparams=timeseries_processing_hyperparams[i])
+        pipeline_description.add_step(step_processing)
+
+        if flag == 1:
+            curr_step_no += 1
+            flag = 0
+        curr_step_no += 1
+        
     # Step 4: Feature analysis
     feature_analysis_methods = get_primitive_list(config,'feature_analysis')
     feature_analysis_hyperparams = get_primitives_hyperparam_list(config,'feature_analysis')
@@ -234,26 +253,14 @@ def build_pipeline(config):
         curr_step_no += 1
 
 
-    #Step 5: time series processing
-    timeseries_processing_methods = get_primitive_list(config,'timeseries_processing')
-    timeseries_processing_hyperparams = get_primitives_hyperparam_list(config,'timeseries_processing')
-    for i in range(len(timeseries_processing_methods)):
-
-        step_processing = build_step(arguments={'inputs':'steps.' + str(curr_step_no) + '.produce'},
-                                     primitive_path='timeseries_processing.'+ timeseries_processing_methods[i],
-                                     hyperparams=timeseries_processing_hyperparams[i])
-        pipeline_description.add_step(step_processing)
-
-        if flag == 1:
-            curr_step_no += 1
-            flag = 0
-        curr_step_no += 1
 
 
     #Step 6: detectionn algorithm
     detection_algorithm_methods = get_primitive_list(config,'detection_algorithm')
     detection_algorithm_hyperparams = get_primitives_hyperparam_list(config,'detection_algorithm')
 
+    print(detection_algorithm_methods)
+    input()
     step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
                         primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
                         hyperparams=detection_algorithm_hyperparams[0])
@@ -412,7 +419,8 @@ def fit_pipeline(dataset, pipeline, metric='F1', seed=0):
     pipeline_result = backend.fit_pipeline(problem_description=problem_description,
                                                 pipeline=pipeline,
                                                 input_data=[dataset])
-
+    print('========================================')
+    print(pipeline_result)
     fitted_pipeline = {
         'runtime': backend.fitted_pipelines[pipeline_result.fitted_pipeline_id],
         'dataset_metadata': dataset.metadata
@@ -638,6 +646,8 @@ def build_step(primitive_path,arguments=None, hyperparams=None):
         The primitive that has been initialized
     """
     #init primitive step
+    print("===========Primitive Path==============")
+    print(primitive_path)
     step_processing = PrimitiveStep(
         primitive=index.get_primitive('d3m.primitives.tods.' + primitive_path))
 
@@ -655,7 +665,7 @@ def build_step(primitive_path,arguments=None, hyperparams=None):
     step_processing.add_output('produce')
     return step_processing
 
-def get_evaluate_metric(y_true, y_pred, beta,metric):
+def get_evaluate_metric(y_true, y_pred, beta,metric,search_space):
     """
 
     Parameters
@@ -674,6 +684,15 @@ def get_evaluate_metric(y_true, y_pred, beta,metric):
     """
 
     from sklearn.metrics import fbeta_score,f1_score,recall_score,precision_score,precision_recall_fscore_support
+    print('==========y_true============')
+    print(y_true)
+    print('==========y_pred============')
+    num=[0.0,1.0]
+    path = os.getcwd()
+    print(path)
+    df = pd.DataFrame(y_pred)
+    df.to_csv("../../../../mnt/tods/tods/data_test_"+search_space+".csv")
+    print(y_pred)
     precision_score = precision_score(y_true,y_pred)
     recall_score = recall_score(y_true,y_pred)
     f_beta = fbeta_score(y_true, y_pred, beta, average='macro')
@@ -715,3 +734,13 @@ def json_to_config(json):
         config[key] = list(item for item in value.items())
     return config
 
+
+def train_test_split(dataset,frac):
+    train_data = dataset[:int(0.6*len(df))]
+    test_data = dataset[~dataset.index.isin(train_data.index)]
+    return train_data,test_data
+
+
+# TODO https://github.com/scikit-learn/scikit-learn/blob/f3f51f9b6/sklearn/model_selection/_split.py#L953
+def k_fold_split(n_fold,dataset):
+    return 0

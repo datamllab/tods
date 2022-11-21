@@ -243,8 +243,14 @@ class RaySearcher():
     y_true = df['anomaly']
     y_pred = pipeline_result.exposed_outputs['outputs.0']['anomaly']
     # self.stats.append_score.remote(score)
-
-    eval_metric = get_evaluate_metric(y_true,y_pred,self.beta,self.metric)
+    print("=============search space=================")
+    print(search_space['detection_algorithm'][0][0])
+    if search_space['detection_algorithm'][0][0]=='Ensemble':
+      print("===================================================================")
+      print("===================================================================")
+      print("===================================================================")
+      print("===================================================================")
+    eval_metric = get_evaluate_metric(y_true,y_pred,self.beta,self.metric,search_space['detection_algorithm'][0][0])
 
     # ray.tune.report(score = score * 100)
     # ray.tune.report(accuracy=1)s

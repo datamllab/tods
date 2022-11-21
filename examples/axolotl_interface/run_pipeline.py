@@ -50,8 +50,13 @@ config = {
                     ('statistical_minimum',)], #Specify hyperparams as k,v pairs
 }
 config1={
-        'detection_algorithm':[
-                    ['dagmm',]],
+        'timeseries_processing':[
+                    ['standard_scaler',{'with_mean':True}]],
+            'detection_algorithm':[
+                    ['dagmm',{'comp_hiddens':[16,8,1]}]],
+            'feature_analysis':[
+                    ('statistical_maximum',{'window_size':3}),
+                    ('statistical_minimum',)], #Specify hyperparams as k,v pairs
 }
 default_primitive = {
     'data_processing': [],
@@ -60,7 +65,7 @@ default_primitive = {
     'detection_algorithm': [('pyod_ae', None)],
 }
 
-pipeline = build_pipeline(config1)
+pipeline = build_pipeline(config)
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)
