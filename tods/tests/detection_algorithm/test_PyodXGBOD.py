@@ -85,7 +85,11 @@ class PyodXGBODTestCase(unittest.TestCase):
         }]
         metadata = self.prediction_labels.metadata.to_internal_simple_structure()
         for i in range(len(metadata)):
-            self.assertEqual(metadata[i]["metadata"], target[i]["metadata"])
+            if i == 2:
+               self.assertEqual(2, len(metadata[i]["metadata"]["semantic_types"])) 
+               self.assertEqual(target[i]["metadata"]["structural_type"], metadata[i]["metadata"]["structural_type"]) 
+            else:
+                self.assertEqual(metadata[i]["metadata"], target[i]["metadata"])
         
         
 

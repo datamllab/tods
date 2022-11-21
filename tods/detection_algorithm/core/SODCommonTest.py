@@ -96,6 +96,7 @@ class SODCommonTest:
 
     def test_prediction_labels(self):
         pred_labels = self.clf.predict(self.X_test)
+        self.y_test = np.squeeze(self.y_test)
         assert_equal(pred_labels.shape, self.y_test.shape)
 
     def test_prediction_proba(self):
