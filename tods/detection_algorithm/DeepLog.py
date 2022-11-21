@@ -152,8 +152,38 @@ class Hyperparams(Hyperparams_ODBase):
 class DeepLogPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
     """
     A primitive that uses DeepLog for outlier detection
-    Parameters
-        ----------
+
+Parameters
+----------
+    hidden_sizess :int(default=64)
+        hidden state dimension
+    loss :Union[str, None](default='mean_squared_error')
+        loss function
+    optimizer :Union[str, None](default='Adam')
+        Optimizer
+    epochs :int(default=10)
+        Epoch
+    batch_size :int(default=32)
+       Batch size
+    dropout_rate :float(default=0.2)
+        Dropout rate
+    l2_regularizer :float(default=0.1)
+        l2 regularizer
+    validation_size :float(default=0.1)
+        validation size
+    window_size :int(default=1)
+        window size"
+    features :int(default=1)
+       Number of features in Input
+    stacked_layers :int(default=1)
+        Number of LSTM layers between input layer and Final Dense Layer
+    preprocessing :Bool(default=True)
+        Whether to Preprosses the data
+    verbose :int(default=1)
+        verbose
+    contamination :float(lower=0.,upper=0.5,default=0.1)
+        the amount of contamination of the data set, i.e.the proportion of outliers in the data set. Used when fitting to define the threshold on the decision function
+
     """
 
     metadata = construct_primitive_metadata(module='detection_algorithm', name='deeplog', id='DeepLogPrimitive', primitive_family='anomaly_detect', hyperparams=['hidden_size', 'loss', 'optimizer', 'epochs', 'batch_size','l2_regularizer', 'validation_size', 'window_size', 'features', 'stacked_layers', 'preprocessing', 'verbose', 'dropout_rate','contamination'], description='DeepLog Anomolay Detection')

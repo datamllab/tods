@@ -126,14 +126,12 @@ class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
     Standardize a dataset along any axis, and center to the mean and component wise scale to unit variance.
     See `sklearn documentation <https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.scale.html?highlight=scale#sklearn.preprocessing.scale>`_ for more details.
 
-    Parameters
-    ----------
+Parameters
+----------
     axis: int (0 by default).
         axis used to compute the means and standard deviations along. If 0, independently standardize each feature, otherwise (if 1) standardize each sample.
-
     with_mean: boolean, True by default.
         If True, center the data before scaling.
-
     with_std: boolean, True by default.
         If True, scale the data to unit variance (or equivalently, unit standard deviation).
     """
@@ -385,4 +383,4 @@ class SKAxiswiseScalerPrimitive(transformer.TransformerPrimitiveBase[Inputs, Out
 
         return target_columns_metadata
 
-SKAxiswiseScalerPrimitive.__doc__ = SKAxiswiseScalerPrimitive.__doc__
+# SKAxiswiseScalerPrimitive.__doc__ = SKAxiswiseScalerPrimitive.__doc__

@@ -24,8 +24,8 @@ setup(
     name=PACKAGE_NAME,
     version='0.0.2',
     description='Automated Time-series Outlier Detection System',
-    author='DATA Lab@Texas A&M University',
-    author_email='khlai037@tamu.edu',
+    author='DATA Lab@Rice University',
+    author_email='khlai037@rice.edu',
     url='https://tods-doc.github.io',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
     package_data={
@@ -35,7 +35,7 @@ setup(
                  ]
     },
     install_requires=[
-        'tamu_d3m==2022.01.21',
+        'tamu_d3m==2022.05.23',
         'tamu_axolotl',
         'numpy<=1.21.2',
         'combo',

@@ -26,6 +26,11 @@ class Hyperparams(hyperparams.Hyperparams):
 class DatasetToDataFramePrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
     A primitive which extracts a DataFrame out of a Dataset.
+
+    Parameters
+    -----------
+    dataframe_resource
+        Resource ID of a DataFrame to extract if there are multiple tabular resources inside a Dataset and none is a dataset entry point.
     """
     
     metadata = construct_primitive_metadata('data_processing', 'dataset_to_dataframe', 'DatasetToDataFramePrimitive', 'data_preprocessing', description='Extract a DataFrame from a Dataset')

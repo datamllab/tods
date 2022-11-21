@@ -523,6 +523,6 @@ class SupervisedOutlierDetectorBase(TODSSupervisedLearnerPrimitiveBase[Inputs, O
         return target_columns_metadata
 
 
-SupervisedOutlierDetectorBase.__doc__ = SupervisedOutlierDetectorBase.__doc__
+# SupervisedOutlierDetectorBase.__doc__ = SupervisedOutlierDetectorBase.__doc__
 
 

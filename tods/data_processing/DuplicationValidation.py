@@ -33,10 +33,11 @@ class DuplicationValidationPrimitive(transformer.TransformerPrimitiveBase[Inputs
 
     Parameters
     ----------
-    keep_option: enumeration
+    keep_option :enumeration
         When dropping rows, choose to keep the first one or calculate the average
     """
- 
+
+
     __author__: "DATA Lab at Texas A&M University"
     
     

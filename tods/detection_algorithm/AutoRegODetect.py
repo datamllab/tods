@@ -92,9 +92,11 @@ class AutoRegODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs,
     outlier scores. This model is for multivariate time series.
     This model handles multivariate time series by various combination
     approaches. See AutoRegOD for univarite data.
-    See :cite:`aggarwal2015outlier,zhao2020using` for details.
-    Parameters
-    ----------
+
+    See :cite:t:`aggarwal2015outlier` for details.
+
+Parameters
+----------
     window_size : int
         The moving window size.
     step_size : int, optional (default=1)
@@ -108,8 +110,9 @@ class AutoRegODetectorPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs,
         'median'}. Pass in weights of detector for weighted version.
     weights : numpy array of shape (1, n_dimensions)
         Score weight by dimensions. (default=[1,1,...,1])
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

@@ -189,8 +189,67 @@ class Hyperparams(Hyperparams_ODBase):
 class TelemanomPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyperparams]):
 	"""
 	A primitive that uses telmanom for outlier detection
-	Parameters
-		----------
+
+    Parameters
+    ----------
+        smoothing_perc :float (default=0.05)
+            determines window size used in EWMA smoothing (percentage of total values for channel)
+            
+        window_size_ :int(default=100)
+            number of trailing batches to use in error calculation
+
+        error_buffer :int(default=50)
+            number of values surrounding an error that are brought into the sequence (promotes grouping on nearby sequences
+
+        batch_size :int(default=70)
+            Batch size while predicting
+
+    .. dropdown:: LSTM Model Parameters
+
+        dropout :float(default=0.3)
+            Dropout rate
+
+        validation_split :float(default=0.2)
+            Validation split
+
+        optimizer :(default='Adam')
+            Optimizer
+
+        lstm_batch_size :int (default=64)
+            lstm model training batch size
+
+        loss_metric :(default='mean_squared_error')
+            loss function
+      
+        layers = List(default=[10,10])
+            No of units for the 2 lstm layers
+
+    .. dropdown:: Training Parameters
+
+        epochs :int(default=1)
+            Epoch
+
+        patience  :int(default=10)
+            Number of consequetive training iterations to allow without decreasing the val_loss by at least min_delta
+
+        min_delta :float(default=0.0003)
+            Number of consequetive training iterations to allow without decreasing the val_loss by at least min_delta
+
+        l_s :int(default=100)
+            num previous timesteps provided to model to predict future values
+
+        n_predictions :int(default=10)
+            number of steps ahead to predict
+
+    .. dropdown:: Error thresholding parameters
+
+        p :float(default=0.05)
+            minimum percent decrease between max errors in anomalous sequences (used for pruning)
+
+    .. dropdown:: Contamination
+
+        contamination : float in (0., 0.5), optional (default=0.1)
+            the amount of contamination of the data set, i.e.the proportion of outliers in the data set. Used when fitting to define the threshold on the decision function
 	"""
 
 	metadata = construct_primitive_metadata(module='detection_algorithm', name='telemanom', id='TelemanomPrimitive', primitive_family='anomaly_detect', hyperparams=['layers','loss_metric','optimizer','epochs','p','l_s','patience','min_delta','dropout','smoothing_perc'], description='Telemanom')

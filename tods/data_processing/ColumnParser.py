@@ -90,6 +90,25 @@ class ColumnParserPrimitive(transformer.TransformerPrimitiveBase[Inputs, Outputs
     hash encoding.
 
     What is returned is controlled by ``return_result`` and ``add_index_columns``.
+
+    Parameters
+    ----------
+    parse_semantic_types :Set
+        A set of semantic types to parse. One can provide a subset of supported semantic types to limit what the primitive parses.       
+    use_columns :Set
+        A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
+    exclude_columns :Set
+        A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
+    return_result :Enumeration
+        Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned?
+    add_index_columns :Bool
+        Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
+    parse_categorical_target_columns = hyperparams.UniformBool
+        Should it parse also categorical target columns?
+    replace_index_columns :Bool
+        Replace primary index columns even if otherwise appending columns. Applicable only if \"return_result\" is set to \"append\".   
+    fuzzy_time_parsing :Bool
+        Use fuzzy time parsing.
     """
 
    

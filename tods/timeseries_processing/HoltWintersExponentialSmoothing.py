@@ -108,6 +108,11 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
     HoltWinter Exponential Smoothing
     `Statsmodels documentation <https://www.statsmodels.org/stable/generated/statsmodels.tsa.holtwinters.ExponentialSmoothing.html#statsmodels.tsa.holtwinters.ExponentialSmoothing>`_
     
+    Parameters
+    ----------
+    endog :Bounded[int]
+        Array like time seires.
+    
     """
     
     metadata = construct_primitive_metadata(module='timeseries_processing', name='holt_winters_exponential_smoothing', id='HoltWintersExponentialSmoothingPrimitive', primitive_family='data_preprocessing', hyperparams=['endog','use_columns'], description='statsmodels.preprocessing.data.HoltWintersExponentialSmoothing')
@@ -329,4 +334,4 @@ class HoltWintersExponentialSmoothingPrimitive(UnsupervisedLearnerPrimitiveBase[
         return target_columns_metadata
 
 
-HoltWintersExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__
+# HoltWintersExponentialSmoothingPrimitive.__doc__ = Normalizer.__doc__

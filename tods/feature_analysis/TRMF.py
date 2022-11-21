@@ -162,60 +162,44 @@ class Hyperparams(hyperparams.Hyperparams):
 class TRMFPrimitive(TODSTransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """Temporal Regularized Matrix Factorization.
 
-    Parameters
-    ---------- 
-
+Parameters
+----------
     lags : array-like, shape (n_lags,)
         Set of lag indices to use in model.
-    
     K : int
         Length of latent embedding dimension
-    
     lambda_f : float
         Regularization parameter used for matrix F.
-    
     lambda_x : float
         Regularization parameter used for matrix X.
-    
     lambda_w : float
         Regularization parameter used for matrix W.
-
     alpha : float
         Regularization parameter used for make the sum of lag coefficient close to 1.
         That helps to avoid big deviations when forecasting.
-    
     eta : float
         Regularization parameter used for X when undercovering autoregressive dependencies.
-
     max_iter : int
         Number of iterations of updating matrices F, X and W.
-
     F_step : float
         Step of gradient descent when updating matrix F.
-
     X_step : float
         Step of gradient descent when updating matrix X.
-
     W_step : float
         Step of gradient descent when updating matrix W.
 
-
-    Attributes
-    ----------
-
+.. dropdown:: Attributes
+ 
     F : ndarray, shape (n_timeseries, K)
         Latent embedding of timeseries.
-
     X : ndarray, shape (K, n_timepoints)
         Latent embedding of timepoints.
-
     W : ndarray, shape (K, n_lags)
         Matrix of autoregressive coefficients.
 
-    Reference
-    ----------
-    "https://github.com/SemenovAlex/trmf"
+.. dropdown:: Reference
 
+    "https://github.com/SemenovAlex/trmf"s
     Yu, H. F., Rao, N., & Dhillon, I. S. (2016). Temporal regularized matrix factorization for high-dimensional time series prediction.
     In Advances in neural information processing systems (pp. 847-855).
     Which can be found there: http://www.cs.utexas.edu/~rofuyu/papers/tr-mf-nips.pdf

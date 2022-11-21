@@ -131,8 +131,9 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
     largest: use the distance to the kth neighbor as the outlier score
     mean: use the average of all k neighbors as the outlier score
     median: use the median of the distance to k neighbors as the outlier score
-    Parameters
-    ----------
+
+Parameters
+----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set,
         i.e. the proportion of outliers in the data set. Used when fitting to
@@ -141,6 +142,7 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         Number of neighbors to use by default for k neighbors queries.
     method : str, optional (default='largest')
         {'largest', 'mean', 'median'}
+        
         - 'largest': use the distance to the kth neighbor as the outlier score
         - 'mean': use the average of all k neighbors as the outlier score
         - 'median': use the median of the distance to k neighbors as the
@@ -150,6 +152,7 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         queries.
     algorithm : {'auto', 'ball_tree', 'kd_tree', 'brute'}, optional
         Algorithm used to compute the nearest neighbors:
+        
         - 'ball_tree' will use BallTree
         - 'kd_tree' will use KDTree
         - 'brute' will use a brute-force search.
@@ -175,6 +178,7 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         efficient than passing the metric name as a string.
         Distance matrices are not supported.
         Valid values for metric are:
+        
         - from scikit-learn: ['cityblock', 'cosine', 'euclidean', 'l1', 'l2',
           'manhattan']
         - from scipy.spatial.distance: ['braycurtis', 'canberra', 'chebyshev',
@@ -196,8 +200,9 @@ class KNNPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hype
         The number of parallel jobs to run for neighbors search.
         If ``-1``, then the number of jobs is set to the number of CPU cores.
         Affects only kneighbors and kneighbors_graph methods.
-    Attributes
-    ----------
+
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

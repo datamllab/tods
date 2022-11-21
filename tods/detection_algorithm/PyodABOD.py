@@ -71,12 +71,14 @@ class ABODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
     For an observation, the variance of its weighted cosine scores to all
     neighbors could be viewed as the outlying score.
     See :cite:`kriegel2008angle` for details.
+
     Two versions of ABOD are supported:
+
     - Fast ABOD: use k nearest neighbors to approximate.
-    - Original ABOD: consider all training points with high time complexity at
-      O(n^3).
-    Parameters
-    ----------
+    - Original ABOD: consider all training points with high time complexity at O(n^3).
+
+Parameters
+----------
     contamination : float in (0., 0.5), optional (default=0.1)
         The amount of contamination of the data set, i.e.
         the proportion of outliers in the data set. Used when fitting to
@@ -85,11 +87,12 @@ class ABODPrimitive(UnsupervisedOutlierDetectorBase[Inputs, Outputs, Params, Hyp
         Number of neighbors to use by default for k neighbors queries.
     method: str, optional (default='fast')
         Valid values for metric are:
+
         - 'fast': fast ABOD. Only consider n_neighbors of training points
-        - 'default': original ABOD with all training points, which could be
-          slow
-    Attributes
-    ----------
+        - 'default': original ABOD with all training points, which could be slow
+
+.. dropdown:: Attributes
+    
     decision_scores_ : numpy array of shape (n_samples,)
         The outlier scores of the training data.
         The higher, the more abnormal. Outliers tend to have higher

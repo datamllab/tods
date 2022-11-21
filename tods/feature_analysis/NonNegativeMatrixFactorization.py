@@ -216,52 +216,40 @@ class NonNegativeMatrixFactorizationPrimitive(TODSTransformerPrimitiveBase[Input
 	"""
 	Calculates Latent factors of a given matrix of timeseries data
 
-	Parameters
-	----------
+Parameters
+----------
 	rank: int
 		The factorization rank to achieve. Default is 30.
-
 	update: str
-		Type of update equations used in factorization. When specifying model parameter update can be assigned to:"			
-					'euclidean' for classic Euclidean distance update equations,"
-					'divergence' for divergence update equations."
-
-					By default Euclidean update equations are used.
-
+		Type of update equations used in factorization. When specifying model parameter update can be assigned to:		
+		- ``euclidean`` for classic Euclidean distance update equations,
+  		- ``divergence`` for divergence update equations.
+		By default Euclidean update equations are used.
 	objective: str
-		Type of objective function used in factorization. When specifying model parameter :param:`objective` can be assigned to:
-
-					‘fro’ for standard Frobenius distance cost function,
-					‘div’ for divergence of target matrix from NMF estimate cost function (KL),
-					‘conn’ for measuring the number of consecutive iterations in which the connectivity matrix has not changed.
-
-					By default the standard Frobenius distance cost function is used.
-
+		Type of objective function used in factorization. When specifying model parameter ``objective`` can be assigned to:
+			- ``fro`` for standard Frobenius distance cost function,
+			- ``div`` for divergence of target matrix from NMF estimate cost function (KL),
+			- ``conn`` for measuring the number of consecutive iterations in which the connectivity matrix has not changed.
+		By default the standard Frobenius distance cost function is used.
 	max_iter: int
 		Maximum number of factorization iterations. Note that the number of iterations depends on the speed of method convergence. Default is 30.
-
 	learning_rate: float
 		Minimal required improvement of the residuals from the previous iteration. They are computed between the target matrix and its MF estimate using the objective function associated to the MF algorithm. Default is None.
+	     
+.. dropdown:: Control Parameter
 
-	
-	use_columns: Set
+ 	use_columns: Set
 		A set of column indices to force primitive to operate on. If any specified column cannot be parsed, it is skipped.
-
 	exclude_columns: Set
 		A set of column indices to not operate on. Applicable only if \"use_columns\" is not provided.
-
 	return_result: Enumeration
 		Should parsed columns be appended, should they replace original columns, or should only parsed columns be returned? This hyperparam is ignored if use_semantic_types is set to false.
-
 	use_semantic_types: Bool
 		Controls whether semantic_types metadata will be used for filtering columns in input dataframe. Setting this to false makes the code ignore return_result and will produce only the output dataframe.
-
 	add_index_columns: Bool
 		Also include primary index columns if input data has them. Applicable only if \"return_result\" is set to \"new\".
-
 	error_on_no_input: Bool(
 		Throw an exception if no input column is selected/provided. Defaults to true to behave like sklearn. To prevent pipelines from breaking set this to False.
-
 	return_semantic_type: Enumeration[str](
 		Decides what semantic type to attach to generated attributes'
 	"""
@@ -502,4 +490,4 @@ class NonNegativeMatrixFactorizationPrimitive(TODSTransformerPrimitiveBase[Input
 			target_columns_metadata.append(column_metadata)
 		return target_columns_metadata
 
-NonNegativeMatrixFactorizationPrimitive.__doc__ = NonNegativeMatrixFactorizationPrimitive.__doc__
+# NonNegativeMatrixFactorizationPrimitive.__doc__ = NonNegativeMatrixFactorizationPrimitive.__doc__

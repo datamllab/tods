@@ -138,6 +138,7 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0): # pragma: no cove
     metrics = problem_description['problem']['performance_metrics']
 
     backend = SimpleRunner(random_seed=seed) 
+    print(dataset, pipeline, metric, data_preparation_pipeline)
     pipeline_result = backend.evaluate_pipeline(problem_description=problem_description,
                                                 pipeline=pipeline,
                                                 input_data=[dataset],
