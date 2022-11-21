@@ -454,7 +454,6 @@ class SubsequenceSegmentationPrimitive(transformer.TransformerPrimitiveBase[Inpu
             for i in range(valid_len):
                 temp_array[i, :] = X_sub[i, :, :].flatten(order='F')
         
-        print("temp_array", temp_array.shape)
         return temp_array #, np.asarray(X_left_inds), np.asarray(X_right_inds)
 
             # else:
