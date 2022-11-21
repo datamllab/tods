@@ -29,7 +29,7 @@ class TelemanomSKI_TestCase(unittest.TestCase):
         self.l_s = 5
         self.n_predictions = 1
         self.X_train, self.y_train, self.X_test, self.y_test = generate_data(
-            n_train=self.n_train, n_test=self.n_test,
+            n_train=self.n_train, n_test=self.n_test, n_features=3,
             contamination=self.contamination, random_state=42)
 
         self.transformer = TelemanomSKI(contamination=self.contamination, l_s=self.l_s, n_predictions=self.n_predictions)
