@@ -46,7 +46,7 @@ setup(
         'pillow==7.1.2',
         'tensorflow==2.4',
         'keras==2.4.0',
-        'pyod',
+        'pyod==0.9.8',
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
