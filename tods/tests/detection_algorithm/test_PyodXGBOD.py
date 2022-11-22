@@ -79,7 +79,7 @@ class PyodXGBODTestCase(unittest.TestCase):
             'selector': ['__ALL_ELEMENTS__', 0],
             'metadata': FrozenOrderedDict({
                 #'name': 'XGBOD Anomaly Detection0_0',
-                'structural_type': np.float64,
+                'structural_type': np.int64,
                 'semantic_types': ('https://metadata.datadrivendiscovery.org/types/Attribute', 'https://metadata.datadrivendiscovery.org/types/PredictedTarget',), 
             }),
         }]
