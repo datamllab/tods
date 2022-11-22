@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from tods.sk_interface.detection_algorithm.CBLOF_skinterface import CBLOFSKI
+from tods.sk_interface.detection_algorithm.SystemWiseDetection_skinterface import SystemWiseDetectionSKI
 
 from pyod.utils.data import generate_data
 import unittest
@@ -10,7 +10,7 @@ from numpy.testing import assert_array_less
 from unittest import TestCase
 from sklearn.metrics import roc_auc_score
 
-class CBLOFSKI_TestCase(unittest.TestCase):
+class SystemWiseDetectionSKI_TestCase(unittest.TestCase):
     def setUp(self):
 
         _dummy = TestCase('__init__')
@@ -29,7 +29,7 @@ class CBLOFSKI_TestCase(unittest.TestCase):
             n_train=self.n_train, n_test=self.n_test, n_features=3,
             contamination=self.contamination, random_state=42)
 
-        self.transformer = CBLOFSKI(contamination=self.contamination)
+        self.transformer = SystemWiseDetectionSKI(contamination=self.contamination)
         self.transformer.fit(self.X_train)
 
     def test_prediction_labels(self):

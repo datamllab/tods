@@ -35,6 +35,7 @@ setup(
                  ]
     },
     install_requires=[
+        'grpcio-testing==1.32.0',
         'tamu_d3m==2022.05.23',
         'tamu_axolotl',
         'numpy<=1.21.2',
@@ -46,7 +47,7 @@ setup(
         'pillow==7.1.2',
         'tensorflow==2.4',
         'keras==2.4.0',
-        'pyod==0.9.8',
+        'pyod>=1.0.5',
         'nimfa==1.4.0',
         'stumpy==1.4.0',
         'more-itertools==8.5.0',
