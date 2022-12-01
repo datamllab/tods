@@ -5,7 +5,23 @@
         1,
         0
       ]
-    }
+    },
+    "moving_average_transform":{
+      "window_size":[
+          3,
+          4,
+          5
+      ],
+      "norm":[
+          "l1",
+          "l2",
+          "max"
+      ],
+      "use_semantic_types":[
+          0,
+          1
+      ]
+  }
   },
   "feature_analysis": {
     "statistical_h_mean": {
@@ -37,6 +53,12 @@
     "pyod_loda": {
       "n_bins": [
         10,
+        20
+      ]
+    },
+    "pyod_cof": {
+      "n_neighborss": [
+        15,
         20
       ]
     }

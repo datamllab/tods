@@ -21,6 +21,7 @@ from tods import generate_dataset, evaluate_pipeline, fit_pipeline, load_pipelin
 import pdb
 import json
 from sklearn.metrics import precision_recall_curve,fbeta_score
+from tods.data_processing import DatasetToDataframe
 from tods.utils import build_pipeline
 
 @ray.remote
@@ -55,12 +56,11 @@ class RaySearcher():
   """
   A class to tune scalable hypermeters by Ray Tune
   """
-  def __init__(self, dataset, metric,path,beta):
+  def __init__(self, dataset, metric,beta):
     ray.init(local_mode=True, ignore_reinit_error=True)
     self.dataset = dataset
     self.metric = metric
     self.stats = GlobalStats.remote()
-    self.path=path
     self.beta=beta
 
 
@@ -74,21 +74,33 @@ class RaySearcher():
         A search space transform from a json file user designed
         defines valid values for your hyperparameters and can specify how these values are sampled.
     config:
-        An object containing parameters defined by the user to set how the searcher will run
+        An object containing parameters defined by the user to set how the searcher will run.
+        Config currently accepts 5 arguments:
+        
+        - ``searching_algorithm`` : Name of the desired search algorithm to use. https://docs.ray.io/en/latest/tune/faq.html#which-search-algorithm-scheduler-should-i-choose
+        - ``num_samples`` : Number of times to sample from the hyperparameter space. Defaults to 1. 
+        - ``mode`` : Must be one of [min, max]. Determines whether objective is minimizing or maximizing the metric attribute. 
+        - ``use_all_combinations`` : Boolean. If True, use exhaustive search all the primitive combination with default hyperparams. If False, use simple search space.
+        - ``ignore_hyperparameters`` : Boolean.  If False, search hyperparam combinations of the output of the primitive search process.
 
+    .. code-block:: python
+
+        #define search process
+        config = {
+        "searching_algorithm": 'nevergrad',
+        "num_samples": 1,
+        "mode": 'min',
+        "use_all_combinations": True,
+        "ignore_hyperparameters": False
+        }
+    
     Returns
     -------
       best_config
       best_config_pipeline_id
     """
 
-
-
-
     primitive_search_space = self.json_to_primitive_searchspace(search_space, is_exhaustive=config["use_all_combinations"])
-
-    primitive_searcher = self.set_search_algorithm(config["searching_algorithm"])
-
 
     # set the number of CPU cores
     import multiprocessing
@@ -97,7 +109,7 @@ class RaySearcher():
     # Launch searcher
     primitive_analysis = ray.tune.run(
       self._evaluate,
-      metric = "F_beta",
+      metric = config['metric'],
       config = primitive_search_space,
       num_samples = 1,
       # resources_per_trial = {"cpu": num_cores, "gpu": 1},
@@ -105,33 +117,31 @@ class RaySearcher():
       mode = config["mode"],
     )
 
-    best_primitive_config = primitive_analysis.get_best_config(metric='F_beta', mode=config["mode"])
-    best_primitive_list =  primitive_analysis.dataframe(metric="F_beta", mode=config["mode"])
+    best_primitive_config = primitive_analysis.get_best_config(metric=config['metric'], mode=config["mode"])
+    best_primitive_list =  primitive_analysis.dataframe(metric=config['metric'], mode=config["mode"])
 
     if config["ignore_hyperparameters"] is True:
-      return self.get_best_config(primitive_analysis)
+      return self.get_search_result(primitive_analysis,config)
 
     print("Best primitive config: ", best_primitive_config )
     hyperparm_search_space = self.hyperparam_searchspace(search_space,best_primitive_list,best_primitive_config)
 
-    hyperparam_searcher = self.set_search_algorithm(config["searching_algorithm"])
+    # hyperparam_searcher = self.set_search_algorithm(config["searching_algorithm"])
     # from ray.tune.suggest.hyperopt import HyperOptSearch
     hyperparam_analysis = ray.tune.run(
       self._evaluate,
-      metric = "F_beta",
+      metric = config['metric'],
       config = hyperparm_search_space,
       num_samples = config["num_samples"],
       # resources_per_trial = {"cpu": num_cores, "gpu": 1},
       resources_per_trial={"cpu": 3, "gpu": 1},
       mode = config["mode"],
-      # search_alg=HyperOptSearch()
+      # search_alg=hyperparam_searcher
     )
 
     # best_config = hyperparam_analysis.get_best_config(metric='F_beta', mode=config["mode"])
 
-    best_config, best_config_pipeline_id = self.get_best_config(hyperparam_analysis)
-
-    return best_config, best_config_pipeline_id
+    return [self.get_search_result(primitive_analysis,config),self.get_search_result(hyperparam_analysis,config)]
 
 
   def set_search_algorithm(self, algorithm):
@@ -173,7 +183,7 @@ class RaySearcher():
     return searcher
 
 
-  def get_best_config(self, analysis):
+  def get_search_result(self, analysis,config):
     """
     Get best config and best config pipeline id
 
@@ -184,21 +194,22 @@ class RaySearcher():
 
     Returns
     -------
-      best_config:
-        A config which achieves the best performance
-        obtained by searcher analysis
-      best_config_pipeline_id:
-
+      result: 
+        A dataframe that contains search result: scores[name, score], pipeline_id, pipeline_config, search_history
+        
 
     """
-
-    best_config = analysis.get_best_config(metric='F_beta', mode="max")
+    result = {}
+    best_config = analysis.get_best_config(metric=config['metric'], mode=config['mode'])
+    result['best_config'] = best_config
     # df = analysis.results_df
-    df = analysis.dataframe(metric="F_beta", mode="max")
+    df = analysis.dataframe(metric=config['metric'], mode=config['mode'])
     # print(df)
     df.to_csv('out.csv')
-    best_config_pipeline_id = self.find_best_pipeline_id(best_config, df)
-    return best_config, best_config_pipeline_id
+    result['search_history'] = df
+    result['best_pipeline_id'] = self.find_best_pipeline(best_config, df)
+    # result['scores'] = best_result[config['metric']]
+    return result
 
 
   # Initialize the trainable module
@@ -224,9 +235,10 @@ class RaySearcher():
     # build pipeline
     pipeline = build_pipeline(search_space)
 
+    train_dataset = generate_dataset(self.dataset, target_index=6)
     # Train the pipeline with the specified metric and dataset.
     # And get the result
-    fitted_pipeline,pipeline_result = fit_pipeline(self.dataset, pipeline, self.metric)
+    fitted_pipeline,pipeline_result = fit_pipeline(train_dataset, pipeline, self.metric)
 
     # Save fitted pipeline id
     fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
@@ -238,22 +250,16 @@ class RaySearcher():
     self.stats.append_pipeline_description.remote(pipeline)
 
 
-    df = pd.read_csv(self.path)
+    df = self.dataset
 
     y_true = df['anomaly']
     y_pred = pipeline_result.exposed_outputs['outputs.0']['anomaly']
     # self.stats.append_score.remote(score)
-    print("=============search space=================")
-    print(search_space['detection_algorithm'][0][0])
-    if search_space['detection_algorithm'][0][0]=='Ensemble':
-      print("===================================================================")
-      print("===================================================================")
-      print("===================================================================")
-      print("===================================================================")
-    eval_metric = get_evaluate_metric(y_true,y_pred,self.beta,self.metric,search_space['detection_algorithm'][0][0])
+
+    eval_metric = get_evaluate_metric(y_true,y_pred, self.beta, self.metric)
 
     # ray.tune.report(score = score * 100)
-    # ray.tune.report(accuracy=1)s
+    # ray.tune.report(accuracy=1)
 
     from random import seed
     from random import random
@@ -500,7 +506,7 @@ class RaySearcher():
           print("the best" + key.replace(i + '_', " ") + " for " + 
           i + ": " + str(value))
 
-  def find_best_pipeline_id(self, best_config, results_dataframe):
+  def find_best_pipeline(self, best_config, results_dataframe):
     """
     Output pipeline ID that have the best config
 
@@ -513,10 +519,16 @@ class RaySearcher():
     -------
 
     """
-
+    # print(results_dataframe['config/detection_algorithm'][0][0])
+    # print(best_config)
     for key, value in best_config.items():
-        results_dataframe = results_dataframe.loc[results_dataframe['config/' + str(key)].apply(lambda x: x == value)]
-
+      # print(key)
+      # print(results_dataframe['config/' + str(key)])
+      # print(value)
+      # print()
+      results_dataframe = results_dataframe.loc[results_dataframe['config/' + str(key)].apply(lambda x: x == value)]
+      # print(results_dataframe)
+      
     return ray.get(self.stats.get_fitted_pipeline_list.remote())[results_dataframe.index[0]]
 
 
@@ -539,17 +551,17 @@ class RaySearcher():
     primitive_searchspace = {}
     if is_exhaustive:
       for key,value in json.items():
+        # only support one detection algorithm per pipeline
         if key == 'detection_algorithm' and value:
-          # only support one detection algorithm per pipeline
-          primitive_searchspace['detection_algorithm'] = ray.tune.grid_search([[(detection_algo,)] for detection_algo in value.keys()])
+          primitive_searchspace['detection_algorithm'] = ray.tune.grid_search([[[detection_algo,]] for detection_algo in value.keys()])
           continue
         primitive_searchspace[key] = self.exhaustive_searchspace(list(value.keys()))
 
     else:
       for key,value in json.items():
+        # only support one detection algorithm per pipeline
         if key == 'detection_algorithm' and value:
-          # only support one detection algorithm per pipeline
-          primitive_searchspace['detection_algorithm'] = ray.tune.grid_search([[(detection_algo,)] for detection_algo in value.keys()])
+          primitive_searchspace['detection_algorithm'] = ray.tune.grid_search([[[detection_algo,]] for detection_algo in value.keys()])
           continue
         primitive_searchspace[key] = self.simple_searchspace(list(value.keys()))
 
@@ -567,7 +579,7 @@ class RaySearcher():
         return
 
       for i in range(start, len(list)):
-        primitive_combination.append((list[i],))
+        primitive_combination.append([list[i],])
         print(primitive_combination, start)
         backtracking(list, i + 1)
         primitive_combination.pop()
@@ -581,12 +593,14 @@ class RaySearcher():
     path = []
 
     for i in list:
-      path.append((i,))
+      path.append([[i,]])
       res.append(path[:])
 
-    return ray.tune.grid_search(res)
+    return ray.tune.grid_search(path)
+  
 
 
+  # TODO provide choices of search algorithms
   def hyperparam_searchspace(self,json_data,primitive_df,primitive_config):
     list_hyperparam = ['comp_hiddens', 'est_hiddens', 'hidden_neurons']
     config={}
@@ -598,18 +612,21 @@ class RaySearcher():
           for hyperparam in json_data[module][primitive[0]]:
             print(module,primitive,hyperparam,json_data[module][primitive[0]][hyperparam])
             data = json_data[module][primitive[0]][hyperparam]
-            if hyperparam in list_hyperparam:
-              if isinstance(data[0],list) is False:
-                continue
+            
+            # hyperparameter in list_hyperparam is list
+            if hyperparam in list_hyperparam and isinstance(data[0],list) is False:
+              continue
+            # hyperparams is not a list, don't need to search
             if isinstance(data,list) is False:
               continue
+            
+            # TODO define search space using search space API, need to be customized according to search algorithm
             data = ray.tune.grid_search(data)
             hyperparam_list[hyperparam] = data
           primitives.append(hyperparam_list)
         lists.append(primitives)
         config[module] = lists
-
-    print("Hyperparam Search Space: ")
+    print("Hyperparameter Search Space: ")
     print(config)
 
     return config

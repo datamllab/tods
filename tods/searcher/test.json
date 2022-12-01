@@ -1,0 +1,33 @@
+{
+    "timeseries_processing": {
+      "time_series_seasonality_trend_decomposition": {
+        "use_semantic_types": [
+          1,
+          0
+        ]
+      }
+    },
+    "feature_analysis": {
+      
+      "statistical_maximum": {
+        "window_size": [
+          10,
+          20
+        ]
+      },
+      "statistical_minimum": {
+        "window_size": [
+          10,
+          20
+        ]
+      }
+    },
+    "detection_algorithm": {
+      "pyod_loda": {
+        "n_bins": [
+          10,
+          20
+        ]
+      }
+    }
+  }

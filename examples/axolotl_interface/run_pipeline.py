@@ -40,24 +40,43 @@ dataset = generate_dataset(df, target_index)
 # config = load_pipeline(pipeline_path)
 
 # Build pipeline using config
+
+# FIXME tods.timeseries_processing.subsequence_segmentation
+#  [['auto_correlation']] sk [['bk_filter']] [['non_negative_matrix_factorization']] [['statistical_variation']]  [['wavelet_transform']] 
+# [['telemanom']] [['PCAODetector']] [['KDiscordODetector']] [['dagmm']]  
 config = {
             'timeseries_processing':[
                     ['standard_scaler',{'with_mean':True}]],
             'detection_algorithm':[
                     ['pyod_ae',{'hidden_neurons':[32,16,8,16,32]}]],
             'feature_analysis':[
-                    ('statistical_maximum',{'window_size':3}),
-                    ('statistical_minimum',)], #Specify hyperparams as k,v pairs
+                    ['statistical_maximum',{'window_size':3}],
+                    ['statistical_minimum',]], #Specify hyperparams as k,v pairs
 }
-config1={
-        'timeseries_processing':[
-                    ['standard_scaler',{'with_mean':True}]],
-            'detection_algorithm':[
-                    ['dagmm',{'comp_hiddens':[16,8,1]}]],
-            'feature_analysis':[
-                    ('statistical_maximum',{'window_size':3}),
-                    ('statistical_minimum',)], #Specify hyperparams as k,v pairs
-}
+
+json_config = {
+        'timeseries_processing':{
+            'standard_scaler':{
+                'with_mean':
+                    True
+                }
+        },
+        'detection_algorithm':{
+            'pyod_ae':{
+                'hidden_neurons':
+                    [32,16,8,16,32]
+                }
+        },  
+        'feature_analysis':{
+            'statistical_maximum':{
+                'window_size':3
+                },
+            'statistical_minimum':{
+                } 
+        },     
+    }
+json1 = json_to_config(json_config)
+
 default_primitive = {
     'data_processing': [],
     'timeseries_processing': [],
@@ -65,7 +84,7 @@ default_primitive = {
     'detection_algorithm': [('pyod_ae', None)],
 }
 
-pipeline = build_pipeline(config)
+pipeline = build_pipeline(json1)
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)

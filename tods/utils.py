@@ -80,6 +80,9 @@ def construct_primitive_metadata(module, name, id, primitive_family, hyperparams
     metadata = metadata_base.PrimitiveMetadata(meta_dict, )
     return metadata
 
+def datapath_to_dataset(path, target_index):
+    df = pd.read_csv(path)
+    return generate_dataset(df, target_index)
 
 def load_pipeline(pipeline_path):  # pragma: no cover
     """Load a pipeline given a path
@@ -161,7 +164,6 @@ def evaluate_pipeline(dataset, pipeline, metric='F1', seed=0):  # pragma: no cov
     metrics = problem_description['problem']['performance_metrics']
 
     backend = SimpleRunner(random_seed=seed) 
-    print(dataset, pipeline, metric, data_preparation_pipeline)
     pipeline_result = backend.evaluate_pipeline(problem_description=problem_description,
                                                 pipeline=pipeline,
                                                 input_data=[dataset],
@@ -226,7 +228,7 @@ def build_pipeline(config):
     timeseries_processing_methods = get_primitive_list(config,'timeseries_processing')
     timeseries_processing_hyperparams = get_primitives_hyperparam_list(config,'timeseries_processing')
     for i in range(len(timeseries_processing_methods)):
-
+        
         step_processing = build_step(arguments={'inputs':'steps.' + str(curr_step_no) + '.produce'},
                                      primitive_path='timeseries_processing.'+ timeseries_processing_methods[i],
                                      hyperparams=timeseries_processing_hyperparams[i])
@@ -259,8 +261,6 @@ def build_pipeline(config):
     detection_algorithm_methods = get_primitive_list(config,'detection_algorithm')
     detection_algorithm_hyperparams = get_primitives_hyperparam_list(config,'detection_algorithm')
 
-    print(detection_algorithm_methods)
-    input()
     step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
                         primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
                         hyperparams=detection_algorithm_hyperparams[0])
@@ -276,6 +276,7 @@ def build_pipeline(config):
     # Final Output
     pipeline_description.add_output(name='output predictions', data_reference=f'steps.{step_6.index}.produce')
 
+    # print(pipeline_description.to_json_structure())
     return pipeline_description
 
 def build_system_pipeline(config):
@@ -419,8 +420,7 @@ def fit_pipeline(dataset, pipeline, metric='F1', seed=0):
     pipeline_result = backend.fit_pipeline(problem_description=problem_description,
                                                 pipeline=pipeline,
                                                 input_data=[dataset])
-    print('========================================')
-    print(pipeline_result)
+
     fitted_pipeline = {
         'runtime': backend.fitted_pipelines[pipeline_result.fitted_pipeline_id],
         'dataset_metadata': dataset.metadata
@@ -535,17 +535,12 @@ def load_fitted_pipeline(pipeline_id, save_path = find_save_folder()):
 
     return fitted_pipeline
 
-def costom_metric(recall_weight,precision_weight,recall,precision):
-    rec=1/(recall_weight*recall)
-    pre=1/(precision_weight*precision)
-    return 2/(rec+pre)
-
 def produce_fitted_pipeline(dataset, fitted_pipeline):
     from d3m.metadata import base as metadata_base
     from axolotl.backend.simple import SimpleRunner
     import uuid
 
-    dataset.metadata = fitted_pipeline['dataset_metadata']
+    fitted_pipeline['dataset_metadata'] = dataset.metadata
 
     metadata_dict = dataset.metadata.query(('learningData', metadata_base.ALL_ELEMENTS, 1))
     metadata_dict = {key: metadata_dict[key] for key in metadata_dict}
@@ -570,12 +565,6 @@ def load_and_produce_pipeline(dataset, fitted_pipeline_id):
     fitted_pipeline = load_fitted_pipeline(fitted_pipeline_id)
     pipeline_result = produce_fitted_pipeline(dataset, fitted_pipeline)
     return pipeline_result
-
-def datapath_to_dataset(path, target_index):
-  df = pd.read_csv(path)
-  return generate_dataset(df, target_index)
-
-
 
 def get_primitive_list(config, module_name):
     """
@@ -646,8 +635,6 @@ def build_step(primitive_path,arguments=None, hyperparams=None):
         The primitive that has been initialized
     """
     #init primitive step
-    print("===========Primitive Path==============")
-    print(primitive_path)
     step_processing = PrimitiveStep(
         primitive=index.get_primitive('d3m.primitives.tods.' + primitive_path))
 
@@ -665,7 +652,7 @@ def build_step(primitive_path,arguments=None, hyperparams=None):
     step_processing.add_output('produce')
     return step_processing
 
-def get_evaluate_metric(y_true, y_pred, beta,metric,search_space):
+def get_evaluate_metric(y_true, y_pred, beta,metric):
     """
 
     Parameters
@@ -684,15 +671,16 @@ def get_evaluate_metric(y_true, y_pred, beta,metric,search_space):
     """
 
     from sklearn.metrics import fbeta_score,f1_score,recall_score,precision_score,precision_recall_fscore_support
-    print('==========y_true============')
-    print(y_true)
-    print('==========y_pred============')
-    num=[0.0,1.0]
-    path = os.getcwd()
-    print(path)
-    df = pd.DataFrame(y_pred)
-    df.to_csv("../../../../mnt/tods/tods/data_test_"+search_space+".csv")
-    print(y_pred)
+    # TODO test specific algorithms
+    # print('==========y_true============')
+    # print(y_true)
+    # print('==========y_pred============')
+    # num=[0.0,1.0]
+    # path = os.getcwd()
+    # print(path)
+    # df = pd.DataFrame(y_pred)
+    # df.to_csv("../../../../mnt/tods/tods/data_test_"+search_space+".csv")
+    # print(y_pred)
     precision_score = precision_score(y_true,y_pred)
     recall_score = recall_score(y_true,y_pred)
     f_beta = fbeta_score(y_true, y_pred, beta, average='macro')
@@ -731,16 +719,11 @@ def json_to_config(json):
     """
     config = {}
     for key,value in json.items():
-        config[key] = list(item for item in value.items())
+        primitive_list = []
+        for primitive_name,primitive_value in value.items():
+            if primitive_value:
+                primitive_list.append([primitive_name,primitive_value])
+            else:
+                primitive_list.append([primitive_name])
+        config[key] = primitive_list
     return config
-
-
-def train_test_split(dataset,frac):
-    train_data = dataset[:int(0.6*len(df))]
-    test_data = dataset[~dataset.index.isin(train_data.index)]
-    return train_data,test_data
-
-
-# TODO https://github.com/scikit-learn/scikit-learn/blob/f3f51f9b6/sklearn/model_selection/_split.py#L953
-def k_fold_split(n_fold,dataset):
-    return 0
