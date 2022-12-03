@@ -224,7 +224,7 @@ def build_pipeline(config):
     flag = 1
 
 
-    #Step 5: time series processing
+    #Step 4: time series processing
     timeseries_processing_methods = get_primitive_list(config,'timeseries_processing')
     timeseries_processing_hyperparams = get_primitives_hyperparam_list(config,'timeseries_processing')
     for i in range(len(timeseries_processing_methods)):
@@ -233,13 +233,10 @@ def build_pipeline(config):
                                      primitive_path='timeseries_processing.'+ timeseries_processing_methods[i],
                                      hyperparams=timeseries_processing_hyperparams[i])
         pipeline_description.add_step(step_processing)
-
-        if flag == 1:
-            curr_step_no += 1
-            flag = 0
         curr_step_no += 1
+ 
         
-    # Step 4: Feature analysis
+    # Step 5: Feature analysis
     feature_analysis_methods = get_primitive_list(config,'feature_analysis')
     feature_analysis_hyperparams = get_primitives_hyperparam_list(config,'feature_analysis')
 
@@ -248,12 +245,7 @@ def build_pipeline(config):
                                      primitive_path='feature_analysis.'+feature_analysis_methods[i],
                                      hyperparams=feature_analysis_hyperparams[i])
         pipeline_description.add_step(step_processing)
-
-        if flag == 1:
-            curr_step_no += 1
-            flag = 0
         curr_step_no += 1
-
 
 
 
@@ -264,17 +256,20 @@ def build_pipeline(config):
     step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
                         primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
                         hyperparams=detection_algorithm_hyperparams[0])
+    # step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+    #                 primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
+    #                 hyperparams=detection_algorithm_hyperparams[0])
     pipeline_description.add_step(step_5)
     curr_step_no += 1
 
     #Step 7: Predictions
-    step_6 = build_step(arguments={'inputs': f'steps.{step_5.index}.produce', 'reference':    'steps.1.produce'},
+    step_6 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce', 'reference':    'steps.1.produce'},
                primitive_path='data_processing.construct_predictions')
     pipeline_description.add_step(step_6)
     curr_step_no+=1
 
     # Final Output
-    pipeline_description.add_output(name='output predictions', data_reference=f'steps.{step_6.index}.produce')
+    pipeline_description.add_output(name='output predictions', data_reference='steps.' + str(curr_step_no) + '.produce')
 
     # print(pipeline_description.to_json_structure())
     return pipeline_description
@@ -579,8 +574,13 @@ def get_primitive_list(config, module_name):
     -------
     primitive_list
     """
-    module = config.get(module_name, default_primitive[module_name])
-
+    # module = config.get(module_name, default_primitive[module_name])
+    module = config.get(module_name, None)
+    primitive_list = []
+    
+    if module is None:
+        return primitive_list
+    
     if module_name == 'detection_algorithm' and len(module) > 1:
         raise Exception("We currently only support one detection algorithm per pipeline.",
                         " Please modify the config")
@@ -602,8 +602,12 @@ def get_primitives_hyperparam_list(config, module_name):
     -------
     primitives_hyperparam_list
     """
-    module = config.get(module_name, default_primitive[module_name])
+    module = config.get(module_name, None)
     primitives_hyperparam_list = []
+    
+    if module is None:
+        return primitives_hyperparam_list
+    
     for i in range(len(module)):
         if len(module[i]) > 1:
             primitives_hyperparam_list.append(module[i][1])

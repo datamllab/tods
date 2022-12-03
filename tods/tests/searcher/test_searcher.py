@@ -1,4 +1,5 @@
 import unittest
+from numpy import random
 from d3m.metadata import base as metadata_base
 from tods.searcher.searcher import RaySearcher
 from d3m import container, utils
@@ -56,17 +57,18 @@ class SearcherTest(unittest.TestCase):
                        metric='ALL',
                        beta=1.0)
         # Start searching
+        best_pipeline = {}
         for i in range(10):
+            random.seed(4)
             search_result = searcher.search(search_space=search_space,config=config)
         
             self.assertIsInstance(search_result,list)
             hyperparameter_search_result = search_result[1]
             print("hyperparameter_search_result: ")
-            print(hyperparameter_search_result[config['metric']].min())
-            print(i)
-            self.assertEqual(hyperparameter_search_result['best_config'], {'timeseries_processing': [['moving_average_transform', {'window_size': 3, 'norm': 'l2', 'use_semantic_types': 1}]],
-                                                                           'feature_analysis': [['statistical_h_mean', {'window_size': 10}]], 
-                                                                           'detection_algorithm': [['pyod_loda', {'n_bins': 10}]]})
+            if i ==0:
+                best_pipeline = hyperparameter_search_result['best_config']
+            else:
+                self.assertEqual(hyperparameter_search_result['best_config'], best_pipeline)
                                                                         
         
         
