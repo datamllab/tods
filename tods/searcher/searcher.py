@@ -231,7 +231,6 @@ class RaySearcher():
 
     """
 
-
     # build pipeline
     pipeline = build_pipeline(search_space)
 
@@ -253,10 +252,12 @@ class RaySearcher():
     df = self.dataset
 
     y_true = df['anomaly']
+    print(pipeline_result.__dict__)
     y_pred = pipeline_result.exposed_outputs['outputs.0']['anomaly']
+    print(y_pred,type(y_pred))
     # self.stats.append_score.remote(score)
 
-    eval_metric = get_evaluate_metric(y_true,y_pred, self.beta, self.metric)
+    eval_metric = get_evaluate_metric(y_true,y_pred, self.beta, self.metric,search_space['feature_analysis'][0][0])
 
     # ray.tune.report(score = score * 100)
     # ray.tune.report(accuracy=1)
@@ -580,7 +581,7 @@ class RaySearcher():
 
       for i in range(start, len(list)):
         primitive_combination.append([list[i],])
-        print(primitive_combination, start)
+        # print(primitive_combination, start)
         backtracking(list, i + 1)
         primitive_combination.pop()
 

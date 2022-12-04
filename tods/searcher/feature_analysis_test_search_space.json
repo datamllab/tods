@@ -8,41 +8,10 @@
       }
     },
     "feature_analysis": {
-    "auto_correlation": { },
     "bk_filter": { },
-    "discrete_cosine_transform": { },
-    "fast_fourier_transform": { },
-    "hp_filter": { },
     "non_negative_matrix_factorization": { },
-    "truncated_svd": { },
-    "spectral_residual_transform": { },
-    "statistical_abs_energy": { },
-    "statistical_abs_sum": { },
-    "statistical_g_mean": { },
-    "statistical_h_mean": { },
-    "statistical_kurtosis": { },
-    "statistical_maximum": { },
-    "statistical_mean": { },
-    "statistical_mean_abs": { },
-    "statistical_mean_abs_temporal_derivative": { },
-    "statistical_mean_temporal_derivative": { },
-    "statistical_median": { },
-    "statistical_median_abs_deviation": { },
-    "statistical_skew": { },
-    "statistical_std": { },
-    "statistical_var": { },
     "statistical_variation": { },
-    "statistical_vec_sum": { },
-    "statistical_willison_amplitude": { },
-    "statistical_zero_crossing": { },
-    "trmf": { },
-    "wavelet_transform": { },
-    "statistical_minimum": {
-        "window_size": [
-          10,
-          20
-        ]
-      }
+    "wavelet_transform": { }
     },
     "detection_algorithm": {
       "pyod_loda": {

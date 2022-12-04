@@ -11,7 +11,7 @@ import json
 #target_index = 2 # what column is the target
 
 table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
-search_space_path = "tods/searcher/example_search_space.json"
+search_space_path = "tods/searcher/feature_analysis_test_search_space.json"
 target_index = 6 # what column is the target
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
@@ -40,7 +40,7 @@ config = {
 "metric":'F1_MACRO',
 "num_samples": 1,
 "mode": 'min',
-"use_all_combinations": True,
+"use_all_combinations": False,
 "ignore_hyperparameters":False
 }
 

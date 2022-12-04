@@ -40,7 +40,7 @@ with open(search_space_path) as f:
     search_space= json.load(f)
 
 df = pd.read_csv(table_path)
-dataset = generate_dataset(df[0:50], 6)
+dataset = generate_dataset(df[0:20], 6)
 
 class SearcherTest(unittest.TestCase):
     def test_searcher(self):
@@ -58,7 +58,7 @@ class SearcherTest(unittest.TestCase):
                        beta=1.0)
         # Start searching
         best_pipeline = {}
-        for i in range(10):
+        for i in range(5):
             random.seed(4)
             search_result = searcher.search(search_space=search_space,config=config)
         
