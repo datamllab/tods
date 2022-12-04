@@ -212,15 +212,15 @@ def build_pipeline(config):
 
 
     #Step 3: extract_columns_by_semantic_types(targets)
-    step_3 = build_step(arguments={'inputs':'steps.0.produce'},
-                        primitive_path='data_processing.extract_columns_by_semantic_types',
-                        hyperparams={'semantic_types':['https://metadata.datadrivendiscovery.org/types/TrueTarget']})
-    pipeline_description.add_step(step_3)
+    # step_3 = build_step(arguments={'inputs':'steps.0.produce'},
+    #                     primitive_path='data_processing.extract_columns_by_semantic_types',
+    #                     hyperparams={'semantic_types':['https://metadata.datadrivendiscovery.org/types/TrueTarget']})
+    # pipeline_description.add_step(step_3)
 
     attributes = 'steps.2.produce'
     targets = 'steps.3.produce'
 
-    curr_step_no = 2
+    counter = 2
     flag = 1
 
 
@@ -229,11 +229,11 @@ def build_pipeline(config):
     timeseries_processing_hyperparams = get_primitives_hyperparam_list(config,'timeseries_processing')
     for i in range(len(timeseries_processing_methods)):
         
-        step_processing = build_step(arguments={'inputs':'steps.' + str(curr_step_no) + '.produce'},
+        step_processing = build_step(arguments={'inputs':'steps.' + str(counter) + '.produce'},
                                      primitive_path='timeseries_processing.'+ timeseries_processing_methods[i],
                                      hyperparams=timeseries_processing_hyperparams[i])
         pipeline_description.add_step(step_processing)
-        curr_step_no += 1
+        counter += 1
  
         
     # Step 5: Feature analysis
@@ -241,11 +241,11 @@ def build_pipeline(config):
     feature_analysis_hyperparams = get_primitives_hyperparam_list(config,'feature_analysis')
 
     for i in range(len(feature_analysis_methods)):
-        step_processing = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+        step_processing = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce'},
                                      primitive_path='feature_analysis.'+feature_analysis_methods[i],
                                      hyperparams=feature_analysis_hyperparams[i])
         pipeline_description.add_step(step_processing)
-        curr_step_no += 1
+        counter += 1
 
 
 
@@ -253,23 +253,23 @@ def build_pipeline(config):
     detection_algorithm_methods = get_primitive_list(config,'detection_algorithm')
     detection_algorithm_hyperparams = get_primitives_hyperparam_list(config,'detection_algorithm')
 
-    step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+    step_5 = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce'},
                         primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
                         hyperparams=detection_algorithm_hyperparams[0])
-    # step_5 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+    # step_5 = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce'},
     #                 primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
     #                 hyperparams=detection_algorithm_hyperparams[0])
     pipeline_description.add_step(step_5)
-    curr_step_no += 1
+    counter += 1
 
     #Step 7: Predictions
-    step_6 = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce', 'reference':    'steps.1.produce'},
+    step_6 = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce', 'reference':    'steps.1.produce'},
                primitive_path='data_processing.construct_predictions')
     pipeline_description.add_step(step_6)
-    curr_step_no+=1
+    counter+=1
 
     # Final Output
-    pipeline_description.add_output(name='output predictions', data_reference='steps.' + str(curr_step_no) + '.produce')
+    pipeline_description.add_output(name='output predictions', data_reference='steps.' + str(counter) + '.produce')
 
     # print(pipeline_description.to_json_structure())
     return pipeline_description
@@ -327,48 +327,48 @@ def build_system_pipeline(config):
     attributes = 'steps.4.produce'
     targets = 'steps.5.produce'
 
-    curr_step_no = 4
+    counter = 4
     flag = 1
 
     # Step 6: feature analysis
     feature_analysis_methods = get_primitive_list(config, 'feature_analysis')
     feature_analysis_hyperparams = get_primitives_hyperparam_list(config, 'feature_analysis')
     for i in range(len(feature_analysis_methods)):
-        step_processing = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+        step_processing = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce'},
                                      primitive_path='feature_analysis.' + feature_analysis_methods[i],
                                      hyperparams=feature_analysis_hyperparams[i])
         pipeline_description.add_step(step_processing)
-        curr_step_no += flag+1
+        counter += flag+1
         flag=0
         # if flag == 1:
-        #     curr_step_no += 1
+        #     counter += 1
         #     flag = 0
-        # curr_step_no += 1
+        # counter += 1
 
     # Step 7: time_series processing
     timeseries_processing_methods = get_primitive_list(config, 'timeseries_processing')
     timeseries_processing_hyperparams = get_primitives_hyperparam_list(config, 'timeseries_processing')
     for i in range(len(timeseries_processing_methods)):
 
-        step_processing = build_step(arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+        step_processing = build_step(arguments={'inputs': 'steps.' + str(counter) + '.produce'},
                                      primitive_path='timeseries_processing.' + timeseries_processing_methods[i],
                                      hyperparams=timeseries_processing_hyperparams[i])
         pipeline_description.add_step(step_processing)
 
         if flag == 1:
-            curr_step_no += 1
+            counter += 1
             flag = 0
-        curr_step_no += 1
+        counter += 1
 
     # Step 8: detection algorithm
     detection_algorithm_methods = get_primitive_list(config,'detection_algorithm')
     detection_algorithm_hyperparams = get_primitives_hyperparam_list(config,'detection_algorithm')
 
     step_alg = build_step(primitive_path='detection_algorithm.'+detection_algorithm_methods[0],
-                          arguments={'inputs': 'steps.' + str(curr_step_no) + '.produce'},
+                          arguments={'inputs': 'steps.' + str(counter) + '.produce'},
                           hyperparams=detection_algorithm_hyperparams[0])
     pipeline_description.add_step(step_alg)
-    curr_step_no += 1
+    counter += 1
 
     # Step 9: Predictions
     step_8 = build_step(primitive_path='detection_algorithm.system_wise_detection',
