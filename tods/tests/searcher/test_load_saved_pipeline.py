@@ -37,7 +37,7 @@ step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALU
                                                           data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
 pipeline_description.add_step(step_2)
 
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition'))
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition'))
 step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)
@@ -171,7 +171,7 @@ class testLoadSavedPipeline(unittest.TestCase):
 		assert(str(loaded_pipeline['runtime'].pipeline.steps[0].primitive) == "d3m.primitives.tods.data_processing.dataset_to_dataframe")
 		assert(str(loaded_pipeline['runtime'].pipeline.steps[1].primitive) == "d3m.primitives.tods.data_processing.column_parser")
 		assert(str(loaded_pipeline['runtime'].pipeline.steps[2].primitive) == "d3m.primitives.tods.data_processing.extract_columns_by_semantic_types")
-		assert(str(loaded_pipeline['runtime'].pipeline.steps[3].primitive) == "d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition")
+		assert(str(loaded_pipeline['runtime'].pipeline.steps[3].primitive) == "d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition")
 
 		assert(str(loaded_pipeline['runtime'].pipeline.steps[4].primitive) == "d3m.primitives.tods.feature_analysis.fast_fourier_transform")
 		assert(str(loaded_pipeline['runtime'].pipeline.steps[5].primitive) == "d3m.primitives.tods.detection_algorithm.pyod_ae")

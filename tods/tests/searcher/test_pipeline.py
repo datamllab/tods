@@ -30,7 +30,7 @@ config = {
                     ['statistical_minimum',]], #Specify hyperparams as k,v pairs
         }
 
-# table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
+# table_path = '../../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
 # df = pd.read_csv(table_path)
 # dataset = generate_dataset(df, 6)
 dataframe = pd.DataFrame(data=[[1,12183,0,3.716666667,5,2109,0],

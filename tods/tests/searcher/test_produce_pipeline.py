@@ -38,7 +38,7 @@ step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALU
 																													data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
 pipeline_description.add_step(step_2)
 
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition'))
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition'))
 step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)

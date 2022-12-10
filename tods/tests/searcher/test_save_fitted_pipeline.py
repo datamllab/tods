@@ -31,7 +31,7 @@ step_2.add_hyperparameter(name='semantic_types', argument_type=ArgumentType.VALU
                                                           data=['https://metadata.datadrivendiscovery.org/types/Attribute'])
 pipeline_description.add_step(step_2)
 
-step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.decomposition.time_series_seasonality_trend_decomposition'))
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.timeseries_processing.time_series_seasonality_trend_decomposition'))
 step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
 step_3.add_output('produce')
 pipeline_description.add_step(step_3)
@@ -87,7 +87,7 @@ descrip = pipeline_description.to_json()
 
 class testSaveFittedPipeline(unittest.TestCase):
   def test_save_fitted_happyCase(self):
-    self.fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
+    self.fitted_pipeline,result = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
     fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline)
 
     self.assertTrue(os.path.exists('../../../fitted_pipelines/' + str(fitted_pipeline_id) + '/fitted_pipeline.pkl'))

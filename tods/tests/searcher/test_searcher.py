@@ -32,7 +32,7 @@ config = {
                     ['statistical_minimum',]], #Specify hyperparams as k,v pairs
         }
 # dataset
-# table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
+# table_path = '../../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
 # df = pd.read_csv(table_path)
 # dataset = generate_dataset(df[0:20], 6)
 dataframe = pd.DataFrame(data=[[1,12183,0,3.716666667,5,2109,0],
@@ -60,7 +60,7 @@ dataframe = pd.DataFrame(data=[[1,12183,0,3.716666667,5,2109,0],
 dataset = generate_dataset(dataframe,6)
 
 # search space
-search_space_path = 'tods/tests/searcher/test_search_space.json'
+search_space_path = '../../../tods/tests/searcher/test_search_space.json'
 with open(search_space_path) as f:
     search_space= json.load(f)
 
