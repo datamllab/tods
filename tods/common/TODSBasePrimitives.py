@@ -19,7 +19,6 @@ class TODSTransformerPrimitiveBase(transformer.TransformerPrimitiveBase[Inputs, 
     A base class for primitives which are not fitted at all and can
     simply produce (useful) outputs from inputs directly. As such they
     also do not have any state (params).
-
     This class is parameterized using only three type variables, ``Inputs``,
     ``Outputs``, and ``Hyperparams``.
     """

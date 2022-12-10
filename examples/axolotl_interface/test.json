@@ -1,0 +1,167 @@
+{
+    "id": "08eb6080-a3b9-471a-9ae2-79a47f7a081d",
+    "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
+    "created": "2022-12-04T07:15:20.812489Z",
+    "inputs": [
+        {
+            "name": "inputs"
+        }
+    ],
+    "outputs": [
+        {
+            "data": "steps.5.produce",
+            "name": "output predictions"
+        }
+    ],
+    "steps": [
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "c78138d9-9377-31dc-aee8-83d9df049c60",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.data_processing.dataset_to_dataframe",
+                "name": "Extract a DataFrame from a Dataset"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "inputs.0"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ]
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "81235c29-aeb9-3828-911a-1b25319b6998",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.data_processing.column_parser",
+                "name": "Parses strings into their types"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.0.produce"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ]
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "a996cd89-ddf0-367f-8e7f-8c013cbc2891",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.data_processing.extract_columns_by_semantic_types",
+                "name": "Extracts columns by semantic type"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.1.produce"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ],
+            "hyperparams": {
+                "semantic_types": {
+                    "type": "VALUE",
+                    "data": [
+                        "https://metadata.datadrivendiscovery.org/types/Attribute"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "5f44152c-ad1a-3b04-9e8b-7e1d329e50c3",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.feature_analysis.bk_filter",
+                "name": "Baxter-King Filter Primitive"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.2.produce"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ]
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "0303d5ef-5d6a-3880-85ec-f519e8effc55",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.detection_algorithm.pyod_loda",
+                "name": "TODS.anomaly_detection_primitives.LODAPrimitive"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.3.produce"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ],
+            "hyperparams": {
+                "contamination": {
+                    "type": "VALUE",
+                    "data": 0.1
+                },
+                "use_semantic_types": {
+                    "type": "VALUE",
+                    "data": false
+                },
+                "use_columns": {
+                    "type": "VALUE",
+                    "data": [
+                        2
+                    ]
+                }
+            }
+        },
+        {
+            "type": "PRIMITIVE",
+            "primitive": {
+                "id": "2530840a-07d4-3874-b7d8-9eb5e4ae2bf3",
+                "version": "0.3.0",
+                "python_path": "d3m.primitives.tods.data_processing.construct_predictions",
+                "name": "Construct pipeline predictions output"
+            },
+            "arguments": {
+                "inputs": {
+                    "type": "CONTAINER",
+                    "data": "steps.4.produce"
+                },
+                "reference": {
+                    "type": "CONTAINER",
+                    "data": "steps.1.produce"
+                }
+            },
+            "outputs": [
+                {
+                    "id": "produce"
+                }
+            ]
+        }
+    ],
+    "digest": "0f4e39d9e32380b7e6199738f9342550983fd4e90b86d8c84a4a44a2569cbcbc"
+}

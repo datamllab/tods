@@ -313,7 +313,6 @@ class RaySearcher():
 
     counter = 0
 
-
     # Step 0: dataset_to_dataframe
     step_0 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.tods.data_processing.dataset_to_dataframe'))
     step_0.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='inputs.0')
