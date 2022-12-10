@@ -23,7 +23,7 @@ def argsparser():
 
     parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = 'tods/searcher/test.json')
     parser.add_argument('--use_all_combinations', help = 'generate all possible combinations when reading search space from json', type = bool, default = True)
-    parser.add_argument('--ignore_hyperparameters', help = 'if you want to ignore hyperparmeter when reading search space from json', type = bool, default = False)
+    parser.add_argument('--ignore_hyperparameters', help = 'if you want to ignore hyperparmeter when reading search space from json', type = bool, default = True)
 
     parser.add_argument('--run_mode', help = 'mode of tune.run', type = str, default = 'min', choices = ['min', 'max'])
 
