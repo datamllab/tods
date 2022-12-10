@@ -79,7 +79,6 @@ class ConstructPredictionsPrimitive(transformer.TransformerPrimitiveBase[Inputs,
         for column_index in range(len(outputs.columns)):
             column_names.append(outputs.metadata.query_column(column_index).get('name', outputs.columns[column_index]))
         outputs.columns = column_names
-
         return base.CallResult(outputs)
 
     def _filter_index_columns(self, inputs_metadata: metadata_base.DataMetadata, index_columns: typing.Sequence[int]) -> typing.Sequence[int]:

@@ -12,13 +12,6 @@
     "non_negative_matrix_factorization": { },
     "statistical_variation": { },
     "wavelet_transform": { }
-    },
-    "detection_algorithm": {
-      "pyod_loda": {
-        "n_bins": [
-          10,
-          20
-        ]
-      }
     }
+
   }

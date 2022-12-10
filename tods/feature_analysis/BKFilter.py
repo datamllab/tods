@@ -211,6 +211,8 @@ Parameters
                                                add_index_columns=self.hyperparams['add_index_columns'],
                                                inputs=inputs, column_indices=self._training_indices,
                                                columns_list=output_columns)
+        # outputs.to_csv('BK.csv')
+        outputs.fillna(0,inplace=True)
         return CallResult(outputs)
         
     

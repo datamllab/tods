@@ -38,7 +38,7 @@ def run(args):
     dataframe=pd.read_csv(args.data_dir)
     
     # initialize the searcher
-    searcher = RaySearcher(dataframe, args.metric,args.beta)
+    searcher = RaySearcher(dataframe,args.target_index, args.metric,args.beta)
 
     # get the ray searcher config
     config = {

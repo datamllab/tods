@@ -56,12 +56,14 @@ class RaySearcher():
   """
   A class to tune scalable hypermeters by Ray Tune
   """
-  def __init__(self, dataset, metric,beta):
+  def __init__(self,dataframe,target_index,dataset, metric, beta):
     ray.init(local_mode=True, ignore_reinit_error=True)
-    self.dataset = dataset
+    self.dataframe = dataframe
     self.metric = metric
+    self.beta = beta
     self.stats = GlobalStats.remote()
-    self.beta=beta
+    self.dataset = dataset
+    # self.dataset = generate_dataset(self.dataframe,target_index)
 
 
   def search(self,search_space, config):
@@ -120,12 +122,12 @@ class RaySearcher():
     best_primitive_config = primitive_analysis.get_best_config(metric=config['metric'], mode=config["mode"])
     best_primitive_list =  primitive_analysis.dataframe(metric=config['metric'], mode=config["mode"])
 
-    if config["ignore_hyperparameters"] is True:
+    hyperparm_search_space,is_hyperparam = self.hyperparam_searchspace(search_space,best_primitive_list,best_primitive_config)
+    
+    if config["ignore_hyperparameters"] is True or is_hyperparam is False:
       return self.get_search_result(primitive_analysis,config)
 
     print("Best primitive config: ", best_primitive_config )
-    hyperparm_search_space = self.hyperparam_searchspace(search_space,best_primitive_list,best_primitive_config)
-
     # hyperparam_searcher = self.set_search_algorithm(config["searching_algorithm"])
     # from ray.tune.suggest.hyperopt import HyperOptSearch
     hyperparam_analysis = ray.tune.run(
@@ -234,10 +236,14 @@ class RaySearcher():
     # build pipeline
     pipeline = build_pipeline(search_space)
 
-    train_dataset = generate_dataset(self.dataset, target_index=6)
+    # print('='*50)
+    # print(pipeline.to_json_structure())
+    # print('='*50)
+    
+    
     # Train the pipeline with the specified metric and dataset.
     # And get the result
-    fitted_pipeline,pipeline_result = fit_pipeline(train_dataset, pipeline, self.metric)
+    fitted_pipeline,pipeline_result = fit_pipeline(self.dataset, pipeline, self.metric)
 
     # Save fitted pipeline id
     fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
@@ -249,15 +255,15 @@ class RaySearcher():
     self.stats.append_pipeline_description.remote(pipeline)
 
 
-    df = self.dataset
+    df = self.dataframe
 
     y_true = df['anomaly']
-    print(pipeline_result.__dict__)
+    # print(pipeline_result.__dict__)
     y_pred = pipeline_result.exposed_outputs['outputs.0']['anomaly']
-    print(y_pred,type(y_pred))
+    # print(y_pred,type(y_pred))
     # self.stats.append_score.remote(score)
 
-    eval_metric = get_evaluate_metric(y_true,y_pred, self.beta, self.metric,search_space['feature_analysis'][0][0])
+    eval_metric = get_evaluate_metric(y_true,y_pred, self.beta, self.metric)
 
     # ray.tune.report(score = score * 100)
     # ray.tune.report(accuracy=1)
@@ -594,24 +600,23 @@ class RaySearcher():
     path = []
 
     for i in list:
-      path.append([[i,]])
+      path.append([i,])
       res.append(path[:])
-
-    return ray.tune.grid_search(path)
-  
-
+    # use test search space just change res to path
+    return ray.tune.grid_search(res)
 
   # TODO provide choices of search algorithms
   def hyperparam_searchspace(self,json_data,primitive_df,primitive_config):
     list_hyperparam = ['comp_hiddens', 'est_hiddens', 'hidden_neurons']
     config={}
+    is_hyperparam = False # detect if there are combinations of hypermeter if not just skip hypermeter searching
     for module, primitive_list in primitive_config.items():
         lists=[]
         for primitive in primitive_list:
           primitives = list(primitive)
           hyperparam_list = {}
           for hyperparam in json_data[module][primitive[0]]:
-            print(module,primitive,hyperparam,json_data[module][primitive[0]][hyperparam])
+            # print(module,primitive,hyperparam,json_data[module][primitive[0]][hyperparam])
             data = json_data[module][primitive[0]][hyperparam]
             
             # hyperparameter in list_hyperparam is list
@@ -624,13 +629,14 @@ class RaySearcher():
             # TODO define search space using search space API, need to be customized according to search algorithm
             data = ray.tune.grid_search(data)
             hyperparam_list[hyperparam] = data
+            is_hyperparam = True
           primitives.append(hyperparam_list)
         lists.append(primitives)
         config[module] = lists
-    print("Hyperparameter Search Space: ")
-    print(config)
+    # print("Hyperparameter Search Space: ")
+    # print(config)
 
-    return config
+    return config,is_hyperparam
 
 
 

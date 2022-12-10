@@ -30,10 +30,32 @@ config = {
                     ['statistical_minimum',]], #Specify hyperparams as k,v pairs
         }
 
-table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
-df = pd.read_csv(table_path)
-dataset = generate_dataset(df, 6)
-
+# table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
+# df = pd.read_csv(table_path)
+# dataset = generate_dataset(df, 6)
+dataframe = pd.DataFrame(data=[[1,12183,0,3.716666667,5,2109,0],
+                    [2,12715,0.091757965,3.610833333,60,3229,0],
+                    [3,12736,0.172296752,3.481388889,88,3637,0],
+                    [4,12716,0.226219354,3.380277778,84,1982,0],
+                    [6,12737,0.090491245,2.786666667,112,2128,0],
+                    [7,12857,0.084609941,2.462777778,1235,2109,0],
+                    [8,12884,0.068426992,2.254166667,710,2328,0],
+                    [9,12894,0.133302697,2.118055556,618,2453,0],
+                    [10,12675,0.085026586,2.069166667,84,2847,0],
+                    [11,13260,0.097073068,2.197222222,100,3659,0],
+                    [12,13470,0,2.318888889,125,5207,0],
+                    [13,13060,0.031063768,2.34,114,5146,0],
+                    [14,12949,0.017732751,2.490277778,145,4712,0],
+                    [15,13035,0.063354504,2.643888889,91,6363,0],
+                    [16,12980,0.087870392,2.848611111,94,5010,0],
+                    [17,13677,0.115468157,2.883333333,79,3956,0],
+                    [18,13381,0.073413458,2.880833333,50,4063,0],
+                    [19,12737,0.040392585,2.900555556,39,3748,0],
+                    [20,12554,0.089113356,3.085555556,28,3047,0],
+                   ],
+             columns = ["timestamp","value_0","value_1","value_2","value_3","value_4","anomaly"],
+             )
+dataset = generate_dataset(dataframe,6)
 class PipelineTest(unittest.TestCase):
     def test_json_to_config(self):
         
@@ -125,34 +147,68 @@ class PipelineTest(unittest.TestCase):
         
     def test_build_pipeline(self):
         
-        pipeline_description = {'id': 'eb985bd7-39c9-431d-9ae8-58608b50c084', 
-                                'schema': 'https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json',
-                                'created': '2022-11-30T08:49:11.299630Z',
-                                'inputs': [{'name': 'inputs'}],
-                                'outputs': [{'data': 'steps.8.produce', 'name': 'output predictions'}],
+        pipeline_description = {'id': 'b2e3050c-4447-4305-bacc-968c07f2c719', 
+                                'schema': 'https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json', 
+                                'created': '2022-12-04T14:20:45.549783Z', 
+                                'inputs': [{'name': 'inputs'}], 
+                                'outputs': [{'data': 'steps.7.produce', 
+                                             'name': 'output predictions'}], 
                                 'steps': [{'type': 'PRIMITIVE', 
                                            'primitive': {'id': 'c78138d9-9377-31dc-aee8-83d9df049c60', 
                                                          'version': '0.3.0', 
-                                                         'python_path': 'd3m.primitives.tods.data_processing.dataset_to_dataframe',
+                                                         'python_path': 'd3m.primitives.tods.data_processing.dataset_to_dataframe', 
                                                          'name': 'Extract a DataFrame from a Dataset'}, 
-                                           'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'inputs.0'}},
+                                           'arguments': {'inputs': {'type': 'CONTAINER', 
+                                                                    'data': 'inputs.0'}}, 
                                            'outputs': [{'id': 'produce'}]}, 
                                           {'type': 'PRIMITIVE', 
                                            'primitive': {'id': '81235c29-aeb9-3828-911a-1b25319b6998', 
-                                                         'version': '0.3.0',
+                                                         'version': '0.3.0', 
                                                          'python_path': 'd3m.primitives.tods.data_processing.column_parser', 
-                                                         'name': 'Parses strings into their types'},
-                                           'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.0.produce'}},
-                                           'outputs': [{'id': 'produce'}]},
+                                                         'name': 'Parses strings into their types'}, 
+                                           'arguments': {'inputs': {'type': 'CONTAINER', 
+                                                                    'data': 'steps.0.produce'}}, 
+                                           'outputs': [{'id': 'produce'}]}, 
                                           {'type': 'PRIMITIVE', 
                                            'primitive': {'id': 'a996cd89-ddf0-367f-8e7f-8c013cbc2891', 
-                                                         'version': '0.3.0',
-                                                         'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types',
-                                                         'name': 'Extracts columns by semantic type'},
-                                           'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.1.produce'}}, 
+                                                         'version': '0.3.0', 
+                                                         'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types', 
+                                                         'name': 'Extracts columns by semantic type'}, 
+                                           'arguments': {'inputs': 
+                                               {'type': 'CONTAINER', 
+                                                'data': 'steps.1.produce'}}, 
                                            'outputs': [{'id': 'produce'}], 
-                                           'hyperparams': {'semantic_types': {'type': 'VALUE', 'data': ['https://metadata.datadrivendiscovery.org/types/Attribute']}}}, {'type': 'PRIMITIVE', 'primitive': {'id': 'a996cd89-ddf0-367f-8e7f-8c013cbc2891', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.data_processing.extract_columns_by_semantic_types', 'name': 'Extracts columns by semantic type'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.0.produce'}}, 'outputs': [{'id': 'produce'}], 'hyperparams': {'semantic_types': {'type': 'VALUE', 'data': ['https://metadata.datadrivendiscovery.org/types/TrueTarget']}}}, {'type': 'PRIMITIVE', 'primitive': {'id': '3b54b820-d4c4-3a1f-813c-14c2d591e284', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.timeseries_processing.standard_scaler', 'name': 'Standard_scaler'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.2.produce'}}, 'outputs': [{'id': 'produce'}], 'hyperparams': {'with_mean': {'type': 'VALUE', 'data': True}}}, {'type': 'PRIMITIVE', 'primitive': {'id': 'f07ce875-bbc7-36c5-9cc1-ba4bfb7cf48e', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.feature_analysis.statistical_maximum', 'name': 'Time Series Decompostional'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.4.produce'}}, 'outputs': [{'id': 'produce'}], 'hyperparams': {'window_size': {'type': 'VALUE', 'data': 3}}}, {'type': 'PRIMITIVE', 'primitive': {'id': '8fc80903-3eed-3222-8f6d-8df781279fbc', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum', 'name': 'Time Series Decompostional'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.5.produce'}}, 'outputs': [{'id': 'produce'}]}, {'type': 'PRIMITIVE', 'primitive': {'id': '67e7fcdf-d645-3417-9aa4-85cd369487d9', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.detection_algorithm.pyod_ae', 'name': 'TODS.anomaly_detection_primitives.AutoEncoder'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.6.produce'}}, 'outputs': [{'id': 'produce'}], 'hyperparams': {'hidden_neurons': {'type': 'VALUE', 'data': [32, 16, 8, 16, 32]}}}, {'type': 'PRIMITIVE', 'primitive': {'id': '2530840a-07d4-3874-b7d8-9eb5e4ae2bf3', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.data_processing.construct_predictions', 'name': 'Construct pipeline predictions output'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.7.produce'}, 'reference': {'type': 'CONTAINER', 'data': 'steps.1.produce'}}, 'outputs': [{'id': 'produce'}]}], 'digest': '98c67cd42352057eb61de362730f5e2d0e3a7d0738f46d5c747ec96e8b2169fe'}
-		
+                                           'hyperparams': {'semantic_types': 
+                                               {'type': 'VALUE', 
+                                                'data': ['https://metadata.datadrivendiscovery.org/types/Attribute']}}}, 
+                                          {'type': 'PRIMITIVE', 
+                                           'primitive': {'id': '3b54b820-d4c4-3a1f-813c-14c2d591e284', 
+                                                         'version': '0.3.0', 
+                                                         'python_path': 'd3m.primitives.tods.timeseries_processing.standard_scaler', 
+                                                         'name': 'Standard_scaler'}, 
+                                           'arguments': {'inputs': 
+                                               {'type': 'CONTAINER', 
+                                                'data': 'steps.2.produce'}}, 
+                                           'outputs': [{'id': 'produce'}], 
+                                           'hyperparams': {'with_mean': 
+                                               {'type': 'VALUE', 
+                                                'data': True}}}, {'type': 'PRIMITIVE', 
+                                                                  'primitive': {'id': 'f07ce875-bbc7-36c5-9cc1-ba4bfb7cf48e', 
+                                                                                'version': '0.3.0', 
+                                                                                'python_path': 'd3m.primitives.tods.feature_analysis.statistical_maximum', 
+                                                                                'name': 'Time Series Decompostional'}, 
+                                                                  'arguments': {'inputs': 
+                                                                      {'type': 'CONTAINER', 
+                                                                       'data': 'steps.3.produce'}}, 
+                                                                  'outputs': [{'id': 'produce'}], 
+                                                                  'hyperparams': {'window_size': {'type': 'VALUE', 
+                                                                                                  'data': 3}}}, 
+                                                {'type': 'PRIMITIVE', 
+                                                 'primitive': {'id': '8fc80903-3eed-3222-8f6d-8df781279fbc', 
+                                                               'version': '0.3.0', 
+                                                               'python_path': 'd3m.primitives.tods.feature_analysis.statistical_minimum', 
+                                                               'name': 'Time Series Decompostional'}, 
+                                                 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.4.produce'}}, 'outputs': [{'id': 'produce'}]}, {'type': 'PRIMITIVE', 'primitive': {'id': '67e7fcdf-d645-3417-9aa4-85cd369487d9', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.detection_algorithm.pyod_ae', 'name': 'TODS.anomaly_detection_primitives.AutoEncoder'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.5.produce'}}, 'outputs': [{'id': 'produce'}], 'hyperparams': {'hidden_neurons': {'type': 'VALUE', 'data': [32, 16, 8, 16, 32]}}}, {'type': 'PRIMITIVE', 'primitive': {'id': '2530840a-07d4-3874-b7d8-9eb5e4ae2bf3', 'version': '0.3.0', 'python_path': 'd3m.primitives.tods.data_processing.construct_predictions', 'name': 'Construct pipeline predictions output'}, 'arguments': {'inputs': {'type': 'CONTAINER', 'data': 'steps.6.produce'}, 'reference': {'type': 'CONTAINER', 'data': 'steps.1.produce'}}, 'outputs': [{'id': 'produce'}]}], 'digest': '1b1e46038a5ab2f2115f028a6257c68819ad94e7417b65ef125ae241258a757a'}
         self.built_pipeline = build_pipeline(config)
         
         self.assertIsInstance(self.built_pipeline,Pipeline)
@@ -162,7 +218,7 @@ class PipelineTest(unittest.TestCase):
         self.assertEqual(self.built_pipeline.to_json_structure()['outputs'],pipeline_description['outputs'])
 
     def test_generate_problem(self):
-        self.generated_dataset = generate_dataset(df,6)
+        self.generated_dataset = generate_dataset(dataframe,6)
         self.assertIsInstance(self.generated_dataset,Dataset)
 
 

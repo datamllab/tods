@@ -27,19 +27,19 @@
       "statistical_h_mean": {
         "window_size": [
           10,
-          20
+          5
         ]
       },
       "statistical_maximum": {
         "window_size": [
           10,
-          20
+          5
         ]
       },
       "statistical_minimum": {
         "window_size": [
           10,
-          20
+          5
         ]
       }
     },
@@ -53,13 +53,13 @@
       "pyod_loda": {
         "n_bins": [
           10,
-          20
+          15
         ]
       },
       "pyod_cof": {
         "n_neighborss": [
           15,
-          20
+          10
         ]
       }
     }

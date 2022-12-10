@@ -8,7 +8,7 @@ runner = unittest.TextTestRunner(verbosity=1)
 #if not runner.run(tests).wasSuccessful():
 #    sys.exit(1)
 
-for each in ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm']:
+for each in ['data_processing', 'timeseries_processing', 'feature_analysis', 'detection_algorithm','searcher']:
     tests = unittest.TestLoader().discover(each)
     if not runner.run(tests).wasSuccessful():
         sys.exit(1)

@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas import DataFrame,Series
 from ctypes import alignment
 import uuid
 from d3m.metadata import base as metadata_base
@@ -44,8 +45,11 @@ algorithm_type = {'file_manipulate': metadata_base.PrimitiveAlgorithmType.FILE_M
 
 default_primitive = {'data_processing': [],
                      'timeseries_processing': [],
-                     'feature_analysis': [('statistical_maximum',None)],
-                     'detection_algorithm': [('pyod_ae', None)],
+                     'feature_analysis': [['statistical_maximum',None]],
+                     'detection_algorithm': [['pyod_ae',
+                                              {"contamination": 0.1,
+                                               "use_semantic_types":True,
+                                               "use_columns": [2]}]],
 }
 
 def construct_primitive_metadata(module, name, id, primitive_family, hyperparams=None, algorithm=None, flag_hyper=False,
@@ -410,12 +414,14 @@ def fit_pipeline(dataset, pipeline, metric='F1', seed=0):
     from axolotl.backend.simple import SimpleRunner
 
     problem_description = generate_problem(dataset, metric)
-
+    # print(problem_description.to_json_structure())
     backend = SimpleRunner(random_seed=seed)
     pipeline_result = backend.fit_pipeline(problem_description=problem_description,
                                                 pipeline=pipeline,
                                                 input_data=[dataset])
-
+    # print('='*50)
+    # print(pipeline_result.fitted_pipeline_id)
+    # print(backend.fitted_pipelines)
     fitted_pipeline = {
         'runtime': backend.fitted_pipelines[pipeline_result.fitted_pipeline_id],
         'dataset_metadata': dataset.metadata
@@ -574,8 +580,8 @@ def get_primitive_list(config, module_name):
     -------
     primitive_list
     """
-    # module = config.get(module_name, default_primitive[module_name])
-    module = config.get(module_name, None)
+    module = config.get(module_name, default_primitive[module_name])
+    # module = config.get(module_name, None)
     primitive_list = []
     
     if module is None:
@@ -602,7 +608,7 @@ def get_primitives_hyperparam_list(config, module_name):
     -------
     primitives_hyperparam_list
     """
-    module = config.get(module_name, None)
+    module = config.get(module_name, default_primitive[module_name])
     primitives_hyperparam_list = []
     
     if module is None:
@@ -675,7 +681,7 @@ def get_evaluate_metric(y_true, y_pred, beta,metric):
     """
 
     from sklearn.metrics import fbeta_score,f1_score,recall_score,precision_score,precision_recall_fscore_support
-    # TODO test specific algorithms
+    # # TODO test specific algorithms
     # print('==========y_true============')
     # print(y_true)
     # print('==========y_pred============')
@@ -685,11 +691,18 @@ def get_evaluate_metric(y_true, y_pred, beta,metric):
     # df = pd.DataFrame(y_pred)
     # df.to_csv("../../../../mnt/tods/tods/data_test_"+search_space+".csv")
     # print(y_pred)
-    precision_score = precision_score(y_true,y_pred)
-    recall_score = recall_score(y_true,y_pred)
-    f_beta = fbeta_score(y_true, y_pred, beta, average='macro')
-    f1 = f1_score(y_true,y_pred,average='micro')
-    f1_macro = f1_score(y_true,y_pred,average='macro')
+    t_pred = y_pred.copy()
+    if isinstance(t_pred,DataFrame) or isinstance(t_pred,Series):
+        t_pred.fillna(0,inplace = True)
+    # print('='*50)
+    # print(t_pred)
+    
+    
+    precision_score = precision_score(y_true,t_pred)
+    recall_score = recall_score(y_true,t_pred)
+    f_beta = fbeta_score(y_true, t_pred, beta, average='macro')
+    f1 = f1_score(y_true,t_pred,average='micro')
+    f1_macro = f1_score(y_true,t_pred,average='macro')
 
     if metric == 'F1':
         performance_metrics = {'F1': f1}
