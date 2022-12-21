@@ -1,5 +1,4 @@
 from searcher import RaySearcher
-from hyper_searcher import HyperSearcher
 import argparse
 import os
 import ray
@@ -14,14 +13,14 @@ def argsparser():
                         help='with respect to a user who attaches beta times as much importance to recall as precision')
     parser.add_argument('--num_samples', type=int, default=1)
     parser.add_argument('--gpu', help='Which gpu device to use. Empty string for CPU', type=str, default='0')
-    parser.add_argument('--data_dir', help='The path of CSV file', type=str, default='/mnt/tods/datasets/anomaly/raw_data/yahoo_sub_5.csv')
+    parser.add_argument('--data_dir', help='The path of CSV file', type=str, default='../../datasets/anomaly/raw_data/yahoo_sub_5.csv')
 
     parser.add_argument('--target_index', help = 'Target index', type = int, default = 6)
 
     #add choice?
     parser.add_argument('--metric', help = 'pipeline evaluation metric', type = str, default = 'ALL')
 
-    parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = 'tods/searcher/test.json')
+    parser.add_argument('--search_space_path', help = 'The path of the search space', type = str, default = './search_space/test.json')
     parser.add_argument('--use_all_combinations', help = 'generate all possible combinations when reading search space from json', type = bool, default = True)
     parser.add_argument('--ignore_hyperparameters', help = 'if you want to ignore hyperparmeter when reading search space from json', type = bool, default = True)
 
@@ -38,7 +37,7 @@ def run(args):
     dataframe=pd.read_csv(args.data_dir)
     
     # initialize the searcher
-    searcher = RaySearcher(dataframe,args.target_index, args.metric,args.beta)
+    searcher = RaySearcher(dataframe,args.target_index,dataset, args.metric,args.beta)
 
     # get the ray searcher config
     config = {

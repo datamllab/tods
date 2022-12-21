@@ -54,11 +54,11 @@ pipeline_description = build_pipeline(config)
 
 class testFitPipeline(unittest.TestCase):
   def testFit_happyCase(self):
-    self.fitted_pipeline,self.pipeline_result = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
+    self.fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
 
-    self.assertIsInstance(self.fitted_pipeline, dict)
-    self.assertIsInstance(self.fitted_pipeline['runtime'], d3m.runtime.Runtime)
-    self.assertIsInstance(self.fitted_pipeline['dataset_metadata'], d3m.metadata.base.DataMetadata)
+    self.assertIsInstance(self.fitted_pipeline[0], dict)
+    self.assertIsInstance(self.fitted_pipeline[0]['runtime'], d3m.runtime.Runtime)
+    self.assertIsInstance(self.fitted_pipeline[0]['dataset_metadata'], d3m.metadata.base.DataMetadata)
 
     assert(self.fitted_pipeline is not None)
 

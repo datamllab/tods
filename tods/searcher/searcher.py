@@ -243,10 +243,10 @@ class RaySearcher():
     
     # Train the pipeline with the specified metric and dataset.
     # And get the result
-    fitted_pipeline,pipeline_result = fit_pipeline(self.dataset, pipeline, self.metric)
+    fitted_pipeline = fit_pipeline(self.dataset, pipeline, self.metric)
 
     # Save fitted pipeline id
-    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
+    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline[0])
 
     # Add fitted_pipeline_id to fitted_pipeline_list
     self.stats.append_fitted_pipeline_id.remote(fitted_pipeline_id)
@@ -259,7 +259,7 @@ class RaySearcher():
 
     y_true = df['anomaly']
     # print(pipeline_result.__dict__)
-    y_pred = pipeline_result.exposed_outputs['outputs.0']['anomaly']
+    y_pred = fitted_pipeline[1].exposed_outputs['outputs.0']['anomaly']
     # print(y_pred,type(y_pred))
     # self.stats.append_score.remote(score)
 

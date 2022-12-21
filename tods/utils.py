@@ -427,7 +427,7 @@ def fit_pipeline(dataset, pipeline, metric='F1', seed=0):
         'dataset_metadata': dataset.metadata
     }
 
-    return fitted_pipeline,pipeline_result
+    return [fitted_pipeline,pipeline_result]
 
 def save_fitted_pipeline(fitted_pipeline, save_path = find_save_folder()):
     import os
@@ -559,7 +559,7 @@ def produce_fitted_pipeline(dataset, fitted_pipeline):
 
 def fit_and_save_pipeline(dataset, pipeline, metric='F1', seed=0):
     fitted_pipeline = fit_pipeline(dataset, pipeline, 'F1_MACRO', 0)
-    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline)
+    fitted_pipeline_id = save_fitted_pipeline(fitted_pipeline[0])
     return fitted_pipeline_id
 
 def load_and_produce_pipeline(dataset, fitted_pipeline_id):

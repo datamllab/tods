@@ -61,8 +61,8 @@ pipeline_description = build_pipeline(config)
 class testProducePipeline(unittest.TestCase):
 	def test_Produce_Pipeline(self):
     #  TODO return value of fit_pipeline
-		self.fitted_pipeline,self.pipeline_result = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
-		fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline)
+		self.fitted_pipeline = fit_pipeline(dataset, pipeline_description, 'F1_MACRO')
+		fitted_pipeline_id = save_fitted_pipeline(self.fitted_pipeline[0])
 		loaded_pipeline = load_fitted_pipeline(fitted_pipeline_id)
 		pipeline_result = produce_fitted_pipeline(dataset, loaded_pipeline)
 
