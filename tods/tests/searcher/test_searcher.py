@@ -60,9 +60,8 @@ dataframe = pd.DataFrame(data=[[1,12183,0,3.716666667,5,2109,0],
 dataset = generate_dataset(dataframe,6)
 
 # search space
-search_space_path = '../searcher/test_search_space.json'
-with open(search_space_path) as f:
-    search_space= json.load(f)
+search_space = {'timeseries_processing': {'time_series_seasonality_trend_decomposition': {'use_semantic_types': [1, 0]}, 'moving_average_transform': {'window_size': [3, 4, 5], 'norm': ['l1', 'l2', 'max'], 'use_semantic_types': [0, 1]}}, 'feature_analysis': {'statistical_h_mean': {'window_size': [10, 5]}, 'statistical_maximum': {'window_size': [10, 5]}, 'statistical_minimum': {'window_size': [10, 5]}}, 'detection_algorithm': {'pyod_ae': {'dropout_rate': [0.1, 0.2]}, 'pyod_loda': {'n_bins': [10, 15]}, 'pyod_cof': {'n_neighborss': [15, 10]}}}
+
 
 
 
