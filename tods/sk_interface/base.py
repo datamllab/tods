@@ -86,7 +86,6 @@ class BaseSKI:
         return output_data
 
     def _sys_data_check(self, data):
-
         if self.system_num == 1:
             if type(data) is np.ndarray and data.ndim == 2:
                 data = [data] # np.expand_dims(data, axis=0)

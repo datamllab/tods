@@ -1,6 +1,6 @@
 # TODS: Automated Time-series Outlier Detection System
 
-<img width="500" src="./docs/img/tods_logo.png" alt="Logo" />
+<img width="500" src="./docs/source/img/tods_logo.png" alt="Logo" />
 
 [![Actions Status](https://github.com/datamllab/tods/workflows/Build/badge.svg)](https://github.com/datamllab/tods/actions)
 [![codecov](https://codecov.io/gh/datamllab/tods/branch/master/graph/badge.svg?token=M90ZCVTRBF)](https://codecov.io/gh/datamllab/tods)

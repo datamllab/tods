@@ -35,6 +35,7 @@ setup(
                  ]
     },
     install_requires=[
+        'grpcio-testing==1.32.0',
         'tamu_d3m==2022.05.23',
         'tamu_axolotl',
         'numpy<=1.21.2',
