@@ -19,7 +19,7 @@ parser.add_argument('--metric',type=str, default='F1_MACRO',
 parser.add_argument('--beta',type=float, default=1,
                     help='Evaluation Metric (F1, F1_MACRO)')
 parser.add_argument('--pipeline_path', 
-                    default=os.path.join(this_path, '/mnt/tods/examples/test.json'),
+                    default=os.path.join(this_path, './test.json'),
                     help='Input the path of the pre-built pipeline description')
 
 args = parser.parse_args()

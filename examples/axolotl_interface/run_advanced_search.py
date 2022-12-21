@@ -10,8 +10,8 @@ import json
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_GOOG.csv' # The path of the dataset
 #target_index = 2 # what column is the target
 
-table_path = 'datasets/anomaly/raw_data/yahoo_sub_5.csv'
-search_space_path = "tods/searcher/example_search_space.json"
+table_path = '../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
+search_space_path = "../../tods/searcher/example_search_space.json"
 target_index = 6 # what column is the target
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
@@ -80,7 +80,7 @@ else:
         best_pipeline_id = search_result['best_pipeline_id']
 
 # load the fitted pipeline based on id
-loaded = load_fitted_pipeline('705f2699-e03b-42bc-a865-d31a11354dae')
+loaded = load_fitted_pipeline(best_pipeline_id)
 
 print(loaded)
 # use the loaded fitted pipelines
@@ -88,6 +88,6 @@ result = produce_fitted_pipeline(dataset, loaded)
 
 print('*' * 52)
 print("Load model result: ")
-print('-' * 52)       
+print('-' * 52)        
 print(result)
 print('*' * 52)
