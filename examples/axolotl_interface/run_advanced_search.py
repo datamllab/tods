@@ -11,7 +11,7 @@ import json
 #target_index = 2 # what column is the target
 
 table_path = '../../datasets/anomaly/raw_data/yahoo_sub_5.csv'
-search_space_path = "../../tods/searcher/example_search_space.json"
+
 target_index = 6 # what column is the target
 #table_path = 'datasets/NAB/realTweets/labeled_Twitter_volume_IBM.csv' # The path of the dataset
 time_limit = 30 # How many seconds you wanna search
@@ -33,8 +33,72 @@ searcher = RaySearcher(dataframe=df,
                        beta=1.0)
 
 # get JSON search space
-with open(search_space_path) as f:
-        search_space= json.load(f)
+search_space = {
+  "timeseries_processing": {
+    "time_series_seasonality_trend_decomposition": {
+      "use_semantic_types": [
+        1,
+        0
+      ]
+    },
+    "moving_average_transform":{
+      "window_size":[
+          3,
+          4,
+          5
+      ],
+      "norm":[
+          "l1",
+          "l2",
+          "max"
+      ],
+      "use_semantic_types":[
+          0,
+          1
+      ]
+  }
+  },
+  "feature_analysis": {
+    "statistical_h_mean": {
+      "window_size": [
+        10,
+        20
+      ]
+    },
+    "statistical_maximum": {
+      "window_size": [
+        10,
+        20
+      ]
+    },
+    "statistical_minimum": {
+      "window_size": [
+        10,
+        20
+      ]
+    }
+  },
+  "detection_algorithm": {
+    "pyod_ae": {
+      "dropout_rate": [
+        0.1,
+        0.2
+      ]
+    },
+    "pyod_loda": {
+      "n_bins": [
+        10,
+        20
+      ]
+    },
+    "pyod_cof": {
+      "n_neighborss": [
+        15,
+        20
+      ]
+    }
+  }
+}
 
 #define search process
 config = {

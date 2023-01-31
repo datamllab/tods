@@ -1,0 +1,78 @@
+{
+  "timeseries_processing":{
+    "subsequence_segmentation":{
+
+    }
+  },
+  "detection_algorithm": {
+    "pyod_ae": {
+      
+    },
+    "pyod_loda": {
+      
+    },
+    "telemanom":{
+      
+    },
+    "pyod_vae":{
+      
+    },
+    "pyod_sogaal":{
+      
+    },
+    "pyod_sod":{
+      
+    },
+    "pyod_ocsvm":{
+      
+    },
+    "pyod_mogaal":{
+      
+    },
+    "pyod_lof":{
+      
+    },
+    "pyod_knn":{
+      
+    },
+    "pyod_iforest":{
+      
+    },
+    "pyod_hbos":{
+      
+    },
+    "pyod_cof":{
+      
+    },
+    "pyod_cblof":{
+      
+    },
+    "pyod_abod":{
+      
+    },
+    "PCAODetector":{
+      
+    },
+    "matrix_profile":{
+      
+    },
+    "LSTMODetector":{
+      
+    },
+    "KDiscordODetector":{
+      
+    },
+    "Ensemble":{
+      
+    },
+    "deeplog":{
+      
+    },
+    "dagmm":{
+      
+    },
+    "AutoRegODetector":{
+      
+    }
+  }
+}

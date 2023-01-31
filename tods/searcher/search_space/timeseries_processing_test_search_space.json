@@ -1,0 +1,88 @@
+{
+    "timeseries_processing": {
+    "moving_average_transform":{
+        "window_size":[
+            3,
+            4,
+            5
+        ],
+        "norm":[
+            "l1",
+            "l2",
+            "max"
+        ],
+        "use_semantic_types":[
+            0,
+            1
+        ]
+    },
+    "axiswise_scaler":{
+        "with_mean":[
+            0,
+            1
+        ],
+        "with_std":[
+            0,
+            1
+        ]
+    },
+    "power_transformer":{
+        "method":[
+            "yeo-johnson",
+            "box-cox"
+        ]
+    },
+    "quantile_transformer":{
+        "n_quantiles": 1000
+    },
+    "standard_scaler":{
+        "with_mean":[
+            0,
+            1
+        ],
+        "with_std":[
+            0,
+            1
+        ]
+    },
+    "simple_exponential_smoothing":{
+      "endog":[
+        2,
+        3
+      ]
+    },
+    "subsequence_segmentation":{
+        "window_size":[
+            3,
+            4,
+            5
+        ],
+        "step":[
+            1,
+            2
+        ]
+    },
+    "time_series_seasonality_trend_decomposition": {
+        "use_semantic_types": [
+          1,
+          0
+        ]
+      }
+    },
+    "feature_analysis": {
+      "statistical_minimum": {
+        "window_size": [
+          10,
+          20
+        ]
+      }
+    },
+    "detection_algorithm": {
+      "pyod_loda": {
+        "n_bins": [
+          10,
+          20
+        ]
+      }
+    }
+  }

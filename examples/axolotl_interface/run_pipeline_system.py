@@ -44,13 +44,11 @@ config = {'detection_algorithm': [
 
     'feature_analysis': [
         ('statistical_maximum',),
-    ],  # Specify hyperparams as k,v pairs
-
-    #          'timeseries_processing':[
-    #                    ('standard_scaler',)
-    #                    ],
+    ]
 }
 pipeline = build_system_pipeline(config)
+print(pipeline.to_json())
+input()
 
 # Run the pipeline
 pipeline_result = evaluate_pipeline(dataset, pipeline, metric)

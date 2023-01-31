@@ -1,0 +1,66 @@
+{
+  "timeseries_processing": {
+    "time_series_seasonality_trend_decomposition": {
+      "use_semantic_types": [
+        1,
+        0
+      ]
+    },
+    "moving_average_transform":{
+      "window_size":[
+          3,
+          4,
+          5
+      ],
+      "norm":[
+          "l1",
+          "l2",
+          "max"
+      ],
+      "use_semantic_types":[
+          0,
+          1
+      ]
+  }
+  },
+  "feature_analysis": {
+    "statistical_h_mean": {
+      "window_size": [
+        10,
+        20
+      ]
+    },
+    "statistical_maximum": {
+      "window_size": [
+        10,
+        20
+      ]
+    },
+    "statistical_minimum": {
+      "window_size": [
+        10,
+        20
+      ]
+    }
+  },
+  "detection_algorithm": {
+    "pyod_ae": {
+      "dropout_rate": [
+        0.1,
+        0.2
+      ]
+    },
+    "pyod_loda": {
+      "n_bins": [
+        10,
+        20
+      ]
+    },
+    "pyod_cof": {
+      "n_neighborss": [
+        15,
+        20
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+    "timeseries_processing": {
+    "time_series_seasonality_trend_decomposition": {
+        "use_semantic_types": [
+          1,
+          0
+        ]
+      }
+    },
+    "feature_analysis": {
+    "bk_filter": { },
+    "non_negative_matrix_factorization": { },
+    "statistical_variation": { },
+    "wavelet_transform": { }
+    }
+
+  }

@@ -95,7 +95,7 @@ class SearcherTest(unittest.TestCase):
             else:
                 self.assertEqual(hyperparameter_search_result['best_config'], best_pipeline)
                 
-    def test_searcher_simple_searchspace(self):
+    def test_searcher_exhaustive_searchspace(self):
         config = {
             "metric":'F1_MACRO',
             "num_samples": 1,
@@ -121,8 +121,7 @@ class SearcherTest(unittest.TestCase):
             if i ==0:
                 best_pipeline = search_result['best_config']
             else:
-                self.assertEqual(search_result['best_config'], best_pipeline)
-                                                                        
+                self.assertEqual(search_result['best_config'], best_pipeline)                                                      
         
         
 if __name__ == '__main__':
