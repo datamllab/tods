@@ -25,7 +25,7 @@ TODS is featured for:
 * API Documentations: [http://tods-doc.github.io](http://tods-doc.github.io)
 * Paper: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
 * Related Project: [AutoVideo: An Automated Video Action Recognition System](https://github.com/datamllab/autovideo)
-* :loudspeaker: Do you want to learn more about data pipeline search? Please check out our [data-centric AI survey](https://arxiv.org/abs/2212.11854) and [data-centric AI resources](https://github.com/daochenzha/data-centric-AI)!
+* :loudspeaker: Do you want to learn more about data pipeline search? Please check out our [data-centric AI survey](https://arxiv.org/abs/2303.10158) and [data-centric AI resources](https://github.com/daochenzha/data-centric-AI)!
 
 ## Cite this Work:
 If you find this  work useful, you may cite this work:
