@@ -225,7 +225,7 @@ class PipelineTest(unittest.TestCase):
         self.assertEqual(self.built_pipeline.to_json_structure()['inputs'],pipeline_description['inputs'])
         self.assertEqual(self.built_pipeline.to_json_structure()['outputs'],pipeline_description['outputs'])
 
-    def build_system_pipeline(self):
+    def test_build_system_pipeline(self):
         pipeline_description = {
     "id": "73e15443-4ee7-40d5-8b76-a01b06333d50",
     "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
