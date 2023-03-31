@@ -19,6 +19,7 @@ TODS具有如下特点：
 * API文档: [http://tods-doc.github.io](http://tods-doc.github.io)
 * 论文: [https://arxiv.org/abs/2009.09822](https://arxiv.org/abs/2009.09822)
 * 相关项目：[AutoVideo: An Automated Video Action Recognition System](https://github.com/datamllab/autovideo)
+* :loudspeaker: 想了解更多数据管道搜索吗? 请关注我们的 [data-centric AI survey](https://arxiv.org/abs/2303.10158) 和 [data-centric AI resources](https://github.com/daochenzha/data-centric-AI)!
 
 ## 引用该工作：
 如何您觉得我们的工作有用，请引用该工作：
