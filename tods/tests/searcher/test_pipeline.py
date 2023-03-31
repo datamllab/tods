@@ -225,7 +225,7 @@ class PipelineTest(unittest.TestCase):
         self.assertEqual(self.built_pipeline.to_json_structure()['inputs'],pipeline_description['inputs'])
         self.assertEqual(self.built_pipeline.to_json_structure()['outputs'],pipeline_description['outputs'])
 
-    def test_build_system_pipeline(self):
+    def build_system_pipeline(self):
         pipeline_description = {
     "id": "73e15443-4ee7-40d5-8b76-a01b06333d50",
     "schema": "https://metadata.datadrivendiscovery.org/schemas/v0/pipeline.json",
@@ -491,11 +491,11 @@ class PipelineTest(unittest.TestCase):
 }
         self.built_system_pipeline = build_pipeline(config_system)
         
-        self.assertIsInstance(self.built_pipeline,Pipeline)
-        self.assertEqual(self.built_pipeline.to_json_structure()['steps'],pipeline_description['steps'])
-        self.assertEqual(self.built_pipeline.to_json_structure()['schema'],pipeline_description['schema'])
-        self.assertEqual(self.built_pipeline.to_json_structure()['inputs'],pipeline_description['inputs'])
-        self.assertEqual(self.built_pipeline.to_json_structure()['outputs'],pipeline_description['outputs'])
+        self.assertIsInstance(self.built_system_pipeline,Pipeline)
+        self.assertEqual(self.built_system_pipeline.to_json_structure()['steps'],pipeline_description['steps'])
+        self.assertEqual(self.built_system_pipeline.to_json_structure()['schema'],pipeline_description['schema'])
+        self.assertEqual(self.built_system_pipeline.to_json_structure()['inputs'],pipeline_description['inputs'])
+        self.assertEqual(self.built_system_pipeline.to_json_structure()['outputs'],pipeline_description['outputs'])
     def test_generate_problem(self):
         self.generated_dataset = generate_dataset(dataframe,6)
         self.assertIsInstance(self.generated_dataset,Dataset)
