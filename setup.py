@@ -42,7 +42,7 @@ setup(
         'combo',
         'simplejson==3.12.0',
         'scikit-learn',
-	    'statsmodels==0.11.1',
+	'statsmodels',
         'PyWavelets>=1.1.1',
         'pillow==7.1.2',
         'tensorflow==2.4',
